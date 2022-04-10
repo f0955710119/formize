@@ -6,6 +6,17 @@ const GlobalStyle = createGlobalStyle`
     font-family: openhuninn;
     src: url('/fonts/jf-openhuninn-1.1.ttf') format('truetype');
   }
+
+  @font-face {
+    font-family: HanaMinA;
+    src: url('/fonts/HanaMinA.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: HanaMinB;
+    src: url('/fonts/HanaMinB.ttf') format('truetype');
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -19,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-size: 1.6rem;
-    font-family: openhuninn;
+    font-family: HanaMinA;
   }
 
   ul: {

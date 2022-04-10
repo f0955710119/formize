@@ -15,7 +15,7 @@ const DefaultLandingTitle = styled.h1`
   border-bottom: 1px solid #333;
   width: 100%;
 `;
-
+// BUG:之後會做成UI接收props來改變字體
 const TraditionalText = styled.span`
   font-family: inherit;
   margin-right: 0.4rem;
@@ -23,7 +23,7 @@ const TraditionalText = styled.span`
 `;
 
 const EnglishText = styled.span`
-  font-family: sans-serif;
+  font-family: inherit;
 `;
 
 const Form = styled.form`
