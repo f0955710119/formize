@@ -18,7 +18,25 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    font-size: 1.6rem;
     font-family: openhuninn;
+  }
+
+  ul: {
+    list-style: none;
+  }
+
+  a:link,a:visited {
+    text-decoration: none;
+  }
+
+  button {
+    transition: background-color 0.3s;
+    border: none;
+  }
+
+  input:focus {
+    outline: none;
   }
 `;
 
