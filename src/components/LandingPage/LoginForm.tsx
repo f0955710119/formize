@@ -1,5 +1,9 @@
-import { FC } from "react";
+import { FC, useEffect, useState, ChangeEvent } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
+import firebase from "../../utils/firebase";
+import { SignFunctionType, UserInfoType } from "../../types/login";
+import { ChangeHandler } from "../../types/common";
 
 const DefaultLandingTitle = styled.h1`
   display: block;
@@ -14,6 +18,8 @@ const DefaultLandingTitle = styled.h1`
 
 const TraditionalText = styled.span`
   font-family: inherit;
+  margin-right: 0.4rem;
+  letter-spacing: 1px;
 `;
 
 const EnglishText = styled.span`
@@ -66,6 +72,43 @@ const Button = styled.button`
 `;
 
 const LoginForm: FC = () => {
+  const [userInfo, setUserInfo] = useState<UserInfoType>({
+    email: "",
+    password: "",
+  });
+  const router = useRouter();
+
+  const changeAccountHandler: ChangeHandler = (event) => {
+    const { value } = event.target;
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        email: value,
+      };
+    });
+  };
+  const changePasswordHandler: ChangeHandler = (event) => {
+    const { value } = event.target;
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        password: value,
+      };
+    });
+  };
+  const singinHandler: SignFunctionType = (email, password) => {
+    //BUG: 之後要寫type gurad + validation
+    firebase.nativeLogin({ email, password });
+    window.alert("登入成功，將前往問卷管理頁面!");
+    router.push("/admin");
+  };
+
+  const signupHandler: SignFunctionType = (email, password) => {
+    //BUG: 之後要寫type gurad + validation
+    firebase.createNativeUser({ email, password });
+    window.alert("註冊成功，將前往問卷管理頁面!");
+    router.push("/admin");
+  };
   return (
     <Form>
       <DefaultLandingTitle>
@@ -74,14 +117,34 @@ const LoginForm: FC = () => {
       </DefaultLandingTitle>
       <Field>
         <Label>帳號</Label>
-        <Input type="text" name="account" autoComplete="off" />
+        <Input
+          type="text"
+          name="account"
+          autoComplete="off"
+          onChange={changeAccountHandler}
+        />
       </Field>
       <Field>
         <Label>密碼</Label>
-        <Input type="password" name="password" autoComplete="off" />
+        <Input
+          type="password"
+          name="password"
+          autoComplete="off"
+          onChange={changePasswordHandler}
+        />
       </Field>
-      <Button>登入</Button>
-      <Button>註冊</Button>
+      <Button
+        type="button"
+        onClick={() => singinHandler(userInfo.email, userInfo.password)}
+      >
+        登入
+      </Button>
+      <Button
+        type="button"
+        onClick={() => signupHandler(userInfo.email, userInfo.password)}
+      >
+        註冊
+      </Button>
     </Form>
   );
 };
