@@ -4,6 +4,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
   onAuthStateChanged,
 } from "firebase/auth";
 
@@ -15,6 +16,20 @@ const firebaseConfig = {
   messagingSenderId: "940853535584",
   appId: "1:940853535584:web:c8ee3f7c616f8d2a373405",
   measurementId: "G-6729PQ8HLK",
+};
+
+const singupErrors = [
+  {
+    case: "auth/email-already-in-use",
+    errorMessage: "此帳號已註冊過，請換別的Email嘗試",
+  },
+];
+
+const checkSingupErrorCase = (message) => {
+  const { errorMessage } = singupErrors.find((err) =>
+    message.includes(err.case)
+  );
+  return errorMessage;
 };
 
 export default {
@@ -34,10 +49,12 @@ export default {
         email,
         password
       );
-      // 拿去做store的user資料結構處理
-      signupHandler(userCredential.user.uid);
+      // 拿去做store的user資料結構處理 signupHandler(userCredential.user.uid);
     } catch (error) {
-      console.error(error.message);
+      const { message } = error;
+      const errorMessage = checkSingupErrorCase(message);
+      if (!errorMessage) throw new Error(message);
+      throw new Error(errorMessage);
     }
   },
   async nativeLogin(userInfo, signinHandler) {
@@ -49,23 +66,31 @@ export default {
         email,
         password
       );
-      // 拿去store找user的資料
-      signinHandler(userCredential.user.uid);
+      // 拿去store找user的資料 signinHandler(userCredential.user.uid);
+    } catch (error) {
+      const { message } = error;
+      console.error(message);
+      throw new Error(message);
+    }
+  },
+  nativeSignOut() {
+    try {
+      const auth = this.getSignAuth();
+      signOut(auth);
     } catch (error) {
       console.error(error.message);
     }
   },
-  async checkAuthState() {
+  checkAuthState() {
     const auth = this.getSignAuth();
-    const userInfo = {};
-    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+    return onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid } = user;
-        userInfo.uid = uid;
+        console.log(uid);
+        return;
       }
+      console.log("未登入狀態");
     });
-
-    return [unsubscribeAuth, userInfo.uid];
   },
   addUser() {},
 };

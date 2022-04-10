@@ -96,18 +96,26 @@ const LoginForm: FC = () => {
       };
     });
   };
-  const singinHandler: SignFunctionType = (email, password) => {
-    //BUG: 之後要寫type gurad + validation
-    firebase.nativeLogin({ email, password });
-    window.alert("登入成功，將前往問卷管理頁面!");
-    router.push("/admin");
+  const singinHandler: SignFunctionType = async (email, password) => {
+    try {
+      //BUG: 之後要寫type gurad + validation
+      await firebase.nativeLogin({ email, password });
+      window.alert("登入成功，將前往問卷管理頁面!");
+      router.push("/admin");
+    } catch (error: any) {
+      window.alert(error.message);
+    }
   };
 
-  const signupHandler: SignFunctionType = (email, password) => {
-    //BUG: 之後要寫type gurad + validation
-    firebase.createNativeUser({ email, password });
-    window.alert("註冊成功，將前往問卷管理頁面!");
-    router.push("/admin");
+  const signupHandler: SignFunctionType = async (email, password) => {
+    try {
+      //BUG: 之後要寫type gurad + validation
+      await firebase.createNativeUser({ email, password });
+      router.push("/admin");
+      window.alert("註冊成功，將前往問卷管理頁面!");
+    } catch (error: any) {
+      window.alert(error.message);
+    }
   };
   return (
     <Form>
