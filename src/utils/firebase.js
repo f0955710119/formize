@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, doc, collection, setDoc } from "firebase/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -23,6 +23,10 @@ const singupErrors = [
     case: "auth/email-already-in-use",
     errorMessage: "此帳號已註冊過，請換別的Email嘗試",
   },
+  {
+    case: "auth/user-not-found",
+    errorMessage: "此帳號不存在，請重新輸入再嘗試",
+  },
 ];
 
 const checkSingupErrorCase = (message) => {
@@ -40,7 +44,7 @@ export default {
   getSignAuth() {
     return getAuth(this.app);
   },
-  async createNativeUser(userInfo, signupHandler) {
+  async createNativeUser(userInfo) {
     try {
       const { email, password } = userInfo;
       const auth = this.getSignAuth();
@@ -49,6 +53,7 @@ export default {
         email,
         password
       );
+      this.createUser(userCredential.user.uid);
       // 拿去做store的user資料結構處理 signupHandler(userCredential.user.uid);
     } catch (error) {
       const { message } = error;
@@ -57,7 +62,7 @@ export default {
       throw new Error(errorMessage);
     }
   },
-  async nativeLogin(userInfo, signinHandler) {
+  async nativeLogin(userInfo) {
     try {
       const { email, password } = userInfo;
       const auth = this.getSignAuth();
@@ -66,6 +71,7 @@ export default {
         email,
         password
       );
+
       // 拿去store找user的資料 signinHandler(userCredential.user.uid);
     } catch (error) {
       const { message } = error;
@@ -81,18 +87,23 @@ export default {
       console.error(error.message);
     }
   },
-  checkAuthState() {
+  checkAuthState(router) {
     const auth = this.getSignAuth();
     return onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { uid } = user;
-        console.log(uid);
+        // BUG: 之後要做待轉登入畫面，利用確認user來決定要直接去admin，還是留在login
+        console.log(user.uid);
+        router.push("/admin");
         return;
       }
       console.log("未登入狀態");
     });
   },
-  addUser() {},
+  async createUser(uid) {
+    const db = this.getDataBase();
+    const docRef = doc(db, "users", uid);
+    await setDoc;
+  },
 };
 
 // user

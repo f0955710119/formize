@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import Head from "next/head";
 import styled from "styled-components";
@@ -17,10 +18,11 @@ const DefalutMain = styled.main`
 
 const Home: NextPage = () => {
   const isLoading = useRef<boolean>(true);
+  const router = useRouter();
   useEffect(() => {
     if (!isLoading.current) return;
     isLoading.current = false;
-    const unsubscribeAuth = firebase.checkAuthState();
+    const unsubscribeAuth = firebase.checkAuthState(router);
     return () => unsubscribeAuth();
   }, []);
   return (
@@ -30,7 +32,6 @@ const Home: NextPage = () => {
         <meta name="description" content="Formize - 簡易上手的質感問卷工具" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <DefalutMain>
         <LoginForm />
       </DefalutMain>
