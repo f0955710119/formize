@@ -8,7 +8,24 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { UserInfoType } from "../types/login";
-import { Users, Group } from "../types/dataConfig";
+import { Users, Group } from "../types/firebase/usersType";
+import {
+  Settings,
+  Styles,
+  Surveys,
+  SurveyInput,
+} from "../types/firebase/surveysType";
+
+import {
+  QuestionLineText,
+  QuestionChoices,
+  QuestionMartix,
+  QuestionNumber,
+  QuestionSlider,
+  QuestionOrder,
+  QuestionDate,
+} from "../types/firebase/questionsType";
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -143,6 +160,25 @@ export default {
     };
     await updateDoc(userDocRef, updateUser);
   },
+  async createSurvey(surveyInputs: SurveyInput) {
+    const db = this.getDataBase();
+    const surveyDocRef = doc(collection(db, "surveys"));
+    const { id } = surveyDocRef;
+    const survey: Surveys = {
+      id,
+      title: surveyInputs.title,
+      url: surveyInputs.url,
+      createdDate: new Date(),
+      responsedTimes: 0,
+      openTimes: 0,
+      settings: surveyInputs.settings,
+      styles: surveyInputs.styles,
+      questionDocId: surveyInputs.questionDocId,
+      responseDocId: surveyInputs.responseDocId,
+    };
+    await setDoc(surveyDocRef, survey);
+  },
+  async createQuestions() {},
 };
 
 // user
