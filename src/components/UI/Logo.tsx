@@ -12,15 +12,16 @@ const LogoWrapper = styled.div`
 const LogoText = styled.span`
   display: block;
   width: 100%;
-  font-size: 2.4rem;
+  font-size: 2.6rem;
   color: #333;
+  font-family: Vidaloka !important;
 `;
 
 const Logo: FC = () => {
   return (
     <Link href="/">
       <LogoWrapper>
-        <LogoText>Formize</LogoText>
+        <LogoText>FORMiZE</LogoText>
       </LogoWrapper>
     </Link>
   );

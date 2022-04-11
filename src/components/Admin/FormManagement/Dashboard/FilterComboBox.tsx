@@ -1,7 +1,18 @@
 import { FC } from "react";
+import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
+// BUG: 之後要照官方文件建議去改
+const CustomedComboBox = styled(Autocomplete)`
+  & div {
+    border-radius: 0px;
+  }
+
+  & label {
+    font-size: 1.4rem;
+  }
+`;
 interface FilterComboBoxProps {
   fieldLabel: string;
   options: string[];
@@ -20,13 +31,13 @@ const FilterComboBox: FC<FilterComboBoxProps> = ({
   style,
 }: FilterComboBoxProps) => {
   return (
-    <Autocomplete
+    <CustomedComboBox
       disablePortal
       id={id}
       options={options}
       sx={{
         width: style.width,
-        borderRadius: style.radius,
+        borderRadius: `${style.radius}px`,
         mr: style.mr,
       }}
       renderInput={(params) => <TextField {...params} label={fieldLabel} />}

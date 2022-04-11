@@ -33,7 +33,7 @@ const ButtonWrapper = styled.button`
 
   &:hover {
     color: #fff;
-    background-color: #c18d1b;
+    background-color: #f90;
   }
 `;
 

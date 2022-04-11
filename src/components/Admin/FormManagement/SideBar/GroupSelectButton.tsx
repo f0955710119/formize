@@ -14,13 +14,13 @@ const ButtonWrapper = styled.button`
   height: 3.2rem;
   color: ${({ active }: ButtonWrapper) => (active ? "#e9f1ff" : "#333")};
   background-color: ${({ active }: ButtonWrapper) =>
-    active ? "#173976" : "#c8c8c8"};
+    active ? "#ff4400" : "#c8c8c8"};
   margin-bottom: 0.5rem;
   cursor: pointer;
 
   &:hover {
     color: #e9f1ff;
-    background-color: #173976;
+    background-color: #f90;
   }
 `;
 

@@ -31,6 +31,10 @@ const Home: NextPage = () => {
         <title>Formize</title>
         <meta name="description" content="Formize - 簡易上手的質感問卷工具" />
         <link rel="icon" href="/favicon.ico" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Vidaloka&display=swap"
+          rel="stylesheet"
+        ></link>
       </Head>
       <DefalutMain>
         <LoginForm />

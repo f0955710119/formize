@@ -18,11 +18,16 @@ const GlobalStyle = createGlobalStyle`
     src: url('/fonts/HanaMinB.ttf') format('truetype');
   }
 
+  @font-face {
+    font-family: Vidaloka;
+    src: url('/fonts/Vidaloka-Regular.ttf') format('truetype');
+  }
+
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: HanaMinA !important;
+    font-family:  HanaMinA !important;
   }
 
   html {
@@ -33,8 +38,8 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
   }
 
-  ul: {
-    list-style: none;
+  ul {
+    list-style:none;
   }
 
   a:link,a:visited {
