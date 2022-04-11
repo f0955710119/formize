@@ -1,5 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, collection, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  collection,
+  setDoc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { UserInfoType } from "../types/login";
+import { Users, Group } from "../types/dataConfig";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -18,7 +27,7 @@ const firebaseConfig = {
   measurementId: "G-6729PQ8HLK",
 };
 
-const singupErrors = [
+const signupErrors = [
   {
     case: "auth/email-already-in-use",
     errorMessage: "此帳號已註冊過，請換別的Email嘗試",
@@ -29,11 +38,11 @@ const singupErrors = [
   },
 ];
 
-const checkSingupErrorCase = (message) => {
-  const { errorMessage } = singupErrors.find((err) =>
-    message.includes(err.case)
-  );
-  return errorMessage;
+const checkSingupErrorCase = (message: string) => {
+  const signup = signupErrors.find((err) => message.includes(err.case));
+  if (signup !== undefined) {
+    return signup.errorMessage;
+  }
 };
 
 export default {
@@ -44,7 +53,7 @@ export default {
   getSignAuth() {
     return getAuth(this.app);
   },
-  async createNativeUser(userInfo) {
+  async createNativeUser(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
       const auth = this.getSignAuth();
@@ -55,14 +64,14 @@ export default {
       );
       this.createUser(userCredential.user.uid);
       // 拿去做store的user資料結構處理 signupHandler(userCredential.user.uid);
-    } catch (error) {
+    } catch (error: any) {
       const { message } = error;
       const errorMessage = checkSingupErrorCase(message);
       if (!errorMessage) throw new Error(message);
       throw new Error(errorMessage);
     }
   },
-  async nativeLogin(userInfo) {
+  async nativeLogin(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
       const auth = this.getSignAuth();
@@ -71,9 +80,9 @@ export default {
         email,
         password
       );
-
+      this.getUser(userCredential.user.uid);
       // 拿去store找user的資料 signinHandler(userCredential.user.uid);
-    } catch (error) {
+    } catch (error: any) {
       const { message } = error;
       console.error(message);
       throw new Error(message);
@@ -83,26 +92,56 @@ export default {
     try {
       const auth = this.getSignAuth();
       signOut(auth);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error.message);
     }
   },
-  checkAuthState(router) {
+  // BUG: router 通常而且之後不會這樣用，先用any帶過
+  checkAuthState(router: any) {
     const auth = this.getSignAuth();
     return onAuthStateChanged(auth, (user) => {
       if (user) {
         // BUG: 之後要做待轉登入畫面，利用確認user來決定要直接去admin，還是留在login
-        console.log(user.uid);
         router.push("/admin");
         return;
       }
       console.log("未登入狀態");
     });
   },
-  async createUser(uid) {
+  async createUser(uid: string) {
     const db = this.getDataBase();
-    const docRef = doc(db, "users", uid);
-    await setDoc;
+    const newUserRef = doc(db, "users", uid);
+    const defalutUsers: Users = {
+      id: newUserRef.id,
+      groups: [
+        {
+          name: "預設群組",
+          surveys: [""],
+        },
+      ],
+    };
+
+    await setDoc(newUserRef, defalutUsers);
+  },
+  async getUser(uid: string): Promise<void> {
+    const db = this.getDataBase();
+    const userDocRef = doc(db, "users", uid);
+    const docSnap = await getDoc(userDocRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      console.log("No such document!");
+    }
+  },
+  async updateUser(uid: string, groups: Group[]): Promise<void> {
+    const db = this.getDataBase();
+    const userDocRef = doc(db, "users", uid);
+    const updateUser = {
+      id: userDocRef.id,
+      groups,
+    };
+    await updateDoc(userDocRef, updateUser);
   },
 };
 
@@ -111,4 +150,9 @@ export default {
   從登入那邊拿到uid
   新建立一個用uid當作id的docRef
   用set創建資料
+*/
+
+/*
+生成一個docRef
+doc(collection(db, "surveys"));
 */
