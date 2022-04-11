@@ -11,13 +11,13 @@ const HeaderWrapper = styled.header`
   padding: 1rem 3rem;
   width: 100%;
   height: 6rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #c8c8c8;
 `;
 
 const Button = styled.button`
   padding: 0.4rem 1rem;
-  width: 6rem;
-  height: 4rem;
+  width: 10rem;
+  height: 3.2rem;
   font-size: 1.6rem;
 
   &:hover {
