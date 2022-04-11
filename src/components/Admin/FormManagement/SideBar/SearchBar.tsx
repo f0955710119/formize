@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+import SearchIcon from "@mui/icons-material/Search";
 
 const SearchWrapper = styled.div`
   position: relative;
@@ -9,47 +10,52 @@ const SearchWrapper = styled.div`
   height: 4rem;
   border-radius: 3px;
   border: 0.8px solid #777;
-`;
-
-const SearchLabel = styled.label`
-  position: absolute;
-  width: 82%;
-  top: 1rem;
-  left: 1rem;
-  color: #777;
-  z-index: 1;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SearchInput = styled.input`
   border: none;
   width: 82%;
-  height: 100%;
+  color: #777;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom 0.3s;
 
-  transition: opacity 0.3s, visibility 0.3s, border-bottom 0.3s;
+  &::placeholder {
+    color: #aaa;
+    transition: color 0.1s;
+  }
 
   &:focus {
-    outline: none;
-    border-bottom: 1px solid #777;
+    border-bottom: 1px solid #aaa;
     opacity: 1;
     visibility: visible;
   }
 
-  &:focus ~ ${SearchLabel},&:not(:focus):valid ~ ${SearchLabel} {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-1rem);
+  &:focus::placeholder {
+    color: transparent;
   }
 `;
 
 const SearchBar: FC = () => {
   return (
     <SearchWrapper>
-      <SearchInput id="search" required />
-      <SearchLabel htmlFor="search">搜尋</SearchLabel>
+      <SearchInput
+        id="search"
+        autoComplete="off"
+        placeholder="搜尋群組名稱..."
+        required
+      />
+      <SearchIcon
+        sx={{
+          width: "2.4rem",
+          height: "2.4rem",
+          fill: "#aaa",
+          cursor: "pointer",
+          ml: "0.5rem",
+        }}
+      />
     </SearchWrapper>
   );
 };

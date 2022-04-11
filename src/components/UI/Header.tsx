@@ -8,7 +8,7 @@ const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 3rem;
+  padding: 1rem 4rem;
   width: 100%;
   height: 6rem;
   border-bottom: 1px solid #c8c8c8;

@@ -26,8 +26,8 @@ const GroupSideBar: FC = () => {
     <BarWrapper>
       <SearchBar />
       <GroupHeading>群組分類</GroupHeading>
-      {defaultButtonText.map((text) => (
-        <GroupSelectButton buttonText={text}></GroupSelectButton>
+      {defaultButtonText.map((text, i) => (
+        <GroupSelectButton buttonText={text} key={i} />
       ))}
     </BarWrapper>
   );
