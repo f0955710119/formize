@@ -36,6 +36,8 @@ import {
   Question,
 } from "../types/firebase/questionsType";
 
+import { Response, Answer } from "../types/firebase/responsesTpye";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDzUR4VC0QB0_2TXC2TJRjnzp9XWI02-8Q",
   authDomain: "formize-8c25f.firebaseapp.com",
@@ -57,13 +59,6 @@ const signupErrors = [
   },
 ];
 
-const checkSingupErrorCase = (message: string) => {
-  const signup = signupErrors.find((err) => message.includes(err.case));
-  if (signup !== undefined) {
-    return signup.errorMessage;
-  }
-};
-
 const generateId = (length: number) => {
   let result = "";
   const characters =
@@ -74,6 +69,13 @@ const generateId = (length: number) => {
     result += characters.charAt(randomIndex);
   }
   return result;
+};
+
+const checkSignupErrorCase = (message: string) => {
+  const signup = signupErrors.find((err) => message.includes(err.case));
+  if (signup !== undefined) {
+    return signup.errorMessage;
+  }
 };
 
 export default {
@@ -97,7 +99,7 @@ export default {
       // 拿去做store的user資料結構處理 signupHandler(userCredential.user.uid);
     } catch (error: any) {
       const { message } = error;
-      const errorMessage = checkSingupErrorCase(message);
+      const errorMessage = checkSignupErrorCase(message);
       if (!errorMessage) throw new Error(message);
       throw new Error(errorMessage);
     }
@@ -198,23 +200,11 @@ export default {
     await setDoc(questionDocRef, questionsInput);
     return id;
   },
-  async createResponse() {
+  async createResponse(reponse: Response) {
     const db = this.getDataBase();
     const responseDocRef = doc(collection(db, "responses"));
     const { id } = responseDocRef;
-    // await setDoc(responseDocRef,)
+    await setDoc(responseDocRef, reponse);
     return id;
   },
 };
-
-// user
-/*
-  從登入那邊拿到uid
-  新建立一個用uid當作id的docRef
-  用set創建資料
-*/
-
-/*
-生成一個docRef
-doc(collection(db, "surveys"));
-*/

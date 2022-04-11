@@ -1,16 +1,10 @@
 // response 裡有多筆 answers
-interface Answer {
+export interface Answer {
   questionId: string;
-  input: string | number | Date | Date[] | string[];
+  input: string | number | Date | Date[] | string[] | number[];
 }
-
-// data裡會有多筆 responses
-interface Response {
+export interface Response {
+  surveyId: string;
   createdTime: Date;
-  answsers: Answer[];
-}
-
-// survey 抓得時候會抓整包
-export interface ResponsesDoc {
-  data: Response[];
+  answers: Answer[];
 }
