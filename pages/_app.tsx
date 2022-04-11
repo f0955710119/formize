@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
     src: url('/fonts/HanaMinA.ttf') format('truetype');
   }
 
+
   @font-face {
     font-family: HanaMinB;
     src: url('/fonts/HanaMinB.ttf') format('truetype');
@@ -21,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: inherit;
+    font-family: HanaMinA !important;
   }
 
   html {
@@ -30,7 +31,6 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-size: 1.6rem;
-    font-family: HanaMinA;
   }
 
   ul: {

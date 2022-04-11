@@ -7,9 +7,8 @@ const SearchWrapper = styled.div`
   margin-bottom: 3rem;
   padding: 2rem 0.8rem;
   width: 100%;
-  height: 4rem;
-  border-radius: 3px;
-  border: 0.8px solid #777;
+  height: 4.7rem;
+  border: 0.8px solid #c8c8c8;
   display: flex;
   justify-content: center;
   align-items: center;

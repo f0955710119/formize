@@ -1,6 +1,10 @@
 import { FC } from "react";
 import styled from "styled-components";
 
+interface ButtonWrapper {
+  active: boolean;
+}
+
 const ButtonWrapper = styled.button`
   display: flex;
   justify-content: center;
@@ -8,13 +12,14 @@ const ButtonWrapper = styled.button`
   padding: 0.4rem;
   width: 100%;
   height: 3.2rem;
-  color: #333;
-  background-color: #c8c8c8;
+  color: ${({ active }: ButtonWrapper) => (active ? "#e9f1ff" : "#333")};
+  background-color: ${({ active }: ButtonWrapper) =>
+    active ? "#173976" : "#c8c8c8"};
   margin-bottom: 0.5rem;
   cursor: pointer;
 
   &:hover {
-    color: #cddfff;
+    color: #e9f1ff;
     background-color: #173976;
   }
 `;
@@ -25,13 +30,15 @@ const ButtonText = styled.span`
 
 interface GroupSelectButtonProps {
   buttonText: string;
+  active: boolean;
 }
 
 const GroupSelectButton: FC<GroupSelectButtonProps> = ({
   buttonText,
+  active,
 }: GroupSelectButtonProps) => {
   return (
-    <ButtonWrapper>
+    <ButtonWrapper active={active}>
       <ButtonText>{buttonText}</ButtonText>
     </ButtonWrapper>
   );
