@@ -29,10 +29,16 @@ interface SliderValidation extends NumberValidation {
   interval: number;
 }
 
+interface DateValidation extends Validation {
+  multiple: boolean;
+  startDate: Date | null;
+  endDate: Date | null;
+}
+
 type ChoicesOptions = string[];
 type Placeholder = string;
 
-interface Question {
+export interface Question {
   id: string;
   title: string;
   note: string;
@@ -73,6 +79,19 @@ export interface QuestionOrder extends Question {
 
 export interface QuestionDate extends Question {
   placeholder: Placeholder;
-  options: ChoicesOptions;
-  validations: OrderValidation;
+  validations: DateValidation;
+}
+
+export type QuestionType =
+  | QuestionLineText
+  | QuestionChoices
+  | QuestionMartix
+  | QuestionNumber
+  | QuestionSlider
+  | QuestionOrder
+  | QuestionDate;
+
+export interface Questions {
+  questionAllId: string[];
+  questions: QuestionType[];
 }

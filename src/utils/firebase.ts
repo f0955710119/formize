@@ -6,7 +6,15 @@ import {
   setDoc,
   getDoc,
   updateDoc,
+  Query,
 } from "firebase/firestore";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { UserInfoType } from "../types/login";
 import { Users, Group } from "../types/firebase/usersType";
 import {
@@ -15,7 +23,6 @@ import {
   Surveys,
   SurveyInput,
 } from "../types/firebase/surveysType";
-
 import {
   QuestionLineText,
   QuestionChoices,
@@ -24,15 +31,10 @@ import {
   QuestionSlider,
   QuestionOrder,
   QuestionDate,
+  QuestionType,
+  Questions,
+  Question,
 } from "../types/firebase/questionsType";
-
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzUR4VC0QB0_2TXC2TJRjnzp9XWI02-8Q",
@@ -60,6 +62,18 @@ const checkSingupErrorCase = (message: string) => {
   if (signup !== undefined) {
     return signup.errorMessage;
   }
+};
+
+const generateId = (length: number) => {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charactersLength);
+    result += characters.charAt(randomIndex);
+  }
+  return result;
 };
 
 export default {
@@ -118,7 +132,6 @@ export default {
     const auth = this.getSignAuth();
     return onAuthStateChanged(auth, (user) => {
       if (user) {
-        // BUG: 之後要做待轉登入畫面，利用確認user來決定要直接去admin，還是留在login
         router.push("/admin");
         return;
       }
@@ -168,7 +181,7 @@ export default {
       id,
       title: surveyInputs.title,
       url: surveyInputs.url,
-      createdDate: new Date(),
+      createdTime: new Date(),
       responsedTimes: 0,
       openTimes: 0,
       settings: surveyInputs.settings,
@@ -178,7 +191,20 @@ export default {
     };
     await setDoc(surveyDocRef, survey);
   },
-  async createQuestions() {},
+  async createQuestions(questionsInput: Questions) {
+    const db = this.getDataBase();
+    const questionDocRef = doc(collection(db, "questions"));
+    const { id } = questionDocRef;
+    await setDoc(questionDocRef, questionsInput);
+    return id;
+  },
+  async createResponse() {
+    const db = this.getDataBase();
+    const responseDocRef = doc(collection(db, "responses"));
+    const { id } = responseDocRef;
+    // await setDoc(responseDocRef,)
+    return id;
+  },
 };
 
 // user

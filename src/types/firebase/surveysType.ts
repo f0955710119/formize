@@ -14,7 +14,8 @@ export interface Surveys {
   id: string;
   title: string;
   url: string;
-  createdDate: Date;
+  // questionTitleIds: string[]; > 自己去產生8碼亂數
+  createdTime: Date;
   responsedTimes: number;
   openTimes: number;
   settings: Settings;
