@@ -45,7 +45,7 @@ const ButtonText = styled.span`
 const DashboardHeader: FC = () => {
   const router = useRouter();
   const goAddNewFormHandler = (): void => {
-    router.push("/new");
+    router.push("/admin/new");
   };
 
   return (

@@ -1,7 +1,21 @@
 import { FC } from "react";
 import styled from "styled-components";
 
-const ItemWrapper = styled.div`
+interface ItemWrapperProps {
+  number: number;
+  currentStep: number;
+}
+
+const ItemWrapper = styled.div<ItemWrapperProps>`
+  display: flex;
+  align-items: center;
+  color: ${(props) => (props.currentStep === props.number ? "#f90" : "#333")};
+  font-weight: ${(props) =>
+    props.currentStep === props.number ? "bold" : "normal"};
+  transition: color 0.3s;
+`;
+
+const OptionWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -11,18 +25,19 @@ const NumberIconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 1rem;
-
   width: 3rem;
   height: 3rem;
-
+  font-size: 1.2rem;
   border: 0.8px solid #c8c8c8;
+  cursor: pointer;
 `;
 const NumberIcon = styled.span`
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 `;
 
 const TitleText = styled.span`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  cursor: pointer;
 `;
 const IntervalLineWrapper = styled.div`
   display: flex;
@@ -42,19 +57,29 @@ interface HeaderItemProps {
   number: number;
   title: string;
   isLastItem: boolean;
+  currentStep: number;
+  setCurrentStep(number: number): void;
 }
 
 const HeaderItem: FC<HeaderItemProps> = ({
   number,
   title,
   isLastItem,
+  currentStep,
+  setCurrentStep,
 }: HeaderItemProps) => {
   return (
-    <ItemWrapper>
-      <NumberIconWrapper>
-        <NumberIcon>{number}</NumberIcon>
-      </NumberIconWrapper>
-      <TitleText>{title}</TitleText>
+    <ItemWrapper number={number} currentStep={currentStep}>
+      <OptionWrapper
+        onClick={() => {
+          setCurrentStep(number);
+        }}
+      >
+        <NumberIconWrapper>
+          <NumberIcon>{number}</NumberIcon>
+        </NumberIconWrapper>
+        <TitleText>{title}</TitleText>
+      </OptionWrapper>
 
       {!isLastItem && (
         <IntervalLineWrapper>
