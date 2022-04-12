@@ -6,6 +6,8 @@ import MultiLineText from "./Fields/MultiLineText";
 import Introduction from "./Fields/Introduction";
 import OneChoice from "./Fields/OneChoice";
 import MultiChoice from "./Fields/MultiChoice";
+import Martix from "./Fields/Martix";
+import Slider from "./Fields/Slider";
 
 const PreviewLayout = styled(Layout)`
   display: flex;
@@ -39,6 +41,8 @@ const Preview: FC = () => {
         <Introduction />
         <OneChoice />
         <MultiChoice />
+        <Martix />
+        <Slider />
       </QuestionWrapper>
     </PreviewLayout>
   );
