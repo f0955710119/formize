@@ -2,10 +2,13 @@ import { FC } from "react";
 import styled from "styled-components";
 
 const CustomHeading = styled.div`
-  margin-bottom: 3rem;
   width: 100%;
   font-size: 2rem;
   line-break: strict;
+
+  &:not(:last-child) {
+    margin-bottom: 3rem;
+  }
 `;
 
 interface HeadingProps {

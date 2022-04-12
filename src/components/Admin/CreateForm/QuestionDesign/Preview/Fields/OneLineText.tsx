@@ -13,7 +13,7 @@ const TextInput = styled(TextField)`
   }
 `;
 
-const PreviewOneLineTextField: FC = () => {
+const OneLineText: FC = () => {
   return (
     <Field>
       <Heading text="1.東運基受認可路回出不來然超容有星讀，心社英收？起達數因大人價始境家位應動見係頭！你將指層的更之老中年可望，股至香魚吸而列分！ *" />
@@ -22,4 +22,4 @@ const PreviewOneLineTextField: FC = () => {
   );
 };
 
-export default PreviewOneLineTextField;
+export default OneLineText;

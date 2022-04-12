@@ -1,8 +1,11 @@
 import { FC } from "react";
 import styled from "styled-components";
 import Layout from "../UI/Layout";
-import PreviewOneLineTextField from "./Fields/PreviewOneLineTextField";
-import PreviewMultiLineTextField from "./Fields/PreviewMultiLineTextField";
+import OneLineText from "./Fields/OneLineText";
+import MultiLineText from "./Fields/MultiLineText";
+import Introduction from "./Fields/Introduction";
+import OneChoice from "./Fields/OneChoice";
+import MultiChoice from "./Fields/MultiChoice";
 
 const PreviewLayout = styled(Layout)`
   display: flex;
@@ -31,8 +34,11 @@ const Preview: FC = () => {
   return (
     <PreviewLayout>
       <QuestionWrapper>
-        <PreviewOneLineTextField />
-        <PreviewMultiLineTextField />
+        <OneLineText />
+        <MultiLineText />
+        <Introduction />
+        <OneChoice />
+        <MultiChoice />
       </QuestionWrapper>
     </PreviewLayout>
   );
