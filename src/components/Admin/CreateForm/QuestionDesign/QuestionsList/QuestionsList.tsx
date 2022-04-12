@@ -95,7 +95,10 @@ const QuestionsList: FC<QuestionsListProps> = ({
       <QuestionPage title={"第一頁"}>
         {defaultQuestionList.map((list, i) => (
           <CreatedQuestionWrapper>
-            <DeleteSharpIcon key={i} sx={{ width: "20%", height: "2rem" }} />
+            <DeleteSharpIcon
+              key={i}
+              sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
+            />
             <CreatedQuestion
               key={i}
               title={list.title}
@@ -109,7 +112,10 @@ const QuestionsList: FC<QuestionsListProps> = ({
       <QuestionPage title={"第一頁"}>
         {defaultQuestionList.map((list, i) => (
           <CreatedQuestionWrapper>
-            <DeleteSharpIcon key={i} sx={{ width: "20%", height: "2rem" }} />
+            <DeleteSharpIcon
+              key={i}
+              sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
+            />
             <CreatedQuestion
               key={i}
               title={list.title}

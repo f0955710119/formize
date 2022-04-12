@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import styled from "styled-components";
 
-const Heading = styled.div`
+export const Heading = styled.div`
   margin-bottom: 3rem;
   padding-bottom: 1rem;
   font-size: 1.6rem;
