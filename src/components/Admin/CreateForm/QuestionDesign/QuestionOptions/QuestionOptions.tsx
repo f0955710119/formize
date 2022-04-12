@@ -4,6 +4,10 @@ import Layout from "../UI/Layout";
 
 import OptionItem from "./OptionItem";
 import { Heading } from "../../UI/SectionHeading";
+import TextLimitation from "./OptionLimitation/TextLimitation";
+import ChoiceLimitation from "./OptionLimitation/ChoiceLimitation";
+import NumberLimitation from "./OptionLimitation/NumberLimitation";
+import DateLimitation from "./OptionLimitation/DateLimitation";
 
 const OptionsLayout = styled(Layout)`
   width: 18%;
@@ -16,7 +20,7 @@ const OptionHeading = styled(Heading)`
 const OptionList = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding-right: 1rem;
   width: 100%;
   height: 35vh;
@@ -63,6 +67,10 @@ const QuestionOptions: FC = () => {
         <OptionItem></OptionItem>
       </OptionList>
       <OptionHeading>限制</OptionHeading>
+      <TextLimitation />
+      {/* <ChoiceLimitation /> */}
+      {/* <NumberLimitation /> */}
+      {/* <DateLimitation /> */}
     </OptionsLayout>
   );
 };
