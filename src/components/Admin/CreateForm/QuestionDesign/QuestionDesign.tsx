@@ -22,7 +22,7 @@ const QuestionDesign: FC<QuestionDesignProps> = ({
     <Layout>
       <Preview />
       <QuestionOptions />
-      <QuestionsList />
+      <QuestionsList setCurrentStep={setCurrentStep} />
     </Layout>
   );
 };

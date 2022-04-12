@@ -4,9 +4,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const PageWrapper = styled.div`
   display: flex;
-
   flex-direction: column;
   align-items: center;
+  margin-bottom: 2rem;
   padding: 1rem;
   width: 100%;
   border: 1px solid #c8c8c8;
@@ -27,16 +27,13 @@ const Title = styled.div`
 interface QuestionPageProps {
   title: string;
   children: ReactNode;
-  isExpanded: boolean;
-  setIsExpanded: (isExpand: boolean) => void;
 }
 
 const QuestionPage: FC<QuestionPageProps> = ({
   title,
   children,
-  isExpanded,
-  setIsExpanded,
 }: QuestionPageProps) => {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   return (
     <PageWrapper>
       <TitleWrapper>

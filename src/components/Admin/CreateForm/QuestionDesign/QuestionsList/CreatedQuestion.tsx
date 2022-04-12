@@ -1,24 +1,13 @@
 import { FC } from "react";
 import styled from "styled-components";
 
-interface QuestionWrapperProps {
-  isExpanded: boolean;
-}
-
-const QuestionWrapper = styled.div<QuestionWrapperProps>`
+const QuestionWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   padding: 0.4rem 1rem;
   width: 80%;
   border: 1px solid #c8c8c8;
-  /* height: ${({ isExpanded }: QuestionWrapperProps) =>
-    isExpanded ? "auto" : "0px"};
-  opacity: ${({ isExpanded }: QuestionWrapperProps) =>
-    isExpanded ? "1" : "0"};
-  visibility: ${({ isExpanded }: QuestionWrapperProps) =>
-    isExpanded ? "visible" : "hidden"};
-  transition: opacity 0.3s, height 0.3s; */
 `;
 
 const Title = styled.div`
@@ -59,17 +48,15 @@ interface CreatedQuestionProps {
   title: string;
   note: string;
   questionType: number;
-  isExpanded: boolean;
 }
 
 const CreatedQuestion: FC<CreatedQuestionProps> = ({
   title,
   note,
   questionType,
-  isExpanded,
 }: CreatedQuestionProps) => {
   return (
-    <QuestionWrapper isExpanded={isExpanded}>
+    <QuestionWrapper>
       <Title>{title}</Title>
       {/* BUG: 帶入數字TYPE會報錯，但改文字就可以，為何 */}
       <DefaultIcon color={"" + questionType} />
