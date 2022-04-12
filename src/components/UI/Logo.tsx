@@ -7,6 +7,7 @@ const LogoWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 10rem;
+  cursor: pointer;
 `;
 
 const LogoText = styled.span`
@@ -19,7 +20,7 @@ const LogoText = styled.span`
 
 const Logo: FC = () => {
   return (
-    <Link href="/">
+    <Link href="/admin">
       <LogoWrapper>
         <LogoText>FORMiZE</LogoText>
       </LogoWrapper>

@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import FilterComboBox from "./FilterComboBox";
 import DisplayButtonGroup from "./DisplayButtonGroup";
@@ -42,6 +43,11 @@ const ButtonText = styled.span`
 `;
 
 const DashboardHeader: FC = () => {
+  const router = useRouter();
+  const goAddNewFormHandler = (): void => {
+    router.push("/new");
+  };
+
   return (
     <HeaderWrapper>
       <FilterWrapper>
@@ -63,7 +69,7 @@ const DashboardHeader: FC = () => {
         />
         <DisplayButtonGroup />
       </FilterWrapper>
-      <ButtonWrapper>
+      <ButtonWrapper onClick={goAddNewFormHandler}>
         <ButtonText>新增問卷</ButtonText>
       </ButtonWrapper>
     </HeaderWrapper>
