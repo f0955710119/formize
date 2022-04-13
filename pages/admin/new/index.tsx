@@ -5,9 +5,9 @@ import Header from "../../../src/components/UI/Header";
 import StepHeader from "../../../src/components/Admin/CreateForm/StepHeader";
 import SettingForm from "../../../src/components/Admin/CreateForm/Setting/SettingForm";
 import QuestionDesign from "../../../src/components/Admin/CreateForm/QuestionDesign/QuestionDesign";
+import StyleDesign from "../../../src/components/Admin/CreateForm/StyleDesign/StyleDesign";
 const New: NextPage = () => {
-  const [currentStep, setCurrentStep] = useState<number>(2);
-  console.log(currentStep);
+  const [currentStep, setCurrentStep] = useState<number>(3);
   return (
     <>
       <Head>
@@ -18,6 +18,7 @@ const New: NextPage = () => {
       <StepHeader currentStep={currentStep} setCurrentStep={setCurrentStep} />
       {currentStep === 1 && <SettingForm setCurrentStep={setCurrentStep} />}
       {currentStep === 2 && <QuestionDesign setCurrentStep={setCurrentStep} />}
+      {currentStep === 3 && <StyleDesign setCurrentStep={setCurrentStep} />}
     </>
   );
 };

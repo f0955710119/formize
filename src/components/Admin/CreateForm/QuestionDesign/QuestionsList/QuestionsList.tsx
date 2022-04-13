@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
 import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
-import Layout from "../UI/Layout";
+import Layout from "../../UI/Layout";
 import CreatedQuestion from "./CreatedQuestion";
 import QuestionPage from "./QuestionPage";
 

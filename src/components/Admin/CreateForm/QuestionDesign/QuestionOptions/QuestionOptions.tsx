@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
-import Layout from "../UI/Layout";
+import Layout from "../../UI/Layout";
 
 import OptionItem from "./OptionItem";
 import { Heading } from "../../UI/SectionHeading";

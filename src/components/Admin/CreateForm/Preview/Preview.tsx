@@ -17,7 +17,12 @@ const PreviewLayout = styled(Layout)`
   align-items: center;
   width: 60%;
   padding: 0rem;
-  background-image: url("/images/stacked-waves-haikei.svg");
+  background-image: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.7)
+    ),
+    url("/images/stacked-waves-haikei-1.svg");
 `;
 
 const QuestionWrapper = styled.div`
