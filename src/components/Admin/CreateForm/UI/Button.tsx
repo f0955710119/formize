@@ -3,7 +3,7 @@ import { FC, ReactNode } from "react";
 interface ButtonProps {
   clickHandler(): void;
   children: ReactNode;
-  buttonType: "button" | "submit" | "reset" | undefined;
+  buttonType?: "button" | "submit" | "reset" | undefined;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -12,7 +12,7 @@ const Button: FC<ButtonProps> = ({
   children,
 }: ButtonProps) => {
   return (
-    <button type={buttonType} onClick={clickHandler}>
+    <button type={buttonType ? buttonType : "button"} onClick={clickHandler}>
       {children}
     </button>
   );
