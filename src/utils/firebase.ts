@@ -15,15 +15,15 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { UserInfoType } from "../types/login";
-import { Users, Group } from "../types/firebase/usersType";
-import {
+import type { UserInfoType } from "../types/login";
+import type { Users, Group } from "../types/firebase/usersType";
+import type {
   Settings,
   Styles,
   Surveys,
   SurveyInput,
 } from "../types/firebase/surveysType";
-import {
+import type {
   QuestionLineText,
   QuestionChoices,
   QuestionMartix,

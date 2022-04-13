@@ -8,7 +8,7 @@ import QuestionDesign from "../../../src/components/Admin/CreateForm/QuestionDes
 import StyleDesign from "../../../src/components/Admin/CreateForm/StyleDesign/StyleDesign";
 import DeployFormSection from "../../../src/components/Admin/CreateForm/DeployForm/DeployFormSection";
 const New: NextPage = () => {
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   return (
     <>
       <Head>
