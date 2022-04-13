@@ -1,6 +1,6 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import type { StyleState } from "../slice/styleSlice";
-import styleActionType from "../../utils/actionCase/styleActionType";
+import styleActionType from "../actionType/styleActionType";
 
 const changeStyle: CaseReducer<
   StyleState,

@@ -4,7 +4,7 @@ import type {
   Question,
   Validation,
 } from "../slice/questionSlice";
-import questionActionCase from "../../utils/actionCase/questionActionCase";
+import questionActionType from "../actionType/questionActionType";
 
 /*
   新增題目
@@ -44,7 +44,7 @@ const updateSiglePropOfQuestion: CaseReducer<
     state.questions = state.questions.map((question) => {
       if (question.id !== action.payload.id) return question;
       switch (action.type) {
-        case questionActionCase.TITLE: {
+        case questionActionType.TITLE: {
           if (action.payload.text) {
             return {
               ...question,
@@ -52,7 +52,7 @@ const updateSiglePropOfQuestion: CaseReducer<
             };
           }
         }
-        case questionActionCase.NOTE: {
+        case questionActionType.NOTE: {
           if (action.payload.text) {
             return {
               ...question,
@@ -60,7 +60,7 @@ const updateSiglePropOfQuestion: CaseReducer<
             };
           }
         }
-        case questionActionCase.PLACEHOLDER: {
+        case questionActionType.PLACEHOLDER: {
           if (action.payload.text) {
             return {
               ...question,
@@ -69,7 +69,7 @@ const updateSiglePropOfQuestion: CaseReducer<
           }
         }
 
-        case questionActionCase.PAGE: {
+        case questionActionType.PAGE: {
           if (action.payload.number) {
             return {
               ...question,
@@ -78,7 +78,7 @@ const updateSiglePropOfQuestion: CaseReducer<
           }
         }
 
-        case questionActionCase.TYPE: {
+        case questionActionType.TYPE: {
           if (action.payload.number) {
             return {
               ...question,
@@ -87,7 +87,7 @@ const updateSiglePropOfQuestion: CaseReducer<
           }
         }
 
-        case questionActionCase.OPTIONS: {
+        case questionActionType.OPTIONS: {
           if (action.payload.stringArr) {
             return {
               ...question,
@@ -96,7 +96,7 @@ const updateSiglePropOfQuestion: CaseReducer<
           }
         }
 
-        case questionActionCase.MARTIXS: {
+        case questionActionType.MARTIXS: {
           if (action.payload.stringArr) {
             return {
               ...question,
@@ -105,7 +105,7 @@ const updateSiglePropOfQuestion: CaseReducer<
           }
         }
 
-        case questionActionCase.VALIDATIONS: {
+        case questionActionType.VALIDATIONS: {
           if (action.payload.validations) {
             return {
               ...question,

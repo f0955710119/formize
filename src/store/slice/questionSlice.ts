@@ -39,7 +39,7 @@ const initialState: QuestionState = {
   questions: [],
 };
 
-// BUG: 把 type 是引言的濾掉產生的 array 長度 + 1，就是題號，題目長度有更新就要跑這個function
+// BUG: 把 type 是引言的濾掉產生的 array 長度 index + 1 就是題號，題目長度有更新要跑處理這塊的function
 const questionSlice = createSlice({
   name: "question",
   initialState,

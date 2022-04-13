@@ -18,7 +18,6 @@ const initialState: StyleState = {
 const styleSlice = createSlice({
   name: "style",
   initialState,
-  //  感覺這包reducer能直接改寫
   reducers,
 });
 

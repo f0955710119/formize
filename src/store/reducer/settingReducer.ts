@@ -1,6 +1,6 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import type { SettingState } from "../slice/settingSlice";
-import settingActionCase from "../../utils/actionCase/settingActionCase";
+import settingActionType from "../actionType/settingActionType";
 
 const updateSingleSettingInput: CaseReducer<
   SettingState,
@@ -18,7 +18,7 @@ const updateSingleSettingInput: CaseReducer<
 > = (state, action) => {
   try {
     switch (action.type) {
-      case settingActionCase.TITLE: {
+      case settingActionType.TITLE: {
         if (action.payload.title) {
           return {
             ...state,
@@ -27,7 +27,7 @@ const updateSingleSettingInput: CaseReducer<
         }
       }
 
-      case settingActionCase.STATUS: {
+      case settingActionType.STATUS: {
         if (action.payload.status) {
           return {
             ...state,
@@ -36,7 +36,7 @@ const updateSingleSettingInput: CaseReducer<
         }
       }
 
-      case settingActionCase.MODE: {
+      case settingActionType.MODE: {
         if (action.payload.mode) {
           return {
             ...state,
@@ -45,7 +45,7 @@ const updateSingleSettingInput: CaseReducer<
         }
       }
 
-      case settingActionCase.LIMITED_ANSWER_TIME: {
+      case settingActionType.LIMITED_ANSWER_TIME: {
         if (action.payload.limitedAnswerTime !== undefined) {
           return {
             ...state,
@@ -54,7 +54,7 @@ const updateSingleSettingInput: CaseReducer<
         }
       }
 
-      case settingActionCase.LIMITED_RESPONSE_QUANTITY: {
+      case settingActionType.LIMITED_RESPONSE_QUANTITY: {
         if (action.payload.limitedResponseQuantity !== undefined) {
           return {
             ...state,
@@ -63,7 +63,7 @@ const updateSingleSettingInput: CaseReducer<
         }
       }
 
-      case settingActionCase.START_PAGE_IMAGE_FILE: {
+      case settingActionType.START_PAGE_IMAGE_FILE: {
         if (action.payload.startPageImageFile !== undefined) {
           return {
             ...state,
@@ -72,7 +72,7 @@ const updateSingleSettingInput: CaseReducer<
         }
       }
 
-      case settingActionCase.START_PAGE_PARAGRAPH: {
+      case settingActionType.START_PAGE_PARAGRAPH: {
         if (action.payload.startPageParagraph) {
           return {
             ...state,
@@ -81,7 +81,7 @@ const updateSingleSettingInput: CaseReducer<
         }
       }
 
-      case settingActionCase.END_PAGE_IMAGE_FILE: {
+      case settingActionType.END_PAGE_IMAGE_FILE: {
         if (action.payload.endPageImageFile !== undefined) {
           return {
             ...state,
@@ -90,7 +90,7 @@ const updateSingleSettingInput: CaseReducer<
         }
       }
 
-      case settingActionCase.END_PAGE_PARAGRAPH: {
+      case settingActionType.END_PAGE_PARAGRAPH: {
         if (action.payload.endPageParagraph) {
           return {
             ...state,
