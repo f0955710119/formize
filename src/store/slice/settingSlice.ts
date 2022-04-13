@@ -1,6 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "..";
-import { useAppSelector } from "../../hooks/useAppSelector";
 
 interface SettingState {
   title: string;
@@ -29,6 +27,7 @@ const initialState: SettingState = {
 const settingSlice = createSlice({
   name: "setting",
   initialState,
+  //  感覺這包reducer能直接改寫
   reducers: {
     updateTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
