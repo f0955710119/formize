@@ -1,8 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
 import { TextareaAutosize } from "@mui/material";
-import Field from "./UI/Field";
-import TitleIndex from "./UI/TitleIndex";
 
 const CustomTextareaAutosize = styled(TextareaAutosize)`
   margin-top: 2rem;

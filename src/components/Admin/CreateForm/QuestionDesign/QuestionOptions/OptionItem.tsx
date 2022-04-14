@@ -45,6 +45,19 @@ const AddCommentSharpIconWrapper = styled(IconWrapper)<AddCommentSharpIconWrappe
   height: 2rem;
 `;
 
+const questionDefaultList = [
+  questionConfig.ONE_LINE_TEXT_DEFAULT,
+  questionConfig.MULTIPLE_LINE_TEXT_DEFAULT,
+  questionConfig.INTRODUCTION_DEFAULT,
+  questionConfig.SINGLE_CHOICE_DEFAULT,
+  questionConfig.MULTIPLE_CHOICE_DEFAULT,
+  questionConfig.MARTIX_DEFAULT,
+  questionConfig.NUMBER_DEFAULT,
+  questionConfig.SLIDER_DEFAULT,
+  questionConfig.ORDER_DEFAULT,
+  questionConfig.DATE_DEFAULT,
+];
+
 interface OptionItemProps {
   title: string;
   page: number;
@@ -60,29 +73,23 @@ const OptionItem: FC<OptionItemProps> = ({
   children,
 }: OptionItemProps) => {
   const dispatch = useAppDispatch();
+
   const addNewQuestionHandler = (questionType: string, page: number) => {
+    const id = helper.generateId(8);
+    // BUG: 為什麼不break還會持續跑?
+    const defaultQuestion = questionDefaultList[+questionType];
+    const newQuestion = {
+      ...defaultQuestion,
+      id,
+      page,
+    };
+    dispatch(questionActions.addNewQuestion(newQuestion));
     switch (questionType) {
       case "0": {
-        const defaultOneLineText = { ...questionConfig.ONE_LINE_TEXT_DEFAULT };
-        const newOneLineText = {
-          ...defaultOneLineText,
-          id: helper.generateId(8),
-          page,
-        };
-        dispatch(questionActions.addNewQuestion(newOneLineText));
         dispatch(questionActions.changeCurrentQuestionLimitation(0));
         break;
       }
       case "1": {
-        const defaultMultiLineText = {
-          ...questionConfig.MULTIPLE_LINE_TEXT_DEFAULT,
-        };
-        const newMultiLineText = {
-          ...defaultMultiLineText,
-          id: helper.generateId(8),
-          page,
-        };
-        dispatch(questionActions.addNewQuestion(newMultiLineText));
         dispatch(questionActions.changeCurrentQuestionLimitation(0));
         break;
       }
@@ -92,12 +99,35 @@ const OptionItem: FC<OptionItemProps> = ({
       }
       case "3": {
         dispatch(questionActions.changeCurrentQuestionLimitation(1));
-        // BUG: 為什麼不break還會持續跑?
         break;
       }
 
       case "4": {
         dispatch(questionActions.changeCurrentQuestionLimitation(1));
+        break;
+      }
+
+      case "5": {
+        dispatch(questionActions.changeCurrentQuestionLimitation(1));
+        break;
+      }
+
+      case "6": {
+        dispatch(questionActions.changeCurrentQuestionLimitation(2));
+        break;
+      }
+
+      case "7": {
+        dispatch(questionActions.changeCurrentQuestionLimitation(2));
+        break;
+      }
+
+      case "8": {
+        dispatch(questionActions.changeCurrentQuestionLimitation(1));
+        break;
+      }
+      case "9": {
+        dispatch(questionActions.changeCurrentQuestionLimitation(3));
         break;
       }
     }

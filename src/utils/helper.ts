@@ -18,7 +18,7 @@ export default {
     );
     return questionsNeedIndex.reduce((init, question, i) => {
       if (question.id === id) {
-        const newIndex = init + i + 1;
+        const newIndex = i + 1;
         return newIndex;
       } else return init;
     }, 0);

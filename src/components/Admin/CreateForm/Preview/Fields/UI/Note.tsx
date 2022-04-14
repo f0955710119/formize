@@ -14,6 +14,12 @@ const CustomTextField = styled(TextField)`
   }
 `;
 
+const NoteText = styled.div`
+  color: #aaa;
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+`;
+
 interface NoteProps {
   id: string;
   note: string;
@@ -50,7 +56,7 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
       <button onClick={() => setHasClickedNote(false)}>取消編輯</button>
     </>
   ) : (
-    <span onClick={() => setHasClickedNote(true)}>{note}</span>
+    <NoteText onClick={() => setHasClickedNote(true)}>{note}</NoteText>
   );
 };
 

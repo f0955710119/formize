@@ -91,8 +91,10 @@ const Preview: FC = () => {
           return (
             <Field key={question.id}>
               <TitleWrapper>
-                <TitleIndex id={question.id} />
-                <EditableTitle id={question.id} title={question.title} />
+                {question.type !== "2" && <TitleIndex id={question.id} />}
+                {question.type !== "2" && (
+                  <EditableTitle id={question.id} title={question.title} />
+                )}
               </TitleWrapper>
               <Note id={question.id} note={question.note} />
               {generateResponseQuestion(question.type, question)}
