@@ -50,23 +50,23 @@ const Preview: FC = () => {
             case "0":
               return <OneLineText key={question.id} />;
             case "1":
-              return <MultiLineText />;
+              return <MultiLineText key={question.id} />;
             case "2":
-              return <Introduction />;
+              return <Introduction key={question.id} />;
             case "3":
-              return <OneChoice />;
+              return <OneChoice key={question.id} />;
             case "4":
-              return <MultiChoice />;
+              return <MultiChoice key={question.id} />;
             case "5":
-              return <Martix />;
+              return <Martix key={question.id} />;
             case "6":
               return <OneLineText key={question.id} />;
             case "7":
-              return <Slider />;
+              return <Slider key={question.id} />;
             case "8":
-              return <SequenceWeight />;
+              return <SequenceWeight key={question.id} />;
             case "9":
-              return <Date />;
+              return <Date key={question.id} />;
           }
         })}
         {/* <OneLineText />

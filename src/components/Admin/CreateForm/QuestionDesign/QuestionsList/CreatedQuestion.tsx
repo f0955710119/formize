@@ -1,6 +1,16 @@
 import { FC } from "react";
 import styled from "styled-components";
 
+import TextFormatSharpIcon from "@mui/icons-material/TextFormatSharp";
+import TextIncreaseSharpIcon from "@mui/icons-material/TextIncreaseSharp";
+import FormatQuoteSharpIcon from "@mui/icons-material/FormatQuoteSharp";
+import AdjustSharpIcon from "@mui/icons-material/AdjustSharp";
+import FormatListNumberedSharpIcon from "@mui/icons-material/FormatListNumberedSharp";
+import LooksOneSharpIcon from "@mui/icons-material/LooksOneSharp";
+import TuneSharpIcon from "@mui/icons-material/TuneSharp";
+import LayersSharpIcon from "@mui/icons-material/LayersSharp";
+import QueryBuilderSharpIcon from "@mui/icons-material/QueryBuilderSharp";
+
 const QuestionWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -50,6 +60,31 @@ interface CreatedQuestionProps {
   questionType: string;
 }
 
+const generateIcon = (questionType: string) => {
+  switch (questionType) {
+    case "0":
+      return <TextFormatSharpIcon />;
+    case "1":
+      return <TextIncreaseSharpIcon />;
+    case "2":
+      return <FormatQuoteSharpIcon />;
+    case "3":
+      return <AdjustSharpIcon />;
+    case "4":
+      return <FormatListNumberedSharpIcon />;
+    case "5":
+      return <LooksOneSharpIcon />;
+    case "6":
+      return <TuneSharpIcon />;
+    case "7":
+      return <LayersSharpIcon />;
+    case "8":
+      return <QueryBuilderSharpIcon />;
+    case "9":
+      return <LooksOneSharpIcon />;
+  }
+};
+
 const CreatedQuestion: FC<CreatedQuestionProps> = ({
   title,
   note,
@@ -59,7 +94,7 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
     <QuestionWrapper>
       <Title>{title}</Title>
       {/* BUG: 帶入數字TYPE會報錯，但改文字就可以，為何 */}
-      <DefaultIcon color={questionType} />
+      {generateIcon(questionType)}
       <Note>{note}</Note>
     </QuestionWrapper>
   );

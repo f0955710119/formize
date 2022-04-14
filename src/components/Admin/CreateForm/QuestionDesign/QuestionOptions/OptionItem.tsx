@@ -4,6 +4,7 @@ import { questionActions } from "../../../../../store/slice/questionSlice";
 import styled from "styled-components";
 import AddCommentSharpIcon from "@mui/icons-material/AddCommentSharp";
 import questionConfig from "../../../../../utils/questionConfig";
+import helper from "../../../../../utils/helper";
 
 const OptionWrapper = styled.div`
   display: flex;
@@ -60,11 +61,13 @@ const OptionItem: FC<OptionItemProps> = ({
 }: OptionItemProps) => {
   const dispatch = useAppDispatch();
   const addNewQuestionHandler = (questionType: string, page: number) => {
+    const id = helper.generateId(8);
     switch (questionType) {
       case "0": {
         const defaultOneLineText = { ...questionConfig.ONE_LINE_TEXT_DEFAULT };
         const newOneLineText = {
           ...defaultOneLineText,
+          id,
           page,
         };
         dispatch(questionActions.addNewQuestion(newOneLineText));
