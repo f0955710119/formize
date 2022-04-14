@@ -1,5 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import type { AppProps } from "next/app";
+import { store } from "../src/store";
+import { Provider } from "react-redux";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -58,10 +60,10 @@ const GlobalStyle = createGlobalStyle`
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <Provider store={store}>
       <GlobalStyle />
       <Component {...pageProps} />
-    </>
+    </Provider>
   );
 }
 

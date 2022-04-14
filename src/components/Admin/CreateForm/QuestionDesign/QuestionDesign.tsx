@@ -1,5 +1,4 @@
 import { FC } from "react";
-import styled from "styled-components";
 import Main from "../UI/Main";
 import Preview from "../Preview/Preview";
 import QuestionOptions from "./QuestionOptions/QuestionOptions";

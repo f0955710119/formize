@@ -5,6 +5,7 @@ export interface SettingState {
   title: string;
   status: number;
   mode: number;
+  pageQuantity: number;
   limitedAnswerTime: number | null;
   limitedResponseQuantity: number | null;
   startPageImageFile: object | null;
@@ -16,7 +17,8 @@ export interface SettingState {
 const initialState: SettingState = {
   title: "",
   status: 0,
-  mode: 0,
+  mode: 1,
+  pageQuantity: 1,
   limitedAnswerTime: null,
   limitedResponseQuantity: null,
   startPageImageFile: null,

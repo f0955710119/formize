@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import styled from "styled-components";
 import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 import Layout from "../../UI/Layout";
@@ -8,14 +9,14 @@ import QuestionPage from "./QuestionPage";
 interface QuestionList {
   title: string;
   note: string;
-  questionType: number;
+  questionType: string;
 }
 // BUG: 要去想怎麼做數值對照的轉換( 寫 switch function 匯出對應的中文字) + 設定 config 轉換
-const defaultQuestionList: QuestionList[] = [
-  { title: "1.您的姓名?", note: "有關係就沒關係", questionType: 0 },
-  { title: "2.您的年齡?", note: "有關係就沒關係", questionType: 6 },
-  { title: "3.通勤方式?", note: "有關係就沒關係", questionType: 3 },
-];
+// const defaultQuestionList: QuestionList[] = [
+//   { title: "1.您的姓名?", note: "有關係就沒關係", questionType: 0 },
+//   { title: "2.您的年齡?", note: "有關係就沒關係", questionType: 6 },
+//   { title: "3.通勤方式?", note: "有關係就沒關係", questionType: 3 },
+// ];
 
 const ListLayout = styled(Layout)`
   width: 22%;
@@ -89,42 +90,46 @@ interface QuestionsListProps {
 const QuestionsList: FC<QuestionsListProps> = ({
   setCurrentStep,
 }: QuestionsListProps) => {
+  const { mode, pageQuantity } = useAppSelector((state) => state.setting);
+  const { questions } = useAppSelector((state) => state.question);
   return (
     <ListLayout>
       <Heading>題目列表</Heading>
-      <QuestionPage title={"第一頁"}>
-        {defaultQuestionList.map((list, i) => (
-          <CreatedQuestionWrapper>
-            <DeleteSharpIcon
-              key={i}
-              sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
-            />
-            <CreatedQuestion
-              key={i}
-              title={list.title}
-              note={list.note}
-              questionType={list.questionType}
-            />
-          </CreatedQuestionWrapper>
-        ))}
-      </QuestionPage>
-
-      <QuestionPage title={"第一頁"}>
-        {defaultQuestionList.map((list, i) => (
-          <CreatedQuestionWrapper>
-            <DeleteSharpIcon
-              key={i}
-              sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
-            />
-            <CreatedQuestion
-              key={i}
-              title={list.title}
-              note={list.note}
-              questionType={list.questionType}
-            />
-          </CreatedQuestionWrapper>
-        ))}
-      </QuestionPage>
+      {mode === 1 ? (
+        Array(pageQuantity)
+          .fill(null)
+          .map((_, i) => (
+            <QuestionPage title={`第${i + 1}頁`}>
+              {questions.map((list) => (
+                <CreatedQuestionWrapper key={list.title}>
+                  <DeleteSharpIcon
+                    sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
+                  />
+                  <CreatedQuestion
+                    title={list.title}
+                    note={list.note}
+                    questionType={list.type}
+                  />
+                </CreatedQuestionWrapper>
+              ))}
+            </QuestionPage>
+          ))
+      ) : (
+        <>
+          {questions.map((list, i) => (
+            <CreatedQuestionWrapper key={list.title}>
+              <DeleteSharpIcon
+                sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
+              />
+              <CreatedQuestion
+                title={list.title}
+                note={list.note}
+                questionType={list.type}
+              />
+            </CreatedQuestionWrapper>
+          ))}
+        </>
+      )}
 
       <Heading>功能</Heading>
       {/* BUG: 為什麼有時候帶styled-component的樣式去component會失敗 */}

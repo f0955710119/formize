@@ -1,13 +1,27 @@
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import styled from "styled-components";
 import Layout from "../../UI/Layout";
 
+import questionConfig from "../../../../../utils/questionConfig";
+
 import OptionItem from "./OptionItem";
 import { Heading } from "../../UI/SectionHeading";
-import TextLimitation from "./OptionLimitation/TextLimitation";
 import ChoiceLimitation from "./OptionLimitation/ChoiceLimitation";
 import NumberLimitation from "./OptionLimitation/NumberLimitation";
 import DateLimitation from "./OptionLimitation/DateLimitation";
+
+import TextLimitation from "./OptionLimitation/TextLimitation";
+import TextFormatSharpIcon from "@mui/icons-material/TextFormatSharp";
+import TextIncreaseSharpIcon from "@mui/icons-material/TextIncreaseSharp";
+import FormatQuoteSharpIcon from "@mui/icons-material/FormatQuoteSharp";
+import AdjustSharpIcon from "@mui/icons-material/AdjustSharp";
+import FormatListNumberedSharpIcon from "@mui/icons-material/FormatListNumberedSharp";
+import LooksOneSharpIcon from "@mui/icons-material/LooksOneSharp";
+import TuneSharpIcon from "@mui/icons-material/TuneSharp";
+import LayersSharpIcon from "@mui/icons-material/LayersSharp";
+import QueryBuilderSharpIcon from "@mui/icons-material/QueryBuilderSharp";
 
 const OptionsLayout = styled(Layout)`
   width: 18%;
@@ -50,27 +64,89 @@ const OptionList = styled.div`
   }
 `;
 
+interface OptionItem {
+  title: string;
+  questionType: string;
+  iconComponent: JSX.Element;
+}
+
+const questionList: OptionItem[] = [
+  {
+    title: "單行文字",
+    questionType: questionConfig.ONE_LINE_TEXT,
+    iconComponent: <TextFormatSharpIcon />,
+  },
+  {
+    title: "多行文字",
+    questionType: questionConfig.MULTIPLE_LINE_TEXT,
+    iconComponent: <TextIncreaseSharpIcon />,
+  },
+  {
+    title: "引言",
+    questionType: questionConfig.INTRODUCTION,
+    iconComponent: <FormatQuoteSharpIcon />,
+  },
+  {
+    title: "單選",
+    questionType: questionConfig.SINGLE_CHOICE,
+    iconComponent: <AdjustSharpIcon />,
+  },
+  {
+    title: "多選",
+    questionType: questionConfig.MULTIPLE_CHOICE,
+    iconComponent: <FormatListNumberedSharpIcon />,
+  },
+  {
+    title: "矩陣",
+    questionType: questionConfig.MARTIX,
+    iconComponent: <FormatQuoteSharpIcon />,
+  },
+  {
+    title: "數值",
+    questionType: questionConfig.NUMBER,
+    iconComponent: <LooksOneSharpIcon />,
+  },
+  {
+    title: "滑桿",
+    questionType: questionConfig.SLIDER,
+    iconComponent: <TuneSharpIcon />,
+  },
+  {
+    title: "排序",
+    questionType: questionConfig.ORDER,
+    iconComponent: <LayersSharpIcon />,
+  },
+  {
+    title: "日期",
+    questionType: questionConfig.DATE,
+    iconComponent: <QueryBuilderSharpIcon />,
+  },
+];
+
 const QuestionOptions: FC = () => {
+  const currentQuestionLimitation = useAppSelector(
+    (state) => state.question.currentQuestionLimitation
+  );
   return (
     <OptionsLayout>
       <OptionHeading>題型</OptionHeading>
       <OptionList>
-        <OptionItem></OptionItem>
-        <OptionItem></OptionItem>
-        <OptionItem></OptionItem>
-        <OptionItem></OptionItem>
-        <OptionItem></OptionItem>
-        <OptionItem></OptionItem>
-        <OptionItem></OptionItem>
-        <OptionItem></OptionItem>
-        <OptionItem></OptionItem>
-        <OptionItem></OptionItem>
+        {questionList.map((item) => (
+          <OptionItem
+            title={item.title}
+            page={1}
+            questionType={item.questionType}
+            key={item.title}
+          >
+            {item.iconComponent}
+          </OptionItem>
+        ))}
       </OptionList>
       <OptionHeading>限制</OptionHeading>
-      <TextLimitation />
-      {/* <ChoiceLimitation /> */}
-      {/* <NumberLimitation /> */}
-      {/* <DateLimitation /> */}
+      {currentQuestionLimitation === 0 && <TextLimitation />}
+      {currentQuestionLimitation === 1 && <ChoiceLimitation />}
+      {currentQuestionLimitation === 2 && <NumberLimitation />}
+      {currentQuestionLimitation === 3 && <DateLimitation />}
     </OptionsLayout>
   );
 };

@@ -47,7 +47,7 @@ const Note = styled.div`
 interface CreatedQuestionProps {
   title: string;
   note: string;
-  questionType: number;
+  questionType: string;
 }
 
 const CreatedQuestion: FC<CreatedQuestionProps> = ({
@@ -59,7 +59,7 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
     <QuestionWrapper>
       <Title>{title}</Title>
       {/* BUG: 帶入數字TYPE會報錯，但改文字就可以，為何 */}
-      <DefaultIcon color={"" + questionType} />
+      <DefaultIcon color={questionType} />
       <Note>{note}</Note>
     </QuestionWrapper>
   );

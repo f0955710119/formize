@@ -2,6 +2,7 @@ export default {
   TITLE: "title",
   STATUS: "status",
   MODE: "mode",
+  PAGE_QUANTITY: "pageQuantity",
   LIMITED_ANSWER_TIME: "limitedAnswerTime",
   LIMITED_RESPONSE_QUANTITY: "limitedResponseQuantity",
   START_PAGE_IMAGE_FILE: "startPageImageFile",

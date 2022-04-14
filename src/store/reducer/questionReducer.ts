@@ -12,10 +12,12 @@ import questionActionType from "../actionType/questionActionType";
   改單一選項? ( 移除的話要帶 default 回來)
 */
 
+// BUG: 這邊最好把格式直接寫好，用 switch 去產生 default question 格式
 const addNewQuestion: CaseReducer<QuestionState, PayloadAction<Question>> = (
   state,
   action
 ) => {
+  console.log(action.payload);
   state.questions.push(action.payload);
 };
 
@@ -69,20 +71,20 @@ const updateSiglePropOfQuestion: CaseReducer<
           }
         }
 
+        case questionActionType.TYPE: {
+          if (action.payload.text) {
+            return {
+              ...question,
+              type: action.payload.text,
+            };
+          }
+        }
+
         case questionActionType.PAGE: {
           if (action.payload.number) {
             return {
               ...question,
               page: action.payload.number,
-            };
-          }
-        }
-
-        case questionActionType.TYPE: {
-          if (action.payload.number) {
-            return {
-              ...question,
-              type: action.payload.number,
             };
           }
         }
@@ -126,8 +128,16 @@ const updateSiglePropOfQuestion: CaseReducer<
   }
 };
 
+const changeCurrentQuestionLimitation: CaseReducer<
+  QuestionState,
+  PayloadAction<number>
+> = (state, action) => {
+  state.currentQuestionLimitation = action.payload;
+};
+
 export default {
   addNewQuestion,
   deleteExistedQuestion,
   updateSiglePropOfQuestion,
+  changeCurrentQuestionLimitation,
 };

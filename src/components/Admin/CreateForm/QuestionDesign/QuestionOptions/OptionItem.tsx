@@ -1,6 +1,9 @@
-import { FC } from "react";
+import { FC, MouseEventHandler, ReactNode } from "react";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import { questionActions } from "../../../../../store/slice/questionSlice";
 import styled from "styled-components";
 import AddCommentSharpIcon from "@mui/icons-material/AddCommentSharp";
+import questionConfig from "../../../../../utils/questionConfig";
 
 const OptionWrapper = styled.div`
   display: flex;
@@ -22,22 +25,85 @@ const OptionText = styled.div`
   font-size: 1.6rem;
   margin-right: 1rem;
 `;
-const OptionTypeIcon = styled.div`
-  width: 2rem;
+
+const IconWrapper = styled.div`
   height: 2rem;
-  background-color: #c8c8c8;
+  transform: translateY(4px);
+`;
+const OptionTypeIconWrapper = styled(IconWrapper)`
+  width: 2rem;
 `;
 
-const OptionItem: FC = () => {
+interface AddCommentSharpIconWrapper {
+  readonly onClick: MouseEventHandler;
+}
+
+// prettier-ignore
+const AddCommentSharpIconWrapper = styled(IconWrapper)<AddCommentSharpIconWrapper>`
+  transform: translateY(2px);
+  height: 2rem;
+`;
+
+interface OptionItemProps {
+  title: string;
+  page: number;
+  questionType: string;
+  children: ReactNode;
+  dragStartHandler?: (event: DragEvent) => void;
+}
+
+const OptionItem: FC<OptionItemProps> = ({
+  title,
+  page,
+  questionType,
+  children,
+}: OptionItemProps) => {
+  const dispatch = useAppDispatch();
+  const addNewQuestionHandler = (questionType: string, page: number) => {
+    switch (questionType) {
+      case "0": {
+        const defaultOneLineText = { ...questionConfig.ONE_LINE_TEXT_DEFAULT };
+        const newOneLineText = {
+          ...defaultOneLineText,
+          page,
+        };
+        dispatch(questionActions.addNewQuestion(newOneLineText));
+        dispatch(questionActions.changeCurrentQuestionLimitation(0));
+        break;
+      }
+      case "1": {
+        dispatch(questionActions.changeCurrentQuestionLimitation(0));
+        break;
+      }
+      case "2": {
+        dispatch(questionActions.changeCurrentQuestionLimitation(99));
+        break;
+      }
+      case "3": {
+        dispatch(questionActions.changeCurrentQuestionLimitation(1));
+        // BUG: 為什麼不break還會持續跑?
+        break;
+      }
+
+      case "4": {
+        dispatch(questionActions.changeCurrentQuestionLimitation(1));
+        break;
+      }
+    }
+  };
   return (
-    <OptionWrapper>
+    <OptionWrapper draggable>
       <Option>
-        <OptionText>測試題型</OptionText>
-        <OptionTypeIcon />
+        <OptionText>{title}</OptionText>
+        <OptionTypeIconWrapper>{children}</OptionTypeIconWrapper>
       </Option>
-      <AddCommentSharpIcon
-        sx={{ width: "10%", height: "2rem", fill: "#c8c8c8" }}
-      />
+      <AddCommentSharpIconWrapper
+        onClick={() => addNewQuestionHandler(questionType, page)}
+      >
+        <AddCommentSharpIcon
+          sx={{ width: "100%", height: "100%", fill: "#c8c8c8" }}
+        />
+      </AddCommentSharpIconWrapper>
     </OptionWrapper>
   );
 };

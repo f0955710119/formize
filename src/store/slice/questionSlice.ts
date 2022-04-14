@@ -23,7 +23,7 @@ export interface Question {
   title: string;
   note: string;
   placeholder?: string;
-  type: number;
+  type: string;
   options?: string[];
   martixs?: string[];
   validations: Validation;
@@ -32,11 +32,13 @@ export interface Question {
 export interface QuestionState {
   questionIds: string[];
   questions: Question[];
+  currentQuestionLimitation: number;
 }
 
 const initialState: QuestionState = {
   questionIds: [""],
   questions: [],
+  currentQuestionLimitation: 0,
 };
 
 // BUG: 把 type 是引言的濾掉產生的 array 長度 index + 1 就是題號，題目長度有更新要跑處理這塊的function

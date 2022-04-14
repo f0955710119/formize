@@ -1,0 +1,25 @@
+export default {
+  ONE_LINE_TEXT: "0",
+  MULTIPLE_LINE_TEXT: "1",
+  INTRODUCTION: "2",
+  SINGLE_CHOICE: "3",
+  MULTIPLE_CHOICE: "4",
+  MARTIX: "5",
+  NUMBER: "6",
+  SLIDER: "7",
+  ORDER: "8",
+  DATE: "9",
+  ONE_LINE_TEXT_DEFAULT: {
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
+    page: 1,
+    type: "0",
+    validations: {
+      required: false,
+      length: 50,
+      textTpye: 0,
+    },
+  },
+};

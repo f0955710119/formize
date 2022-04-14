@@ -8,6 +8,7 @@ const updateSingleSettingInput: CaseReducer<
     title?: string;
     status?: number;
     mode?: number;
+    pageQuantity?: number;
     limitedAnswerTime?: number | null;
     limitedResponseQuantity?: number | null;
     startPageImageFile?: object | null;
@@ -41,6 +42,15 @@ const updateSingleSettingInput: CaseReducer<
           return {
             ...state,
             mode: action.payload.mode,
+          };
+        }
+      }
+
+      case settingActionType.PAGE_QUANTITY: {
+        if (action.payload.pageQuantity) {
+          return {
+            ...state,
+            pageQuantity: action.payload.pageQuantity,
           };
         }
       }

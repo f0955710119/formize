@@ -10,6 +10,7 @@ import Martix from "./Fields/Martix";
 import Slider from "./Fields/Slider";
 import SequenceWeight from "./Fields/SequenceWeigth";
 import Date from "./Fields/Date";
+import { useAppSelector } from "../../../../hooks/useAppSelector";
 
 const PreviewLayout = styled(Layout)`
   display: flex;
@@ -40,10 +41,35 @@ const QuestionWrapper = styled.div`
 `;
 
 const Preview: FC = () => {
+  const { questions } = useAppSelector((state) => state.question);
   return (
     <PreviewLayout>
       <QuestionWrapper>
-        <OneLineText />
+        {questions.map((question) => {
+          switch (question.type) {
+            case "0":
+              return <OneLineText key={question.id} />;
+            case "1":
+              return <MultiLineText />;
+            case "2":
+              return <Introduction />;
+            case "3":
+              return <OneChoice />;
+            case "4":
+              return <MultiChoice />;
+            case "5":
+              return <Martix />;
+            case "6":
+              return <OneLineText key={question.id} />;
+            case "7":
+              return <Slider />;
+            case "8":
+              return <SequenceWeight />;
+            case "9":
+              return <Date />;
+          }
+        })}
+        {/* <OneLineText />
         <MultiLineText />
         <Introduction />
         <OneChoice />
@@ -51,7 +77,7 @@ const Preview: FC = () => {
         <Martix />
         <Slider />
         <SequenceWeight />
-        <Date />
+        <Date /> */}
       </QuestionWrapper>
     </PreviewLayout>
   );
