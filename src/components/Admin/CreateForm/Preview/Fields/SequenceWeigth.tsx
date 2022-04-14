@@ -1,7 +1,5 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
-import Heading from "../QuestionHeading/UI/Heading";
-import Field from "./Field";
 
 const defaultOptionsList = ["Frontend", "Backend", "iOS", "Android"];
 
@@ -32,25 +30,48 @@ const OptionItem = styled.div<OptionItemProps>`
   cursor: pointer;
 `;
 
-const SequenceWeight: FC = () => {
+interface SequenceWeightProps {
+  options: string[];
+}
+
+const SequenceWeight: FC<SequenceWeightProps> = ({
+  options,
+}: SequenceWeightProps) => {
+  const [unselectedOptions, setUnselectedOptions] = useState<string[]>(options);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([""]);
+  // BUG: 僅提供畫面操作，不會真的 dispatch 去題目 > 這邊要做的是按下文字可以編輯選項 / 新增選項
   return (
-    <Field>
-      <Heading text="7.東運基受認可路回出不來然超容有星讀，心社英收？起達數因大人價始境家位應動見係頭！你將指層的更之老中年可望，股至香魚吸而列分！" />
+    <>
       <OptionList>
-        {defaultOptionsList.map((item, i) => (
-          <OptionItem key={i} number={defaultOptionsList.length}>
+        {unselectedOptions.map((item, i) => (
+          <OptionItem
+            key={item}
+            number={options.length}
+            onClick={() => {
+              setUnselectedOptions((prevState) => {
+                const newSelectedOptions = prevState.filter(
+                  (option) => option !== item
+                );
+                return newSelectedOptions;
+              });
+              setSelectedOptions((prevState) => {
+                const newSelectedOptions = [...prevState, item];
+                return newSelectedOptions;
+              });
+            }}
+          >
             {item}
           </OptionItem>
         ))}
       </OptionList>
       <SelectedOptionList>
-        {defaultOptionsList.map((item, i) => (
-          <OptionItem key={i} number={defaultOptionsList.length}>
+        {selectedOptions.map((item, i) => (
+          <OptionItem key={item} number={selectedOptions.length}>
             {item}
           </OptionItem>
         ))}
       </SelectedOptionList>
-    </Field>
+    </>
   );
 };
 

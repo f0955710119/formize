@@ -61,13 +61,12 @@ const OptionItem: FC<OptionItemProps> = ({
 }: OptionItemProps) => {
   const dispatch = useAppDispatch();
   const addNewQuestionHandler = (questionType: string, page: number) => {
-    const id = helper.generateId(8);
     switch (questionType) {
       case "0": {
         const defaultOneLineText = { ...questionConfig.ONE_LINE_TEXT_DEFAULT };
         const newOneLineText = {
           ...defaultOneLineText,
-          id,
+          id: helper.generateId(8),
           page,
         };
         dispatch(questionActions.addNewQuestion(newOneLineText));
@@ -80,7 +79,7 @@ const OptionItem: FC<OptionItemProps> = ({
         };
         const newMultiLineText = {
           ...defaultMultiLineText,
-          id,
+          id: helper.generateId(8),
           page,
         };
         dispatch(questionActions.addNewQuestion(newMultiLineText));

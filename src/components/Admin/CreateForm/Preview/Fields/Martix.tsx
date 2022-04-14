@@ -6,10 +6,6 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-
-import Field from "./Field";
-import Heading from "../QuestionHeading/UI/Heading";
 
 const MartixWrapper = styled.div`
   display: flex;
@@ -24,7 +20,6 @@ const FlexAlignCenter = styled.div`
 `;
 
 const MartixTitleWrapper = styled(FlexAlignCenter)`
-  /* align-items: end; */
   justify-content: end;
 `;
 
@@ -45,60 +40,51 @@ const MartixOptions = styled(FlexAlignCenter)`
 
 const Martix: FC = () => {
   return (
-    <Field>
-      <Heading text="5.東運基受認可路回出不來然超容有星讀，心社英收？起達數因大人價始境家位應動見係頭！你將指層的更之老中年可望，股至香魚吸而列分！" />
-      <MartixWrapper>
-        <MartixTitleWrapper>
-          <MartixTitle>1</MartixTitle>
-          <MartixTitle>2</MartixTitle>
-          <MartixTitle>3</MartixTitle>
-        </MartixTitleWrapper>
-        <MartixOptions>
-          <MartixOptionTitle>測試題目</MartixOptionTitle>
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
-              />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel
-                value="other"
-                control={<Radio />}
-                label="Other"
-              />
-            </RadioGroup>
-          </FormControl>
-        </MartixOptions>
-        <MartixOptions>
-          <MartixOptionTitle>測試題目</MartixOptionTitle>
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
-              />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel
-                value="other"
-                control={<Radio />}
-                label="Other"
-              />
-            </RadioGroup>
-          </FormControl>
-        </MartixOptions>
-      </MartixWrapper>
-    </Field>
+    <MartixWrapper>
+      <MartixTitleWrapper>
+        {/* 要能新增 */}
+        <MartixTitle>1</MartixTitle>
+        <MartixTitle>2</MartixTitle>
+        <MartixTitle>3</MartixTitle>
+      </MartixTitleWrapper>
+      <MartixOptions>
+        <MartixOptionTitle>測試題目</MartixOptionTitle>
+        {/* 這邊一樣要能新增 */}
+        <FormControl>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+          >
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+            />
+            <FormControlLabel value="male" control={<Radio />} label="Male" />
+            <FormControlLabel value="other" control={<Radio />} label="Other" />
+          </RadioGroup>
+        </FormControl>
+      </MartixOptions>
+      <MartixOptions>
+        <MartixOptionTitle>測試題目</MartixOptionTitle>
+        <FormControl>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+          >
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+            />
+            <FormControlLabel value="male" control={<Radio />} label="Male" />
+            <FormControlLabel value="other" control={<Radio />} label="Other" />
+          </RadioGroup>
+        </FormControl>
+      </MartixOptions>
+    </MartixWrapper>
   );
 };
 

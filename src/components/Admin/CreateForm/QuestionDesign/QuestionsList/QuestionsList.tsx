@@ -99,16 +99,16 @@ const QuestionsList: FC<QuestionsListProps> = ({
         Array(pageQuantity)
           .fill(null)
           .map((_, i) => (
-            <QuestionPage title={`第${i + 1}頁`}>
-              {questions.map((list) => (
-                <CreatedQuestionWrapper key={list.title}>
+            <QuestionPage title={`第${i + 1}頁`} key={i}>
+              {questions.map((question) => (
+                <CreatedQuestionWrapper key={question.id}>
                   <DeleteSharpIcon
                     sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
                   />
                   <CreatedQuestion
-                    title={list.title}
-                    note={list.note}
-                    questionType={list.type}
+                    title={question.title}
+                    note={question.note}
+                    questionType={question.type}
                   />
                 </CreatedQuestionWrapper>
               ))}

@@ -1,7 +1,16 @@
 import { FC } from "react";
 import styled from "styled-components";
-import Heading from "../QuestionHeading/UI/Heading";
-import Field from "./Field";
+import Field from "./UI/Field";
+
+const Heading = styled.div`
+  width: 100%;
+  font-size: 2rem;
+  line-break: strict;
+
+  &:not(:last-child) {
+    margin-bottom: 3rem;
+  }
+`;
 
 const IntroductionField = styled(Field)`
   padding: 2rem;
@@ -17,7 +26,9 @@ interface IntroductionProps {
 const Introduction: FC = () => {
   return (
     <IntroductionField>
-      <Heading text="東運基受認可路回出不來然超容有星讀，心社英收？起達數因大人價始境家位應動見係頭！你將指層的更之老中年可望，股至香魚吸而列分！" />
+      <Heading>
+        "東運基受認可路回出不來然超容有星讀，心社英收？起達數因大人價始境家位應動見係頭！你將指層的更之老中年可望，股至香魚吸而列分！"
+      </Heading>
     </IntroductionField>
   );
 };

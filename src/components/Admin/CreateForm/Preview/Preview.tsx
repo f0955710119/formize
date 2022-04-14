@@ -1,6 +1,9 @@
 import { FC } from "react";
 import styled from "styled-components";
-import Layout from "../UI/Layout";
+import { useAppSelector } from "../../../../hooks/useAppSelector";
+
+import type { Question } from "../../../../store/slice/questionSlice";
+
 import OneLineText from "./Fields/OneLineText";
 import MultiLineText from "./Fields/MultiLineText";
 import Introduction from "./Fields/Introduction";
@@ -10,7 +13,12 @@ import Martix from "./Fields/Martix";
 import Slider from "./Fields/Slider";
 import SequenceWeight from "./Fields/SequenceWeigth";
 import Date from "./Fields/Date";
-import { useAppSelector } from "../../../../hooks/useAppSelector";
+
+import Layout from "../UI/Layout";
+import Field from "./Fields/UI/Field";
+import TitleIndex from "./Fields/UI/TitleIndex";
+import EditableTitle from "./Fields/UI/EditableTitle";
+import Note from "./Fields/UI/Note";
 
 const PreviewLayout = styled(Layout)`
   display: flex;
@@ -40,56 +48,57 @@ const QuestionWrapper = styled.div`
   }
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2rem;
+`;
+
+const generateResponseQuestion = (type: string, question: Question) => {
+  switch (type) {
+    case "0":
+      return <OneLineText />;
+    case "1":
+      return <MultiLineText />;
+    case "2":
+      return <Introduction />;
+    case "3":
+      return <OneChoice />;
+    case "4":
+      return <MultiChoice />;
+    case "5":
+      return <Martix />;
+    case "6":
+      return <OneLineText />;
+    case "7":
+      return <Slider />;
+    case "8":
+      if (question.options) {
+        return <SequenceWeight options={question.options} />;
+      }
+    case "9":
+      return <Date />;
+  }
+};
+
 const Preview: FC = () => {
   const { questions } = useAppSelector((state) => state.question);
   return (
     <PreviewLayout>
       <QuestionWrapper>
         {questions.map((question) => {
-          switch (question.type) {
-            case "0":
-              return (
-                <OneLineText
-                  key={question.id}
-                  id={question.id}
-                  note={question.note}
-                />
-              );
-            case "1":
-              return <MultiLineText key={question.id} id={question.id} />;
-            case "2":
-              return <Introduction key={question.id} />;
-            case "3":
-              return <OneChoice key={question.id} id={question.id} />;
-            case "4":
-              return <MultiChoice key={question.id} />;
-            case "5":
-              return <Martix key={question.id} />;
-            case "6":
-              return (
-                <OneLineText
-                  key={question.id}
-                  id={question.id}
-                  note={question.note}
-                />
-              );
-            case "7":
-              return <Slider key={question.id} />;
-            case "8":
-              return <SequenceWeight key={question.id} />;
-            case "9":
-              return <Date key={question.id} />;
-          }
+          return (
+            <Field key={question.id}>
+              <TitleWrapper>
+                <TitleIndex id={question.id} />
+                <EditableTitle id={question.id} title={question.title} />
+              </TitleWrapper>
+              <Note id={question.id} note={question.note} />
+              {generateResponseQuestion(question.type, question)}
+            </Field>
+          );
         })}
-        {/* <OneLineText />
-        <MultiLineText />
-        <Introduction />
-        <OneChoice />
-        <MultiChoice />
-        <Martix />
-        <Slider />
-        <SequenceWeight />
-        <Date /> */}
       </QuestionWrapper>
     </PreviewLayout>
   );
