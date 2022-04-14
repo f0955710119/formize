@@ -1,5 +1,11 @@
 import type { Question } from "../store/slice/questionSlice";
 
+interface CheckName {
+  stringArr: string[];
+  index: number;
+  editingText: string;
+}
+
 export default {
   generateId(length: number) {
     let result = "";
@@ -22,5 +28,19 @@ export default {
         return newIndex;
       } else return init;
     }, 0);
+  },
+  checkExistedName(nameObj: CheckName) {
+    return nameObj.stringArr
+      .map((oldString, i) => {
+        if (i === nameObj.index) return null;
+        return oldString === nameObj.editingText;
+      })
+      .find((hasDuplicateOptionText) => hasDuplicateOptionText === true);
+  },
+  generateUpdateNames({ stringArr, index, editingText }: CheckName) {
+    return stringArr.map((prevOption, i) => {
+      if (i !== index) return prevOption;
+      return editingText;
+    });
   },
 };

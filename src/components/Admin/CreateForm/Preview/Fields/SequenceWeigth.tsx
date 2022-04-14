@@ -6,7 +6,6 @@ const OptionList = styled.div`
   align-items: center;
   margin-bottom: 1rem;
   padding: 0.5rem;
-  /* height: 3rem; */
   border: 1px solid #333;
 `;
 
@@ -55,10 +54,12 @@ const SeletcdWeightIconText = styled.span`
 `;
 
 interface SequenceWeightProps {
+  id: string;
   options: string[];
 }
 
 const SequenceWeight: FC<SequenceWeightProps> = ({
+  id,
   options,
 }: SequenceWeightProps) => {
   const [unselectedOptions, setUnselectedOptions] = useState<string[]>(options);

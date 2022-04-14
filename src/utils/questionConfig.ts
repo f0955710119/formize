@@ -57,7 +57,7 @@ export default {
     placeholder: "",
     page: 1,
     type: "3",
-    options: ["選擇1", "選擇2", "選擇3"],
+    options: ["選項1", "選項2", "選項3"],
     validations: {
       required: false,
       maxSelected: 1,
@@ -70,7 +70,7 @@ export default {
     placeholder: "",
     page: 1,
     type: "4",
-    options: ["選擇1", "選擇2", "選擇3"],
+    options: ["選項1", "選項2", "選項3"],
     validations: {
       required: false,
       maxSelected: 3,

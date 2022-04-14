@@ -1,30 +1,55 @@
 import { FC } from "react";
 import styled from "styled-components";
+import OneChoiceOptionItem from "./OneChoiceOptionItem";
+import AddOptionButton from "./UI/AddOptionButton";
+import helper from "../../../../../utils/helper";
 
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
+const ChoiceWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+`;
 
 interface OneChoiceProps {
   id: string;
+  options: string[];
 }
 
-const OneChoice: FC = () => {
+const OneChoice: FC<OneChoiceProps> = ({ id, options }: OneChoiceProps) => {
   return (
-    <FormControl>
-      <RadioGroup
-        row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
-      >
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
-        <FormControlLabel value="other" control={<Radio />} label="Other" />
-        <FormControlLabel value="able" control={<Radio />} label="other" />
-      </RadioGroup>
-    </FormControl>
+    <>
+      <AddOptionButton id={id} options={options} />
+      <ChoiceWrapper>
+        {options.map((option, i) => (
+          <OneChoiceOptionItem
+            key={helper.generateId(6)}
+            id={id}
+            index={i}
+            option={option}
+            options={options}
+          />
+        ))}
+      </ChoiceWrapper>
+    </>
   );
 };
 
 export default OneChoice;
+
+// <FormControl>
+//   <RadioGroup
+//     row
+//     aria-labelledby="question-one-choice-group"
+//     name="row-radio-buttons-group"
+//   >
+//     {options.map((option) => (
+//       <FormControlLabel
+//         value={option}
+//         control={<Radio />}
+//         label={option}
+//         key={helper.generateId(8)}
+//       />
+//     ))}
+//   </RadioGroup>
+// </FormControl>

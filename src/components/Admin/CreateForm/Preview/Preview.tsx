@@ -64,7 +64,9 @@ const generateResponseQuestion = (type: string, question: Question) => {
     case "2":
       return <Introduction />;
     case "3":
-      return <OneChoice />;
+      if (question.options) {
+        return <OneChoice id={question.id} options={question.options} />;
+      }
     case "4":
       return <MultiChoice />;
     case "5":
@@ -75,7 +77,7 @@ const generateResponseQuestion = (type: string, question: Question) => {
       return <Slider />;
     case "8":
       if (question.options) {
-        return <SequenceWeight options={question.options} />;
+        return <SequenceWeight id={question.id} options={question.options} />;
       }
     case "9":
       return <Date />;
