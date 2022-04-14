@@ -10,6 +10,10 @@ const IntroductionField = styled(Field)`
   font-weight: bold;
 `;
 
+interface IntroductionProps {
+  id: string;
+}
+
 const Introduction: FC = () => {
   return (
     <IntroductionField>

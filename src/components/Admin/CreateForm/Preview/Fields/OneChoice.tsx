@@ -5,15 +5,20 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
+import TitleIndex from "./TitleIndex";
 
 import Field from "./Field";
 import Heading from "../QuestionHeading/UI/Heading";
 
-const OneChoice: FC = () => {
+interface OneChoiceProps {
+  id: string;
+}
+
+const OneChoice: FC<OneChoiceProps> = ({ id }: OneChoiceProps) => {
   return (
     <Field>
-      <Heading text="3.東運基受認可路回出不來然超容有星讀，心社英收？起達數因大人價始境家位應動見係頭！你將指層的更之老中年可望，股至香魚吸而列分！" />
+      <TitleIndex id={id} />
+      <Heading text="東運基受認可路回出不來然超容有星讀，心社英收？起達數因大人價始境家位應動見係頭！你將指層的更之老中年可望，股至香魚吸而列分！" />
       <FormControl>
         <RadioGroup
           row

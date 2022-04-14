@@ -48,19 +48,31 @@ const Preview: FC = () => {
         {questions.map((question) => {
           switch (question.type) {
             case "0":
-              return <OneLineText key={question.id} />;
+              return (
+                <OneLineText
+                  key={question.id}
+                  id={question.id}
+                  note={question.note}
+                />
+              );
             case "1":
-              return <MultiLineText key={question.id} />;
+              return <MultiLineText key={question.id} id={question.id} />;
             case "2":
               return <Introduction key={question.id} />;
             case "3":
-              return <OneChoice key={question.id} />;
+              return <OneChoice key={question.id} id={question.id} />;
             case "4":
               return <MultiChoice key={question.id} />;
             case "5":
               return <Martix key={question.id} />;
             case "6":
-              return <OneLineText key={question.id} />;
+              return (
+                <OneLineText
+                  key={question.id}
+                  id={question.id}
+                  note={question.note}
+                />
+              );
             case "7":
               return <Slider key={question.id} />;
             case "8":

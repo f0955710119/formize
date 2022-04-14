@@ -11,6 +11,10 @@ const MultiChoiceWrapper = styled.div`
   width: 100%;
 `;
 
+interface MultiChoiceProps {
+  id: string;
+}
+
 const MultiChoice: FC = () => {
   return (
     <Field>

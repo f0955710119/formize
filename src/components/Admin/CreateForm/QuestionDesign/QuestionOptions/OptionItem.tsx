@@ -75,6 +75,15 @@ const OptionItem: FC<OptionItemProps> = ({
         break;
       }
       case "1": {
+        const defaultMultiLineText = {
+          ...questionConfig.MULTIPLE_LINE_TEXT_DEFAULT,
+        };
+        const newMultiLineText = {
+          ...defaultMultiLineText,
+          id,
+          page,
+        };
+        dispatch(questionActions.addNewQuestion(newMultiLineText));
         dispatch(questionActions.changeCurrentQuestionLimitation(0));
         break;
       }

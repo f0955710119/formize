@@ -34,6 +34,7 @@ const updateSiglePropOfQuestion: CaseReducer<
   QuestionState,
   PayloadAction<{
     id: string;
+    actionType: string;
     text?: string;
     number?: number;
     booleanOption?: boolean;
@@ -45,7 +46,7 @@ const updateSiglePropOfQuestion: CaseReducer<
   try {
     state.questions = state.questions.map((question) => {
       if (question.id !== action.payload.id) return question;
-      switch (action.type) {
+      switch (action.payload.actionType) {
         case questionActionType.TITLE: {
           if (action.payload.text) {
             return {
