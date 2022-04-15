@@ -17,7 +17,7 @@ const AddOptionButton: FC<AddOptionButtonProps> = ({
 }: AddOptionButtonProps) => {
   const dispatch = useAppDispatch();
   const addNewOptionHandler = () => {
-    const updateOptions = [...options, `預設選項${options.length + 1}`];
+    const updateOptions = [...options, `選項${options.length + 1}`];
     dispatch(
       questionActions.updateSiglePropOfQuestion({
         id,

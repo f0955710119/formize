@@ -57,6 +57,7 @@ const DateLimitation: FC<DateLimitationProps> = ({
       <Field>
         <Label>起始日期</Label>
         <TextInput
+          id={id}
           label="設定範圍起始"
           inputType="date"
           defaultValue={helper.generateDate()}
@@ -67,6 +68,7 @@ const DateLimitation: FC<DateLimitationProps> = ({
       <Field>
         <Label>結尾日期</Label>
         <TextInput
+          id={id}
           label="設定範圍終點"
           inputType="date"
           defaultValue={helper.generateDate()}

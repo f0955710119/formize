@@ -27,7 +27,7 @@ const AddMartixButton: FC<AddMartixButtonProps> = ({
       questionActions.updateSiglePropOfQuestion({
         id,
         actionType: questionActionType.MARTIXS,
-        stringArr: [...martixs, `預設選項${martixs.length + 1}`],
+        stringArr: [...martixs, `選項${martixs.length + 1}`],
       })
     );
   };

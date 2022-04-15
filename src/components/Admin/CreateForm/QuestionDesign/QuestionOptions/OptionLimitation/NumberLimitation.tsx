@@ -6,12 +6,16 @@ import LimitationWrapper from "./UI/LimitationWrapper";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
 import {
+  Question,
   questionActions,
   Validation,
 } from "../../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import questionConfig from "../../../../../../utils/questionConfig";
 import { useAppSelector } from "../../../../../../hooks/useAppSelector";
+import useGetQuestion from "../../../../../../hooks/useQuestion";
+import helper from "../../../../../../utils/helper";
+import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
 
 interface NumberLimitationProps {
   id: string;
@@ -20,44 +24,9 @@ interface NumberLimitationProps {
 
 const NumberLimitation: FC<NumberLimitationProps> = ({
   id,
-  validations,
 }: NumberLimitationProps) => {
-  const dispatch = useAppDispatch();
-  const question = useAppSelector((state) =>
-    state.question.questions.find((question) => question.id === id)
-  );
-  const { min, max, unit, interval, decimal } = useAppSelector((state) =>
-    state.question.questions.find((question) => question.id === id)
-  )?.validations as Validation;
-  console.log(min, max, unit);
-  const generateHandler = (
-    key: string,
-    valiationHandler: (value: string) => string | null,
-    isNumber: boolean = true
-  ) => {
-    return (value: string) => {
-      try {
-        const inValidErrorMessage = valiationHandler(value);
-        if (inValidErrorMessage) {
-          window.alert(inValidErrorMessage);
-          throw inValidErrorMessage;
-        }
-        if (question === undefined) return;
-        dispatch(
-          questionActions.updateSiglePropOfQuestion({
-            id,
-            actionType: questionActionType.VALIDATIONS,
-            validations: {
-              ...question.validations,
-              [`${key}`]: isNumber ? +value : value,
-            },
-          })
-        );
-      } catch (error: any) {
-        console.error(error.message);
-      }
-    };
-  };
+  const question = useGetQuestion(id) as Question;
+  const { min, max, unit, interval, decimal } = question.validations;
 
   const minValidationHandler = (value: string) => {
     if (max === undefined) return null;
@@ -104,20 +73,54 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
     { key: questionConfig.INTERVAL, validationHandler: intervalValidationHandler },
     { key: questionConfig.DECIMAL, validationHandler: decialValidationHanlder },
   ];
+  const saveMinHandler = useGenerateValidationHandler(
+    id,
+    questionConfig.MIN,
+    true,
+    question,
+    minValidationHandler
+  );
+  const saveMaxHandler = useGenerateValidationHandler(
+    id,
+    questionConfig.MAX,
+    true,
+    question,
+    maxValidationHandler
+  );
+  const saveUnitHandler = useGenerateValidationHandler(
+    id,
+    questionConfig.UNIT,
+    false,
+    question,
+    unitValidationHandler
+  );
+  const saveIntervalHandler = useGenerateValidationHandler(
+    id,
+    questionConfig.INTERVAL,
+    true,
+    question,
+    intervalValidationHandler
+  );
+  const saveDemcialHandler = useGenerateValidationHandler(
+    id,
+    questionConfig.DECIMAL,
+    true,
+    question,
+    decialValidationHanlder
+  );
+  // const saveInputHandlerArray = inputKeys.map((input) => {
+  //   if (input.key === questionConfig.UNIT)
+  //     return helper.generateHandler(input.key, input.validationHandler, false);
+  //   return helper.generateHandler(input.key, input.validationHandler);
+  // });
 
-  const saveInputHandlerArray = inputKeys.map((input) => {
-    if (input.key === questionConfig.UNIT)
-      return generateHandler(input.key, input.validationHandler, false);
-    return generateHandler(input.key, input.validationHandler);
-  });
-
-  const [
-    saveMinHandler,
-    saveMaxHandler,
-    saveUnitHandler,
-    saveIntervalHandler,
-    saveDemcialHandler,
-  ] = saveInputHandlerArray;
+  // const [
+  //   saveMinHandler,
+  //   saveMaxHandler,
+  //   saveUnitHandler,
+  //   saveIntervalHandler,
+  //   saveDemcialHandler,
+  // ] = saveInputHandlerArray;
 
   return (
     <LimitationWrapper>
@@ -125,47 +128,47 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
       <Field>
         <Label>最小值</Label>
         <TextInput
+          id={id}
           inputType="number"
           dispatchHandler={saveMinHandler}
-          min={min}
           validationType={questionConfig.MIN}
         />
       </Field>
       <Field>
         <Label>最大值</Label>
         <TextInput
+          id={id}
           inputType="number"
           dispatchHandler={saveMaxHandler}
-          max={max}
           validationType={questionConfig.MAX}
         />
       </Field>
       <Field>
         <Label>單位</Label>
         <TextInput
+          id={id}
           placeholder="如:年、月、小時"
           dispatchHandler={saveUnitHandler}
-          unit={unit}
           validationType={questionConfig.UNIT}
         />
       </Field>
       <Field>
         <Label>間隔</Label>
         <TextInput
+          id={id}
           placeholder="無則留空"
           inputType="number"
           dispatchHandler={saveIntervalHandler}
-          interval={interval}
           validationType={questionConfig.INTERVAL}
         />
       </Field>
       <Field>
         <Label>小數點後碼數</Label>
         <TextInput
+          id={id}
           placeholder="無則留空"
           inputType="number"
           dispatchHandler={saveDemcialHandler}
-          decimal={decimal}
           validationType={questionConfig.DECIMAL}
         />
       </Field>

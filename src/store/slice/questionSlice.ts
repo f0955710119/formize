@@ -37,6 +37,7 @@ export interface QuestionState {
   questionIds: string[];
   questions: Question[];
   editingQuestion: Question | null;
+  willSwitcEditinghQuestion: boolean;
   accumulatedInValidInputError: ErrorMessage[];
 }
 
@@ -44,6 +45,7 @@ const initialState: QuestionState = {
   questionIds: [""],
   questions: [],
   editingQuestion: null,
+  willSwitcEditinghQuestion: false,
   accumulatedInValidInputError: [{ id: "", message: "" }],
 };
 

@@ -137,9 +137,17 @@ const switchEditingQuestion: CaseReducer<
   state.editingQuestion = action.payload;
 };
 
+const willChangeLimitationValue: CaseReducer<
+  QuestionState,
+  PayloadAction<boolean>
+> = (state, action) => {
+  state.willSwitcEditinghQuestion = action.payload;
+};
+
 export default {
   addNewQuestion,
   deleteExistedQuestion,
   updateSiglePropOfQuestion,
   switchEditingQuestion,
+  willChangeLimitationValue,
 };

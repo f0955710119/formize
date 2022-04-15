@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 import { useAppSelector } from "../../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
@@ -87,8 +87,10 @@ const QuestionField: FC<QuestionFieldProps> = ({
   const dispatch = useAppDispatch();
   const { editingQuestion } = useAppSelector((state) => state.question);
   const editingFieldHandler = (question: Question) => {
+    dispatch(questionActions.willChangeLimitationValue(true));
     dispatch(questionActions.switchEditingQuestion(question));
   };
+  console.log(question);
   return (
     <Field
       key={question.id}

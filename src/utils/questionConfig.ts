@@ -84,7 +84,7 @@ export default {
     page: 1,
     type: "5",
     options: ["選項1"],
-    martixs: ["預設欄位1", "預設欄位2", "預設欄位3"],
+    martixs: ["欄位1", "欄位2", "欄位3"],
     validations: {
       required: false,
       maxSelected: 3,
@@ -128,7 +128,7 @@ export default {
     placeholder: "",
     page: 1,
     type: "8",
-    options: ["預設選項1", "預設選項2", "預設選項3"],
+    options: ["選項1", "選項2", "選項3"],
     validations: {
       required: false,
       maxSelected: 3,

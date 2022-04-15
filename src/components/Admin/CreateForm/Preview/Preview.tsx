@@ -1,29 +1,10 @@
 import { FC } from "react";
-import styled from "styled-components";
 import { useAppSelector } from "../../../../hooks/useAppSelector";
+
+import styled from "styled-components";
 import QuestionField from "./QuestionField";
 
-import {
-  Question,
-  questionActions,
-} from "../../../../store/slice/questionSlice";
-
-import OneLineText from "./Fields/OneLineText";
-import MultiLineText from "./Fields/MultiLineText";
-import Introduction from "./Fields/Introduction";
-import Choice from "./Fields/OneChoice";
-import MultiChoice from "./Fields/MultiChoice";
-import Martix from "./Fields/Martix";
-import Slider from "./Fields/Slider";
-import SequenceWeight from "./Fields/SequenceWeigth";
-import Date from "./Fields/Date";
-
 import Layout from "../UI/Layout";
-import Field from "./Fields/UI/Field";
-import TitleIndex from "./Fields/UI/TitleIndex";
-import EditableTitle from "./Fields/UI/EditableTitle";
-import Note from "./Fields/UI/Note";
-import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 
 const PreviewLayout = styled(Layout)`
   display: flex;
@@ -53,16 +34,8 @@ const QuestionWrapper = styled.div`
   }
 `;
 
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 2rem;
-`;
-
 const Preview: FC = () => {
   const { questions } = useAppSelector((state) => state.question);
-  const dispatch = useAppDispatch();
 
   return (
     <PreviewLayout>
