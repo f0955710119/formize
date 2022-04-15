@@ -44,10 +44,16 @@ const Martix: FC<MartixProps> = ({ id, options, martixs }: MartixProps) => {
   return (
     <MartixWrapper>
       <ButtonWrapper>開啟預設欄位清單</ButtonWrapper>
+      <AddMartixButton id={id} martixs={martixs} />
       <MartixTitleWrapper>
-        <AddMartixButton id={id} martixs={martixs} />
         {martixs.map((martix, i) => (
-          <MartixTitle key={i} id={id} martix={martix} />
+          <MartixTitle
+            key={helper.generateId(6)}
+            id={id}
+            martix={martix}
+            index={i}
+            martixs={martixs}
+          />
         ))}
       </MartixTitleWrapper>
       {options.map((option) => (
