@@ -12,10 +12,24 @@ const CustomSlider = styled(UISlider)`
   width: 80%;
 `;
 
-const Slider: FC = () => {
+interface SliderProps {
+  id: string;
+  min: number;
+  max: number;
+}
+
+// 之後做這塊的取值不要用state的方式拿，寫ref去取，不然太耗能(畢竟state跟ref分開)
+const Slider: FC<SliderProps> = ({ id, min, max }: SliderProps) => {
   return (
     <SliderWrapper>
-      <CustomSlider defaultValue={30} />
+      <span>{min}</span>
+      <CustomSlider
+        defaultValue={30}
+        min={min}
+        max={max}
+        valueLabelDisplay="auto"
+      />
+      <span>{max}</span>
     </SliderWrapper>
   );
 };

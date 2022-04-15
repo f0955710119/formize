@@ -114,8 +114,8 @@ export default {
     type: "7",
     validations: {
       required: false,
-      max: 0,
-      min: 0,
+      min: 1,
+      max: 100,
       decimal: 0,
       unit: "",
       interval: 1,

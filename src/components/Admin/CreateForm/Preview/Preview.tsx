@@ -84,7 +84,15 @@ const generateResponseQuestion = (type: string, question: Question) => {
     case "6":
       return <OneLineText />;
     case "7":
-      return <Slider />;
+      if (question.validations.min && question.validations.max) {
+        return (
+          <Slider
+            id={question.id}
+            min={question.validations.min}
+            max={question.validations.max}
+          />
+        );
+      }
     case "8":
       if (question.options) {
         return <SequenceWeight id={question.id} options={question.options} />;
