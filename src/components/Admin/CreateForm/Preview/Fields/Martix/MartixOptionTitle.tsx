@@ -5,6 +5,7 @@ import questionActionType from "../../../../../../store/actionType/questionActio
 import styled from "styled-components";
 import { TextField } from "@mui/material";
 import BackspaceSharpIcon from "@mui/icons-material/BackspaceSharp";
+import helper from "../../../../../../utils/helper";
 
 const MartixOptionTitleWrapper = styled.div`
   display: flex;
@@ -56,6 +57,29 @@ const MartixOptionTitle: FC<MartixOptionTitleProps> = ({
     );
   };
 
+  const saveMartixOptionTitleHandler = () => {
+    const newMartixObj = {
+      stringArr: options,
+      index,
+      editingText: editingOptionText,
+    };
+
+    const checkExistedMartixTitle = helper.checkExistedName(newMartixObj);
+    if (checkExistedMartixTitle) {
+      window.alert("不能存取重複的選項名稱，請修改後再儲存!");
+      return;
+    }
+    const updateMartixOptionTitle = helper.generateUpdateNames(newMartixObj);
+    dispatch(
+      questionActions.updateSiglePropOfQuestion({
+        id,
+        actionType: questionActionType.OPTIONS,
+        stringArr: updateMartixOptionTitle,
+      })
+    );
+    setHasClickOption(false);
+  };
+
   return hasClickedOption ? (
     <MartixOptionTitleWrapper>
       <TextField
@@ -64,7 +88,7 @@ const MartixOptionTitle: FC<MartixOptionTitleProps> = ({
         value={editingOptionText}
         onChange={(event) => setEditingOptionText(event.target.value)}
       />
-      <button>儲存</button>
+      <button onClick={saveMartixOptionTitleHandler}>儲存</button>
       <button onClick={() => setHasClickOption(false)}>取消</button>
     </MartixOptionTitleWrapper>
   ) : (

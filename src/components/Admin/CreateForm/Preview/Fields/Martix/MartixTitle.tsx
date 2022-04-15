@@ -68,7 +68,7 @@ const MartixTitle: FC<MartixTitleProps> = ({
 
     const checkExistedMartixTitle = helper.checkExistedName(newMartixObj);
     if (checkExistedMartixTitle) {
-      window.alert("不能存取重複的欄位名稱，請修改後在儲存!");
+      window.alert("不能存取重複的欄位名稱，請修改後再儲存!");
       return;
     }
     const updateMartixTitle = helper.generateUpdateNames(newMartixObj);
