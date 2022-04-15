@@ -28,17 +28,23 @@ export interface Question {
   martixs?: string[];
   validations: Validation;
 }
+export interface ErrorMessage {
+  id: string;
+  message: string;
+}
 
 export interface QuestionState {
   questionIds: string[];
   questions: Question[];
   editingQuestion: Question | null;
+  accumulatedInValidInputError: ErrorMessage[];
 }
 
 const initialState: QuestionState = {
   questionIds: [""],
   questions: [],
   editingQuestion: null,
+  accumulatedInValidInputError: [{ id: "", message: "" }],
 };
 
 // BUG: 把 type 是引言的濾掉產生的 array 長度 index + 1 就是題號，題目長度有更新要跑處理這塊的function

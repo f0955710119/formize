@@ -12,7 +12,8 @@ const QuestionDesign: FC<QuestionDesignProps> = ({
   setCurrentStep,
 }: QuestionDesignProps) => {
   return (
-    <Main>
+    // 未來做冒泡機制來dispatch editingQuestion
+    <Main onClick={(event) => console.log(event.currentTarget)}>
       <Preview />
       <QuestionOptions />
       <QuestionsList setCurrentStep={setCurrentStep} />

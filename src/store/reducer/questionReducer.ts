@@ -3,6 +3,7 @@ import type {
   QuestionState,
   Question,
   Validation,
+  ErrorMessage,
 } from "../slice/questionSlice";
 import questionActionType from "../actionType/questionActionType";
 

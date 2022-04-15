@@ -1,4 +1,5 @@
 import type { Question } from "../store/slice/questionSlice";
+import questionConfig from "./questionConfig";
 
 interface CheckStringName {
   stringArr: string[];

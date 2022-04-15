@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
 import RequiredSwitch from "./UI/RequiredSwitch";
 import ComboBox from "./UI/ComboBox";
 import TextInput from "./UI/TextInput";
@@ -15,7 +16,9 @@ interface TextLimitationProps {
 const TextLimitation: FC<TextLimitationProps> = ({
   validations,
 }: TextLimitationProps) => {
-  console.log(validations);
+  const dispatch = useAppDispatch();
+
+  
   return (
     <LimitationWrapper>
       <RequiredSwitch />

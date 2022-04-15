@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, MouseEventHandler, ReactNode } from "react";
 import styled from "styled-components";
 
 const Layout = styled.main`
@@ -10,9 +10,10 @@ const Layout = styled.main`
 
 interface MainProps {
   children: ReactNode;
+  onClick: MouseEventHandler;
 }
 
-const Main: FC<MainProps> = ({ children }: MainProps) => {
+const Main: FC<MainProps> = ({ children, onClick }: MainProps) => {
   return <Layout>{children}</Layout>;
 };
 

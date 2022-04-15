@@ -98,8 +98,8 @@ export default {
     type: "6",
     validations: {
       required: false,
-      max: 0,
-      min: 0,
+      max: 100,
+      min: 1,
       decimal: 0,
       unit: "",
     },
@@ -147,6 +147,12 @@ export default {
       endDate: null,
     },
   },
+  LENGTH: "length",
+  MIN: "min",
+  MAX: "max",
+  UNIT: "unit",
+  INTERVAL: "interval",
+  DECIMAL: "decimal",
 };
 
 /*
