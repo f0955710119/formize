@@ -44,4 +44,18 @@ export default {
       return editingText;
     });
   },
+  generateDate() {
+    const currentTime = new Date();
+    const year = currentTime.getFullYear();
+    const month = currentTime.getMonth() + 1;
+    const date = currentTime.getDate();
+    const newTime = `${year}-${("" + month).padStart(2, "0")}-${(
+      "" + date
+    ).padStart(2, "0")}`;
+    return newTime;
+  },
+  generateParseNumberTime(value: string, isStart: boolean = true) {
+    const timer = isStart ? "000000" : "235959";
+    return Number.parseInt(value.replaceAll("-", "") + timer);
+  },
 };

@@ -69,16 +69,22 @@ const TextInput: FC<TextInputProps> = ({
       case questionConfig.DECIMAL: {
         return "" + decimal;
       }
+
+      case questionConfig.DATE: {
+        if (defaultValue) {
+          return defaultValue;
+        }
+      }
       default:
         return "";
     }
   });
   const delayChecking = useRef<NodeJS.Timeout>(
     setTimeout(() => {
-      console.log("start checking!");
+      return;
     }, 0)
   );
-  console.log(inputRecord);
+
   return (
     <CustomTextInput
       value={inputRecord}

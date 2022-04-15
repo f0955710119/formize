@@ -24,12 +24,26 @@ const GlobalStyle = createGlobalStyle`
     font-family: Vidaloka;
     src: url('/fonts/Vidaloka-Regular.ttf') format('truetype');
   }
+  @font-face {
+    font-family: TaipeiSansTCBetaBold;
+    src: url('/fonts/TaipeiSansTCBeta-Bold.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: TaipeiSansTCBetaLight;
+    src: url('/fonts/TaipeiSansTCBeta-Light.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: TaipeiSansTCBetaRegular;
+    src: url('/fonts/TaipeiSansTCBeta-Regular.ttf') format('truetype');
+  }
+
 
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:  openhuninn !important;
+    font-family:  TaipeiSansTCBetaBold !important;
+
   }
 
   html {

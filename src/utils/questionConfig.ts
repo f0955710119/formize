@@ -1,4 +1,5 @@
 import { Question } from "../store/slice/questionSlice";
+import helper from "./helper";
 
 export default {
   ONE_LINE_TEXT: "0",
@@ -143,16 +144,20 @@ export default {
     validations: {
       required: false,
       multipleDate: false,
-      startDate: null,
-      endDate: null,
+      startDate: helper.generateDate(),
+      endDate: helper.generateDate(),
     },
   },
+  REQUIRED: "required",
   LENGTH: "length",
+  MAX_SELECTED: "maxSelected",
   MIN: "min",
   MAX: "max",
   UNIT: "unit",
   INTERVAL: "interval",
   DECIMAL: "decimal",
+  START_DATE: "startDate",
+  END_DATE: "endDate",
 };
 
 /*

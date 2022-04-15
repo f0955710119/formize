@@ -164,7 +164,7 @@ const generateLimitation = (question: Question) => {
       return <ChoiceLimitation />;
     }
     case "9": {
-      return <DateLimitation />;
+      return <DateLimitation id={question.id} />;
     }
     default: {
       return <></>;
