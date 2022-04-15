@@ -21,6 +21,7 @@ const FlexAlignCenter = styled.div`
 const MartixTitleWrapper = styled(FlexAlignCenter)`
   justify-content: end;
   margin-bottom: 1rem;
+  width: 100%;
 `;
 
 const MartixOptionTitle = styled.span`

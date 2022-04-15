@@ -1,9 +1,11 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import BackspaceSharpIcon from "@mui/icons-material/BackspaceSharp";
+import { TextField } from "@mui/material";
 import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
+import helper from "../../../../../../utils/helper";
 
 const MartixTitleWrapper = styled.div`
   display: flex;
@@ -43,6 +45,8 @@ const MartixTitle: FC<MartixTitleProps> = ({
   martix,
   martixs,
 }: MartixTitleProps) => {
+  const [hasClickedMartix, setHasClickedMartix] = useState<boolean>(false);
+  const [editingMartix, setEditingMartix] = useState<string>(martix);
   const dispatch = useAppDispatch();
   const deleteMartixTitleHandler = () => {
     const updateMartix = martixs.filter((_, i) => i !== index);
@@ -54,9 +58,45 @@ const MartixTitle: FC<MartixTitleProps> = ({
       })
     );
   };
-  return (
+
+  const saveMartixTitleHandler = () => {
+    const newMartixObj = {
+      stringArr: martixs,
+      index,
+      editingText: editingMartix,
+    };
+
+    const checkExistedMartixTitle = helper.checkExistedName(newMartixObj);
+    if (checkExistedMartixTitle) {
+      window.alert("不能存取重複的欄位名稱，請修改後在儲存!");
+      return;
+    }
+    const updateMartixTitle = helper.generateUpdateNames(newMartixObj);
+    dispatch(
+      questionActions.updateSiglePropOfQuestion({
+        id,
+        actionType: questionActionType.MARTIXS,
+        stringArr: updateMartixTitle,
+      })
+    );
+    setHasClickedMartix(false);
+  };
+  return hasClickedMartix ? (
     <MartixTitleWrapper>
-      <MartixTitleText>{martix}</MartixTitleText>
+      <TextField
+        label=""
+        variant="standard"
+        value={editingMartix}
+        onChange={(event) => setEditingMartix(event.target.value)}
+      />
+      <button onClick={saveMartixTitleHandler}>儲存</button>
+      <button onClick={() => setHasClickedMartix(false)}>取消</button>
+    </MartixTitleWrapper>
+  ) : (
+    <MartixTitleWrapper>
+      <MartixTitleText onClick={() => setHasClickedMartix(true)}>
+        {martix}
+      </MartixTitleText>
       <CustomBackspace onClick={deleteMartixTitleHandler} />
     </MartixTitleWrapper>
   );
