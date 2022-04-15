@@ -5,6 +5,10 @@ import styled from "styled-components";
 import Layout from "../../UI/Layout";
 
 import questionConfig from "../../../../../utils/questionConfig";
+import {
+  Question,
+  questionActions,
+} from "../../../../../store/slice/questionSlice";
 
 import OptionItem from "./OptionItem";
 import { Heading } from "../../UI/SectionHeading";
@@ -64,12 +68,6 @@ const OptionList = styled.div`
   }
 `;
 
-interface OptionItem {
-  title: string;
-  questionType: string;
-  iconComponent: JSX.Element;
-}
-
 const questionList: OptionItem[] = [
   {
     title: "單行文字",
@@ -123,10 +121,57 @@ const questionList: OptionItem[] = [
   },
 ];
 
+const generateLimitation = (question: Question) => {
+  switch (question.type) {
+    case "0": {
+      return <TextLimitation validations={question.validations} />;
+    }
+
+    case "1": {
+      return <TextLimitation validations={question.validations} />;
+    }
+
+    case "2": {
+      return <TextLimitation validations={question.validations} />;
+    }
+
+    case "3": {
+      return <ChoiceLimitation />;
+    }
+    case "4": {
+      return <ChoiceLimitation />;
+    }
+    case "5": {
+      return <ChoiceLimitation />;
+    }
+    case "6": {
+      return <NumberLimitation />;
+    }
+    case "7": {
+      return <NumberLimitation />;
+    }
+    case "8": {
+      return <ChoiceLimitation />;
+    }
+    case "9": {
+      return <DateLimitation />;
+    }
+    default: {
+      return <></>;
+    }
+  }
+};
+interface OptionItem {
+  title: string;
+  questionType: string;
+  iconComponent: JSX.Element;
+}
+
 const QuestionOptions: FC = () => {
-  const currentQuestionLimitation = useAppSelector(
-    (state) => state.question.currentQuestionLimitation
+  const editingQuestion = useAppSelector(
+    (state) => state.question.editingQuestion
   );
+
   return (
     <OptionsLayout>
       <OptionHeading>題型</OptionHeading>
@@ -143,10 +188,7 @@ const QuestionOptions: FC = () => {
         ))}
       </OptionList>
       <OptionHeading>限制</OptionHeading>
-      {currentQuestionLimitation === 0 && <TextLimitation />}
-      {currentQuestionLimitation === 1 && <ChoiceLimitation />}
-      {currentQuestionLimitation === 2 && <NumberLimitation />}
-      {currentQuestionLimitation === 3 && <DateLimitation />}
+      {editingQuestion && generateLimitation(editingQuestion)}
     </OptionsLayout>
   );
 };

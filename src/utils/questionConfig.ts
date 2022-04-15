@@ -21,7 +21,7 @@ export default {
     validations: {
       required: false,
       length: 50,
-      textTpye: 0,
+      textType: ["文字", "信箱", "手機"],
     },
   },
   MULTIPLE_LINE_TEXT_DEFAULT: <Question>{
@@ -34,7 +34,7 @@ export default {
     validations: {
       required: false,
       length: 200,
-      textTpye: 0,
+      textType: ["文字", "信箱", "手機"],
     },
   },
   INTRODUCTION_DEFAULT: <Question>{
@@ -47,7 +47,6 @@ export default {
     validations: {
       required: false,
       length: 200,
-      textTpye: 0,
     },
   },
   SINGLE_CHOICE_DEFAULT: <Question>{

@@ -62,7 +62,9 @@ const SequenceWeight: FC<SequenceWeightProps> = ({
   id,
   options,
 }: SequenceWeightProps) => {
-  const [unselectedOptions, setUnselectedOptions] = useState<string[]>(options);
+  const intitOptions = [...options];
+  const [unselectedOptions, setUnselectedOptions] =
+    useState<string[]>(intitOptions);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([""]);
   // BUG: 僅提供畫面操作，不會真的 dispatch 去題目 > 這邊要做的是按下文字可以編輯選項 / 新增選項
   console.log(unselectedOptions);

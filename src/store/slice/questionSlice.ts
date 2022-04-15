@@ -4,7 +4,7 @@ import reducers from "../reducer/questionReducer";
 export interface Validation {
   required: boolean;
   length?: number;
-  textType?: number;
+  textType?: string[];
   max?: number;
   min?: number;
   decimal?: number;
@@ -32,13 +32,13 @@ export interface Question {
 export interface QuestionState {
   questionIds: string[];
   questions: Question[];
-  currentQuestionLimitation: number;
+  editingQuestion: Question | null;
 }
 
 const initialState: QuestionState = {
   questionIds: [""],
   questions: [],
-  currentQuestionLimitation: 0,
+  editingQuestion: null,
 };
 
 // BUG: 把 type 是引言的濾掉產生的 array 長度 index + 1 就是題號，題目長度有更新要跑處理這塊的function

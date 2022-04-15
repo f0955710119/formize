@@ -129,16 +129,16 @@ const updateSiglePropOfQuestion: CaseReducer<
   }
 };
 
-const changeCurrentQuestionLimitation: CaseReducer<
+const switchEditingQuestion: CaseReducer<
   QuestionState,
-  PayloadAction<number>
+  PayloadAction<Question>
 > = (state, action) => {
-  state.currentQuestionLimitation = action.payload;
+  state.editingQuestion = action.payload;
 };
 
 export default {
   addNewQuestion,
   deleteExistedQuestion,
   updateSiglePropOfQuestion,
-  changeCurrentQuestionLimitation,
+  switchEditingQuestion,
 };

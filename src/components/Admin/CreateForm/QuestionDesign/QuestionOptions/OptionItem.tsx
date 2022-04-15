@@ -73,7 +73,6 @@ const OptionItem: FC<OptionItemProps> = ({
   children,
 }: OptionItemProps) => {
   const dispatch = useAppDispatch();
-
   const addNewQuestionHandler = (questionType: string, page: number) => {
     const id = helper.generateId(8);
     // BUG: 為什麼不break還會持續跑?
@@ -84,53 +83,7 @@ const OptionItem: FC<OptionItemProps> = ({
       page,
     };
     dispatch(questionActions.addNewQuestion(newQuestion));
-    switch (questionType) {
-      case "0": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(0));
-        break;
-      }
-      case "1": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(0));
-        break;
-      }
-      case "2": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(99));
-        break;
-      }
-      case "3": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(1));
-        break;
-      }
-
-      case "4": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(1));
-        break;
-      }
-
-      case "5": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(1));
-        break;
-      }
-
-      case "6": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(2));
-        break;
-      }
-
-      case "7": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(2));
-        break;
-      }
-
-      case "8": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(1));
-        break;
-      }
-      case "9": {
-        dispatch(questionActions.changeCurrentQuestionLimitation(3));
-        break;
-      }
-    }
+    dispatch(questionActions.switchEditingQuestion(newQuestion));
   };
   return (
     <OptionWrapper draggable>

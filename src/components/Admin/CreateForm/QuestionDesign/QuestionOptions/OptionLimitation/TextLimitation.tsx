@@ -5,14 +5,24 @@ import TextInput from "./UI/TextInput";
 import LimitationWrapper from "./UI/LimitationWrapper";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
+import type { Validation } from "../../../../../../store/slice/questionSlice";
+import questionConfig from "../../../../../../utils/questionConfig";
 
-const TextLimitation: FC = () => {
+interface TextLimitationProps {
+  validations: Validation;
+}
+
+const TextLimitation: FC<TextLimitationProps> = ({
+  validations,
+}: TextLimitationProps) => {
+  console.log(validations);
   return (
     <LimitationWrapper>
       <RequiredSwitch />
       <Field>
         <Label>驗證</Label>
-        <ComboBox options={["文字", "信箱", "手機"]} />
+
+        {validations.textType && <ComboBox options={validations.textType} />}
       </Field>
       <Field>
         <Label>字數上限</Label>
