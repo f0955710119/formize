@@ -1,0 +1,37 @@
+import { createSlice } from "@reduxjs/toolkit";
+import reducers from "../reducer/settingReducer";
+
+export interface SettingState {
+  title: string;
+  status: number;
+  mode: number;
+  pageQuantity: number;
+  limitedAnswerTime: number | null;
+  limitedResponseQuantity: number | null;
+  startPageImageFile: object | null;
+  startPageParagraph: string;
+  endPageImageFile: object | null;
+  endPageParagraph: string;
+}
+
+const initialState: SettingState = {
+  title: "",
+  status: 0,
+  mode: 1,
+  pageQuantity: 1,
+  limitedAnswerTime: null,
+  limitedResponseQuantity: null,
+  startPageImageFile: null,
+  startPageParagraph: "",
+  endPageImageFile: null,
+  endPageParagraph: "",
+};
+
+const settingSlice = createSlice({
+  name: "setting",
+  initialState,
+  reducers,
+});
+
+export const settingReducer = settingSlice.reducer;
+export const settingActions = settingSlice.actions;
