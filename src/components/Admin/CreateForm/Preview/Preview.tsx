@@ -38,7 +38,7 @@ const QuestionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60%;
+  width: 75%;
   height: 70%;
 
   overflow-y: scroll;

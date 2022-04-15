@@ -1,6 +1,6 @@
 import type { Question } from "../store/slice/questionSlice";
 
-interface CheckName {
+interface CheckStringName {
   stringArr: string[];
   index: number;
   editingText: string;
@@ -29,7 +29,7 @@ export default {
       } else return init;
     }, 0);
   },
-  checkExistedName(nameObj: CheckName) {
+  checkExistedName(nameObj: CheckStringName) {
     return nameObj.stringArr
       .map((oldString, i) => {
         if (i === nameObj.index) return null;
@@ -37,7 +37,7 @@ export default {
       })
       .find((hasDuplicateOptionText) => hasDuplicateOptionText === true);
   },
-  generateUpdateNames({ stringArr, index, editingText }: CheckName) {
+  generateUpdateNames({ stringArr, index, editingText }: CheckStringName) {
     return stringArr.map((prevOption, i) => {
       if (i !== index) return prevOption;
       return editingText;

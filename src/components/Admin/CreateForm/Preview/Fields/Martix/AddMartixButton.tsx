@@ -3,11 +3,10 @@ import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import styled from "styled-components";
-import { ButtonWrapper } from "../UI/AddOptionButton";
+import { ButtonWrapper, ButtonText, CustomButtonIcon } from "../UI/Button";
 
 const Button = styled(ButtonWrapper)`
-  width: auto;
-  height: 2rem;
+  /* height: 2rem; */
   background-color: #f55;
   margin-bottom: 0;
   font-size: 1.4rem;
@@ -33,7 +32,12 @@ const AddMartixButton: FC<AddMartixButtonProps> = ({
     );
   };
 
-  return <Button onClick={addNewMartixHandler}>新增欄位</Button>;
+  return (
+    <Button onClick={addNewMartixHandler}>
+      <ButtonText>新增欄位</ButtonText>
+      <CustomButtonIcon />
+    </Button>
+  );
 };
 
 export default AddMartixButton;

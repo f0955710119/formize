@@ -4,31 +4,7 @@ import { questionActions } from "../../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import styled from "styled-components";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-
-export const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.4rem 0.8rem;
-  margin-bottom: 2rem;
-  width: 16rem;
-  height: 4rem;
-  border-radius: 30px;
-  background-color: #f90;
-  cursor: pointer;
-`;
-
-const ButtonText = styled.div`
-  margin-right: 1rem;
-  font-size: 1.8rem;
-  color: #fff;
-`;
-
-const CustomButtonIcon = styled(AddCircleRoundedIcon)`
-  width: 1.8rem;
-  height: 80%;
-  fill: #fff;
-`;
+import { ButtonWrapper, ButtonText, CustomButtonIcon } from "./Button";
 
 interface AddOptionButtonProps {
   id: string;

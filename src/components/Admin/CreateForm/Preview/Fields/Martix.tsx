@@ -1,9 +1,11 @@
 import { FC, useState, useRef } from "react";
 import styled from "styled-components";
-import { ButtonWrapper } from "./UI/AddOptionButton";
+import AddOptionButton from "./UI/AddOptionButton";
+import { ButtonWrapper } from "./UI/Button";
 import AddMartixButton from "./Martix/AddMartixButton";
 import MartixTitle from "./Martix/MartixTitle";
 import MartixRadio from "./Martix/MartixRadio";
+import MartixOptionTitle from "./Martix/MartixOptionTitle";
 import helper from "../../../../../utils/helper";
 
 const MartixWrapper = styled.div`
@@ -20,13 +22,8 @@ const FlexAlignCenter = styled.div`
 
 const MartixTitleWrapper = styled(FlexAlignCenter)`
   justify-content: end;
-  margin-bottom: 1rem;
+  margin: 2rem 0;
   width: 100%;
-`;
-
-const MartixOptionTitle = styled.span`
-  width: 50%;
-  font-size: 1.8rem;
 `;
 
 const MartixOptions = styled(FlexAlignCenter)`
@@ -57,13 +54,18 @@ const Martix: FC<MartixProps> = ({ id, options, martixs }: MartixProps) => {
           />
         ))}
       </MartixTitleWrapper>
-      {options.map((option) => (
+      <AddOptionButton id={id} options={options} />
+      {options.map((option, i) => (
         <MartixOptions key={helper.generateId(6)}>
-          <MartixOptionTitle>{option}</MartixOptionTitle>
+          <MartixOptionTitle
+            id={id}
+            index={i}
+            option={option}
+            options={options}
+          />
           <MartixRadio id={id} martixs={martixs} />
         </MartixOptions>
       ))}
-      <button>新增選項列表</button>
     </MartixWrapper>
   );
 };

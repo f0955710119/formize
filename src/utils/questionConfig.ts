@@ -83,7 +83,7 @@ export default {
     placeholder: "",
     page: 1,
     type: "5",
-    options: ["點擊輸入選項名稱"],
+    options: ["選項1"],
     martixs: ["預設欄位1", "預設欄位2", "預設欄位3"],
     validations: {
       required: false,

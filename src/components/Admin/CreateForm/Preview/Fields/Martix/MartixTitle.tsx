@@ -16,7 +16,7 @@ const MartixTitleWrapper = styled.div`
 `;
 
 const MartixTitleText = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   text-align: center;
   margin-right: 0.4rem;
 `;
