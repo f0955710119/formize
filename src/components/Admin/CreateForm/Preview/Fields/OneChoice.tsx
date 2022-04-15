@@ -1,15 +1,8 @@
 import { FC } from "react";
 import styled from "styled-components";
-import OneChoiceOptionItem from "./OneChoiceOptionItem";
+import ChoiceOptionItem, { ChoiceWrapper } from "./ChoiceOptionItem";
 import AddOptionButton from "./UI/AddOptionButton";
 import helper from "../../../../../utils/helper";
-
-const ChoiceWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 100%;
-`;
 
 interface OneChoiceProps {
   id: string;
@@ -22,7 +15,7 @@ const OneChoice: FC<OneChoiceProps> = ({ id, options }: OneChoiceProps) => {
       <AddOptionButton id={id} options={options} />
       <ChoiceWrapper>
         {options.map((option, i) => (
-          <OneChoiceOptionItem
+          <ChoiceOptionItem
             key={helper.generateId(6)}
             id={id}
             index={i}
@@ -37,6 +30,7 @@ const OneChoice: FC<OneChoiceProps> = ({ id, options }: OneChoiceProps) => {
 
 export default OneChoice;
 
+// 單選的格式
 // <FormControl>
 //   <RadioGroup
 //     row
@@ -53,3 +47,19 @@ export default OneChoice;
 //     ))}
 //   </RadioGroup>
 // </FormControl>
+
+// 多選的格式
+{
+  /* <MultiChoiceWrapper>
+      {options.map((option) => (
+        <FormControlLabel
+          key={helper.generateId(6)}
+          control={
+            <Checkbox icon={<CircleIcon />} checkedIcon={<CircleIcon />} />
+          }
+          label={option}
+          labelPlacement="end"
+        />
+      ))}
+    </MultiChoiceWrapper> */
+}

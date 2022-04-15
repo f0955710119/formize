@@ -5,7 +5,7 @@ import questionActionType from "../../../../../../store/actionType/questionActio
 import styled from "styled-components";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

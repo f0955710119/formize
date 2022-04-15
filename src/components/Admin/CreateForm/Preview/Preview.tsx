@@ -7,7 +7,7 @@ import type { Question } from "../../../../store/slice/questionSlice";
 import OneLineText from "./Fields/OneLineText";
 import MultiLineText from "./Fields/MultiLineText";
 import Introduction from "./Fields/Introduction";
-import OneChoice from "./Fields/OneChoice";
+import Choice from "./Fields/OneChoice";
 import MultiChoice from "./Fields/MultiChoice";
 import Martix from "./Fields/Martix";
 import Slider from "./Fields/Slider";
@@ -65,12 +65,22 @@ const generateResponseQuestion = (type: string, question: Question) => {
       return <Introduction />;
     case "3":
       if (question.options) {
-        return <OneChoice id={question.id} options={question.options} />;
+        return <Choice id={question.id} options={question.options} />;
       }
     case "4":
-      return <MultiChoice />;
+      if (question.options) {
+        return <Choice id={question.id} options={question.options} />;
+      }
     case "5":
-      return <Martix />;
+      if (question.options && question.martixs) {
+        return (
+          <Martix
+            id={question.id}
+            options={question.options}
+            martixs={question.martixs}
+          />
+        );
+      }
     case "6":
       return <OneLineText />;
     case "7":

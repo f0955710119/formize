@@ -7,6 +7,13 @@ import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 import { TextField } from "@mui/material";
 import helper from "../../../../../utils/helper";
 
+export const ChoiceWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+`;
+
 const OptionItemWrapper = styled.div`
   display: flex;
   align-items: center;

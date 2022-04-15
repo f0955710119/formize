@@ -1,11 +1,10 @@
-import { FC } from "react";
+import { FC, useState, useRef } from "react";
 import styled from "styled-components";
-// import { FormControlLabel, Checkbox } from "@mui/material";
-import CircleIcon from "@mui/icons-material/Circle";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
+import { ButtonWrapper } from "./UI/AddOptionButton";
+import AddMartixButton from "./Martix/AddMartixButton";
+import MartixTitle from "./Martix/MartixTitle";
+import MartixRadio from "./Martix/MartixRadio";
+import helper from "../../../../../utils/helper";
 
 const MartixWrapper = styled.div`
   display: flex;
@@ -21,11 +20,7 @@ const FlexAlignCenter = styled.div`
 
 const MartixTitleWrapper = styled(FlexAlignCenter)`
   justify-content: end;
-`;
-
-const MartixTitle = styled.div`
-  width: calc(33% / 3);
-  text-align: center;
+  margin-bottom: 1rem;
 `;
 
 const MartixOptionTitle = styled.span`
@@ -38,52 +33,30 @@ const MartixOptions = styled(FlexAlignCenter)`
   margin-bottom: 1rem;
 `;
 
-const Martix: FC = () => {
+interface MartixProps {
+  id: string;
+  options: string[];
+  martixs: string[];
+}
+
+const Martix: FC<MartixProps> = ({ id, options, martixs }: MartixProps) => {
+  // 之後樣式用綁ref的方式去得到title的width值，來改變選項的位置 > window.getComputedStyle(document.querySelector('#mainbar')).width
   return (
     <MartixWrapper>
+      <ButtonWrapper>開啟預設欄位清單</ButtonWrapper>
       <MartixTitleWrapper>
-        {/* 要能新增 */}
-        <MartixTitle>1</MartixTitle>
-        <MartixTitle>2</MartixTitle>
-        <MartixTitle>3</MartixTitle>
+        <AddMartixButton id={id} martixs={martixs} />
+        {martixs.map((martix, i) => (
+          <MartixTitle key={i} id={id} martix={martix} />
+        ))}
       </MartixTitleWrapper>
-      <MartixOptions>
-        <MartixOptionTitle>測試題目</MartixOptionTitle>
-        {/* 這邊一樣要能新增 */}
-        <FormControl>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-          >
-            <FormControlLabel
-              value="female"
-              control={<Radio />}
-              label="Female"
-            />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
-          </RadioGroup>
-        </FormControl>
-      </MartixOptions>
-      <MartixOptions>
-        <MartixOptionTitle>測試題目</MartixOptionTitle>
-        <FormControl>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-          >
-            <FormControlLabel
-              value="female"
-              control={<Radio />}
-              label="Female"
-            />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
-          </RadioGroup>
-        </FormControl>
-      </MartixOptions>
+      {options.map((option) => (
+        <MartixOptions key={helper.generateId(6)}>
+          <MartixOptionTitle>{option}</MartixOptionTitle>
+          <MartixRadio id={id} martixs={martixs} />
+        </MartixOptions>
+      ))}
+      <button>新增選項列表</button>
     </MartixWrapper>
   );
 };
