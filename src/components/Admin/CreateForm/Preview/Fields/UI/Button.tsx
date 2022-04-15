@@ -5,10 +5,10 @@ export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.4rem 0.8rem;
+  padding: 0 0.8rem;
   margin-bottom: 2rem;
   width: 16rem;
-  height: 4rem;
+  height: 2.4rem;
   border-radius: 30px;
   background-color: #f90;
   cursor: pointer;

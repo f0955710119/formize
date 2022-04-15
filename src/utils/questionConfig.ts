@@ -144,8 +144,8 @@ export default {
     validations: {
       required: false,
       multipleDate: false,
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: null,
+      endDate: null,
     },
   },
 };

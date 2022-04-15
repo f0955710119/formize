@@ -62,7 +62,7 @@ const generateResponseQuestion = (type: string, question: Question) => {
     case "1":
       return <MultiLineText />;
     case "2":
-      return <Introduction />;
+      return <Introduction id={question.id} title={question.title} />;
     case "3":
       if (question.options) {
         return <Choice id={question.id} options={question.options} />;

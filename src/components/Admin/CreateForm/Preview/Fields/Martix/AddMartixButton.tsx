@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { ButtonWrapper, ButtonText, CustomButtonIcon } from "../UI/Button";
 
 const Button = styled(ButtonWrapper)`
-  /* height: 2rem; */
+  height: 2.4rem;
   background-color: #f55;
   margin-bottom: 0;
   font-size: 1.4rem;

@@ -13,8 +13,8 @@ export interface Validation {
   maxSelected?: number;
   maxMartixTitleQuantity?: number;
   multipleDate?: boolean;
-  startDate?: Date;
-  endDate?: Date;
+  startDate?: Date | null;
+  endDate?: Date | null;
 }
 
 export interface Question {

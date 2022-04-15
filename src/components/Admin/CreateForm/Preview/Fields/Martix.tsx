@@ -1,7 +1,7 @@
 import { FC, useState, useRef } from "react";
 import styled from "styled-components";
 import AddOptionButton from "./UI/AddOptionButton";
-import { ButtonWrapper } from "./UI/Button";
+import { ButtonWrapper, ButtonText } from "./UI/Button";
 import AddMartixButton from "./Martix/AddMartixButton";
 import MartixTitle from "./Martix/MartixTitle";
 import MartixRadio from "./Martix/MartixRadio";
@@ -31,6 +31,11 @@ const MartixOptions = styled(FlexAlignCenter)`
   margin-bottom: 1rem;
 `;
 
+const OpenDefaultMartixTitleButton = styled(ButtonWrapper)`
+  background-color: #f99;
+  width: 20rem;
+`;
+
 interface MartixProps {
   id: string;
   options: string[];
@@ -41,7 +46,9 @@ const Martix: FC<MartixProps> = ({ id, options, martixs }: MartixProps) => {
   // 之後樣式用綁ref的方式去得到title的width值，來改變選項的位置 > window.getComputedStyle(document.querySelector('#mainbar')).width
   return (
     <MartixWrapper>
-      <ButtonWrapper>開啟預設欄位清單</ButtonWrapper>
+      <OpenDefaultMartixTitleButton>
+        <ButtonText>開啟預設欄位清單</ButtonText>
+      </OpenDefaultMartixTitleButton>
       <AddMartixButton id={id} martixs={martixs} />
       <MartixTitleWrapper>
         {martixs.map((martix, i) => (
