@@ -14,10 +14,25 @@ const TitleInputWrapper = styled.div`
 
 const CustomTextField = styled(TextField)`
   width: 100%;
-  & input {
-    width: 100%;
+  color: ${(props) => props.theme.title};
+
+  & .MuiFilledInput-root {
+    background-color: transparent;
     font-size: 2rem;
+    color: ${(props) => props.theme.title};
+
+    &::before {
+      border-bottom: 2px solid ${(props) => props.theme.title};
+    }
+  }
+  & .MuiFilledInput-input {
+    width: 100%;
     line-break: strict;
+    /* margin-bottom: 1rem; */
+  }
+
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root::after {
+    border-bottom: 2px solid ${(props) => props.theme.title};
   }
 `;
 
@@ -25,6 +40,7 @@ const Heading = styled.div`
   width: 100%;
   font-size: 2rem;
   line-break: strict;
+  color: ${(props) => props.theme.title};
 
   &:not(:last-child) {
     margin-bottom: 3rem;
@@ -47,7 +63,7 @@ const EditableTitle: FC<EditableTitleProps> = ({
     <TitleInputWrapper>
       <CustomTextField
         label=""
-        variant="standard"
+        variant="filled"
         value={editingTitle}
         onChange={(event) => setEditingTitle(event.target.value)}
       />

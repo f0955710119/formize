@@ -7,6 +7,21 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
+const CustomTextField = styled(TextField)`
+  color: ${(props) => props.theme.note};
+  & div,
+  & fieldset,
+  & input {
+    border: none;
+  }
+
+  border: 2px solid transparent;
+  & .Mui-focused {
+    transition: border 0.3s;
+    border: 2px solid ${(props) => props.theme.title};
+  }
+`;
+
 interface DateProps {
   id: string;
   title: string;
@@ -23,7 +38,7 @@ const Date: FC = () => {
         onChange={(newValue) => {
           setValue(newValue as Date);
         }}
-        renderInput={(params) => <TextField {...params} />}
+        renderInput={(params) => <CustomTextField {...(params as any)} />}
       />
     </LocalizationProvider>
   );

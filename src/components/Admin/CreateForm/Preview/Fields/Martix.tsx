@@ -32,7 +32,7 @@ const MartixOptions = styled(FlexAlignCenter)`
 `;
 
 const OpenDefaultMartixTitleButton = styled(ButtonWrapper)`
-  background-color: #f99;
+  background-color: ${(props) => props.theme.addOption};
   width: 20rem;
 `;
 

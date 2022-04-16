@@ -22,12 +22,13 @@ const OptionItemWrapper = styled.div`
   padding: 0.4rem;
   width: 30%;
   height: 6rem;
-  border: 1px solid #aaa;
+  border: 2px solid ${(props) => props.theme.optionText};
 `;
 
 const OptionItemText = styled.div`
   width: 70%;
   font-size: 1.8rem;
+  color: ${(props) => props.theme.optionText};
 `;
 const OptionDeleteButtonWrapper = styled.div`
   margin-right: 10%;
@@ -40,6 +41,7 @@ const CustomDeleteIcon = styled(DeleteSharpIcon)`
   height: 100%;
   border-radius: 30px;
   cursor: pointer;
+  fill: ${(props) => props.theme.optionText};
 `;
 
 const CustomTextField = styled(TextField)`
@@ -51,6 +53,7 @@ const CustomTextField = styled(TextField)`
     font-size: 1.8rem;
     width: 100%;
     height: 100%;
+    color: ${(props) => props.theme.optionText};
   }
 
   & input {

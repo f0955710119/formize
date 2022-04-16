@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { ThemeProvider } from "styled-components";
+import useGetTheme from "../../../src/hooks/useGetTheme";
 import Head from "next/head";
 import type { NextPage } from "next";
 import Header from "../../../src/components/UI/Header";
@@ -9,8 +11,9 @@ import StyleDesign from "../../../src/components/Admin/CreateForm/StyleDesign/St
 import DeployFormSection from "../../../src/components/Admin/CreateForm/DeployForm/DeployFormSection";
 const New: NextPage = () => {
   const [currentStep, setCurrentStep] = useState<number>(2);
+  const theme = useGetTheme();
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Head>
         <title>Formize - 問卷進行式</title>
         <meta name="description" content="Formize - 問卷進行式" />
@@ -21,7 +24,7 @@ const New: NextPage = () => {
       {currentStep === 2 && <QuestionDesign setCurrentStep={setCurrentStep} />}
       {currentStep === 3 && <StyleDesign setCurrentStep={setCurrentStep} />}
       {currentStep === 4 && <DeployFormSection />}
-    </>
+    </ThemeProvider>
   );
 };
 

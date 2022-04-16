@@ -1,15 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import reducers from "../reducer/styleReducer";
 
+import type { StyledComponentTheme } from "../theme/theme";
+import themes from "../theme/theme";
+
 export interface StyleState {
-  theme: number;
+  theme: StyledComponentTheme;
   fontTraditional: number;
   fontEnglish: number;
   backgroundImages: string[];
 }
 
 const initialState: StyleState = {
-  theme: 0,
+  theme: themes.main,
   fontTraditional: 0,
   fontEnglish: 0,
   backgroundImages: [""],

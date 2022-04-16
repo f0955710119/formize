@@ -8,20 +8,20 @@ export const ButtonWrapper = styled.div`
   padding: 0 0.8rem;
   margin-bottom: 2rem;
   width: 16rem;
-  height: 2.4rem;
+  height: 3.2rem;
   border-radius: 30px;
-  background-color: #f90;
+  background-color: ${(props) => props.theme.addOption};
   cursor: pointer;
 `;
 
 export const ButtonText = styled.div`
   margin-right: 1rem;
   font-size: 1.8rem;
-  color: #fff;
+  color: ${(props) => props.theme.title};
 `;
 
 export const CustomButtonIcon = styled(AddCircleRoundedIcon)`
   width: 1.8rem;
   height: 80%;
-  fill: #fff;
+  fill: ${(props) => props.theme.title};
 `;

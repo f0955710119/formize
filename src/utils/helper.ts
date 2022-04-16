@@ -1,4 +1,5 @@
 import type { Question } from "../store/slice/questionSlice";
+import { StyledComponentTheme } from "../store/theme/theme";
 import questionConfig from "./questionConfig";
 
 interface CheckStringName {

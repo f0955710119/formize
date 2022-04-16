@@ -10,6 +10,7 @@ const SliderWrapper = styled.div`
 `;
 const CustomSlider = styled(UISlider)`
   width: 80%;
+  color: ${(props) => props.theme.title};
 `;
 
 interface SliderProps {
