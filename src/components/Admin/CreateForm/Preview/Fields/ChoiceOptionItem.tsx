@@ -84,6 +84,17 @@ const OptionItem: FC<OptionItemProps> = ({
   const [editingOptionText, setEditingOptionText] = useState<string>(option);
   const dispatch = useAppDispatch();
 
+  const deleteOptionHandler = (index: number) => {
+    const updateOptinos = options.filter((_, i) => i !== index);
+    dispatch(
+      questionActions.updateSiglePropOfQuestion({
+        id,
+        actionType: questionActionType.OPTIONS,
+        stringArr: updateOptinos,
+      })
+    );
+  };
+
   const saveEditedTextHandler = () => {
     const checkNameUtilObj = {
       stringArr: options,
@@ -129,10 +140,14 @@ const OptionItem: FC<OptionItemProps> = ({
     </OptionItemWrapper>
   ) : (
     <OptionItemWrapper>
-      <OptionDeleteButtonWrapper>
+      <OptionDeleteButtonWrapper onClick={() => deleteOptionHandler(index)}>
         <CustomDeleteIcon />
       </OptionDeleteButtonWrapper>
-      <OptionItemText onClick={() => setHasClickedOptionText(true)}>
+      <OptionItemText
+        onClick={() => {
+          setHasClickedOptionText(true);
+        }}
+      >
         {option}
       </OptionItemText>
     </OptionItemWrapper>

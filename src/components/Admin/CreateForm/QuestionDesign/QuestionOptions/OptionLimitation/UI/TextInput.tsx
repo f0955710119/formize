@@ -97,7 +97,6 @@ const TextInput: FC<TextInputProps> = ({
   );
 
   useEffect(() => {
-    console.log(willSwitcEditinghQuestion);
     if (!willSwitcEditinghQuestion) return;
     setInputValue(getInputValue(validationType));
     dispatch(questionActions.willChangeLimitationValue(false));

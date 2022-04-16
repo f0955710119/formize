@@ -18,7 +18,6 @@ const addNewQuestion: CaseReducer<QuestionState, PayloadAction<Question>> = (
   state,
   action
 ) => {
-  console.log(action.payload);
   state.questions.push(action.payload);
 };
 

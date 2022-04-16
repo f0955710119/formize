@@ -5,6 +5,7 @@ import styleActionType from "../actionType/styleActionType";
 const changeStyle: CaseReducer<
   StyleState,
   PayloadAction<{
+    actionType: string;
     theme?: number;
     fontTraditional?: number;
     fontEnglish?: number;
@@ -12,7 +13,7 @@ const changeStyle: CaseReducer<
   }>
 > = (state, action) => {
   try {
-    switch (action.type) {
+    switch (action.payload.actionType) {
       case styleActionType.THEME: {
         if (action.payload.theme) {
           return {
