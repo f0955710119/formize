@@ -132,12 +132,16 @@ export default {
   // BUG: router 通常而且之後不會這樣用，先用any帶過
   checkAuthState(router: any) {
     const auth = this.getSignAuth();
-    return onAuthStateChanged(auth, (user) => {
-      if (user) {
-        router.push("/admin");
-        return;
-      }
-      console.log("未登入狀態");
+    return new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          resolve(user.uid);
+          router.push("/admin");
+          return;
+        }
+        reject(null);
+      });
+      unsubscribe();
     });
   },
   async createUser(uid: string) {

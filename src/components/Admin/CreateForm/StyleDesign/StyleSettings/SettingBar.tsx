@@ -1,5 +1,6 @@
 // Card / Button ( router ) / O[tion hEADER] / able to scroll
 import { FC, useState } from "react";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import styled from "styled-components";
 import Layout from "../../UI/Layout";
@@ -86,6 +87,7 @@ const SettingBar: FC<SettingBarProps> = ({
 }: SettingBarProps) => {
   const [stylingOption, setStylingOption] = useState<number>(0);
   const dispatch = useAppDispatch();
+  const { setting, style, question } = useAppSelector((state) => state);
 
   const switchThemeHandler = (title: string) => {
     switch (title) {
@@ -93,7 +95,7 @@ const SettingBar: FC<SettingBarProps> = ({
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.THEME,
-            theme: styleConfig.MAIN,
+            theme: styleConfig.MAIN_CODE,
           })
         );
         break;
@@ -103,7 +105,7 @@ const SettingBar: FC<SettingBarProps> = ({
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.THEME,
-            theme: styleConfig.YELLOW,
+            theme: styleConfig.YELLOW_CODE,
           })
         );
         break;
@@ -113,7 +115,7 @@ const SettingBar: FC<SettingBarProps> = ({
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.THEME,
-            theme: styleConfig.GREEN,
+            theme: styleConfig.GREEN_CODE,
           })
         );
         break;
@@ -123,7 +125,7 @@ const SettingBar: FC<SettingBarProps> = ({
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.FONT,
-            font: styleConfig.OPENHUNNINN,
+            font: styleConfig.OPENHUNNINN_CODE,
           })
         );
         break;
@@ -133,7 +135,7 @@ const SettingBar: FC<SettingBarProps> = ({
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.FONT,
-            font: styleConfig.HANAMINA,
+            font: styleConfig.HANAMINA_CODE,
           })
         );
         break;
@@ -143,7 +145,7 @@ const SettingBar: FC<SettingBarProps> = ({
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.FONT,
-            font: styleConfig.TAIPEISANSTCBOLD,
+            font: styleConfig.TAIPEISANSTCBOLD_CODE,
           })
         );
         break;

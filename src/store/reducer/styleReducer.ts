@@ -19,7 +19,7 @@ const changeStyle: CaseReducer<
         if (action.payload.theme) {
           return {
             ...state,
-            theme: themes[action.payload.theme],
+            theme: action.payload.theme,
           };
         }
       }

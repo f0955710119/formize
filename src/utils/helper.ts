@@ -65,4 +65,36 @@ export default {
       .filter((key) => key.includes(includedString))
       .map((key: string) => styleConfig[key]);
   },
+  generateResponseThemePalette(themeCode: string) {
+    switch (themeCode) {
+      case "0": {
+        return styleConfig.MAIN;
+      }
+      case "1": {
+        return styleConfig.YELLOW;
+      }
+      case "2": {
+        return styleConfig.GREEN;
+      }
+      default: {
+        throw "沒有找到對應的顏色主題包";
+      }
+    }
+  },
+  generateResposneThemeFontFamily(fontCode: string) {
+    switch (fontCode) {
+      case "0": {
+        return styleConfig.OPENHUNNINN;
+      }
+      case "1": {
+        return styleConfig.HANAMINA;
+      }
+      case "2": {
+        return styleConfig.TAIPEISANSTCBOLD;
+      }
+      default: {
+        throw "沒有找到對應的顏色主題包";
+      }
+    }
+  },
 };

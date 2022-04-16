@@ -8,6 +8,8 @@ interface StyleConfig {
 //   YELLOW: 'yellow',
 //   BLACK: 'black'
 // };
+
+// 用來存取對應的 key 值 跟 呈現名稱
 const styleConfig: StyleConfig = {
   MAIN: "main",
   YELLOW: "yellow",
@@ -15,12 +17,18 @@ const styleConfig: StyleConfig = {
   MAIN_NAME: "沉穩大地",
   YELLOW_NAME: "歡樂光芒",
   GREEN_NAME: "墨綠森林",
-  OPENHUNNINN: "jf-openhuninn",
-  HANAMINA: "HanaMinA",
-  TAIPEISANSTCBOLD: "TaipeiSansTC-Bold",
+  MAIN_CODE: "0",
+  YELLOW_CODE: "1",
+  GREEN_CODE: "2",
+  OPENHUNNINN: "jfOpenhuninn",
+  HANAMINA: "hanaMinA",
+  TAIPEISANSTCBOLD: "taipeiSansTCBold",
   OPENHUNNINN_FONT: "麻吉粉圓",
   HANAMINA_FONT: "花園明朝",
   TAIPEISANSTCBOLD_FONT: "臺北黑體",
+  OPENHUNNINN_CODE: "0",
+  HANAMINA_CODE: "1",
+  TAIPEISANSTCBOLD_CODE: "2",
 };
 
 export default styleConfig;

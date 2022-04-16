@@ -1,19 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import reducers from "../reducer/styleReducer";
-
-import type { StyledComponentTheme } from "../theme/theme";
-import themes from "../theme/theme";
-import fonts from "../theme/font";
+import styleConfig from "../../configs/styleConfig";
 
 export interface StyleState {
-  theme: StyledComponentTheme;
+  theme: string;
   font: string;
   backgroundImages: string[];
 }
 
 const initialState: StyleState = {
-  theme: themes.main,
-  font: fonts.default,
+  theme: styleConfig.MAIN_CODE,
+  font: styleConfig.OPENHUNNINN_CODE,
   backgroundImages: [""],
 };
 

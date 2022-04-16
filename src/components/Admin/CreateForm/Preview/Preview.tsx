@@ -5,6 +5,7 @@ import styled from "styled-components";
 import QuestionField from "./QuestionField";
 
 import Layout from "../UI/Layout";
+import helper from "../../../../utils/helper";
 
 interface PreviewLayoutProps {
   fontFamily: string;
@@ -12,15 +13,15 @@ interface PreviewLayoutProps {
 
 const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
   @font-face {
-    font-family: "jf-openhuninn";
+    font-family: "jfOpenhuninn";
     src: url("/fonts/jf-openhuninn-1.1.ttf") format("truetype");
   }
   @font-face {
-    font-family: "HanaMinA";
+    font-family: "hanaMinA";
     src: url("/fonts/HanaMinA.ttf") format("truetype");
   }
   @font-face {
-    font-family: "TaipeiSansTC-Bold";
+    font-family: "taipeiSansTCBold";
     src: url("/fonts/TaipeiSansTCBeta-Bold.ttf") format("truetype");
   }
 
@@ -56,8 +57,9 @@ const QuestionWrapper = styled.div`
 const Preview: FC = () => {
   const { questions } = useAppSelector((state) => state.question);
   const { font } = useAppSelector((state) => state.style);
+  const fontTheme = helper.generateResposneThemeFontFamily(font);
   return (
-    <PreviewLayout fontFamily={font}>
+    <PreviewLayout fontFamily={fontTheme}>
       <QuestionWrapper>
         {questions.map((question) => (
           <QuestionField question={question} key={question.id} />

@@ -1,11 +1,9 @@
-import { useEffect, useRef } from "react";
-import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import Head from "next/head";
 import styled from "styled-components";
 
 import LoginForm from "../src/components/LandingPage/LoginForm";
-import firebase from "../src/utils/firebase";
+import useLoginCheck from "../src/hooks/useLoginCheck";
 
 const DefalutMain = styled.main`
   width: 100vw;
@@ -17,14 +15,7 @@ const DefalutMain = styled.main`
 `;
 
 const Home: NextPage = () => {
-  const isLoading = useRef<boolean>(true);
-  const router = useRouter();
-  useEffect(() => {
-    if (!isLoading.current) return;
-    isLoading.current = false;
-    const unsubscribeAuth = firebase.checkAuthState(router);
-    return () => unsubscribeAuth();
-  }, []);
+  useLoginCheck();
   return (
     <div>
       <Head>
