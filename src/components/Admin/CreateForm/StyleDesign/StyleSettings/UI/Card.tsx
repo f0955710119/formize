@@ -26,11 +26,16 @@ const CardTitle = styled.div`
 
 interface CardProps {
   title: string;
+  dispatchHandler?: (title: string) => void;
 }
 
-const Card: FC<CardProps> = ({ title }: CardProps) => {
+const Card: FC<CardProps> = ({ title, dispatchHandler }: CardProps) => {
   return (
-    <CardWrapper>
+    <CardWrapper
+      onClick={() => {
+        dispatchHandler && dispatchHandler(title);
+      }}
+    >
       <CardItem />
       <CardTitle>{title}</CardTitle>
     </CardWrapper>

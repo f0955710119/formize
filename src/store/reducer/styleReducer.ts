@@ -16,6 +16,8 @@ const changeStyle: CaseReducer<
   }>
 > = (state, action) => {
   try {
+    console.log(action.payload.actionType);
+    console.log(action.payload.theme);
     switch (action.payload.actionType) {
       case styleActionType.THEME: {
         if (action.payload.theme) {

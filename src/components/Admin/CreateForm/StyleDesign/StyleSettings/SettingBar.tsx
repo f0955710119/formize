@@ -1,10 +1,15 @@
 // Card / Button ( router ) / O[tion hEADER] / able to scroll
 import { FC, useState } from "react";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import styled from "styled-components";
 import Layout from "../../UI/Layout";
 import Card from "./UI/Card";
 import HeaderItem from "./HeaderItem";
 import Button from "../../UI/Button";
+import styleConfig from "../../../../../configs/styleConfig";
+import { styleActions } from "../../../../../store/slice/styleSlice";
+import themes from "../../../../../store/theme/theme";
+import styleActionType from "../../../../../store/actionType/styleActionType";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -67,7 +72,9 @@ const StyleCTAButton = styled(Button)`
 `;
 
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
-const defaultThemeList = ["1111", "1111", "1111"];
+const defaultThemeList = Object.keys(styleConfig)
+  .filter((key) => key.includes("NAME"))
+  .map((key: string) => styleConfig[key]);
 const defaultFontList = [
   "華康少女",
   "新細明體",
@@ -92,6 +99,46 @@ const SettingBar: FC<SettingBarProps> = ({
   setCurrentStep,
 }: SettingBarProps) => {
   const [stylingOption, setStylingOption] = useState<number>(0);
+  const dispatch = useAppDispatch();
+
+  const switchThemeHandler = (title: string) => {
+    switch (title) {
+      case styleConfig.MAIN_NAME: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.THEME,
+            theme: styleConfig.MAIN,
+          })
+        );
+        break;
+      }
+
+      case styleConfig.YELLOW_NAME: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.THEME,
+            theme: styleConfig.YELLOW,
+          })
+        );
+        break;
+      }
+
+      case styleConfig.GREEN_NAME: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.THEME,
+            theme: styleConfig.GREEN,
+          })
+        );
+        break;
+      }
+
+      default: {
+        throw "沒有這個類型的主題";
+      }
+    }
+  };
+
   return (
     <SettingLayout>
       <Header>
@@ -108,7 +155,11 @@ const SettingBar: FC<SettingBarProps> = ({
       {stylingOption === 0 && (
         <CardContainer>
           {defaultThemeList.map((themeTitle, i) => (
-            <Card title={themeTitle} key={i} />
+            <Card
+              title={themeTitle}
+              key={i}
+              dispatchHandler={switchThemeHandler}
+            />
           ))}
         </CardContainer>
       )}
