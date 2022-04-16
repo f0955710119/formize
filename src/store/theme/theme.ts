@@ -1,4 +1,4 @@
-export type Color = string;
+type Color = string;
 
 export interface StyledComponentTheme {
   title: Color;
@@ -11,20 +11,20 @@ export interface StyledComponentTheme {
   optionText: Color;
 }
 
-export interface Themes {
+interface Themes {
   [key: string]: StyledComponentTheme;
 }
 
 const themes: Themes = {
   main: {
-    title: "#5C4742",
-    note: "#A5978B",
+    title: "#381D2A",
+    note: "#FFA552",
     placeholder: "#c8c8c8",
-    option: "#5A2A27",
-    martix: "#5A2A27",
-    optionClicked: "#C4BBAF",
-    addOption: "#EFEFD0",
-    optionText: "#6c5955",
+    option: "#C4D6B0",
+    martix: "#C4D6B0",
+    optionClicked: "#BA5624",
+    addOption: "#FCDE9C",
+    optionText: "#381D2A",
   },
   yellow: {
     title: "#FF9900",

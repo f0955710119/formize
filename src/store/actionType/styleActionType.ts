@@ -1,6 +1,5 @@
 export default {
   THEME: "theme",
-  FONT_TRADITIONAL: "fontTraditional",
-  FONT_ENGLISH: "fontEnglish",
+  FONT: "font",
   BACKGROUND_IMAGES: "backgroundImages",
 };

@@ -3,18 +3,17 @@ import reducers from "../reducer/styleReducer";
 
 import type { StyledComponentTheme } from "../theme/theme";
 import themes from "../theme/theme";
+import fonts from "../theme/font";
 
 export interface StyleState {
   theme: StyledComponentTheme;
-  fontTraditional: number;
-  fontEnglish: number;
+  font: string;
   backgroundImages: string[];
 }
 
 const initialState: StyleState = {
   theme: themes.main,
-  fontTraditional: 0,
-  fontEnglish: 0,
+  font: fonts.default,
   backgroundImages: [""],
 };
 

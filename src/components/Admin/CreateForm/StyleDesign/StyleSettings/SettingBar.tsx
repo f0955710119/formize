@@ -10,6 +10,7 @@ import styleConfig from "../../../../../configs/styleConfig";
 import { styleActions } from "../../../../../store/slice/styleSlice";
 import themes from "../../../../../store/theme/theme";
 import styleActionType from "../../../../../store/actionType/styleActionType";
+import helper from "../../../../../utils/helper";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -72,23 +73,8 @@ const StyleCTAButton = styled(Button)`
 `;
 
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
-const defaultThemeList = Object.keys(styleConfig)
-  .filter((key) => key.includes("NAME"))
-  .map((key: string) => styleConfig[key]);
-const defaultFontList = [
-  "華康少女",
-  "新細明體",
-  "開源黑體",
-  "華康少女",
-  "新細明體",
-  "開源黑體",
-  "華康少女",
-  "新細明體",
-  "開源黑體",
-  "華康少女",
-  "新細明體",
-  "開源黑體",
-];
+const defaultThemeList = helper.generateStyleKeys("NAME");
+const defaultFontList = helper.generateStyleKeys("FONT");
 const defaultBackgroundList = ["黃圓圓", "黃圓圓", "黃圓圓"];
 
 interface SettingBarProps {
@@ -133,6 +119,36 @@ const SettingBar: FC<SettingBarProps> = ({
         break;
       }
 
+      case styleConfig.OPENHUNNINN_FONT: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.FONT,
+            font: styleConfig.OPENHUNNINN,
+          })
+        );
+        break;
+      }
+
+      case styleConfig.HANAMINA_FONT: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.FONT,
+            font: styleConfig.HANAMINA,
+          })
+        );
+        break;
+      }
+
+      case styleConfig.TAIPEISANSTCBOLD_FONT: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.FONT,
+            font: styleConfig.TAIPEISANSTCBOLD,
+          })
+        );
+        break;
+      }
+
       default: {
         throw "沒有這個類型的主題";
       }
@@ -166,7 +182,11 @@ const SettingBar: FC<SettingBarProps> = ({
       {stylingOption === 1 && (
         <CardContainer>
           {defaultFontList.map((fontTitle, i) => (
-            <Card title={fontTitle} key={i} />
+            <Card
+              title={fontTitle}
+              key={i}
+              dispatchHandler={switchThemeHandler}
+            />
           ))}
         </CardContainer>
       )}

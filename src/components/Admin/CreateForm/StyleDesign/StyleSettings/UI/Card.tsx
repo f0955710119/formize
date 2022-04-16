@@ -16,12 +16,13 @@ const CardItem = styled.div`
   width: 100%;
   height: 10rem;
   background-color: #aaa; // 之後變成圖片
+  margin-bottom: 1rem;
 `;
 
 const CardTitle = styled.div`
   width: 100%;
   height: 5rem;
-  font-size: 1.6rem;
+  font-size: 2rem;
 `;
 
 interface CardProps {

@@ -1,6 +1,7 @@
 import type { Question } from "../store/slice/questionSlice";
 import { StyledComponentTheme } from "../store/theme/theme";
 import questionConfig from "./questionConfig";
+import styleConfig from "../configs/styleConfig";
 
 interface CheckStringName {
   stringArr: string[];
@@ -58,5 +59,10 @@ export default {
   generateParseNumberTime(value: string, isStart: boolean = true) {
     const timer = isStart ? "000000" : "235959";
     return Number.parseInt(value.replaceAll("-", "") + timer);
+  },
+  generateStyleKeys(includedString: string) {
+    return Object.keys(styleConfig)
+      .filter((key) => key.includes(includedString))
+      .map((key: string) => styleConfig[key]);
   },
 };
