@@ -11,6 +11,12 @@ const SliderWrapper = styled.div`
 const CustomSlider = styled(UISlider)`
   width: 80%;
   color: ${(props) => props.theme.title};
+  & .css-187mznn-MuiSlider-root {
+    color: ${(props) => props.theme.title};
+  }
+  & .MuiSlider-rail {
+    color: ${(props) => props.theme.title};
+  }
 `;
 
 interface SliderProps {

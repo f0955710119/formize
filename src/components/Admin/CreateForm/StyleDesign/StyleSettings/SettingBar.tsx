@@ -12,6 +12,7 @@ import { styleActions } from "../../../../../store/slice/styleSlice";
 import themes from "../../../../../store/theme/theme";
 import styleActionType from "../../../../../store/actionType/styleActionType";
 import helper from "../../../../../utils/helper";
+import { userActions } from "../../../../../store/slice/userSlice";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -88,6 +89,7 @@ const SettingBar: FC<SettingBarProps> = ({
   const [stylingOption, setStylingOption] = useState<number>(0);
   const dispatch = useAppDispatch();
   const { setting, style, question } = useAppSelector((state) => state);
+  const { uid, editingGroupId } = useAppSelector((state) => state.user);
 
   const switchThemeHandler = (title: string) => {
     switch (title) {
@@ -200,7 +202,44 @@ const SettingBar: FC<SettingBarProps> = ({
         </CardContainer>
       )}
       <ButtonWrapper>
-        <Button buttonType="button" clickHandler={() => setCurrentStep(4)}>
+        <Button
+          buttonType="button"
+          clickHandler={async () => {
+            const sendingObj = {
+              uid,
+              groupId: editingGroupId,
+              ...setting,
+              questions: [...question.questions],
+              ...style,
+            };
+            try {
+              const response = await fetch("/api/admin/survey", {
+                method: "POST",
+                headers: {
+                  "Content-type": "application/json",
+                },
+                body: JSON.stringify(sendingObj),
+              });
+              const data = await response.json();
+              if (data.status !== "success") throw "上傳資料失敗";
+              dispatch(userActions.createNewSurveyId(data.data.survey_id));
+              setCurrentStep(4);
+            } catch (error: any) {
+              console.error(error.message);
+            }
+
+            // console.log(sendingObj);
+
+            // loading 畫面
+            // 發送資料給後端
+            // 確定後端的response是201表示發佈問卷成功
+            // response是ok狀態，且會回傳新問卷的 id
+            // 把 id 存進redux > dispatch(surveyActions.updateCreateSurveyRoute(data.survey_id)) > groupId 也存在survey
+            // 結束loading > 更換畫面狀態setCurrentStep(4)
+            // deploy頁的資料根據surveyId顯示
+            // 進到 /s/[surveyId]後，用 query 去打api
+          }}
+        >
           點我發佈問卷
         </Button>
         <Button buttonType="button" clickHandler={() => setCurrentStep(2)}>

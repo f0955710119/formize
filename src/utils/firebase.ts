@@ -211,4 +211,27 @@ export default {
     await setDoc(responseDocRef, reponse);
     return id;
   },
+
+  async getUserCertainGroupData() {
+    const db = this.getDataBase();
+    // const userDocRef = doc(db, "resposnes", "。1URQtcz040enlAXMTdH7");
+    const userDocRef = doc(db, "resposnes/1URQtcz040enlAXMTdH7");
+    const docSnap = await getDoc(userDocRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      return docSnap.data();
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  },
 };
+
+/*
+取得doc的幾種方式: 
+1. 直接寫入 db,collection名稱,docId
+const userDocRef = doc(db, "resposnes", "1URQtcz040enlAXMTdH7");
+2. 路徑直接寫到doc
+const userDocRef = doc(db, "resposnes/1URQtcz040enlAXMTdH7");
+*/

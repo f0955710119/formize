@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAppDispatch } from "./useAppDispatch";
-import { loginActions } from "../store/slice/loginSlice";
+import { userActions } from "../store/slice/userSlice";
 import firebase from "../utils/firebase";
 import { useRouter } from "next/router";
 
@@ -15,7 +15,7 @@ const useLoginCheck = () => {
         isLoading.current = false;
         const uid = await firebase.checkAuthState(router);
         if (typeof uid !== "string") throw "未登入狀態";
-        dispatch(loginActions.updateLoginState(uid));
+        dispatch(userActions.updateLoginState(uid));
       } catch (error: any) {
         console.error(error.message);
       }
