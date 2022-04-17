@@ -2,7 +2,7 @@ import { FC } from "react";
 import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
 import useGetQuestion from "../../../../../../hooks/useQuestion";
 
-import type { Question } from "../../../../../../store/slice/questionSlice";
+import type { Question } from "../../../../../../types/question";
 import RequiredSwitch from "./UI/RequiredSwitch";
 import TextInput from "./UI/TextInput";
 import LimitationWrapper from "./UI/LimitationWrapper";

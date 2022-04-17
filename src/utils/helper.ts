@@ -1,4 +1,4 @@
-import type { Question } from "../store/slice/questionSlice";
+import type { Question } from "../types/question";
 import { StyledComponentTheme } from "../store/theme/theme";
 import questionConfig from "./questionConfig";
 import styleConfig from "../configs/styleConfig";

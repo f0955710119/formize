@@ -4,10 +4,8 @@ import questionActionType from "../../../../../../store/actionType/questionActio
 import questionConfig from "../../../../../../utils/questionConfig";
 import useGetQuestion from "../../../../../../hooks/useQuestion";
 
-import {
-  Question,
-  questionActions,
-} from "../../../../../../store/slice/questionSlice";
+import { Question } from "../../../../../../types/question";
+import { questionActions } from "../../../../../../store/slice/questionSlice";
 
 import RequiredSwitch from "./UI/RequiredSwitch";
 import ComboBox from "./UI/ComboBox";

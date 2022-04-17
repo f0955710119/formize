@@ -1,14 +1,11 @@
-import { FC, MouseEventHandler } from "react";
+import { FC } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+
 import styled from "styled-components";
 import Layout from "../../UI/Layout";
 
 import questionConfig from "../../../../../utils/questionConfig";
-import {
-  Question,
-  questionActions,
-} from "../../../../../store/slice/questionSlice";
+import { Question } from "../../../../../types/question";
 
 import OptionItem from "./OptionItem";
 import { Heading } from "../../UI/SectionHeading";

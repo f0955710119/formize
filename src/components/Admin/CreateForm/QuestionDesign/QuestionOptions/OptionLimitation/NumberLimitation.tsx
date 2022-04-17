@@ -1,21 +1,18 @@
 import { FC } from "react";
-import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
+
+import type { Question } from "../../../../../../types/question";
+import type { Validation } from "../../../../../../types/validation";
+
+import useGetQuestion from "../../../../../../hooks/useQuestion";
+import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
+
 import RequiredSwitch from "./UI/RequiredSwitch";
 import TextInput from "./UI/TextInput";
 import LimitationWrapper from "./UI/LimitationWrapper";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
-import {
-  Question,
-  questionActions,
-  Validation,
-} from "../../../../../../store/slice/questionSlice";
-import questionActionType from "../../../../../../store/actionType/questionActionType";
+
 import questionConfig from "../../../../../../utils/questionConfig";
-import { useAppSelector } from "../../../../../../hooks/useAppSelector";
-import useGetQuestion from "../../../../../../hooks/useQuestion";
-import helper from "../../../../../../utils/helper";
-import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
 
 interface NumberLimitationProps {
   id: string;

@@ -8,7 +8,7 @@ import Field from "./UI/Field";
 import Label from "./UI/Label";
 
 import questionConfig from "../../../../../../utils/questionConfig";
-import { Question } from "../../../../../../store/slice/questionSlice";
+import { Question } from "../../../../../../types/question";
 
 interface ChoiceLimitationProps {
   id: string;

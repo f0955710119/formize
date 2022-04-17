@@ -1,4 +1,4 @@
-import { Question } from "../store/slice/questionSlice";
+import type { Question } from "../types/question";
 import helper from "./helper";
 
 export default {

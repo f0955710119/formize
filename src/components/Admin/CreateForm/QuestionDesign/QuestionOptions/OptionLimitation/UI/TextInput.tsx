@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { TextField } from "@mui/material";
 import questionConfig from "../../../../../../../utils/questionConfig";
 import useGetQuestion from "../../../../../../../hooks/useQuestion";
-import { Question } from "../../../../../../../store/slice/questionSlice";
+import { Question } from "../../../../../../../types/question";
 
 const CustomTextInput = styled(TextField)`
   width: 65%;
