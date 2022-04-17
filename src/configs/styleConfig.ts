@@ -29,6 +29,9 @@ const styleConfig: StyleConfig = {
   OPENHUNNINN_CODE: "0",
   HANAMINA_CODE: "1",
   TAIPEISANSTCBOLD_CODE: "2",
+  "0": "OPENHUNNINN",
+  "1": "HANAMINA",
+  "2": "TAIPEISANSTCBOLD",
 };
 
 export default styleConfig;

@@ -17,7 +17,7 @@ const useLoginCheck = () => {
         if (typeof uid !== "string") throw "未登入狀態";
         dispatch(userActions.updateLoginState(uid));
       } catch (error: any) {
-        console.error(error.message);
+        console.error(error);
       }
     }
     initLandingPage();

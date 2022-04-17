@@ -30,6 +30,20 @@ export default {
       } else return init;
     }, 0);
   },
+  generateQuestionIndexArr(questionList: Question[]) {
+    let index = 0;
+    return questionList.map((question) => {
+      if (question.type !== "2") {
+        index++;
+        return "" + index;
+      }
+      return "";
+    });
+  },
+  generateUserSurveyQuestionTitle(index: string, title: string) {
+    if (index === "") return title;
+    return `${index}. ${title}`;
+  },
   checkExistedName(nameObj: CheckStringName) {
     return nameObj.stringArr
       .map((oldString, i) => {
@@ -109,5 +123,15 @@ export default {
       }
       return question;
     });
+  },
+  generateResponsedUserSurveyFontFamily(fontCode: string) {
+    switch (fontCode) {
+      case fontCode: {
+        return styleConfig[fontCode];
+      }
+      default: {
+        throw "找尋字體錯誤，請檢察帶入的資料";
+      }
+    }
   },
 };

@@ -1,23 +1,14 @@
-import { useEffect, useRef, useState, useReducer } from "react";
+import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
-import { Question } from "../../src/types/question";
+import type { UserSurvey } from "../../src/types/userSurvey";
 
-import UserSurvey from "../../src/components/User/UserSurvey";
-import { Settings, Styles } from "../../src/types/survey";
-
+import Survey from "../../src/components/User/Survey";
 import userSurveyConfig from "../../src/configs/userSurveyConfig";
 
-interface InitUserForm {
-  responseDocId: string;
-  questions: Question[];
-  settings: Settings;
-  styles: Styles;
-}
-
 const SurveyId: NextPage = () => {
-  const initUserForm = useRef<InitUserForm>({
+  const initUserForm = useRef<UserSurvey>({
     responseDocId: "",
     questions: userSurveyConfig.initQuestions,
     settings: userSurveyConfig.initSettings,
@@ -44,9 +35,9 @@ const SurveyId: NextPage = () => {
     setHasFetchedData(true);
   };
 
-  useEffect(() => {
-    router.isReady && getQuestion();
-  }, [router.isReady]);
+  // useEffect(() => {
+  //   router.isReady && getQuestion();
+  // }, [router.isReady]);
   return (
     <>
       <Head>
@@ -58,7 +49,14 @@ const SurveyId: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
-      {hasFetchedData && <UserSurvey />}
+      {hasFetchedData && (
+        <Survey
+          responseDocId={initUserForm.current.responseDocId}
+          questions={initUserForm.current.questions}
+          settings={initUserForm.current.settings}
+          styles={initUserForm.current.styles}
+        />
+      )}
     </>
   );
 };
