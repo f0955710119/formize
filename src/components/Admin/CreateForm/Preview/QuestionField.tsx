@@ -7,7 +7,7 @@ import Field from "./Fields/UI/Field";
 import TitleIndex from "./Fields/UI/TitleIndex";
 import EditableTitle from "./Fields/UI/EditableTitle";
 import Note from "./Fields/UI/Note";
-import { Question } from "../../../../store/slice/questionSlice";
+import type { Question } from "../../../../types/question";
 
 import OneLineText from "./Fields/OneLineText";
 import MultiLineText from "./Fields/MultiLineText";

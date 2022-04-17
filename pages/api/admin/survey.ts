@@ -17,9 +17,12 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     // console.log(req.body);
-    const data = await firebase.getUserCertainGroupData();
-    console.log(data);
+    const id = req.body.uid;
+    const groupId = req.body.groupId;
+    console.log(id, groupId);
+    // await firebase.getUserCertainGroupData();
     const surveyId = helper.generateId(8);
+    // await firebase.setGroups(groupId, surveyId);
     res.status(201).json({
       status: "success",
       status_code: 201,

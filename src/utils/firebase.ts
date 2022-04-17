@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import type { DocumentReference, DocumentData } from "firebase/firestore";
 import {
   getFirestore,
   doc,
@@ -7,6 +8,8 @@ import {
   getDoc,
   updateDoc,
   Query,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -16,36 +19,21 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import type { UserInfoType } from "../types/login";
-import type { Users, Group } from "../types/firebase/usersType";
-import type {
-  Settings,
-  Styles,
-  Surveys,
-  SurveyInput,
-} from "../types/firebase/surveysType";
-import type {
-  QuestionLineText,
-  QuestionChoices,
-  QuestionMartix,
-  QuestionNumber,
-  QuestionSlider,
-  QuestionOrder,
-  QuestionDate,
-  QuestionType,
-  Questions,
-  Question,
-} from "../types/firebase/questionsType";
+import type { Users } from "../types/firebase/usersType";
+import type { Surveys } from "../types/survey";
+import type { Questions } from "../types/question";
 
 import { Response, Answer } from "../types/firebase/responsesTpye";
+import helper from "./helper";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDzUR4VC0QB0_2TXC2TJRjnzp9XWI02-8Q",
-  authDomain: "formize-8c25f.firebaseapp.com",
-  projectId: "formize-8c25f",
-  storageBucket: "formize-8c25f.appspot.com",
-  messagingSenderId: "940853535584",
-  appId: "1:940853535584:web:c8ee3f7c616f8d2a373405",
-  measurementId: "G-6729PQ8HLK",
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
 const signupErrors = [
@@ -59,18 +47,6 @@ const signupErrors = [
   },
 ];
 
-const generateId = (length: number) => {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charactersLength);
-    result += characters.charAt(randomIndex);
-  }
-  return result;
-};
-
 const checkSignupErrorCase = (message: string) => {
   const signup = signupErrors.find((err) => message.includes(err.case));
   if (signup !== undefined) {
@@ -78,18 +54,16 @@ const checkSignupErrorCase = (message: string) => {
   }
 };
 
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// 資料統一由後端生成
 export default {
-  app: initializeApp(firebaseConfig),
-  getDataBase() {
-    return getFirestore(this.app);
-  },
-  getSignAuth() {
-    return getAuth(this.app);
-  },
   async createNativeUser(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
-      const auth = this.getSignAuth();
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -107,7 +81,7 @@ export default {
   async nativeLogin(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
-      const auth = this.getSignAuth();
+
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -123,7 +97,6 @@ export default {
   },
   nativeSignOut() {
     try {
-      const auth = this.getSignAuth();
       signOut(auth);
     } catch (error: any) {
       console.error(error.message);
@@ -131,7 +104,6 @@ export default {
   },
   // BUG: router 通常而且之後不會這樣用，先用any帶過
   checkAuthState(router: any) {
-    const auth = this.getSignAuth();
     return new Promise((resolve, reject) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -144,8 +116,8 @@ export default {
       unsubscribe();
     });
   },
+  // FOR_USER
   async createUser(uid: string) {
-    const db = this.getDataBase();
     const newUserRef = doc(db, "users", uid);
     const defalutUsers: Users = {
       id: newUserRef.id,
@@ -160,7 +132,6 @@ export default {
     await setDoc(newUserRef, defalutUsers);
   },
   async getUser(uid: string): Promise<void> {
-    const db = this.getDataBase();
     const userDocRef = doc(db, "users", uid);
     const docSnap = await getDoc(userDocRef);
 
@@ -170,62 +141,64 @@ export default {
       console.log("No such document!");
     }
   },
-  async updateUser(uid: string, groups: Group[]): Promise<void> {
-    const db = this.getDataBase();
+  async updateUserGroupsIdArray(
+    uid: string,
+    groupId: string,
+    isAddNewGroup: boolean
+  ) {
     const userDocRef = doc(db, "users", uid);
-    const updateUser = {
-      id: userDocRef.id,
-      groups,
-    };
-    await updateDoc(userDocRef, updateUser);
+    await setDoc(
+      userDocRef,
+      { groupId: isAddNewGroup ? arrayUnion(groupId) : arrayRemove(groupId) },
+      { merge: true }
+    );
   },
-  async createSurvey(surveyInputs: SurveyInput) {
-    const db = this.getDataBase();
-    const surveyDocRef = doc(collection(db, "surveys"));
-    const { id } = surveyDocRef;
-    const survey: Surveys = {
-      id,
-      title: surveyInputs.title,
-      url: surveyInputs.url,
-      createdTime: new Date(),
-      responsedTimes: 0,
-      openTimes: 0,
-      settings: surveyInputs.settings,
-      styles: surveyInputs.styles,
-      questionDocId: surveyInputs.questionDocId,
-      responseDocId: surveyInputs.responseDocId,
-    };
-    await setDoc(surveyDocRef, survey);
+  // FOR_GENERAL
+  generateDocRef(collectionName: string) {
+    const id = helper.generateId(8);
+    const docRef = doc(db, collectionName, id);
+    return docRef;
   },
+  // F0R_SURVEY
+  async createNewSurvey(
+    docRef: DocumentReference<DocumentData>,
+    survey: Surveys
+  ) {
+    await setDoc(docRef, survey);
+  },
+  // FOR_QUESTION
   async createQuestions(questionsInput: Questions) {
-    const db = this.getDataBase();
     const questionDocRef = doc(collection(db, "questions"));
     const { id } = questionDocRef;
     await setDoc(questionDocRef, questionsInput);
     return id;
   },
   async createResponse(reponse: Response) {
-    const db = this.getDataBase();
     const responseDocRef = doc(collection(db, "responses"));
     const { id } = responseDocRef;
     await setDoc(responseDocRef, reponse);
     return id;
   },
 
-  async getUserCertainGroupData() {
-    const db = this.getDataBase();
-    // const userDocRef = doc(db, "resposnes", "。1URQtcz040enlAXMTdH7");
-    const userDocRef = doc(db, "resposnes/1URQtcz040enlAXMTdH7");
+  async getUserCertainGroupData(userId: string) {
+    const userDocRef = doc(db, `responses/${userId}`);
     const docSnap = await getDoc(userDocRef);
-
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      return docSnap.data();
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
+    if (!docSnap.exists()) throw "沒有找到文件，確認一下拼字跟帶入的值";
+    return docSnap.data();
+  },
+  async updateGroupSurveysId(groupId: string, newSurveyId: string) {
+    const groupDocRef = doc(db, `groups/${groupId}`);
+    try {
+      await setDoc(
+        groupDocRef,
+        { surveys: arrayUnion(newSurveyId) },
+        { merge: true }
+      );
+    } catch (error: any) {
+      throw error.message;
     }
   },
+  async addNewSurvey() {},
 };
 
 /*

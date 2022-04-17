@@ -1,10 +1,7 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
-import type {
-  QuestionState,
-  Question,
-  Validation,
-  ErrorMessage,
-} from "../slice/questionSlice";
+import type { QuestionState, ErrorMessage } from "../slice/questionSlice";
+import type { Question } from "../../types/question";
+import type { Validation } from "../../types/validation";
 import questionActionType from "../actionType/questionActionType";
 
 /*
