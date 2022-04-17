@@ -1,28 +1,52 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useReducer } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import { Question } from "../../src/types/question";
 
+import UserSurvey from "../../src/components/User/UserSurvey";
+import { Settings, Styles } from "../../src/types/survey";
+
+import userSurveyConfig from "../../src/configs/userSurveyConfig";
+
+interface InitUserForm {
+  responseDocId: string;
+  questions: Question[];
+  settings: Settings;
+  styles: Styles;
+}
+
 const SurveyId: NextPage = () => {
-  const [questions, setQuestions] = useState<any>();
+  const initUserForm = useRef<InitUserForm>({
+    responseDocId: "",
+    questions: userSurveyConfig.initQuestions,
+    settings: userSurveyConfig.initSettings,
+    styles: userSurveyConfig.initStyles,
+  });
+  const [hasFetchedData, setHasFetchedData] = useState<boolean>(false);
+
   const router = useRouter();
-  const isLoading = useRef<boolean>(true);
+
+  const getQuestion = async () => {
+    const response = await fetch("/api/user/survey", {
+      method: "POST",
+      headers: { ContentType: "application/json" },
+      body: JSON.stringify(router.query),
+    });
+    const data = await response.json();
+    const { responseDocId, questions, settings, styles } = data.data;
+    initUserForm.current = {
+      responseDocId,
+      questions,
+      settings,
+      styles,
+    };
+    setHasFetchedData(true);
+  };
 
   useEffect(() => {
-    if (!isLoading.current) return;
-    async function getQuestion() {
-      isLoading.current = false;
-      const response = await fetch("/api/user/survey", {
-        method: "POST",
-        headers: { ContentType: "application/json" },
-        body: JSON.stringify(router.query),
-      });
-      const data = await response.json();
-      setQuestions(data.data);
-    }
-    getQuestion();
-  }, []);
+    router.isReady && getQuestion();
+  }, [router.isReady]);
   return (
     <>
       <Head>
@@ -34,7 +58,7 @@ const SurveyId: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
-      <div>{JSON.stringify(questions)}</div>
+      {hasFetchedData && <UserSurvey />}
     </>
   );
 };
