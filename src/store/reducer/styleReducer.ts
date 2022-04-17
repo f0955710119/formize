@@ -2,17 +2,19 @@ import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import type { StyleState } from "../slice/styleSlice";
 import styleActionType from "../actionType/styleActionType";
 
+import themes from "../theme/theme";
+
 const changeStyle: CaseReducer<
   StyleState,
   PayloadAction<{
-    theme?: number;
-    fontTraditional?: number;
-    fontEnglish?: number;
+    actionType: string;
+    theme?: string;
+    font?: string;
     backgroundImages?: string[];
   }>
 > = (state, action) => {
   try {
-    switch (action.type) {
+    switch (action.payload.actionType) {
       case styleActionType.THEME: {
         if (action.payload.theme) {
           return {
@@ -22,20 +24,11 @@ const changeStyle: CaseReducer<
         }
       }
 
-      case styleActionType.FONT_TRADITIONAL: {
-        if (action.payload.fontTraditional) {
+      case styleActionType.FONT: {
+        if (action.payload.font) {
           return {
             ...state,
-            fontTraditional: action.payload.fontTraditional,
-          };
-        }
-      }
-
-      case styleActionType.FONT_ENGLISH: {
-        if (action.payload.fontEnglish) {
-          return {
-            ...state,
-            fontEnglish: action.payload.fontEnglish,
+            font: action.payload.font,
           };
         }
       }

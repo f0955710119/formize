@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useRouter } from "next/router";
+import { useAppSelector } from "../../../../hooks/useAppSelector";
 import styled from "styled-components";
 import { TextField } from "@mui/material";
 import ShareSharpIcon from "@mui/icons-material/ShareSharp";
@@ -63,10 +64,9 @@ const CustomTextDisableField = styled(TextField)`
 
 const DeployFormSection: FC = () => {
   const router = useRouter();
-  const surveyId = helper.generateId(6);
+  const surveyId = useAppSelector((state) => state.user.newSurveyId);
   const newSurveyPath = `/s/${surveyId}`;
   const newSurveyHref = `${window.location.origin}${newSurveyPath}`;
-  console.log(newSurveyHref);
   return (
     <Main>
       <Container>

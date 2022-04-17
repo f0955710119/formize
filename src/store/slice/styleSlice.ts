@@ -1,17 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import reducers from "../reducer/styleReducer";
+import styleConfig from "../../configs/styleConfig";
 
 export interface StyleState {
-  theme: number;
-  fontTraditional: number;
-  fontEnglish: number;
+  theme: string;
+  font: string;
   backgroundImages: string[];
 }
 
 const initialState: StyleState = {
-  theme: 0,
-  fontTraditional: 0,
-  fontEnglish: 0,
+  theme: styleConfig.MAIN_CODE,
+  font: styleConfig.OPENHUNNINN_CODE,
   backgroundImages: [""],
 };
 

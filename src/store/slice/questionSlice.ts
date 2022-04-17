@@ -1,33 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import reducers from "../reducer/questionReducer";
-
-export interface Validation {
-  required: boolean;
-  length?: number;
-  textType?: string[];
-  max?: number;
-  min?: number;
-  decimal?: number;
-  unit?: string;
-  interval?: number;
-  maxSelected?: number;
-  maxMartixTitleQuantity?: number;
-  multipleDate?: boolean;
-  startDate?: string | null;
-  endDate?: string | null;
-}
-
-export interface Question {
-  id: string;
-  page: number;
-  title: string;
-  note: string;
-  placeholder?: string;
-  type: string;
-  options?: string[];
-  martixs?: string[];
-  validations: Validation;
-}
+import { Question } from "../../types/question";
 export interface ErrorMessage {
   id: string;
   message: string;

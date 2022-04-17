@@ -42,8 +42,6 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:  TaipeiSansTCBetaBold !important;
-
   }
 
   html {
@@ -52,6 +50,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-size: 1.6rem;
+    font-family: TaipeiSansTCBetaBold;
   }
 
   ul {

@@ -6,6 +6,7 @@ import helper from "../../../../../../utils/helper";
 const TitleIndexText = styled.span`
   font-size: 2.2rem;
   margin-right: 1rem;
+  color: ${(props) => props.theme.title};
 `;
 
 interface TitleIndexProps {

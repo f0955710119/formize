@@ -1,10 +1,18 @@
 // Card / Button ( router ) / O[tion hEADER] / able to scroll
 import { FC, useState } from "react";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import styled from "styled-components";
 import Layout from "../../UI/Layout";
 import Card from "./UI/Card";
 import HeaderItem from "./HeaderItem";
 import Button from "../../UI/Button";
+import styleConfig from "../../../../../configs/styleConfig";
+import { styleActions } from "../../../../../store/slice/styleSlice";
+import themes from "../../../../../store/theme/theme";
+import styleActionType from "../../../../../store/actionType/styleActionType";
+import helper from "../../../../../utils/helper";
+import { userActions } from "../../../../../store/slice/userSlice";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -67,21 +75,8 @@ const StyleCTAButton = styled(Button)`
 `;
 
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
-const defaultThemeList = ["1111", "1111", "1111"];
-const defaultFontList = [
-  "華康少女",
-  "新細明體",
-  "開源黑體",
-  "華康少女",
-  "新細明體",
-  "開源黑體",
-  "華康少女",
-  "新細明體",
-  "開源黑體",
-  "華康少女",
-  "新細明體",
-  "開源黑體",
-];
+const defaultThemeList = helper.generateStyleKeys("NAME");
+const defaultFontList = helper.generateStyleKeys("FONT");
 const defaultBackgroundList = ["黃圓圓", "黃圓圓", "黃圓圓"];
 
 interface SettingBarProps {
@@ -92,6 +87,78 @@ const SettingBar: FC<SettingBarProps> = ({
   setCurrentStep,
 }: SettingBarProps) => {
   const [stylingOption, setStylingOption] = useState<number>(0);
+  const dispatch = useAppDispatch();
+  const { setting, style, question } = useAppSelector((state) => state);
+  const { uid, editingGroupId } = useAppSelector((state) => state.user);
+
+  const switchThemeHandler = (title: string) => {
+    switch (title) {
+      case styleConfig.MAIN_NAME: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.THEME,
+            theme: styleConfig.MAIN_CODE,
+          })
+        );
+        break;
+      }
+
+      case styleConfig.YELLOW_NAME: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.THEME,
+            theme: styleConfig.YELLOW_CODE,
+          })
+        );
+        break;
+      }
+
+      case styleConfig.GREEN_NAME: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.THEME,
+            theme: styleConfig.GREEN_CODE,
+          })
+        );
+        break;
+      }
+
+      case styleConfig.OPENHUNNINN_FONT: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.FONT,
+            font: styleConfig.OPENHUNNINN_CODE,
+          })
+        );
+        break;
+      }
+
+      case styleConfig.HANAMINA_FONT: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.FONT,
+            font: styleConfig.HANAMINA_CODE,
+          })
+        );
+        break;
+      }
+
+      case styleConfig.TAIPEISANSTCBOLD_FONT: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.FONT,
+            font: styleConfig.TAIPEISANSTCBOLD_CODE,
+          })
+        );
+        break;
+      }
+
+      default: {
+        throw "沒有這個類型的主題";
+      }
+    }
+  };
+
   return (
     <SettingLayout>
       <Header>
@@ -108,14 +175,22 @@ const SettingBar: FC<SettingBarProps> = ({
       {stylingOption === 0 && (
         <CardContainer>
           {defaultThemeList.map((themeTitle, i) => (
-            <Card title={themeTitle} key={i} />
+            <Card
+              title={themeTitle}
+              key={i}
+              dispatchHandler={switchThemeHandler}
+            />
           ))}
         </CardContainer>
       )}
       {stylingOption === 1 && (
         <CardContainer>
           {defaultFontList.map((fontTitle, i) => (
-            <Card title={fontTitle} key={i} />
+            <Card
+              title={fontTitle}
+              key={i}
+              dispatchHandler={switchThemeHandler}
+            />
           ))}
         </CardContainer>
       )}
@@ -127,7 +202,44 @@ const SettingBar: FC<SettingBarProps> = ({
         </CardContainer>
       )}
       <ButtonWrapper>
-        <Button buttonType="button" clickHandler={() => setCurrentStep(4)}>
+        <Button
+          buttonType="button"
+          clickHandler={async () => {
+            const sendingObj = {
+              uid,
+              groupId: editingGroupId,
+              ...setting,
+              questions: [...question.questions],
+              ...style,
+            };
+            try {
+              const response = await fetch("/api/admin/survey", {
+                method: "POST",
+                headers: {
+                  "Content-type": "application/json",
+                },
+                body: JSON.stringify(sendingObj),
+              });
+              const data = await response.json();
+              if (data.status !== "success") throw "上傳資料失敗";
+              dispatch(userActions.createNewSurveyId(data.data.survey_id));
+              setCurrentStep(4);
+            } catch (error: any) {
+              console.error(error.message);
+            }
+
+            // console.log(sendingObj);
+
+            // loading 畫面
+            // 發送資料給後端
+            // 確定後端的response是201表示發佈問卷成功
+            // response是ok狀態，且會回傳新問卷的 id
+            // 把 id 存進redux > dispatch(surveyActions.updateCreateSurveyRoute(data.survey_id)) > groupId 也存在survey
+            // 結束loading > 更換畫面狀態setCurrentStep(4)
+            // deploy頁的資料根據surveyId顯示
+            // 進到 /s/[surveyId]後，用 query 去打api
+          }}
+        >
           點我發佈問卷
         </Button>
         <Button buttonType="button" clickHandler={() => setCurrentStep(2)}>

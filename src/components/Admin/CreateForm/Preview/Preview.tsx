@@ -5,8 +5,28 @@ import styled from "styled-components";
 import QuestionField from "./QuestionField";
 
 import Layout from "../UI/Layout";
+import helper from "../../../../utils/helper";
 
-const PreviewLayout = styled(Layout)`
+interface PreviewLayoutProps {
+  fontFamily: string;
+}
+
+const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
+  @font-face {
+    font-family: "jfOpenhuninn";
+    src: url("/fonts/jf-openhuninn-1.1.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "hanaMinA";
+    src: url("/fonts/HanaMinA.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "taipeiSansTCBold";
+    src: url("/fonts/TaipeiSansTCBeta-Bold.ttf") format("truetype");
+  }
+
+  font-family: ${(props: PreviewLayoutProps) => props.fontFamily};
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,9 +56,10 @@ const QuestionWrapper = styled.div`
 
 const Preview: FC = () => {
   const { questions } = useAppSelector((state) => state.question);
-
+  const { font } = useAppSelector((state) => state.style);
+  const fontTheme = helper.generateResposneThemeFontFamily(font);
   return (
-    <PreviewLayout>
+    <PreviewLayout fontFamily={fontTheme}>
       <QuestionWrapper>
         {questions.map((question) => (
           <QuestionField question={question} key={question.id} />

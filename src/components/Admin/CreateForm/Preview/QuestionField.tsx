@@ -7,7 +7,7 @@ import Field from "./Fields/UI/Field";
 import TitleIndex from "./Fields/UI/TitleIndex";
 import EditableTitle from "./Fields/UI/EditableTitle";
 import Note from "./Fields/UI/Note";
-import { Question } from "../../../../store/slice/questionSlice";
+import type { Question } from "../../../../types/question";
 
 import OneLineText from "./Fields/OneLineText";
 import MultiLineText from "./Fields/MultiLineText";
@@ -87,23 +87,30 @@ const QuestionField: FC<QuestionFieldProps> = ({
   const dispatch = useAppDispatch();
   const { editingQuestion } = useAppSelector((state) => state.question);
   const editingFieldHandler = (question: Question) => {
+    const hasSwitched = editingQuestion && editingQuestion.id === question.id;
+    if (hasSwitched) return;
     dispatch(questionActions.willChangeLimitationValue(true));
     dispatch(questionActions.switchEditingQuestion(question));
   };
-  console.log(question);
+
   return (
     <Field
       key={question.id}
-      onClick={() => editingFieldHandler(question)}
+      onClick={(event) => {
+        console.log(event?.target);
+        editingFieldHandler(question);
+      }}
       isActive={question.id === editingQuestion?.id}
     >
-      <TitleWrapper>
-        {question.type !== "2" && <TitleIndex id={question.id} />}
-        {question.type !== "2" && (
-          <EditableTitle id={question.id} title={question.title} />
-        )}
-      </TitleWrapper>
-      <Note id={question.id} note={question.note} />
+      {question.type !== "2" && (
+        <>
+          <TitleWrapper>
+            <TitleIndex id={question.id} />
+            <EditableTitle id={question.id} title={question.title} />
+          </TitleWrapper>
+          <Note id={question.id} note={question.note} />
+        </>
+      )}
       {generateResponseQuestion(question.type, question)}
     </Field>
   );

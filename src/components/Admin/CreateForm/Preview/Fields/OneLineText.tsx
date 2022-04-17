@@ -10,10 +10,26 @@ const TextInput = styled(TextField)`
   & input {
     font-size: inherit;
   }
+
+  & .MuiFilledInput-root {
+    background-color: transparent;
+  }
+
+  & .css-10botns-MuiInputBase-input-MuiFilledInput-input {
+    color: ${(props) => props.theme.note};
+  }
+
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:before {
+    border-bottom: 2px solid ${(props) => props.theme.placeholder};
+  }
+
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
+    border-bottom: 2px solid ${(props) => props.theme.title};
+  }
 `;
 
 const OneLineText: FC = () => {
-  return <TextInput label="" variant="standard" />;
+  return <TextInput label="" variant="filled" />;
 };
 
 export default OneLineText;

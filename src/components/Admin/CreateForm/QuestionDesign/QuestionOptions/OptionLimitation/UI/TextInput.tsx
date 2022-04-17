@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { TextField } from "@mui/material";
 import questionConfig from "../../../../../../../utils/questionConfig";
 import useGetQuestion from "../../../../../../../hooks/useQuestion";
-import { Question } from "../../../../../../../store/slice/questionSlice";
+import { Question } from "../../../../../../../types/question";
 
 const CustomTextInput = styled(TextField)`
   width: 65%;
@@ -97,7 +97,6 @@ const TextInput: FC<TextInputProps> = ({
   );
 
   useEffect(() => {
-    console.log(willSwitcEditinghQuestion);
     if (!willSwitcEditinghQuestion) return;
     setInputValue(getInputValue(validationType));
     dispatch(questionActions.willChangeLimitationValue(false));

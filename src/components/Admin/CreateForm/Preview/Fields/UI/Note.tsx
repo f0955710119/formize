@@ -7,10 +7,28 @@ import questionActionType from "../../../../../../store/actionType/questionActio
 
 const CustomTextField = styled(TextField)`
   width: 100%;
+  margin-bottom: 1rem;
+
   & input {
+    color: ${(props) => props.theme.note};
+    padding-top: 1.8rem;
+    padding-bottom: 1.8rem;
     width: 100%;
     font-size: 1.6rem;
     line-break: strict;
+  }
+
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root,
+  & .Mui-focused {
+    background-color: transparent;
+  }
+
+  /* & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:hover {
+    background-color: none;
+  } */
+
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
+    border-bottom: 2px solid ${(props) => props.theme.note};
   }
 `;
 
@@ -18,6 +36,7 @@ const NoteText = styled.div`
   color: #aaa;
   font-size: 1.6rem;
   margin-bottom: 2rem;
+  color: ${(props) => props.theme.note}; ;
 `;
 
 interface NoteProps {
@@ -34,7 +53,7 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
     <>
       <CustomTextField
         label=""
-        variant="standard"
+        variant="filled"
         value={editingNote}
         onChange={(event) => setEditingNote(event.target.value)}
       />

@@ -16,21 +16,27 @@ const CardItem = styled.div`
   width: 100%;
   height: 10rem;
   background-color: #aaa; // 之後變成圖片
+  margin-bottom: 1rem;
 `;
 
 const CardTitle = styled.div`
   width: 100%;
   height: 5rem;
-  font-size: 1.6rem;
+  font-size: 2rem;
 `;
 
 interface CardProps {
   title: string;
+  dispatchHandler?: (title: string) => void;
 }
 
-const Card: FC<CardProps> = ({ title }: CardProps) => {
+const Card: FC<CardProps> = ({ title, dispatchHandler }: CardProps) => {
   return (
-    <CardWrapper>
+    <CardWrapper
+      onClick={() => {
+        dispatchHandler && dispatchHandler(title);
+      }}
+    >
       <CardItem />
       <CardTitle>{title}</CardTitle>
     </CardWrapper>
