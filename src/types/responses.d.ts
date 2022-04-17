@@ -1,6 +1,11 @@
 // response 裡有多筆 answers
-export interface Answer {
+export interface QuestionTitle {
+  questionName: string;
   questionId: string;
+}
+
+export interface Answer {
+  questionTitles: QuestionTitle[];
   input: string | number | Date | Date[] | string[] | number[];
 }
 export interface Response {

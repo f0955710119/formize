@@ -14,6 +14,8 @@ import LimitationWrapper from "./UI/LimitationWrapper";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
 
+import questinoConfig from "../../../../../../utils/questionConfig";
+
 interface TextLimitationProps {
   id: string;
 }
@@ -39,7 +41,7 @@ const TextLimitation: FC<TextLimitationProps> = ({
         <Field>
           <Label>驗證</Label>
           {question.validations.textType && (
-            <ComboBox options={question.validations.textType} />
+            <ComboBox options={questinoConfig.DEFAULT_TEXT_TYPE_LIST} />
           )}
         </Field>
       )}

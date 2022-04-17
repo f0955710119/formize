@@ -1,12 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
+import type { Question, Questions } from "../../../src/types/question";
+import type { Surveys } from "../../../src/types/survey";
 import firebase from "../../../src/utils/firebase";
+import firestoreCollectionCongfig from "../../../src/configs/firestoreCollectionConfig";
 import helper from "../../../src/utils/helper";
 interface Data {
   status: string;
   status_code: number;
   message: string;
   data: {
+    url: string;
     survey_id: string;
   };
 }
@@ -16,39 +20,54 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   if (req.method === "POST") {
-    // console.log(req.body);
-    const id = req.body.uid;
-    const groupId = req.body.groupId;
-    console.log(id, groupId);
-    // await firebase.getUserCertainGroupData();
-    const surveyId = helper.generateId(8);
-    // await firebase.setGroups(groupId, surveyId);
+    const { uid, settings, questions, styles, groupId } = req.body;
+    const neededDoc = [
+      firestoreCollectionCongfig.SURVEYS,
+      firestoreCollectionCongfig.QUESTIONS,
+      firestoreCollectionCongfig.RESPONSES,
+    ];
+
+    const [surveyDocRef, questionDocRef, responseDocRef] = neededDoc.map(
+      (collectionName) => firebase.generateDocRef(collectionName)
+    );
+
+    const url = `'http://localhost:3000/s/${surveyDocRef.id}`;
+    const newHandledQuestions = helper.generateNewHandledQuestion(questions);
+    const newSurveyDocData: Surveys = {
+      title: settings.title,
+      url,
+      createdTime: new Date(),
+      responsedTimes: 0,
+      openTimes: 0,
+      settings,
+      styles,
+      questionDocId: questionDocRef.id,
+      responseDocId: responseDocRef.id,
+    };
+    const newQuestionDocData = {
+      questions: newHandledQuestions,
+    };
+    const newDefaultResponssDocData = {
+      exists: true,
+    };
+
+    const fetchFirestore = [
+      firebase.updateGroupSurveysId(groupId, surveyDocRef.id),
+      firebase.setNewDoc(surveyDocRef, newSurveyDocData),
+      firebase.setNewDoc(questionDocRef, newQuestionDocData),
+      firebase.setNewDoc(responseDocRef, newDefaultResponssDocData),
+    ];
+
+    await Promise.all(fetchFirestore);
+
     res.status(201).json({
       status: "success",
       status_code: 201,
       message: "create new survey successfully",
       data: {
-        survey_id: surveyId,
+        url,
+        survey_id: surveyDocRef.id,
       },
     });
   }
 }
-
-/*
-
-backgroundImages: ['']
-endPageImageFile: null
-endPageParagraph: ""
-font: "1"
-limitedAnswerTime: null
-limitedResponseQuantity: null
-mode: 1
-pageQuantity: 1
-questions: (3) [{…}, {…}, {…}]
-startPageImageFile: null
-startPageParagraph: ""
-status: 0
-theme: "1"
-title: ""
-
-*/

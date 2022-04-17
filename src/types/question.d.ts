@@ -13,6 +13,5 @@ export interface Question {
 }
 
 export interface Questions {
-  questionAllId: string[];
   questions: Question[];
 }

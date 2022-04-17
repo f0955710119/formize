@@ -1,7 +1,7 @@
 export interface Validation {
   required: boolean;
   length?: number;
-  textType?: string[];
+  textType?: string;
   max?: number;
   min?: number;
   decimal?: number;

@@ -22,8 +22,8 @@ import type { UserInfoType } from "../types/login";
 import type { Users } from "../types/firebase/usersType";
 import type { Surveys } from "../types/survey";
 import type { Questions } from "../types/question";
+import type { Response } from "../types/responses";
 
-import { Response, Answer } from "../types/firebase/responsesTpye";
 import helper from "./helper";
 
 const firebaseConfig = {
@@ -159,25 +159,16 @@ export default {
     const docRef = doc(db, collectionName, id);
     return docRef;
   },
-  // F0R_SURVEY
-  async createNewSurvey(
+  async setNewDoc<T extends Surveys | Questions | { exists: boolean }>(
     docRef: DocumentReference<DocumentData>,
-    survey: Surveys
+    data: T
   ) {
-    await setDoc(docRef, survey);
-  },
-  // FOR_QUESTION
-  async createQuestions(questionsInput: Questions) {
-    const questionDocRef = doc(collection(db, "questions"));
-    const { id } = questionDocRef;
-    await setDoc(questionDocRef, questionsInput);
-    return id;
-  },
-  async createResponse(reponse: Response) {
-    const responseDocRef = doc(collection(db, "responses"));
-    const { id } = responseDocRef;
-    await setDoc(responseDocRef, reponse);
-    return id;
+    try {
+      await setDoc(docRef, data);
+      return "成功發送資料";
+    } catch (error: any) {
+      throw error.message;
+    }
   },
 
   async getUserCertainGroupData(userId: string) {

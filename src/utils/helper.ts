@@ -1,6 +1,4 @@
 import type { Question } from "../types/question";
-import { StyledComponentTheme } from "../store/theme/theme";
-import questionConfig from "./questionConfig";
 import styleConfig from "../configs/styleConfig";
 
 interface CheckStringName {
@@ -96,5 +94,20 @@ export default {
         throw "沒有找到對應的顏色主題包";
       }
     }
+  },
+  generateNewHandledQuestion(questions: Question[]) {
+    return questions.map((question) => {
+      const hasEditiedNote = question.note !== "新增備註文字，若不需要則留白";
+      const hasEditedPlaceholder =
+        question.placeholder !== "新增題目填入文字的預設提醒，若不需要則留白";
+
+      if (!hasEditiedNote) {
+        question.note = "";
+      }
+      if (!hasEditedPlaceholder) {
+        question.placeholder = "";
+      }
+      return question;
+    });
   },
 };

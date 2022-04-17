@@ -7,7 +7,6 @@ export interface ErrorMessage {
 }
 
 export interface QuestionState {
-  questionIds: string[];
   questions: Question[];
   editingQuestion: Question | null;
   willSwitcEditinghQuestion: boolean;
@@ -15,7 +14,6 @@ export interface QuestionState {
 }
 
 const initialState: QuestionState = {
-  questionIds: [""],
   questions: [],
   editingQuestion: null,
   willSwitcEditinghQuestion: false,

@@ -95,7 +95,7 @@ const QuestionsList: FC<QuestionsListProps> = ({
   return (
     <ListLayout>
       <Heading>題目列表</Heading>
-      {mode === 1 ? (
+      {mode === "1" ? (
         Array(pageQuantity)
           .fill(null)
           .map((_, i) => (

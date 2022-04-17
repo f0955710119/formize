@@ -12,6 +12,7 @@ export default {
   SLIDER: "7",
   ORDER: "8",
   DATE: "9",
+  DEFAULT_TEXT_TYPE_LIST: ["文字", "信箱", "手機"],
   ONE_LINE_TEXT_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
@@ -22,7 +23,7 @@ export default {
     validations: {
       required: false,
       length: 50,
-      textType: ["文字", "信箱", "手機"],
+      textType: "0",
     },
   },
   MULTIPLE_LINE_TEXT_DEFAULT: <Question>{
@@ -35,7 +36,7 @@ export default {
     validations: {
       required: false,
       length: 200,
-      textType: ["文字", "信箱", "手機"],
+      textType: "0",
     },
   },
   INTRODUCTION_DEFAULT: <Question>{

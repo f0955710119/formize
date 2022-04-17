@@ -3,8 +3,8 @@ import reducers from "../reducer/settingReducer";
 
 export interface SettingState {
   title: string;
-  status: number;
-  mode: number;
+  status: string;
+  mode: string;
   pageQuantity: number;
   limitedAnswerTime: number | null;
   limitedResponseQuantity: number | null;
@@ -15,9 +15,9 @@ export interface SettingState {
 }
 
 const initialState: SettingState = {
-  title: "",
-  status: 0,
-  mode: 1,
+  title: "空白問卷",
+  status: "0",
+  mode: "1",
   pageQuantity: 1,
   limitedAnswerTime: null,
   limitedResponseQuantity: null,
