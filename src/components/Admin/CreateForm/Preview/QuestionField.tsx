@@ -96,8 +96,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
   return (
     <Field
       key={question.id}
-      onClick={(event) => {
-        console.log(event?.target);
+      onClick={() => {
         editingFieldHandler(question);
       }}
       isActive={question.id === editingQuestion?.id}

@@ -170,26 +170,35 @@ export default {
       throw error.message;
     }
   },
-
-  async getUserCertainGroupData(userId: string) {
-    const userDocRef = doc(db, `responses/${userId}`);
-    const docSnap = await getDoc(userDocRef);
+  async getDocData(collectionName: string, docId: string) {
+    const docRef = doc(db, collectionName, docId);
+    const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) throw "沒有找到文件，確認一下拼字跟帶入的值";
     return docSnap.data();
   },
-  async updateGroupSurveysId(groupId: string, newSurveyId: string) {
-    const groupDocRef = doc(db, `groups/${groupId}`);
+  async updateFieldArrayValue<T extends string>(
+    {
+      docPath,
+      fieldKey,
+      updateData,
+    }: { docPath: string; fieldKey: string; updateData: T },
+    isAddNewValue: boolean = true
+  ) {
+    const docRef = doc(db, docPath);
     try {
       await setDoc(
-        groupDocRef,
-        { surveys: arrayUnion(newSurveyId) },
+        docRef,
+        {
+          [fieldKey]: isAddNewValue
+            ? arrayUnion(updateData)
+            : arrayRemove(updateData),
+        },
         { merge: true }
       );
     } catch (error: any) {
       throw error.message;
     }
   },
-  async addNewSurvey() {},
 };
 
 /*

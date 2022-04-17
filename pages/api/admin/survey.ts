@@ -9,7 +9,7 @@ interface Data {
   status: string;
   status_code: number;
   message: string;
-  data: {
+  data?: {
     url: string;
     survey_id: string;
   };
@@ -21,6 +21,16 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const { uid, settings, questions, styles, groupId } = req.body;
+
+    if (uid === "") {
+      res.status(400).json({
+        status: "fail",
+        status_code: 400,
+        message: "only admin can add new survey",
+      });
+      return;
+    }
+
     const neededDoc = [
       firestoreCollectionCongfig.SURVEYS,
       firestoreCollectionCongfig.QUESTIONS,
@@ -52,7 +62,11 @@ export default async function handler(
     };
 
     const fetchFirestore = [
-      firebase.updateGroupSurveysId(groupId, surveyDocRef.id),
+      firebase.updateFieldArrayValue({
+        docPath: `${firestoreCollectionCongfig.GROUPS}/${groupId}`,
+        fieldKey: "surveys",
+        updateData: surveyDocRef.id,
+      }),
       firebase.setNewDoc(surveyDocRef, newSurveyDocData),
       firebase.setNewDoc(questionDocRef, newQuestionDocData),
       firebase.setNewDoc(responseDocRef, newDefaultResponssDocData),
