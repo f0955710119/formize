@@ -4,7 +4,7 @@ import { questionActions } from "../../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import styled from "styled-components";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import { ButtonWrapper, ButtonText, CustomButtonIcon } from "./Button";
+import { ButtonWrapper, ButtonText } from "./Button";
 
 interface AddOptionButtonProps {
   id: string;
@@ -30,7 +30,6 @@ const AddOptionButton: FC<AddOptionButtonProps> = ({
   return (
     <ButtonWrapper onClick={addNewOptionHandler}>
       <ButtonText>新增選項題目</ButtonText>
-      <CustomButtonIcon />
     </ButtonWrapper>
   );
 };

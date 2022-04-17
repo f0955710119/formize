@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
 
-const SurveyCard: FC = () => {};
+const SurveyCard = () => {};
 
 export default SurveyCard;
