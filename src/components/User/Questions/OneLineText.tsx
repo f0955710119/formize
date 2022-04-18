@@ -1,5 +1,14 @@
 import { FC } from "react";
 import { TextField } from "@mui/material";
+import styled from "styled-components";
+
+const CustomedTextField = styled(TextField)`
+  width: 100%;
+  & div,
+  & input {
+    width: 100%;
+  }
+`;
 
 interface OneLineTextProps {
   textType: string;
@@ -14,7 +23,7 @@ const OneLineText: FC<OneLineTextProps> = ({
   max,
   min,
 }: OneLineTextProps) => {
-  return <TextField variant="standard" type={textType} />;
+  return <CustomedTextField variant="standard" type={textType} />;
 };
 
 export default OneLineText;

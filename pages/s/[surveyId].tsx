@@ -67,7 +67,6 @@ const SurveyId: NextPage = () => {
         />
       ) : (
         <ThemeProvider theme={colorTheme}>
-          hasFetchedData && (
           <Survey
             responseDocId={initUserSurvey.current.responseDocId}
             questions={initUserSurvey.current.questions}

@@ -27,12 +27,13 @@ interface MultiLineTextProps {
 
 const MultiLineText: FC<MultiLineTextProps> = ({ maxLength }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
+  console.log(maxLength);
   return (
     <CustomTextareaAutosize
       isValid={isValid}
       minRows={3}
       onChange={(event) => {
-        if (+event.target.value <= maxLength) {
+        if (+event.target.value.length <= maxLength) {
           !isValid && setIsValid(true);
           return;
         }

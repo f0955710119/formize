@@ -45,6 +45,13 @@ const SurveyContainer = styled.div`
   }
 `;
 
+const QuestionContainer = styled.div`
+  width: 100%;
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+`;
+
 const generateResponsedUserSurveyQuestion = (
   questionType: string,
   question: Question
@@ -133,16 +140,20 @@ const Survey: FC<SurveyProps> = ({
       <SurveyContainer>
         {questions.map((question, i) => {
           return (
-            <div key={i}>
-              <div>
-                {helper.generateUserSurveyQuestionTitle(
-                  indexArr[i],
-                  question.title
-                )}
-              </div>
-              <div>{question.note}</div>
+            <QuestionContainer key={i}>
+              {question.type !== "2" && (
+                <>
+                  <div>
+                    {helper.generateUserSurveyQuestionTitle(
+                      indexArr[i],
+                      question.title
+                    )}
+                  </div>
+                  <div>{question.note}</div>
+                </>
+              )}
               {generateResponsedUserSurveyQuestion(question.type, question)}
-            </div>
+            </QuestionContainer>
           );
         })}
       </SurveyContainer>
