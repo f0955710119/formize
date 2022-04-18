@@ -19,8 +19,8 @@ const Heading = styled.div`
 
 const IntroductionField = styled(Field)`
   padding: 2rem;
-  border: 3px solid #f90;
-  color: #b06b04;
+  border: 1px solid ${(props) => props.theme.note};
+  color: ${(props) => props.theme.title};
   font-weight: bold;
 `;
 

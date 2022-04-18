@@ -5,13 +5,14 @@ export default {
   ONE_LINE_TEXT: "0",
   MULTIPLE_LINE_TEXT: "1",
   INTRODUCTION: "2",
-  SINGLE_CHOICE: "3",
+  ONE_CHOICE: "3",
   MULTIPLE_CHOICE: "4",
   MARTIX: "5",
   NUMBER: "6",
   SLIDER: "7",
-  ORDER: "8",
+  SORT: "8",
   DATE: "9",
+  DEFAULT_TEXT_TYPE_LIST: ["文字", "信箱", "手機"],
   ONE_LINE_TEXT_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
@@ -22,7 +23,7 @@ export default {
     validations: {
       required: false,
       length: 50,
-      textType: ["文字", "信箱", "手機"],
+      textType: "0",
     },
   },
   MULTIPLE_LINE_TEXT_DEFAULT: <Question>{
@@ -35,7 +36,7 @@ export default {
     validations: {
       required: false,
       length: 200,
-      textType: ["文字", "信箱", "手機"],
+      textType: "0",
     },
   },
   INTRODUCTION_DEFAULT: <Question>{
@@ -50,7 +51,7 @@ export default {
       length: 200,
     },
   },
-  SINGLE_CHOICE_DEFAULT: <Question>{
+  ONE_CHOICE_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
     note: "新增備註文字，若不需要則留白",
@@ -121,7 +122,7 @@ export default {
       interval: 1,
     },
   },
-  ORDER_DEFAULT: <Question>{
+  SORT_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
     note: "新增備註文字，若不需要則留白",

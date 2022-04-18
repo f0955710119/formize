@@ -208,10 +208,11 @@ const SettingBar: FC<SettingBarProps> = ({
             const sendingObj = {
               uid,
               groupId: editingGroupId,
-              ...setting,
+              settings: { ...setting },
               questions: [...question.questions],
-              ...style,
+              styles: { ...style },
             };
+
             try {
               const response = await fetch("/api/admin/survey", {
                 method: "POST",
@@ -222,13 +223,12 @@ const SettingBar: FC<SettingBarProps> = ({
               });
               const data = await response.json();
               if (data.status !== "success") throw "上傳資料失敗";
+              console.log(data.data);
               dispatch(userActions.createNewSurveyId(data.data.survey_id));
               setCurrentStep(4);
             } catch (error: any) {
               console.error(error.message);
             }
-
-            // console.log(sendingObj);
 
             // loading 畫面
             // 發送資料給後端

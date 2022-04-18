@@ -49,12 +49,12 @@ const questionDefaultList = [
   questionConfig.ONE_LINE_TEXT_DEFAULT,
   questionConfig.MULTIPLE_LINE_TEXT_DEFAULT,
   questionConfig.INTRODUCTION_DEFAULT,
-  questionConfig.SINGLE_CHOICE_DEFAULT,
+  questionConfig.ONE_CHOICE_DEFAULT,
   questionConfig.MULTIPLE_CHOICE_DEFAULT,
   questionConfig.MARTIX_DEFAULT,
   questionConfig.NUMBER_DEFAULT,
   questionConfig.SLIDER_DEFAULT,
-  questionConfig.ORDER_DEFAULT,
+  questionConfig.SORT_DEFAULT,
   questionConfig.DATE_DEFAULT,
 ];
 
