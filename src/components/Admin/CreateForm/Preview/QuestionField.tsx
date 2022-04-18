@@ -16,7 +16,7 @@ import Choice from "./Fields/OneChoice";
 import MultiChoice from "./Fields/MultiChoice";
 import Martix from "./Fields/Martix";
 import Slider from "./Fields/Slider";
-import SequenceWeight from "./Fields/SequenceWeigth";
+import SequenceWeight from "./Fields/Sort";
 import Date from "./Fields/Date";
 
 const TitleWrapper = styled.div`

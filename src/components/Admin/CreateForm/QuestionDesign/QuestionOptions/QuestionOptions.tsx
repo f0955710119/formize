@@ -83,7 +83,7 @@ const questionList: OptionItem[] = [
   },
   {
     title: "單選",
-    questionType: questionConfig.SINGLE_CHOICE,
+    questionType: questionConfig.ONE_CHOICE,
     iconComponent: <AdjustSharpIcon />,
   },
   {
@@ -108,7 +108,7 @@ const questionList: OptionItem[] = [
   },
   {
     title: "排序",
-    questionType: questionConfig.ORDER,
+    questionType: questionConfig.SORT,
     iconComponent: <LayersSharpIcon />,
   },
   {

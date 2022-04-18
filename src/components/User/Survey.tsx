@@ -1,8 +1,20 @@
 import { FC } from "react";
 import styled from "styled-components";
 import styleConfig from "../../configs/styleConfig";
+import { Question } from "../../types/question";
 import type { UserSurvey } from "../../types/userSurvey";
 import helper from "../../utils/helper";
+import questionConfig from "../../utils/questionConfig";
+
+import OneLineText from "./Questions/OneLineText";
+import MultipleLineText from "./Questions/MultipleLineText";
+import Introduction from "./Questions/Introdction";
+import OneChoice from "./Questions/OneChoice";
+import MultiChoice from "./Questions/MultipleChoice";
+import Martix from "./Questions/Maritx";
+import Slider from "./Questions/Slider";
+import Sort from "./Questions/Sort";
+import Date from "./Questions/Date";
 
 type SurveyProps = UserSurvey;
 
@@ -27,12 +39,87 @@ const SurveyContainer = styled.div`
   width: 96rem;
   height: 80%;
   padding: 4rem;
-  background-color: #f90;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
   }
 `;
+
+const generateResponsedUserSurveyQuestion = (
+  questionType: string,
+  question: Question
+) => {
+  switch (questionType) {
+    case questionConfig.ONE_LINE_TEXT: {
+      return <OneLineText textType="text" />;
+    }
+
+    case questionConfig.MULTIPLE_LINE_TEXT: {
+      if (question.validations.length) {
+        return <MultipleLineText maxLength={question.validations.length} />;
+      }
+    }
+
+    case questionConfig.INTRODUCTION: {
+      return <Introduction textContent={question.title} />;
+    }
+
+    case questionConfig.ONE_CHOICE: {
+      if (question.options) {
+        return <OneChoice options={question.options} />;
+      }
+    }
+
+    case questionConfig.MULTIPLE_CHOICE: {
+      if (question.options && question.validations.maxSelected) {
+        return (
+          <MultiChoice
+            options={question.options}
+            maxSelected={question.validations.maxSelected}
+          />
+        );
+      }
+    }
+
+    case questionConfig.MARTIX: {
+      if (question.options && question.martixs) {
+        return <Martix options={question.options} martixs={question.martixs} />;
+      }
+    }
+
+    case questionConfig.NUMBER: {
+      return <OneLineText textType="text" />;
+    }
+
+    case questionConfig.SLIDER: {
+      return (
+        <Slider
+          max={question.validations.max && question.validations.max}
+          min={question.validations.min && question.validations.min}
+          unit={question.validations.unit && question.validations.unit}
+          interval={
+            question.validations.interval && question.validations.interval
+          }
+        />
+      );
+    }
+
+    case questionConfig.SORT: {
+      if (question.options && question.validations.maxSelected) {
+        return (
+          <Sort
+            options={question.options}
+            maxSelected={question.validations.maxSelected}
+          />
+        );
+      }
+      return;
+    }
+    case questionConfig.DATE: {
+      return <Date />;
+    }
+  }
+};
 
 const Survey: FC<SurveyProps> = ({
   responseDocId,
@@ -46,7 +133,7 @@ const Survey: FC<SurveyProps> = ({
       <SurveyContainer>
         {questions.map((question, i) => {
           return (
-            <div>
+            <div key={i}>
               <div>
                 {helper.generateUserSurveyQuestionTitle(
                   indexArr[i],
@@ -54,6 +141,7 @@ const Survey: FC<SurveyProps> = ({
                 )}
               </div>
               <div>{question.note}</div>
+              {generateResponsedUserSurveyQuestion(question.type, question)}
             </div>
           );
         })}

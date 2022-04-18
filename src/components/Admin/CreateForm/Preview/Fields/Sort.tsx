@@ -53,15 +53,12 @@ const SeletcdWeightIconText = styled.span`
   font-size: 1.4rem;
 `;
 
-interface SequenceWeightProps {
+interface SortProps {
   id: string;
   options: string[];
 }
 
-const SequenceWeight: FC<SequenceWeightProps> = ({
-  id,
-  options,
-}: SequenceWeightProps) => {
+const Sort: FC<SortProps> = ({ id, options }: SortProps) => {
   const intitOptions = [...options];
   const [unselectedOptions, setUnselectedOptions] =
     useState<string[]>(intitOptions);
@@ -129,4 +126,4 @@ const SequenceWeight: FC<SequenceWeightProps> = ({
   );
 };
 
-export default SequenceWeight;
+export default Sort;
