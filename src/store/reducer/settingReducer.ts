@@ -6,8 +6,8 @@ const updateSingleSettingInput: CaseReducer<
   SettingState,
   PayloadAction<{
     title?: string;
-    status?: number;
-    mode?: number;
+    status?: string;
+    mode?: string;
     pageQuantity?: number;
     limitedAnswerTime?: number | null;
     limitedResponseQuantity?: number | null;
