@@ -126,7 +126,6 @@ const LoginForm: FC = () => {
       <Field>
         <Label>帳號</Label>
         <Input
-          value="test@test.com"
           type="text"
           name="account"
           autoComplete="off"
@@ -136,7 +135,6 @@ const LoginForm: FC = () => {
       <Field>
         <Label>密碼</Label>
         <Input
-          value="test123"
           type="password"
           name="password"
           autoComplete="off"
