@@ -90,7 +90,7 @@ const SettingBar: FC<SettingBarProps> = ({
   const dispatch = useAppDispatch();
   const { setting, style, question } = useAppSelector((state) => state);
   const { uid, editingGroupId } = useAppSelector((state) => state.user);
-
+  console.log(uid);
   const switchThemeHandler = (title: string) => {
     switch (title) {
       case styleConfig.MAIN_NAME: {

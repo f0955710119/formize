@@ -23,6 +23,7 @@ export default async function handler(
     const { uid, settings, questions, styles, groupId } = req.body;
 
     if (uid === "") {
+      console.log("test");
       res.status(400).json({
         status: "fail",
         status_code: 400,
