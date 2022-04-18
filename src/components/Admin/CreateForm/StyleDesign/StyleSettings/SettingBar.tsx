@@ -222,8 +222,8 @@ const SettingBar: FC<SettingBarProps> = ({
                 body: JSON.stringify(sendingObj),
               });
               const data = await response.json();
+              alert(data.message);
               if (data.status !== "success") throw "上傳資料失敗";
-              console.log(data.data);
               dispatch(userActions.createNewSurveyId(data.data.survey_id));
               setCurrentStep(4);
             } catch (error: any) {

@@ -28,6 +28,7 @@ const TitleWrapper = styled.div`
 
 interface QuestionFieldProps {
   question: Question;
+  titleIndex: string;
 }
 
 const generateResponseQuestion = (type: string, question: Question) => {
@@ -83,6 +84,7 @@ const generateResponseQuestion = (type: string, question: Question) => {
 
 const QuestionField: FC<QuestionFieldProps> = ({
   question,
+  titleIndex,
 }: QuestionFieldProps) => {
   const dispatch = useAppDispatch();
   const { editingQuestion } = useAppSelector((state) => state.question);
@@ -104,7 +106,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
       {question.type !== "2" && (
         <>
           <TitleWrapper>
-            <TitleIndex id={question.id} />
+            <TitleIndex titleIndex={titleIndex} />
             <EditableTitle id={question.id} title={question.title} />
           </TitleWrapper>
           <Note id={question.id} note={question.note} />

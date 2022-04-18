@@ -1,10 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Question, Questions } from "../../../src/types/question";
 import type { Surveys } from "../../../src/types/survey";
 import firebase from "../../../src/utils/firebase";
 import firestoreCollectionCongfig from "../../../src/configs/firestoreCollectionConfig";
 import helper from "../../../src/utils/helper";
+
+const dotenv = require("dotenv");
+dotenv.config();
 interface Data {
   status: string;
   status_code: number;
@@ -21,9 +23,8 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const { uid, settings, questions, styles, groupId } = req.body;
-
+    
     if (uid === "") {
-      console.log("test");
       res.status(400).json({
         status: "fail",
         status_code: 400,
@@ -42,7 +43,7 @@ export default async function handler(
       (collectionName) => firebase.generateDocRef(collectionName)
     );
 
-    const url = `'http://localhost:3000/s/${surveyDocRef.id}`;
+    const url = `'${process.env.NEXT_PUBLIC_ORIGIN}/s/${surveyDocRef.id}`;
     const newHandledQuestions = helper.generateNewHandledQuestion(questions);
     const newSurveyDocData: Surveys = {
       title: settings.title,

@@ -30,24 +30,6 @@ interface DefaultIconProps {
   readonly color: string;
 }
 
-const DefaultIcon = styled.div<DefaultIconProps>`
-  width: 10%;
-  height: 2.4rem;
-  background-color: ${(props: DefaultIconProps) => {
-    switch (props.color) {
-      case "0": {
-        return "red";
-      }
-      case "6": {
-        return "orange";
-      }
-      case "3": {
-        return "yellow";
-      }
-    }
-  }};
-`;
-
 const Note = styled.div`
   width: 100%;
   font-size: 1.4rem;
@@ -101,7 +83,3 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
 };
 
 export default CreatedQuestion;
-
-{
-  /* <ExpandMoreIcon sx={{ width: "10%", height: "2rem" }} /> */
-}

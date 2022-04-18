@@ -104,6 +104,7 @@ export default {
       min: 1,
       decimal: 0,
       unit: "",
+      interval: 1,
     },
   },
   SLIDER_DEFAULT: <Question>{

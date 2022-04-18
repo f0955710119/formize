@@ -1,7 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
 import { useAppSelector } from "../../../../../../hooks/useAppSelector";
-import helper from "../../../../../../utils/helper";
 
 const TitleIndexText = styled.span`
   font-size: 2.2rem;
@@ -10,16 +9,12 @@ const TitleIndexText = styled.span`
 `;
 
 interface TitleIndexProps {
-  id: string;
+  titleIndex: string;
 }
 
-const TitleIndex: FC<TitleIndexProps> = ({ id }: TitleIndexProps) => {
+const TitleIndex: FC<TitleIndexProps> = ({ titleIndex }: TitleIndexProps) => {
   const { questions } = useAppSelector((state) => state.question);
-  return (
-    <TitleIndexText>
-      {helper.generateQuestionIndex(id, questions)}
-    </TitleIndexText>
-  );
+  return <TitleIndexText>{titleIndex}</TitleIndexText>;
 };
 
 export default TitleIndex;

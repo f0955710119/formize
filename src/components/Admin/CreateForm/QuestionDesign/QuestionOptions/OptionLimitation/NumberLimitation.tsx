@@ -23,8 +23,7 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
   id,
 }: NumberLimitationProps) => {
   const question = useGetQuestion(id) as Question;
-  const { min, max, unit, interval, decimal } = question.validations;
-
+  const { min, max, unit, decimal, interval } = question.validations;
   const minValidationHandler = (value: string) => {
     if (max === undefined) return null;
     if (+value < max) return null;
@@ -59,17 +58,6 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
     if (!Number.isInteger(+value)) return "只能輸入整數喲!";
     return null;
   };
-
-  const inputKeys = [
-    // prettier-ignore
-    { key: questionConfig.MIN, validationHandler: minValidationHandler },
-    // prettier-ignore
-    { key: questionConfig.MAX, validationHandler: maxValidationHandler },
-    { key: questionConfig.UNIT, validationHandler: unitValidationHandler },
-    // prettier-ignore
-    { key: questionConfig.INTERVAL, validationHandler: intervalValidationHandler },
-    { key: questionConfig.DECIMAL, validationHandler: decialValidationHanlder },
-  ];
   const saveMinHandler = useGenerateValidationHandler(
     id,
     questionConfig.MIN,
@@ -105,19 +93,6 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
     question,
     decialValidationHanlder
   );
-  // const saveInputHandlerArray = inputKeys.map((input) => {
-  //   if (input.key === questionConfig.UNIT)
-  //     return helper.generateHandler(input.key, input.validationHandler, false);
-  //   return helper.generateHandler(input.key, input.validationHandler);
-  // });
-
-  // const [
-  //   saveMinHandler,
-  //   saveMaxHandler,
-  //   saveUnitHandler,
-  //   saveIntervalHandler,
-  //   saveDemcialHandler,
-  // ] = saveInputHandlerArray;
 
   return (
     <LimitationWrapper>
@@ -149,16 +124,18 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
           validationType={questionConfig.UNIT}
         />
       </Field>
-      <Field>
-        <Label>間隔</Label>
-        <TextInput
-          id={id}
-          placeholder="無則留空"
-          inputType="number"
-          dispatchHandler={saveIntervalHandler}
-          validationType={questionConfig.INTERVAL}
-        />
-      </Field>
+      {question.type === questionConfig.SLIDER && (
+        <Field>
+          <Label>間隔</Label>
+          <TextInput
+            id={id}
+            placeholder="無則留空"
+            inputType="number"
+            dispatchHandler={saveIntervalHandler}
+            validationType={questionConfig.INTERVAL}
+          />
+        </Field>
+      )}
       <Field>
         <Label>小數點後碼數</Label>
         <TextInput

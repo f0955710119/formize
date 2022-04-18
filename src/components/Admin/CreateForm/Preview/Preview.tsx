@@ -58,11 +58,17 @@ const Preview: FC = () => {
   const { questions } = useAppSelector((state) => state.question);
   const { font } = useAppSelector((state) => state.style);
   const fontTheme = helper.generateResposneThemeFontFamily(font);
+  const indexArr = helper.generateQuestionIndexArr(questions);
+
   return (
     <PreviewLayout fontFamily={fontTheme}>
       <QuestionWrapper>
-        {questions.map((question) => (
-          <QuestionField question={question} key={question.id} />
+        {questions.map((question, i) => (
+          <QuestionField
+            question={question}
+            key={question.id}
+            titleIndex={indexArr[i]}
+          />
         ))}
       </QuestionWrapper>
     </PreviewLayout>
