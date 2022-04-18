@@ -121,38 +121,3 @@ const updateSingleSettingInput: CaseReducer<
 export default {
   updateSingleSettingInput,
 };
-
-/*
-{
-    updateTitle: (state, action: PayloadAction<string>) => {
-      state.title = action.payload;
-    },
-    updateStatus: (state, action: PayloadAction<number>) => {
-      state.status = action.payload;
-    },
-    updateMode: (state, action: PayloadAction<number>) => {
-      state.mode = action.payload;
-    },
-    updateLimitedAnswerTime: (state, action: PayloadAction<number | null>) => {
-      state.limitedAnswerTime = action.payload;
-    },
-    updateLimitedResponseQuantity: (
-      state,
-      action: PayloadAction<number | null>
-    ) => {
-      state.limitedResponseQuantity = action.payload;
-    },
-    updateStartPageImageFile: (state, action: PayloadAction<object>) => {
-      state.startPageImageFile = action.payload;
-    },
-    updateStartPageParagraph: (state, action: PayloadAction<string>) => {
-      state.startPageParagraph = action.payload;
-    },
-    updateEndPageImageFile: (state, action: PayloadAction<object>) => {
-      state.endPageImageFile = action.payload;
-    },
-    updateEndPageParagraph: (state, action: PayloadAction<string>) => {
-      state.endPageParagraph = action.payload;
-    },
-  },
-*/
