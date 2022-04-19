@@ -19,21 +19,35 @@ interface NumberLimitationProps {
   validations: Validation;
 }
 
+const checkInt = ({
+  max,
+  min,
+  value,
+}: {
+  max: number;
+  min: number;
+  value: string;
+}) => {
+  const isInt = Number.isInteger((max - min + 1) / +value);
+  if (isInt) return null;
+  return "每次能移動的數值區間必須符合設定的最大值和最小值，得符合「最大值 - 最小值 + 1」!";
+};
+
 const NumberLimitation: FC<NumberLimitationProps> = ({
   id,
 }: NumberLimitationProps) => {
   const question = useGetQuestion(id) as Question;
   const { min, max, unit, decimal, interval } = question.validations;
   const minValidationHandler = (value: string) => {
-    if (max === undefined) return null;
-    if (+value < max) return null;
-    return "最小值不可以超過最大值，請更換數值";
+    if (max === undefined || min === undefined) return null;
+    if (+value > max) return "最小值不可以超過最大值，請更換數值";
+    return checkInt({ max, min, value });
   };
 
   const maxValidationHandler = (value: string) => {
-    if (min === undefined) return null;
-    if (+value > min) return null;
-    return "最大值不可以小於最大值，請更換數值";
+    if (min === undefined || max === undefined) return null;
+    if (+value < min) "最大值不可以小於最大值，請更換數值";
+    return checkInt({ max, min, value });
   };
 
   const unitValidationHandler = (value: string) => {
@@ -47,9 +61,7 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
     if (interval === undefined || max === undefined || min === undefined)
       return null;
     if (+value === 0 || +value < 0) return "移動區間值要至少大於0喲";
-    const isInt = Number.isInteger((max - min + 1) / +value);
-    if (isInt) return null;
-    return "每次能移動的數值區間必須符合設定的最大值和最小值，得符合「最大值 - 最小值 + 1」!";
+    return checkInt({ max, min, value });
   };
 
   const decialValidationHanlder = (value: string) => {

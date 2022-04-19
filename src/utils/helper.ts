@@ -134,4 +134,20 @@ export default {
       }
     }
   },
+  generateTextType(type: string) {
+    switch (type) {
+      case "文字": {
+        return "0";
+      }
+      case "信箱": {
+        return "1";
+      }
+      case "手機": {
+        return "2";
+      }
+      default: {
+        return "0";
+      }
+    }
+  },
 };

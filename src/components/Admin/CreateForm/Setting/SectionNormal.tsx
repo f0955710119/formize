@@ -65,11 +65,28 @@ const SectionNormal: FC = () => {
       </Field>
       <Field>
         <Label>填答時間限制</Label>
-        <Input type="text" value="10分鐘" disabled />
+        <Input
+          style={{ width: "calc(100% - 24rem)" }}
+          type="number"
+          aria-placeholder="10"
+          placeholder="請填寫數值，並選擇單位"
+        />
+        <CustomedComboBox
+          disablePortal
+          defaultValue="分鐘"
+          options={["秒", "分鐘", "小時"]}
+          sx={{
+            width: "12rem",
+            height: "100%",
+            borderRadius: `${0}px`,
+            borderColor: "#f90",
+          }}
+          renderInput={(params) => <TextField {...params} label={""} />}
+        />
       </Field>
       <Field>
         <Label>上限回應筆數</Label>
-        <Input type="text" value="20份" disabled />
+        <Input type="number" placeholder="限制問卷的填答上限數量" />
       </Field>
     </SectionWrapper>
   );
