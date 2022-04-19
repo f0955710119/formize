@@ -36,7 +36,7 @@ const ChoiceLimitation: FC<ChoiceLimitationProps> = ({
   );
   return (
     <LimitationWrapper>
-      <RequiredSwitch />
+      <RequiredSwitch id={id} />
       {question.type !== "3" && (
         <Field>
           <Label>選填數量</Label>

@@ -10,6 +10,7 @@ export interface Validation {
   maxSelected?: number;
   maxMartixTitleQuantity?: number;
   multipleDate?: boolean;
+  hasRange?: boolean;
   startDate?: string | null;
   endDate?: string | null;
 }

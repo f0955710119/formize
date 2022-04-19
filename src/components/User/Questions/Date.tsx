@@ -21,12 +21,6 @@ const CustomTextField = styled(TextField)`
   }
 `;
 
-interface DateProps {
-  id: string;
-  title: string;
-  note: string;
-}
-
 const Date: FC = () => {
   const [value, setValue] = useState<Date | null>(null);
   return (

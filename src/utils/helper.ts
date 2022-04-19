@@ -58,8 +58,10 @@ export default {
       return editingText;
     });
   },
-  generateDate() {
-    const currentTime = new Date();
+  generateDate(isStart: boolean = true) {
+    const currentTime = isStart
+      ? new Date()
+      : new Date(Date.now() + 60 * 60 * 24 * 1000);
     const year = currentTime.getFullYear();
     const month = currentTime.getMonth() + 1;
     const date = currentTime.getDate();
@@ -105,7 +107,7 @@ export default {
         return styleConfig.TAIPEISANSTCBOLD;
       }
       default: {
-        throw "沒有找到對應的顏色主題包";
+        throw "沒有找到對應的文字主題包";
       }
     }
   },
@@ -149,5 +151,16 @@ export default {
         return "0";
       }
     }
+  },
+  generateNewDate(date?: string) {
+    if (date) return new Date(date);
+    return new Date();
+  },
+  generateDateInterval(start: Date, end: Date) {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    return Math.trunc(
+      (endDate.getTime() - startDate.getTime()) / 60 / 60 / 24 / 1000
+    );
   },
 };

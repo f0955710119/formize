@@ -108,7 +108,7 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
 
   return (
     <LimitationWrapper>
-      <RequiredSwitch />
+      <RequiredSwitch id={id} />
       <Field>
         <Label>最小值</Label>
         <TextInput

@@ -78,7 +78,7 @@ const generateResponseQuestion = (type: string, question: Question) => {
         );
       }
     case "9":
-      return <Date />;
+      return <Date id={question.id} />;
   }
 };
 

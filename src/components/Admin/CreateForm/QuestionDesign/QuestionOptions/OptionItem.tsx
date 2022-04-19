@@ -82,7 +82,9 @@ const OptionItem: FC<OptionItemProps> = ({
       id,
       page,
     };
+    dispatch(questionActions.willChangeLimitationValue(true));
     dispatch(questionActions.addNewQuestion(newQuestion));
+    // BUG: 重複的題型新增時，切換題目的限制沒有改變
     dispatch(questionActions.switchEditingQuestion(newQuestion));
   };
   return (

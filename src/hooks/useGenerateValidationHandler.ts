@@ -2,13 +2,15 @@ import { useAppDispatch } from "./useAppDispatch";
 import type { Question } from "../types/question";
 import { questionActions } from "../store/slice/questionSlice";
 import questionActionType from "../store/actionType/questionActionType";
+import helper from "../utils/helper";
 
 const useGenerateValidationHandler = (
   id: string,
   key: string,
   isNumber: boolean = true,
   question: Question,
-  valiationHandler?: (value: string) => string | null
+  valiationHandler?: (value: string) => string | null,
+  isDate: boolean = false
 ) => {
   const dispatch = useAppDispatch();
 
@@ -21,7 +23,7 @@ const useGenerateValidationHandler = (
           throw inValidErrorMessage;
         }
       }
-      console.log(value);
+
       if (question === undefined) return;
       dispatch(
         questionActions.updateSiglePropOfQuestion({

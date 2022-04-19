@@ -36,7 +36,7 @@ const TextLimitation: FC<TextLimitationProps> = ({
   };
   return (
     <LimitationWrapper>
-      <RequiredSwitch />
+      <RequiredSwitch id={id} />
       {question.type !== "2" && (
         <Field>
           <Label>驗證</Label>

@@ -146,8 +146,9 @@ export default {
     validations: {
       required: false,
       multipleDate: false,
-      startDate: helper.generateDate(),
-      endDate: helper.generateDate(),
+      hasRange: false,
+      startDate: null,
+      endDate: null,
     },
   },
   REQUIRED: "required",

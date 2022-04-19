@@ -6,22 +6,32 @@ import Field from "./Field";
 import Label from "./Label";
 import { questionActions } from "../../../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../../../store/actionType/questionActionType";
+import { Question } from "../../../../../../../types/question";
+import useGetQuestion from "../../../../../../../hooks/useQuestion";
 
-const RequiredSwitch: FC = () => {
+interface RequiredSwitchProps {
+  id: string;
+}
+
+const RequiredSwitch: FC<RequiredSwitchProps> = ({
+  id,
+}: RequiredSwitchProps) => {
   const dispatch = useAppDispatch();
-  const { editingQuestion } = useAppSelector((state) => state.question);
+  const question = useGetQuestion(id) as Question;
+
   return (
     <Field>
       <Label>必填</Label>
       <Switch
+        checked={question.validations.required}
         onChange={(event) => {
-          if (!editingQuestion) return;
+          if (!question) return;
           dispatch(
             questionActions.updateSiglePropOfQuestion({
-              id: editingQuestion.id,
+              id: question.id,
               actionType: questionActionType.VALIDATIONS,
               validations: {
-                ...editingQuestion.validations,
+                ...question.validations,
                 required: event.target.checked,
               },
             })

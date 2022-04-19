@@ -172,7 +172,7 @@ const QuestionOptions: FC = () => {
   const editingQuestion = useAppSelector(
     (state) => state.question.editingQuestion
   );
-
+  console.log(editingQuestion && editingQuestion.id);
   return (
     <OptionsLayout>
       <OptionHeading>題型</OptionHeading>
