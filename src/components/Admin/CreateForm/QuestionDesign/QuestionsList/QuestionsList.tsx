@@ -1,16 +1,12 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import styled from "styled-components";
 import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 import Layout from "../../UI/Layout";
 import CreatedQuestion from "./CreatedQuestion";
 import QuestionPage from "./QuestionPage";
+import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
-interface QuestionList {
-  title: string;
-  note: string;
-  questionType: string;
-}
 // BUG: 要去想怎麼做數值對照的轉換( 寫 switch function 匯出對應的中文字) + 設定 config 轉換
 // const defaultQuestionList: QuestionList[] = [
 //   { title: "1.您的姓名?", note: "有關係就沒關係", questionType: 0 },
@@ -83,15 +79,10 @@ const NavigatorButton = styled(ButtonWrapper)`
   background-color: #f90;
 `;
 
-interface QuestionsListProps {
-  setCurrentStep(number: number): void;
-}
-
-const QuestionsList: FC<QuestionsListProps> = ({
-  setCurrentStep,
-}: QuestionsListProps) => {
+const QuestionsList: FC = () => {
   const { mode, pageQuantity } = useAppSelector((state) => state.setting);
   const { questions } = useAppSelector((state) => state.question);
+  const switchStepHandler = useSwitchCurrentStep();
   return (
     <ListLayout>
       <Heading>題目列表</Heading>
@@ -139,7 +130,7 @@ const QuestionsList: FC<QuestionsListProps> = ({
       <NavigatorButton
         type="button"
         onClick={() => {
-          setCurrentStep(3);
+          switchStepHandler(3);
         }}
       >
         <ButtonText>前往外觀樣式設計</ButtonText>
@@ -147,7 +138,7 @@ const QuestionsList: FC<QuestionsListProps> = ({
       <ButtonWrapper
         type="button"
         onClick={() => {
-          setCurrentStep(1);
+          switchStepHandler(1);
         }}
       >
         <ButtonText>回到資訊設定</ButtonText>

@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { useRouter } from "next/router";
+import useSwitchCurrentStep from "../../../../hooks/useSwitchCurrentStep";
+
 import styled from "styled-components";
 import SectionNormal from "./SectionNormal";
 import SectionMedia from "./SectionMedia";
@@ -53,21 +55,13 @@ const ButtonWrapper = styled.div`
   justify-content: end;
 `;
 
-interface SettingFormProps {
-  setCurrentStep(number: number): void;
-}
-
-const SettingForm: FC<SettingFormProps> = ({
-  setCurrentStep,
-}: SettingFormProps) => {
+const SettingForm: FC = () => {
   const router = useRouter();
+  const switchStepHandler = useSwitchCurrentStep();
   const backToAdminIndexPage = (): void => {
     router.push("/admin");
   };
 
-  const goToQuestionDesignPage = (): void => {
-    setCurrentStep(2);
-  };
   return (
     <Wrapper>
       <Form>
@@ -78,7 +72,7 @@ const SettingForm: FC<SettingFormProps> = ({
           <Button buttonType="button" clickHandler={backToAdminIndexPage}>
             回到管理頁面
           </Button>
-          <Button buttonType="button" clickHandler={goToQuestionDesignPage}>
+          <Button buttonType="button" clickHandler={() => switchStepHandler(2)}>
             進入題目設計
           </Button>
         </ButtonWrapper>

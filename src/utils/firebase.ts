@@ -102,13 +102,11 @@ export default {
       console.error(error.message);
     }
   },
-  // BUG: router 通常而且之後不會這樣用，先用any帶過
-  checkAuthState(router: any) {
+  checkAuthState() {
     return new Promise((resolve, reject) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           resolve(user.uid);
-          router.push("/admin");
           return;
         }
         reject(null);

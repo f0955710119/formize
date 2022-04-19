@@ -140,10 +140,18 @@ const willChangeLimitationValue: CaseReducer<
   state.willSwitcEditinghQuestion = action.payload;
 };
 
+const switchCreatingFormStep: CaseReducer<
+  QuestionState,
+  PayloadAction<number>
+> = (state, action) => {
+  state.currentStep = action.payload;
+};
+
 export default {
   addNewQuestion,
   deleteExistedQuestion,
   updateSiglePropOfQuestion,
   switchEditingQuestion,
   willChangeLimitationValue,
+  switchCreatingFormStep,
 };

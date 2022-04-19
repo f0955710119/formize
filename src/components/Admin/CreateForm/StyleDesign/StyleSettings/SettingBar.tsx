@@ -1,18 +1,19 @@
-// Card / Button ( router ) / O[tion hEADER] / able to scroll
 import { FC, useState } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+
+import useCheckUid from "../../../../../hooks/useCheckUid";
+import useStyleHandler from "../../../../../hooks/useStyleHandler";
+import useDeployForm from "../../../../../hooks/useDeployForm";
+
 import styled from "styled-components";
 import Layout from "../../UI/Layout";
 import Card from "./UI/Card";
 import HeaderItem from "./HeaderItem";
 import Button from "../../UI/Button";
-import styleConfig from "../../../../../configs/styleConfig";
-import { styleActions } from "../../../../../store/slice/styleSlice";
-import themes from "../../../../../store/theme/theme";
-import styleActionType from "../../../../../store/actionType/styleActionType";
+
 import helper from "../../../../../utils/helper";
-import { userActions } from "../../../../../store/slice/userSlice";
+import useFormData from "../../../../../hooks/useFormData";
+import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -68,95 +69,24 @@ const ButtonWrapper = styled.div`
   height: 10rem;
 `;
 
-const StyleCTAButton = styled(Button)`
-  &:not(:last-child) {
-    margin-bottom: 1rem;
-  }
-`;
-
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
 const defaultThemeList = helper.generateStyleKeys("NAME");
 const defaultFontList = helper.generateStyleKeys("FONT");
 const defaultBackgroundList = ["黃圓圓", "黃圓圓", "黃圓圓"];
 
-interface SettingBarProps {
-  setCurrentStep(number: number): void;
-}
-
-const SettingBar: FC<SettingBarProps> = ({
-  setCurrentStep,
-}: SettingBarProps) => {
+const SettingBar: FC = () => {
   const [stylingOption, setStylingOption] = useState<number>(0);
-  const dispatch = useAppDispatch();
-  const { setting, style, question } = useAppSelector((state) => state);
-  const { uid, editingGroupId } = useAppSelector((state) => state.user);
-  console.log(uid);
-  const switchThemeHandler = (title: string) => {
-    switch (title) {
-      case styleConfig.MAIN_NAME: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.THEME,
-            theme: styleConfig.MAIN_CODE,
-          })
-        );
-        break;
-      }
+  const { uid } = useAppSelector((state) => state.user);
+  const switchStepHanlder = useSwitchCurrentStep();
 
-      case styleConfig.YELLOW_NAME: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.THEME,
-            theme: styleConfig.YELLOW_CODE,
-          })
-        );
-        break;
-      }
+  useCheckUid(uid);
+  const switchStyleHandler = useStyleHandler();
+  const sendFormDataHandler = useDeployForm();
+  const sendingFormData = useFormData();
 
-      case styleConfig.GREEN_NAME: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.THEME,
-            theme: styleConfig.GREEN_CODE,
-          })
-        );
-        break;
-      }
-
-      case styleConfig.OPENHUNNINN_FONT: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.FONT,
-            font: styleConfig.OPENHUNNINN_CODE,
-          })
-        );
-        break;
-      }
-
-      case styleConfig.HANAMINA_FONT: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.FONT,
-            font: styleConfig.HANAMINA_CODE,
-          })
-        );
-        break;
-      }
-
-      case styleConfig.TAIPEISANSTCBOLD_FONT: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.FONT,
-            font: styleConfig.TAIPEISANSTCBOLD_CODE,
-          })
-        );
-        break;
-      }
-
-      default: {
-        throw "沒有這個類型的主題";
-      }
-    }
+  const clickToSendForm = async (sendingFormData: object) => {
+    await sendFormDataHandler(sendingFormData);
+    switchStepHanlder(4);
   };
 
   return (
@@ -178,7 +108,7 @@ const SettingBar: FC<SettingBarProps> = ({
             <Card
               title={themeTitle}
               key={i}
-              dispatchHandler={switchThemeHandler}
+              dispatchHandler={switchStyleHandler}
             />
           ))}
         </CardContainer>
@@ -189,7 +119,7 @@ const SettingBar: FC<SettingBarProps> = ({
             <Card
               title={fontTitle}
               key={i}
-              dispatchHandler={switchThemeHandler}
+              dispatchHandler={switchStyleHandler}
             />
           ))}
         </CardContainer>
@@ -204,45 +134,11 @@ const SettingBar: FC<SettingBarProps> = ({
       <ButtonWrapper>
         <Button
           buttonType="button"
-          clickHandler={async () => {
-            const sendingObj = {
-              uid,
-              groupId: editingGroupId,
-              settings: { ...setting },
-              questions: [...question.questions],
-              styles: { ...style },
-            };
-
-            try {
-              const response = await fetch("/api/admin/survey", {
-                method: "POST",
-                headers: {
-                  "Content-type": "application/json",
-                },
-                body: JSON.stringify(sendingObj),
-              });
-              const data = await response.json();
-              alert(data.message);
-              if (data.status !== "success") throw "上傳資料失敗";
-              dispatch(userActions.createNewSurveyId(data.data.survey_id));
-              setCurrentStep(4);
-            } catch (error: any) {
-              console.error(error.message);
-            }
-
-            // loading 畫面
-            // 發送資料給後端
-            // 確定後端的response是201表示發佈問卷成功
-            // response是ok狀態，且會回傳新問卷的 id
-            // 把 id 存進redux > dispatch(surveyActions.updateCreateSurveyRoute(data.survey_id)) > groupId 也存在survey
-            // 結束loading > 更換畫面狀態setCurrentStep(4)
-            // deploy頁的資料根據surveyId顯示
-            // 進到 /s/[surveyId]後，用 query 去打api
-          }}
+          clickHandler={() => clickToSendForm(sendingFormData)}
         >
           點我發佈問卷
         </Button>
-        <Button buttonType="button" clickHandler={() => setCurrentStep(2)}>
+        <Button buttonType="button" clickHandler={() => switchStepHanlder(2)}>
           返回題型設計
         </Button>
       </ButtonWrapper>

@@ -4,18 +4,12 @@ import Preview from "../Preview/Preview";
 import QuestionOptions from "./QuestionOptions/QuestionOptions";
 import QuestionsList from "./QuestionsList/QuestionsList";
 
-interface QuestionDesignProps {
-  setCurrentStep(number: number): void;
-}
-
-const QuestionDesign: FC<QuestionDesignProps> = ({
-  setCurrentStep,
-}: QuestionDesignProps) => {
+const QuestionDesign: FC = () => {
   return (
     <Main>
       <Preview />
       <QuestionOptions />
-      <QuestionsList setCurrentStep={setCurrentStep} />
+      <QuestionsList />
     </Main>
   );
 };

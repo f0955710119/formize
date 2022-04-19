@@ -15,7 +15,7 @@ const DefalutMain = styled.main`
 `;
 
 const Home: NextPage = () => {
-  useLoginCheck();
+  useLoginCheck(true);
   return (
     <div>
       <Head>

@@ -16,13 +16,9 @@ const Header = styled.header`
 
 interface StepHeaderProps {
   currentStep: number;
-  setCurrentStep(number: number): void;
 }
 
-const StepHeader: FC<StepHeaderProps> = ({
-  currentStep,
-  setCurrentStep,
-}: StepHeaderProps) => {
+const StepHeader: FC<StepHeaderProps> = ({ currentStep }: StepHeaderProps) => {
   return (
     <Header>
       {defaultTitles.map((title, i) => (
@@ -32,7 +28,6 @@ const StepHeader: FC<StepHeaderProps> = ({
           title={title}
           isLastItem={i === defaultTitles.length - 1}
           currentStep={currentStep}
-          setCurrentStep={setCurrentStep}
         />
       ))}
     </Header>
