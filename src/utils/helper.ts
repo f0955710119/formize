@@ -163,4 +163,13 @@ export default {
       (endDate.getTime() - startDate.getTime()) / 60 / 60 / 24 / 1000
     );
   },
+  generateResponsedUnitTime(unit: string) {
+    const responsedObj: { [key: string]: number } = {
+      "0": 1,
+      "1": 60,
+      "2": 3600,
+    };
+
+    return responsedObj[unit];
+  },
 };
