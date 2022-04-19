@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import type { DocumentReference, DocumentData } from "firebase/firestore";
 import {
   getFirestore,
   doc,
@@ -18,11 +17,14 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
+import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+
+import type { DocumentReference, DocumentData } from "firebase/firestore";
+import type { StorageReference } from "firebase/storage";
 import type { UserInfoType } from "../types/login";
 import type { Users } from "../types/firebase/usersType";
 import type { Surveys } from "../types/survey";
 import type { Questions } from "../types/question";
-import type { Response } from "../types/responses";
 
 import helper from "./helper";
 
@@ -57,8 +59,8 @@ const checkSignupErrorCase = (message: string) => {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
-// 資料統一由後端生成
 export default {
   async createNativeUser(userInfo: UserInfoType) {
     try {
@@ -197,12 +199,22 @@ export default {
       throw error.message;
     }
   },
+  // STORAGE
+  getStorageRef(photoName: string, photoFormat: string) {
+    return ref(
+      storage,
+      `gs://${process.env.NEXT_PUBLIC_STORAGE_BUCKET}/${photoName}.${photoFormat}`
+    );
+  },
+  async uploadImage(ref: StorageReference, file: Blob) {
+    await uploadBytes(ref, file).catch((error) => console.error(error.message));
+  },
+  async getStoredImages(ref: StorageReference) {
+    try {
+      const imageURL = await getDownloadURL(ref);
+      return imageURL;
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  },
 };
-
-/*
-取得doc的幾種方式: 
-1. 直接寫入 db,collection名稱,docId
-const userDocRef = doc(db, "resposnes", "1URQtcz040enlAXMTdH7");
-2. 路徑直接寫到doc
-const userDocRef = doc(db, "resposnes/1URQtcz040enlAXMTdH7");
-*/

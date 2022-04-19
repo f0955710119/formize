@@ -2,6 +2,7 @@ import { useAppDispatch } from "./useAppDispatch";
 import { styleActions } from "../store/slice/styleSlice";
 import styleActionType from "../store/actionType/styleActionType";
 import styleConfig from "../configs/styleConfig";
+import backgroundConfig from "../configs/backgroundConfig";
 
 const useStyleHandler = () => {
   const dispatch = useAppDispatch();
@@ -62,6 +63,26 @@ const useStyleHandler = () => {
           styleActions.changeStyle({
             actionType: styleActionType.FONT,
             font: styleConfig.TAIPEISANSTCBOLD_CODE,
+          })
+        );
+        break;
+      }
+
+      case backgroundConfig.YELLOW1_BG: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.BACKGROUND_IMAGES,
+            backgroundImages: [backgroundConfig.YELLOW1],
+          })
+        );
+        break;
+      }
+
+      case backgroundConfig.GREEN1_BG: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.BACKGROUND_IMAGES,
+            backgroundImages: [backgroundConfig.GREEN1],
           })
         );
         break;

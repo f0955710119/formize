@@ -14,6 +14,7 @@ import Button from "../../UI/Button";
 import helper from "../../../../../utils/helper";
 import useFormData from "../../../../../hooks/useFormData";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
+import backgroundConfig from "../../../../../configs/backgroundConfig";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -72,13 +73,19 @@ const ButtonWrapper = styled.div`
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
 const defaultThemeList = helper.generateStyleKeys("NAME");
 const defaultFontList = helper.generateStyleKeys("FONT");
-const defaultBackgroundList = ["黃圓圓", "黃圓圓", "黃圓圓"];
+const defaultBackgroundURLs = Object.keys(backgroundConfig)
+  .filter((key) => !key.includes("_"))
+  .map((key) => backgroundConfig[key]);
+const defaultBackgroundList = Object.keys(backgroundConfig)
+  .filter((key) => key.includes("_"))
+  .map((key) => backgroundConfig[key]);
 
 const SettingBar: FC = () => {
   const [stylingOption, setStylingOption] = useState<number>(0);
   const { uid } = useAppSelector((state) => state.user);
   const switchStepHanlder = useSwitchCurrentStep();
-
+  const style = useAppSelector((state) => state.style);
+  console.log(style);
   useCheckUid(uid);
   const switchStyleHandler = useStyleHandler();
   const sendFormDataHandler = useDeployForm();
@@ -126,9 +133,15 @@ const SettingBar: FC = () => {
       )}
       {stylingOption === 2 && (
         <CardContainer>
-          {defaultBackgroundList.map((Background, i) => (
-            <Card title={Background} key={i} />
-          ))}
+          {defaultBackgroundList.map((Background, i) => {
+            return (
+              <Card
+                title={Background}
+                key={i}
+                dispatchHandler={switchStyleHandler}
+              />
+            );
+          })}
         </CardContainer>
       )}
       <ButtonWrapper>

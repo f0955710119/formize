@@ -27,13 +27,14 @@ const CardTitle = styled.div`
 
 interface CardProps {
   title: string;
-  dispatchHandler?: (title: string) => void;
+  dispatchHandler?: (title: string, url?: string) => void;
 }
 
 const Card: FC<CardProps> = ({ title, dispatchHandler }: CardProps) => {
   return (
     <CardWrapper
       onClick={() => {
+        console.log(title);
         dispatchHandler && dispatchHandler(title);
       }}
     >

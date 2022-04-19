@@ -9,8 +9,7 @@ const useGenerateValidationHandler = (
   key: string,
   isNumber: boolean = true,
   question: Question,
-  valiationHandler?: (value: string) => string | null,
-  isDate: boolean = false
+  valiationHandler?: (value: string) => string | null
 ) => {
   const dispatch = useAppDispatch();
 

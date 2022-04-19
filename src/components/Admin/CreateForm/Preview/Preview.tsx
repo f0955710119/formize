@@ -9,6 +9,7 @@ import helper from "../../../../utils/helper";
 
 interface PreviewLayoutProps {
   fontFamily: string;
+  backgroundImageURL: string;
 }
 
 const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
@@ -37,7 +38,10 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
       rgba(255, 255, 255, 0.7),
       rgba(255, 255, 255, 0.7)
     ),
-    url("/images/stacked-waves-haikei.svg");
+    url(${(props: PreviewLayoutProps) => props.backgroundImageURL});
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 `;
 
 const QuestionWrapper = styled.div`
@@ -56,12 +60,15 @@ const QuestionWrapper = styled.div`
 
 const Preview: FC = () => {
   const { questions } = useAppSelector((state) => state.question);
-  const { font } = useAppSelector((state) => state.style);
+  const { font, backgroundImages } = useAppSelector((state) => state.style);
   const fontTheme = helper.generateResposneThemeFontFamily(font);
   const indexArr = helper.generateQuestionIndexArr(questions);
 
   return (
-    <PreviewLayout fontFamily={fontTheme}>
+    <PreviewLayout
+      fontFamily={fontTheme}
+      backgroundImageURL={backgroundImages[0]}
+    >
       <QuestionWrapper>
         {questions.map((question, i) => (
           <QuestionField

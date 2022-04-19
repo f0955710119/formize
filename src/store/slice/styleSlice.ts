@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import reducers from "../reducer/styleReducer";
 import styleConfig from "../../configs/styleConfig";
+import backgroundConfig from "../../configs/backgroundConfig";
 
 export interface StyleState {
   theme: string;
@@ -11,7 +12,7 @@ export interface StyleState {
 const initialState: StyleState = {
   theme: styleConfig.MAIN_CODE,
   font: styleConfig.OPENHUNNINN_CODE,
-  backgroundImages: [""],
+  backgroundImages: [backgroundConfig.YELLOW1],
 };
 
 const styleSlice = createSlice({

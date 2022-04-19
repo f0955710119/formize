@@ -72,11 +72,20 @@ const Button = styled.button`
 `;
 
 const LoginForm: FC = () => {
+  const router = useRouter();
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     email: "",
     password: "",
   });
-  const router = useRouter();
+
+  useEffect(() => {
+    async function getStoredImage(name: string, format: string) {
+      const path = firebase.getStorageRef(name, format);
+      const url = await firebase.getStoredImages(path);
+      console.log(url);
+    }
+    // router.isReady && getStoredImage("layered-waves-haikei-01-desktop", "svg");
+  }, [router.isReady]);
 
   const changeAccountHandler: ChangeHandler = (event) => {
     const { value } = event.target;
