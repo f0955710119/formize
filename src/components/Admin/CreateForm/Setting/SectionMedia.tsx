@@ -12,7 +12,19 @@ const SectionMedia: FC = () => {
       <SectionHeading>媒體設定</SectionHeading>
       <Field>
         <Label>雲端連結</Label>
-        <Input value="待開放功能" required disabled />
+        <Input
+          // disabled
+          value="待開放功能"
+          onClick={() => {
+            async function test() {
+              const response = await fetch("/api/admin/survey/drive");
+              const data = await response.json();
+              console.log(data.data.uri);
+            }
+
+            test();
+          }}
+        />
       </Field>
     </SectionWrapper>
   );

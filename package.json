@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "https": "node server.js"
+    "https": "nodemon server.js"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -20,10 +20,12 @@
     "@styled-icons/boxicons-regular": "^10.38.0",
     "@types/react-date-range": "^1.4.3",
     "babel-preset-next": "^1.4.0",
+    "cors": "^2.8.5",
     "date-fns": "^2.28.0",
     "dotenv": "^16.0.0",
     "draft-js": "^0.11.7",
     "firebase": "^9.6.10",
+    "googleapis": "^39.2.0",
     "next": "12.1.4",
     "react": "^17.0.2",
     "react-date-range": "^1.4.0",
@@ -39,6 +41,7 @@
     "@types/styled-components": "^5.1.25",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.4",
+    "nodemon": "^2.0.15",
     "typescript": "4.6.3"
   }
 }
