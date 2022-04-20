@@ -37,3 +37,4 @@ yarn-error.log*
 /https_cert
 
 credentials.json
+exists-token.json

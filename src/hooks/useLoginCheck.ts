@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAppDispatch } from "./useAppDispatch";
-import { userActions } from "../store/slice/userSlice";
+import { adminActions } from "../store/slice/adminSlice";
 import firebase from "../utils/firebase";
 import { useRouter } from "next/router";
 
@@ -15,28 +15,10 @@ const useLoginCheck = (isHomePage: boolean = false) => {
         isLoading.current = false;
         const uid = await firebase.checkAuthState();
         if (typeof uid !== "string") throw "未登入狀態";
-        dispatch(userActions.updateLoginState(uid));
+        dispatch(adminActions.updateLoginState(uid));
 
         if (!isHomePage) return;
-
-        if (!window.location.href.includes("code")) {
-          router.push("/admin");
-          return;
-        }
-
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get("code");
-
-        const response = await fetch("/api/admin/survey/drive", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ code }),
-        });
-
-        const data = await response.json();
-        console.log(data.data.token);
+        router.push("/admin");
       } catch (error: any) {
         console.error(error);
       }

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "./useAppDispatch";
-import { userActions } from "../store/slice/userSlice";
+import { adminActions } from "../store/slice/adminSlice";
 import firebase from "../utils/firebase";
 
 const useCheckUid = (uid: string) => {
@@ -10,7 +10,7 @@ const useCheckUid = (uid: string) => {
 
     const checkUid = await firebase.checkAuthState();
     if (typeof checkUid !== "string") return;
-    dispatch(userActions.updateLoginState(checkUid));
+    dispatch(adminActions.updateLoginState(checkUid));
   };
 
   useEffect(() => {

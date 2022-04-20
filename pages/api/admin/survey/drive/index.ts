@@ -22,6 +22,8 @@ const oAuth2Client = new google.auth.OAuth2({
   redirectUri,
 });
 
+const TOKEN_PATH = "exists-token.json";
+
 // For google config
 const SCOPES = [
   "https://www.googleapis.com/auth/drive.appdata",
@@ -64,7 +66,10 @@ export default async function handler(
 ) {
   await runMiddleware(req, res, cors);
 
+  console.log(oAuth2Client);
+
   if (req.method === "GET") {
+    console.log(oAuth2Client);
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: "offline",
       scope: SCOPES,
@@ -89,7 +94,7 @@ export default async function handler(
       });
       return;
     }
-    console.log(req.body.code);
+
     oAuth2Client.getToken(req.body.code, (error: any, token: any) => {
       if (error) {
         res.status(400).json({
@@ -100,13 +105,19 @@ export default async function handler(
 
         return;
       }
+      oAuth2Client.setCredentials(token);
+
+      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err: any) => {
+        if (err) return console.error(err);
+        console.log("Token stored to", TOKEN_PATH);
+      });
 
       res.status(200).json({
         status: "success",
         status_code: 200,
         message: "get drive access successfully!",
         data: {
-          token,
+          ...token,
         },
       });
     });

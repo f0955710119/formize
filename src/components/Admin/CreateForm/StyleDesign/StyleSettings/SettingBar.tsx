@@ -82,7 +82,7 @@ const defaultBackgroundList = Object.keys(backgroundConfig)
 
 const SettingBar: FC = () => {
   const [stylingOption, setStylingOption] = useState<number>(0);
-  const { uid } = useAppSelector((state) => state.user);
+  const { uid } = useAppSelector((state) => state.admin);
 
   useCheckUid(uid);
   const switchStepHanlder = useSwitchCurrentStep();
