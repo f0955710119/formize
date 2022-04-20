@@ -4,7 +4,7 @@ const fs = require("fs");
 const readline = require("readline");
 const { google } = require("googleapis");
 const Cors = require("cors");
-import credentials from "../../../../credentials.json";
+import credentials from "../../../../../credentials.json";
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -12,9 +12,9 @@ dotenv.config();
 const clientId = credentials.web.client_id;
 const clientSecret = credentials.web.client_secret;
 const redirectUri =
-  process.env.NODE_ENV === "development"
-    ? credentials.web.auth_uri[1]
-    : credentials.web.auth_uri[0];
+  process.env.NEXT_PUBLIC_ENV === "development"
+    ? credentials.web.redirect_uris[1]
+    : credentials.web.redirect_uris[0];
 
 const oAuth2Client = new google.auth.OAuth2({
   clientId,
@@ -23,14 +23,18 @@ const oAuth2Client = new google.auth.OAuth2({
 });
 
 // For google config
-const SCOPES = ["https://www.googleapis.com/auth/drive"];
+const SCOPES = [
+  "https://www.googleapis.com/auth/drive.appdata",
+  "https://www.googleapis.com/auth/drive.file",
+];
 
 interface Data {
   status: string;
   status_code: number;
   message: string;
   data?: {
-    uri: string;
+    uri?: string;
+    token?: string;
   };
 }
 
@@ -59,7 +63,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   await runMiddleware(req, res, cors);
-  console.log(clientId);
+
   if (req.method === "GET") {
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: "offline",
@@ -73,6 +77,38 @@ export default async function handler(
       data: {
         uri: authUrl,
       },
+    });
+  }
+
+  if (req.method === "POST") {
+    if (req.body.code === null) {
+      res.status(400).json({
+        status: "fail",
+        status_code: 400,
+        message: "there is no code to access token",
+      });
+      return;
+    }
+    console.log(req.body.code);
+    oAuth2Client.getToken(req.body.code, (error: any, token: any) => {
+      if (error) {
+        res.status(400).json({
+          status: "fail",
+          status_code: 400,
+          message: "fail to get token",
+        });
+
+        return;
+      }
+
+      res.status(200).json({
+        status: "success",
+        status_code: 200,
+        message: "get drive access successfully!",
+        data: {
+          token,
+        },
+      });
     });
   }
 }
