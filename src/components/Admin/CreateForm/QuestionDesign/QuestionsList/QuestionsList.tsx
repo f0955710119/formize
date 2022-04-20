@@ -129,10 +129,7 @@ const QuestionsList: FC = () => {
       ) : (
         <>
           {questions.map((question, i) => (
-            <CreatedQuestionWrapper
-              key={question.title}
-              onClick={() => deleteQuestionHandler(question.id)}
-            >
+            <CreatedQuestionWrapper key={question.title}>
               <DeleteButtonWrapper
                 onClick={() => deleteQuestionHandler(question.id)}
               >
