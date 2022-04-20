@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { StyledComponentTheme } from "../../../../../../store/theme/theme";
+import { StyledComponentTheme } from "../../../../../store/theme/theme";
 interface FieldProps {
   isActive?: boolean;
   theme: StyledComponentTheme;
 }
 
 const Field = styled.div<FieldProps>`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
-import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
-import questionActionType from "../../../../../../store/actionType/questionActionType";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import questionActionType from "../../../../../store/actionType/questionActionType";
 import styled from "styled-components";
 import { TextField } from "@mui/material";
-import { questionActions } from "../../../../../../store/slice/questionSlice";
+import { questionActions } from "../../../../../store/slice/questionSlice";
 
 const TitleInputWrapper = styled.div`
   width: 100%;

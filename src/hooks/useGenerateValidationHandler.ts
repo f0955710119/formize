@@ -2,7 +2,6 @@ import { useAppDispatch } from "./useAppDispatch";
 import type { Question } from "../types/question";
 import { questionActions } from "../store/slice/questionSlice";
 import questionActionType from "../store/actionType/questionActionType";
-import helper from "../utils/helper";
 
 const useGenerateValidationHandler = (
   id: string,

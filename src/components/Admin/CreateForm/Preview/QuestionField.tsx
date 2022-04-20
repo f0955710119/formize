@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { useAppSelector } from "../../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../store/slice/questionSlice";
-import Field from "./Fields/UI/Field";
-import TitleIndex from "./Fields/UI/TitleIndex";
-import EditableTitle from "./Fields/UI/EditableTitle";
-import Note from "./Fields/UI/Note";
+import Field from "./UI/Field";
+import TitleIndex from "./UI/TitleIndex";
+import EditableTitle from "./UI/EditableTitle";
+import Note from "./UI/Note";
 import type { Question } from "../../../../types/question";
 
 import OneLineText from "./Fields/OneLineText";
@@ -18,6 +18,8 @@ import Martix from "./Fields/Martix";
 import Slider from "./Fields/Slider";
 import SequenceWeight from "./Fields/Sort";
 import Date from "./Fields/Date";
+import QuestionDeleteButton from "./QuestionDeleteButton";
+import useDeleteQuestion from "../../../../hooks/useDeleteQuestion";
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -88,21 +90,38 @@ const QuestionField: FC<QuestionFieldProps> = ({
 }: QuestionFieldProps) => {
   const dispatch = useAppDispatch();
   const { editingQuestion } = useAppSelector((state) => state.question);
-  const editingFieldHandler = (question: Question) => {
+  const editingFieldHandler = (question: Question, target: Element) => {
     const hasSwitched = editingQuestion && editingQuestion.id === question.id;
     if (hasSwitched) return;
+
     dispatch(questionActions.willChangeLimitationValue(true));
+
+    const hasId = target.id ? true : false;
+    if (hasId && target.id === question.id) {
+      dispatch(questionActions.switchEditingQuestion(null));
+      return;
+    }
     dispatch(questionActions.switchEditingQuestion(question));
   };
+
+  const deleteAddedQuestionHandler = useDeleteQuestion(editingQuestion);
 
   return (
     <Field
       key={question.id}
-      onClick={() => {
-        editingFieldHandler(question);
+      onClick={(event) => {
+        const { target } = event;
+        editingFieldHandler(question, target as Element);
       }}
       isActive={question.id === editingQuestion?.id}
     >
+      <QuestionDeleteButton
+        id={question.id}
+        text="X"
+        clickHandler={() => {
+          deleteAddedQuestionHandler(question.id);
+        }}
+      />
       {question.type !== "2" && (
         <>
           <TitleWrapper>

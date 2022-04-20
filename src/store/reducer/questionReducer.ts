@@ -128,7 +128,7 @@ const updateSiglePropOfQuestion: CaseReducer<
 
 const switchEditingQuestion: CaseReducer<
   QuestionState,
-  PayloadAction<Question>
+  PayloadAction<Question | null>
 > = (state, action) => {
   state.editingQuestion = action.payload;
 };

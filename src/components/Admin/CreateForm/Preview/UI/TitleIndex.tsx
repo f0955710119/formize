@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
-import { useAppSelector } from "../../../../../../hooks/useAppSelector";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
 const TitleIndexText = styled.span`
   font-size: 2.2rem;

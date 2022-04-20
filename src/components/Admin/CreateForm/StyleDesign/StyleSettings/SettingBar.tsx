@@ -83,10 +83,9 @@ const defaultBackgroundList = Object.keys(backgroundConfig)
 const SettingBar: FC = () => {
   const [stylingOption, setStylingOption] = useState<number>(0);
   const { uid } = useAppSelector((state) => state.user);
-  const switchStepHanlder = useSwitchCurrentStep();
-  const style = useAppSelector((state) => state.style);
-  console.log(style);
+
   useCheckUid(uid);
+  const switchStepHanlder = useSwitchCurrentStep();
   const switchStyleHandler = useStyleHandler();
   const sendFormDataHandler = useDeployForm();
   const sendingFormData = useFormData();

@@ -16,9 +16,9 @@ const useLoginCheck = (isHomePage: boolean = false) => {
         const uid = await firebase.checkAuthState();
         if (typeof uid !== "string") throw "未登入狀態";
         dispatch(userActions.updateLoginState(uid));
-        // if (isHomePage) {
-        //   router.push("/admin");
-        // }
+        if (isHomePage) {
+          router.push("/admin");
+        }
       } catch (error: any) {
         console.error(error);
       }
