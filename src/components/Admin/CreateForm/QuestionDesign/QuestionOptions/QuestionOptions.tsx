@@ -189,8 +189,7 @@ const QuestionOptions: FC = () => {
         ))}
       </OptionList>
       <OptionHeading>限制</OptionHeading>
-      {/* {editingQuestion && generateLimitation(editingQuestion)} */}
-      {editingQuestion && "hi" + editingQuestion.id}
+      {editingQuestion && generateLimitation(editingQuestion)}
     </OptionsLayout>
   );
 };

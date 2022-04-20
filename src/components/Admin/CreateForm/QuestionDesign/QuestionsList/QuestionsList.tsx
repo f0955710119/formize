@@ -6,6 +6,7 @@ import Layout from "../../UI/Layout";
 import CreatedQuestion from "./CreatedQuestion";
 import QuestionPage from "./QuestionPage";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
+import useDeleteQuestion from "../../../../../hooks/useDeleteQuestion";
 
 // BUG: 要去想怎麼做數值對照的轉換( 寫 switch function 匯出對應的中文字) + 設定 config 轉換
 // const defaultQuestionList: QuestionList[] = [
@@ -79,9 +80,20 @@ const NavigatorButton = styled(ButtonWrapper)`
   background-color: #f90;
 `;
 
+const DeleteButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  height: 100%;
+`;
+
 const QuestionsList: FC = () => {
   const { mode, pageQuantity } = useAppSelector((state) => state.setting);
-  const { questions } = useAppSelector((state) => state.question);
+  const { questions, editingQuestion } = useAppSelector(
+    (state) => state.question
+  );
+  const deleteQuestionHandler = useDeleteQuestion(editingQuestion);
   const switchStepHandler = useSwitchCurrentStep();
   return (
     <ListLayout>
@@ -93,11 +105,20 @@ const QuestionsList: FC = () => {
             <QuestionPage title={`第${i + 1}頁`} key={i}>
               {questions.map((question) => (
                 <CreatedQuestionWrapper key={question.id}>
-                  <DeleteSharpIcon
-                    sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
-                  />
+                  <DeleteButtonWrapper
+                    onClick={() => deleteQuestionHandler(question.id)}
+                  >
+                    <DeleteSharpIcon
+                      sx={{
+                        width: "100%",
+                        height: "2rem",
+                        fill: "#c8c8c8",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </DeleteButtonWrapper>
                   <CreatedQuestion
-                    title={question.title}
+                    title={question.type === "2" ? "引言" : question.title}
                     note={question.note}
                     questionType={question.type}
                   />
@@ -107,15 +128,27 @@ const QuestionsList: FC = () => {
           ))
       ) : (
         <>
-          {questions.map((list, i) => (
-            <CreatedQuestionWrapper key={list.title}>
-              <DeleteSharpIcon
-                sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
-              />
+          {questions.map((question, i) => (
+            <CreatedQuestionWrapper
+              key={question.title}
+              onClick={() => deleteQuestionHandler(question.id)}
+            >
+              <DeleteButtonWrapper
+                onClick={() => deleteQuestionHandler(question.id)}
+              >
+                <DeleteSharpIcon
+                  sx={{
+                    width: "100%",
+                    height: "2rem",
+                    fill: "#c8c8c8",
+                    cursor: "pointer",
+                  }}
+                />
+              </DeleteButtonWrapper>
               <CreatedQuestion
-                title={list.title}
-                note={list.note}
-                questionType={list.type}
+                title={question.title}
+                note={question.note}
+                questionType={question.type}
               />
             </CreatedQuestionWrapper>
           ))}
