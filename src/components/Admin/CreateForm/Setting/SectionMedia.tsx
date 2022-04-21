@@ -75,7 +75,7 @@ const SectionMedia: FC = () => {
     <SectionWrapper>
       <SectionHeading>媒體設定</SectionHeading>
       <Field>
-        {router.asPath.includes("code") ? (
+        {accessToken !== "" ? (
           <DriveLabel style={{ cursor: "default", color: "#aaa" }}>
             已連結至雲端
           </DriveLabel>

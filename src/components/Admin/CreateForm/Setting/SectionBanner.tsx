@@ -37,6 +37,7 @@ const ImageInput = styled(Input)`
 const SectionBanner: FC = () => {
   const [welcomeImageName, setWelcomeImageName] = useState<string>("點擊上傳");
   const [endImageName, setEndImageName] = useState<string>("點擊上傳");
+  const [welcomeImage, setWelcomeImage] = useState<any>();
 
   const changeUploadImageHandler = (
     event: any,
@@ -44,6 +45,9 @@ const SectionBanner: FC = () => {
   ) => {
     const file = event.target.files[0];
     setState(file.name);
+    console.log(typeof file);
+    console.log(file);
+    setWelcomeImage(file);
   };
 
   return (
@@ -60,6 +64,31 @@ const SectionBanner: FC = () => {
           }}
         />
       </BannerField>
+      <button
+        type="button"
+        onClick={() => {
+          async function test() {
+            const form = new FormData();
+
+            form.append("file", welcomeImage);
+            form.append("token", "1");
+            console.log(form);
+            const formDa = Object.fromEntries(form);
+            console.log(formDa);
+            const response = await fetch("/api/admin/survey/drive/image", {
+              method: "POST",
+              body: form,
+            });
+
+            const data = await response.json();
+            console.log(data.data);
+          }
+
+          test();
+        }}
+      >
+        確認上傳歡迎頁圖檔
+      </button>
       <BannerField style={{ height: "15rem" }}>
         <Label>歡迎頁文字</Label>
         <TexteraInput type="text" />
