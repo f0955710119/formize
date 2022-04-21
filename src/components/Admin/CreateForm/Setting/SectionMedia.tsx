@@ -9,6 +9,7 @@ import SectionWrapper from "../UI/Section";
 import SectionHeading from "../UI/SectionHeading";
 import Field from "../UI/Field";
 import Label from "../UI/Label";
+import { useAppSelector } from "../../../../hooks/useAppSelector";
 
 const DriveLabel = styled(Label)`
   width: 100%;
@@ -21,12 +22,13 @@ const SectionMedia: FC = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
+  const { accessToken } = useAppSelector((state) => state.admin.driveToken);
   const [accessToTokenUri, setAccessToTokenUri] =
     useState<string>("/admin/new");
 
   const getDriveUri = async () => {
     try {
-      const response = await fetch("/api/admin/survey/drive").catch(() => {
+      const response = await fetch("/api/admin/survey/drive/auth").catch(() => {
         throw new Error("沒有取得前往開權限的連結");
       });
       const data = await response.json().catch(() => {
@@ -38,11 +40,13 @@ const SectionMedia: FC = () => {
       console.error(error.message);
     }
   };
+  const query = router.query;
+  console.log(query);
 
   const getDriveToken = async () => {
-    const code = router.asPath.split("?code=")[1];
+    const { code } = query;
     try {
-      const response = await fetch("/api/admin/survey/drive", {
+      const response = await fetch("/api/admin/survey/drive/auth", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ code }),
@@ -52,8 +56,7 @@ const SectionMedia: FC = () => {
       const data = await response.json().catch(() => {
         throw new Error("轉換token的json失敗");
       });
-      console.log(data.data.token.access_token);
-      dispatch(adminActions.setUserDriveToken(data.data.token.access_token));
+      dispatch(adminActions.setUserDriveToken(data.data));
     } catch (error: any) {
       console.error(error.message);
     }
@@ -61,7 +64,7 @@ const SectionMedia: FC = () => {
 
   useEffect(() => {
     if (!router.isReady) return;
-    if (router.asPath.includes("code")) {
+    if (router.asPath.includes("code") && accessToken === "") {
       getDriveToken();
       return;
     }

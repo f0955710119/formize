@@ -65,14 +65,11 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   await runMiddleware(req, res, cors);
-
-  console.log(oAuth2Client);
-
   if (req.method === "GET") {
-    console.log(oAuth2Client);
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: "offline",
       scope: SCOPES,
+      include_granted_scopes: true,
     });
 
     res.status(200).json({
@@ -95,31 +92,29 @@ export default async function handler(
       return;
     }
 
-    oAuth2Client.getToken(req.body.code, (error: any, token: any) => {
-      if (error) {
-        res.status(400).json({
-          status: "fail",
-          status_code: 400,
-          message: "fail to get token",
-        });
+    try {
+      const { tokens } = await oAuth2Client.getToken(req.body.code);
 
-        return;
-      }
-      oAuth2Client.setCredentials(token);
-
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err: any) => {
+      fs.writeFile(TOKEN_PATH, JSON.stringify(tokens), (err: any) => {
         if (err) return console.error(err);
         console.log("Token stored to", TOKEN_PATH);
       });
-
+      oAuth2Client.setCredentials(tokens);
       res.status(200).json({
         status: "success",
         status_code: 200,
         message: "get drive access successfully!",
         data: {
-          ...token,
+          ...tokens,
         },
       });
-    });
+    } catch (error: any) {
+      console.error(error.message);
+      res.status(400).json({
+        status: "fail",
+        status_code: 400,
+        message: "fail to get token: " + error.message,
+      });
+    }
   }
 }
