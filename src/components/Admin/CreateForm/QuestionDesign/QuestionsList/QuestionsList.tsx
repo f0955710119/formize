@@ -98,6 +98,10 @@ const QuestionsList: FC = () => {
   const deleteQuestionHandler = useDeleteQuestion(editingQuestion);
   const switchStepHandler = useSwitchCurrentStep();
   const indexArr = helper.generateQuestionIndexArr(questions);
+  const multiPageQuestionIndexArr = helper.generateQuestionMultiPageIndexArr(
+    pageQuantity,
+    questions
+  );
 
   return (
     <ListLayout>
@@ -113,6 +117,7 @@ const QuestionsList: FC = () => {
               <MultiPage
                 key={i}
                 page={i}
+                titleIndexArr={multiPageQuestionIndexArr[i]}
                 deleteQuestionHandler={deleteQuestionHandler}
               />
             ))}
@@ -137,7 +142,6 @@ const QuestionsList: FC = () => {
       )}
 
       <Heading>功能</Heading>
-      {/* BUG: 為什麼有時候帶styled-component的樣式去component會失敗 */}
       <AddPageButton type="button" onClick={() => setHasOpenModal(true)}>
         <ButtonText>新增分頁</ButtonText>
       </AddPageButton>

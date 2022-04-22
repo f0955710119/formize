@@ -3,8 +3,9 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import styled from "styled-components";
 import AddCommentSharpIcon from "@mui/icons-material/AddCommentSharp";
-import questionConfig from "../../../../../utils/questionConfig";
+import questionConfig from "../../../../../configs/questionConfig";
 import helper from "../../../../../utils/helper";
+import questionDefaultConfig from "../../../../../configs/questionDefaultConfig";
 
 const OptionWrapper = styled.div`
   display: flex;
@@ -46,16 +47,16 @@ const AddCommentSharpIconWrapper = styled(IconWrapper)<AddCommentSharpIconWrappe
 `;
 
 const questionDefaultList = [
-  questionConfig.ONE_LINE_TEXT_DEFAULT,
-  questionConfig.MULTIPLE_LINE_TEXT_DEFAULT,
-  questionConfig.INTRODUCTION_DEFAULT,
-  questionConfig.ONE_CHOICE_DEFAULT,
-  questionConfig.MULTIPLE_CHOICE_DEFAULT,
-  questionConfig.MARTIX_DEFAULT,
-  questionConfig.NUMBER_DEFAULT,
-  questionConfig.SLIDER_DEFAULT,
-  questionConfig.SORT_DEFAULT,
-  questionConfig.DATE_DEFAULT,
+  questionDefaultConfig.ONE_LINE_TEXT_DEFAULT,
+  questionDefaultConfig.MULTIPLE_LINE_TEXT_DEFAULT,
+  questionDefaultConfig.INTRODUCTION_DEFAULT,
+  questionDefaultConfig.ONE_CHOICE_DEFAULT,
+  questionDefaultConfig.MULTIPLE_CHOICE_DEFAULT,
+  questionDefaultConfig.MARTIX_DEFAULT,
+  questionDefaultConfig.NUMBER_DEFAULT,
+  questionDefaultConfig.SLIDER_DEFAULT,
+  questionDefaultConfig.SORT_DEFAULT,
+  questionDefaultConfig.DATE_DEFAULT,
 ];
 
 interface OptionItemProps {

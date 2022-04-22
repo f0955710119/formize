@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import styled from "styled-components";
 import Layout from "../../UI/Layout";
 
-import questionConfig from "../../../../../utils/questionConfig";
+import questionConfig from "../../../../../configs/questionConfig";
 import { Question } from "../../../../../types/question";
 
 import OptionItem from "./OptionItem";

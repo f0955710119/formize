@@ -3,6 +3,9 @@ import type { QuestionState, ErrorMessage } from "../slice/questionSlice";
 import type { Question } from "../../types/question";
 import type { Validation } from "../../types/validation";
 import questionActionType from "../actionType/questionActionType";
+import questionConfig from "../../configs/questionConfig";
+import helper from "../../utils/helper";
+import questionDefaultConfig from "../../configs/questionDefaultConfig";
 
 /*
   新增題目
@@ -147,6 +150,34 @@ const switchCreatingFormStep: CaseReducer<
   state.currentStep = action.payload;
 };
 
+const switchEditingFormPage: CaseReducer<
+  QuestionState,
+  PayloadAction<number>
+> = (state, action) => {
+  state.editingFormPage = action.payload;
+};
+
+const addNewFormPage: CaseReducer<
+  QuestionState,
+  PayloadAction<{
+    questionType: string;
+    newPage: number;
+  }>
+> = (state, action) => {
+  const defaultQuestionType = helper.generateResponsedQuestionDefault(
+    action.payload.questionType
+  );
+
+  const defaultQuestion = {
+    ...questionDefaultConfig[defaultQuestionType],
+    page: action.payload.newPage,
+  };
+
+
+  state.questions.push(defaultQuestion);
+  state.editingFormPage = action.payload.newPage;
+};
+
 export default {
   addNewQuestion,
   deleteExistedQuestion,
@@ -154,4 +185,6 @@ export default {
   switchEditingQuestion,
   willChangeLimitationValue,
   switchCreatingFormStep,
+  switchEditingFormPage,
+  addNewFormPage,
 };

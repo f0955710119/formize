@@ -1,5 +1,6 @@
 import { FC, Dispatch, useState } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 
 import Modal from "../../UI/Modal";
 
@@ -11,20 +12,23 @@ import MenuItem from "@mui/material/MenuItem";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-import questionConfig from "../../../../../utils/questionConfig";
 import helper from "../../../../../utils/helper";
+import questionDefaultConfig from "../../../../../configs/questionDefaultConfig";
+import { questionActions } from "../../../../../store/slice/questionSlice";
+import { settingActions } from "../../../../../store/slice/settingSlice";
+import settingActinoType from "../../../../../store/actionType/settingActionType";
 
 const questionDefaultList = [
-  questionConfig.ONE_LINE_TEXT_DEFAULT,
-  questionConfig.MULTIPLE_LINE_TEXT_DEFAULT,
-  questionConfig.INTRODUCTION_DEFAULT,
-  questionConfig.ONE_CHOICE_DEFAULT,
-  questionConfig.MULTIPLE_CHOICE_DEFAULT,
-  questionConfig.MARTIX_DEFAULT,
-  questionConfig.NUMBER_DEFAULT,
-  questionConfig.SLIDER_DEFAULT,
-  questionConfig.SORT_DEFAULT,
-  questionConfig.DATE_DEFAULT,
+  questionDefaultConfig.ONE_LINE_TEXT_DEFAULT,
+  questionDefaultConfig.MULTIPLE_LINE_TEXT_DEFAULT,
+  questionDefaultConfig.INTRODUCTION_DEFAULT,
+  questionDefaultConfig.ONE_CHOICE_DEFAULT,
+  questionDefaultConfig.MULTIPLE_CHOICE_DEFAULT,
+  questionDefaultConfig.MARTIX_DEFAULT,
+  questionDefaultConfig.NUMBER_DEFAULT,
+  questionDefaultConfig.SLIDER_DEFAULT,
+  questionDefaultConfig.SORT_DEFAULT,
+  questionDefaultConfig.DATE_DEFAULT,
 ];
 
 interface NewPageModalProps {
@@ -36,13 +40,34 @@ const NewPageModal: FC<NewPageModalProps> = ({
   hasOpenModal,
   setModal,
 }: NewPageModalProps) => {
+  const dispatch = useAppDispatch();
   const { questions } = useAppSelector((state) => state.question);
+  const { pageQuantity } = useAppSelector((state) => state.setting);
   const [toggleNewPageQuestion, setToggleNewPageQuestion] =
     useState<string>("left");
   const [selectedNewQuestion, setSelectedNewQuestion] = useState<string>("0");
   const [selectedCreatedQuestion, setSelectedCreatedQuestion] =
     useState<string>(questions[0].id);
   const indexArr = helper.generateQuestionIndexArr(questions);
+
+  const addNewFormPageHandler = () => {
+    if (toggleNewPageQuestion === "left") {
+      dispatch(
+        questionActions.addNewFormPage({
+          questionType: selectedNewQuestion,
+          newPage: pageQuantity + 1,
+        })
+      );
+      dispatch(
+        settingActions.updateSingleSettingInput({
+          actionType: settingActinoType.PAGE_QUANTITY,
+          value: pageQuantity + 1,
+        })
+      );
+      setModal(false);
+    }
+  };
+
   return (
     <Modal
       title="新增問卷分頁"
@@ -50,7 +75,7 @@ const NewPageModal: FC<NewPageModalProps> = ({
       undoButtonText="取消"
       hasOpenModal={hasOpenModal}
       setModal={setModal}
-      //   submitHandler={}
+      submitHandler={addNewFormPageHandler}
     >
       {questions.length > 1 && (
         <ToggleButtonGroup

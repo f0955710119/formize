@@ -31,23 +31,27 @@ const Modal: FC<Modal> = ({
   submitHandler,
 }: Modal) => {
   const closeHandler = () => setModal(false);
+
   return (
-    <div>
-      <Dialog open={hasOpenModal} onClose={closeHandler} fullWidth>
-        {title && <DialogTitle>{title}</DialogTitle>}
-        <DialogContent>
-          <DialogContentText>{children}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          {undoButtonText && (
-            <button onClick={submitHandler ? submitHandler : closeHandler}>
-              {undoButtonText}
-            </button>
-          )}
-          <button onClick={closeHandler}>{submuitButtonText}</button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog open={hasOpenModal} onClose={closeHandler} fullWidth>
+      {title && <DialogTitle>{title}</DialogTitle>}
+      <DialogContent>
+        <DialogContentText>{children}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        {undoButtonText && (
+          <button type="button" onClick={closeHandler}>
+            {undoButtonText}
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={submitHandler ? submitHandler : closeHandler}
+        >
+          {submuitButtonText}
+        </button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

@@ -13,7 +13,7 @@ import Field from "./UI/Field";
 import Label from "./UI/Label";
 
 import helper from "../../../../../../utils/helper";
-import questionConfig from "../../../../../../utils/questionConfig";
+import questionConfig from "../../../../../../configs/questionConfig";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import { useAppSelector } from "../../../../../../hooks/useAppSelector";

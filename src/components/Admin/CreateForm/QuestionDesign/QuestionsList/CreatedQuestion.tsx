@@ -74,9 +74,9 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
 }: CreatedQuestionProps) => {
   return (
     <QuestionWrapper>
+      {generateIcon(questionType)}
       <Title>{title}</Title>
       {/* BUG: 帶入數字TYPE會報錯，但改文字就可以，為何 */}
-      {generateIcon(questionType)}
       <Note>{note}</Note>
     </QuestionWrapper>
   );

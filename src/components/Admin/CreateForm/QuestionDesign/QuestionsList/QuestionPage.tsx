@@ -33,7 +33,7 @@ const QuestionPage: FC<QuestionPageProps> = ({
   title,
   children,
 }: QuestionPageProps) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(true);
   return (
     <PageWrapper>
       <TitleWrapper>

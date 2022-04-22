@@ -40,6 +40,27 @@ export default {
       return "";
     });
   },
+  generateQuestionMultiPageIndexArr(
+    pageQuantity: number,
+    questionList: Question[]
+  ) {
+    const countNumberOfQuestionPage = Array(pageQuantity).fill(0);
+    questionList.forEach((question) => {
+      countNumberOfQuestionPage[question.page - 1] =
+        countNumberOfQuestionPage[question.page - 1] + 1;
+    });
+
+    const indexArr = this.generateQuestionIndexArr(questionList);
+    const interval = [0];
+    countNumberOfQuestionPage.forEach((number, i) =>
+      interval.push(number + interval[i])
+    );
+
+    const indexInDifferentPageArr = countNumberOfQuestionPage.map((_, i) =>
+      indexArr.slice(interval[i], interval[i + 1])
+    );
+    return indexInDifferentPageArr;
+  },
   generateUserSurveyQuestionTitle(index: string, title: string) {
     if (index === "") return title;
     return `${index}. ${title}`;
@@ -199,6 +220,22 @@ export default {
       "7": "滑桿題",
       "8": "排序題",
       "9": "日期題",
+    };
+
+    return responsedObj[type];
+  },
+  generateResponsedQuestionDefault(type: string) {
+    const responsedObj: { [key: string]: string } = {
+      "0": "ONE_LINE_TEXT_DEFAULT",
+      "1": "MULTIPLE_LINE_TEXT_DEFAULT",
+      "2": "INTRODUCTION_DEFAULT",
+      "3": "ONE_CHOICE_DEFAULT",
+      "4": "MULTIPLE_CHOICE_DEFAULT",
+      "5": "MARTIX_DEFAULT",
+      "6": "NUMBER_DEFAULT",
+      "7": "SLIDER_DEFAULT",
+      "8": "SORT_DEFAULT",
+      "9": "DATE_DEFAULT",
     };
 
     return responsedObj[type];

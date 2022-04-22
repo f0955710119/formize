@@ -12,7 +12,7 @@ import LimitationWrapper from "./UI/LimitationWrapper";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
 
-import questionConfig from "../../../../../../utils/questionConfig";
+import questionConfig from "../../../../../../configs/questionConfig";
 
 interface NumberLimitationProps {
   id: string;

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
-import questionConfig from "../../../../../../utils/questionConfig";
+import questionConfig from "../../../../../../configs/questionConfig";
 import useGetQuestion from "../../../../../../hooks/useQuestion";
 
 import { Question } from "../../../../../../types/question";
@@ -13,8 +13,6 @@ import TextInput from "./UI/TextInput";
 import LimitationWrapper from "./UI/LimitationWrapper";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
-
-import questinoConfig from "../../../../../../utils/questionConfig";
 
 interface TextLimitationProps {
   id: string;
@@ -41,7 +39,7 @@ const TextLimitation: FC<TextLimitationProps> = ({
         <Field>
           <Label>驗證</Label>
           {question.validations.textType && (
-            <ComboBox options={questinoConfig.DEFAULT_TEXT_TYPE_LIST} />
+            <ComboBox options={["文字", "信箱", "手機"]} />
           )}
         </Field>
       )}

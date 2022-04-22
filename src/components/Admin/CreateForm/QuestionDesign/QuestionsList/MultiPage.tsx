@@ -25,11 +25,13 @@ const DeleteButtonWrapper = styled.div`
 
 interface MultiPageProps {
   page: number;
+  titleIndexArr: string[];
   deleteQuestionHandler: (questionId: string) => void;
 }
 
 const MultiPage: FC<MultiPageProps> = ({
   page,
+  titleIndexArr,
   deleteQuestionHandler,
 }: MultiPageProps) => {
   const { questions } = useAppSelector((state) => state.question);
@@ -37,31 +39,33 @@ const MultiPage: FC<MultiPageProps> = ({
 
   return (
     <QuestionPage title={`第${helper.generateChineseNumberString(page)}頁`}>
-      {questions.map((question, i) => (
-        <CreatedQuestionWrapper key={question.id}>
-          <DeleteButtonWrapper
-            onClick={() => deleteQuestionHandler(question.id)}
-          >
-            <DeleteSharpIcon
-              sx={{
-                width: "100%",
-                height: "2.4rem",
-                fill: "#c8c8c8",
-                cursor: "pointer",
-              }}
+      {questions
+        .filter((question) => question.page === page + 1)
+        .map((question, i) => (
+          <CreatedQuestionWrapper key={question.id}>
+            <DeleteButtonWrapper
+              onClick={() => deleteQuestionHandler(question.id)}
+            >
+              <DeleteSharpIcon
+                sx={{
+                  width: "100%",
+                  height: "2.4rem",
+                  fill: "#c8c8c8",
+                  cursor: "pointer",
+                }}
+              />
+            </DeleteButtonWrapper>
+            <CreatedQuestion
+              title={
+                question.type === "2"
+                  ? "引言"
+                  : `${titleIndexArr[i]} ${question.title}`
+              }
+              note={question.note}
+              questionType={question.type}
             />
-          </DeleteButtonWrapper>
-          <CreatedQuestion
-            title={
-              question.type === "2"
-                ? "引言"
-                : `${indexArr[i]} ${question.title}`
-            }
-            note={question.note}
-            questionType={question.type}
-          />
-        </CreatedQuestionWrapper>
-      ))}
+          </CreatedQuestionWrapper>
+        ))}
     </QuestionPage>
   );
 };

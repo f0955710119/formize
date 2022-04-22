@@ -63,7 +63,7 @@ const SettingForm: FC = () => {
     router.push("/admin");
   };
   const setting = useAppSelector((state) => state.setting);
-  console.log(setting);
+
   return (
     <Wrapper>
       <Form>

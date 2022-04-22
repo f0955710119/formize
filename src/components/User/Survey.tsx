@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Question } from "../../types/question";
 import type { UserSurvey } from "../../types/userSurvey";
 import helper from "../../utils/helper";
-import questionConfig from "../../utils/questionConfig";
+import questionConfig from "../../configs/questionConfig";
 
 import OneLineText from "./Questions/OneLineText";
 import MultipleLineText from "./Questions/MultipleLineText";
