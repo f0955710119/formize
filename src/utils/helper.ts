@@ -172,4 +172,35 @@ export default {
 
     return responsedObj[unit];
   },
+  generateChineseNumberString(number: number) {
+    const chineseNumberList = [
+      "一",
+      "二",
+      "三",
+      "四",
+      "五",
+      "六",
+      "七",
+      "八",
+      "九",
+      "十",
+    ];
+    return chineseNumberList[number];
+  },
+  generateResponsedQuestionTypeName(type: string) {
+    const responsedObj: { [key: string]: string } = {
+      "0": "單行文字",
+      "1": "多行文字",
+      "2": "引言",
+      "3": "單選題",
+      "4": "多選題",
+      "5": "矩陣題",
+      "6": "數值題",
+      "7": "滑桿題",
+      "8": "排序題",
+      "9": "日期題",
+    };
+
+    return responsedObj[type];
+  },
 };

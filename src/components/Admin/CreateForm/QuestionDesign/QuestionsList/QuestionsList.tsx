@@ -1,19 +1,19 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
-import styled from "styled-components";
-import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
-import Layout from "../../UI/Layout";
-import CreatedQuestion from "./CreatedQuestion";
-import QuestionPage from "./QuestionPage";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 import useDeleteQuestion from "../../../../../hooks/useDeleteQuestion";
 
-// BUG: 要去想怎麼做數值對照的轉換( 寫 switch function 匯出對應的中文字) + 設定 config 轉換
-// const defaultQuestionList: QuestionList[] = [
-//   { title: "1.您的姓名?", note: "有關係就沒關係", questionType: 0 },
-//   { title: "2.您的年齡?", note: "有關係就沒關係", questionType: 6 },
-//   { title: "3.通勤方式?", note: "有關係就沒關係", questionType: 3 },
-// ];
+import styled from "styled-components";
+import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
+
+import Layout from "../../UI/Layout";
+import CreatedQuestion from "./CreatedQuestion";
+import QuestionPage from "./QuestionPage";
+
+import helper from "../../../../../utils/helper";
+import NewPageModal from "./NewPageModal";
+import MultiPage from "./MultiPage";
+import SinglePage from "./SinglePage";
 
 const ListLayout = styled(Layout)`
   width: 22%;
@@ -89,72 +89,56 @@ const DeleteButtonWrapper = styled.div`
 `;
 
 const QuestionsList: FC = () => {
+  const [hasOpenModal, setHasOpenModal] = useState<boolean>(false);
   const { mode, pageQuantity } = useAppSelector((state) => state.setting);
   const { questions, editingQuestion } = useAppSelector(
     (state) => state.question
   );
+
   const deleteQuestionHandler = useDeleteQuestion(editingQuestion);
   const switchStepHandler = useSwitchCurrentStep();
+  const indexArr = helper.generateQuestionIndexArr(questions);
+
   return (
     <ListLayout>
+      {hasOpenModal && (
+        <NewPageModal hasOpenModal={hasOpenModal} setModal={setHasOpenModal} />
+      )}
       <Heading>題目列表</Heading>
       {mode === "1" ? (
-        Array(pageQuantity)
-          .fill(null)
-          .map((_, i) => (
-            <QuestionPage title={`第${i + 1}頁`} key={i}>
-              {questions.map((question) => (
-                <CreatedQuestionWrapper key={question.id}>
-                  <DeleteButtonWrapper
-                    onClick={() => deleteQuestionHandler(question.id)}
-                  >
-                    <DeleteSharpIcon
-                      sx={{
-                        width: "100%",
-                        height: "2rem",
-                        fill: "#c8c8c8",
-                        cursor: "pointer",
-                      }}
-                    />
-                  </DeleteButtonWrapper>
-                  <CreatedQuestion
-                    title={question.type === "2" ? "引言" : question.title}
-                    note={question.note}
-                    questionType={question.type}
-                  />
-                </CreatedQuestionWrapper>
-              ))}
-            </QuestionPage>
-          ))
+        <>
+          {Array(pageQuantity)
+            .fill(null)
+            .map((_, i) => (
+              <MultiPage
+                key={i}
+                page={i}
+                deleteQuestionHandler={deleteQuestionHandler}
+              />
+            ))}
+        </>
       ) : (
         <>
-          {questions.map((question, i) => (
-            <CreatedQuestionWrapper key={question.title}>
-              <DeleteButtonWrapper
-                onClick={() => deleteQuestionHandler(question.id)}
-              >
-                <DeleteSharpIcon
-                  sx={{
-                    width: "100%",
-                    height: "2rem",
-                    fill: "#c8c8c8",
-                    cursor: "pointer",
-                  }}
-                />
-              </DeleteButtonWrapper>
-              <CreatedQuestion
-                title={question.title}
-                note={question.note}
-                questionType={question.type}
+          {questions.map((question, i) => {
+            const { id, type, note, title } = question;
+            const handledTitle =
+              type === "2" ? "引言" : `${indexArr[i]} ${title}`;
+            return (
+              <SinglePage
+                id={id}
+                type={type}
+                title={handledTitle}
+                note={note}
+                deleteQuestionHandler={deleteQuestionHandler}
               />
-            </CreatedQuestionWrapper>
-          ))}
+            );
+          })}
         </>
       )}
 
       <Heading>功能</Heading>
       {/* BUG: 為什麼有時候帶styled-component的樣式去component會失敗 */}
-      <AddPageButton type="button" onClick={() => console.log("h1")}>
+      <AddPageButton type="button" onClick={() => setHasOpenModal(true)}>
         <ButtonText>新增分頁</ButtonText>
       </AddPageButton>
       <NavigatorButton

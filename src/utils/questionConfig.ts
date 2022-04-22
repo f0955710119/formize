@@ -1,6 +1,4 @@
 import type { Question } from "../types/question";
-import helper from "./helper";
-
 export default {
   ONE_LINE_TEXT: "0",
   MULTIPLE_LINE_TEXT: "1",

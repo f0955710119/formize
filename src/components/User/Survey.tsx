@@ -1,6 +1,5 @@
 import { FC } from "react";
 import styled from "styled-components";
-import styleConfig from "../../configs/styleConfig";
 import { Question } from "../../types/question";
 import type { UserSurvey } from "../../types/userSurvey";
 import helper from "../../utils/helper";
