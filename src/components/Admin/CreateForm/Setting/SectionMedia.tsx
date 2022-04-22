@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { adminActions } from "../../../../store/slice/adminSlice";
 import styled from "styled-components";
@@ -20,12 +20,13 @@ const DriveLabel = styled(Label)`
 
 const SectionMedia: FC = () => {
   const router = useRouter();
-
+  const hasGetCode = useRef<boolean>(false);
   const dispatch = useAppDispatch();
-  const { accessToken } = useAppSelector((state) => state.admin.driveToken);
+  const { driveToken } = useAppSelector((state) => state.admin);
+  const [test, setTest] = useState<string>("");
   const [accessToTokenUri, setAccessToTokenUri] =
     useState<string>("/admin/new");
-
+  console.log(driveToken);
   const getDriveUri = async () => {
     try {
       const response = await fetch("/api/admin/survey/drive/auth").catch(() => {
@@ -36,6 +37,7 @@ const SectionMedia: FC = () => {
       });
 
       setAccessToTokenUri(data.data.uri);
+      hasGetCode.current = true;
     } catch (error: any) {
       console.error(error.message);
     }
@@ -57,6 +59,8 @@ const SectionMedia: FC = () => {
         throw new Error("轉換token的json失敗");
       });
       dispatch(adminActions.setUserDriveToken(data.data));
+      setTest("1");
+      router.push("/admin/new");
     } catch (error: any) {
       console.error(error.message);
     }
@@ -64,7 +68,8 @@ const SectionMedia: FC = () => {
 
   useEffect(() => {
     if (!router.isReady) return;
-    if (router.asPath.includes("code") && accessToken === "") {
+    if (query.code) {
+      console.log("d");
       getDriveToken();
       return;
     }
@@ -75,7 +80,7 @@ const SectionMedia: FC = () => {
     <SectionWrapper>
       <SectionHeading>媒體設定</SectionHeading>
       <Field>
-        {accessToken !== "" ? (
+        {test !== "" ? (
           <DriveLabel style={{ cursor: "default", color: "#aaa" }}>
             已連結至雲端
           </DriveLabel>

@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 const fs = require("fs");
 const { google } = require("googleapis");
@@ -46,7 +45,6 @@ export default async function handler(
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: "offline",
       scope: SCOPES,
-      include_granted_scopes: true,
     });
 
     res.status(200).json({
@@ -72,10 +70,7 @@ export default async function handler(
     try {
       const { tokens } = await oAuth2Client.getToken(req.body.code);
 
-      fs.writeFile(TOKEN_PATH, JSON.stringify(tokens), (err: any) => {
-        if (err) return console.error(err);
-        console.log("Token stored to", TOKEN_PATH);
-      });
+      // fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokens));
       oAuth2Client.setCredentials(tokens);
       res.status(200).json({
         status: "success",
