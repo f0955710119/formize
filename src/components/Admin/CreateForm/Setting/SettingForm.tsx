@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useRouter } from "next/router";
+import { useAppSelector } from "../../../../hooks/useAppSelector";
 import useSwitchCurrentStep from "../../../../hooks/useSwitchCurrentStep";
 
 import styled from "styled-components";
@@ -61,12 +62,13 @@ const SettingForm: FC = () => {
   const backToAdminIndexPage = (): void => {
     router.push("/admin");
   };
-
+  const setting = useAppSelector((state) => state.setting);
+  console.log(setting);
   return (
     <Wrapper>
       <Form>
         <SectionNormal />
-        <SectionMedia />
+        {/* <SectionMedia /> */}
         <SectionBanner />
         <ButtonWrapper>
           <Button buttonType="button" clickHandler={backToAdminIndexPage}>

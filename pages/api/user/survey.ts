@@ -1,10 +1,8 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
 import firebase from "../../../src/utils/firebase";
 import { Question } from "../../../src/types/question";
 import { Settings, Styles } from "../../../src/types/survey";
-
 
 interface Data {
   status: string;

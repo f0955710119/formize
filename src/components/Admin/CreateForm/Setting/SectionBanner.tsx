@@ -7,19 +7,25 @@ import SectionHeading from "../UI/SectionHeading";
 import Field from "../UI/Field";
 import Label from "../UI/Label";
 import Input from "../UI/Input";
+import { useAppSelector } from "../../../../hooks/useAppSelector";
+import { useAppDispatch } from "../../../../hooks/useAppDispatch";
+import { settingActions } from "../../../../store/slice/settingSlice";
+import settingActionType from "../../../../store/actionType/settingActionType";
 
 const BannerField = styled(Field)`
+  height: 15rem;
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
 `;
 
 const ImageLabel = styled(Label)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: calc(100% - 12rem);
-  height: 3rem;
+  height: 15rem;
   background-color: #aaa;
-  text-align: center;
-  line-height: 30px;
   z-index: 1;
 `;
 
@@ -34,20 +40,34 @@ const ImageInput = styled(Input)`
   display: none;
 `;
 
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
 const SectionBanner: FC = () => {
-  const [welcomeImageName, setWelcomeImageName] = useState<string>("點擊上傳");
-  const [endImageName, setEndImageName] = useState<string>("點擊上傳");
-  const [welcomeImage, setWelcomeImage] = useState<any>();
+  // const [welcomeImageName, setWelcomeImageName] = useState<string>("點擊上傳");
+  // const [endImageName, setEndImageName] = useState<string>("點擊上傳");
+  const dispatch = useAppDispatch();
+  const [welcomeImage, setWelcomeImage] = useState<string | null>();
+  const [endImage, setEndImage] = useState<any>();
 
   const changeUploadImageHandler = (
     event: any,
-    setState: Dispatch<SetStateAction<string>>
+    typeKey: string,
+    setState: Dispatch<string | null>
   ) => {
     const file = event.target.files[0];
-    setState(file.name);
-    console.log(typeof file);
-    console.log(file);
-    setWelcomeImage(file);
+    const url = URL.createObjectURL(file);
+
+    setState(url);
+    dispatch(
+      settingActions.updateSingleSettingInput({
+        actionType: typeKey,
+        value: file,
+      })
+    );
   };
 
   return (
@@ -55,58 +75,65 @@ const SectionBanner: FC = () => {
       <SectionHeading>橫幅設定</SectionHeading>
       <BannerField>
         <Label>歡迎頁圖檔</Label>
-        <ImageLabel htmlFor="welcome-banner">{welcomeImageName}</ImageLabel>
+        <ImageLabel htmlFor="welcome-banner">
+          {welcomeImage ? <Image src={welcomeImage} /> : "點擊上傳"}
+        </ImageLabel>
         <ImageInput
           type="file"
           id="welcome-banner"
           onChange={(event) => {
-            changeUploadImageHandler(event, setWelcomeImageName);
+            changeUploadImageHandler(
+              event,
+              settingActionType.START_PAGE_IMAGE_FILE,
+              setWelcomeImage
+            );
           }}
         />
       </BannerField>
-      <button
-        type="button"
-        onClick={() => {
-          async function test() {
-            const form = new FormData();
-
-            form.append("file", welcomeImage);
-            form.append("token", "1");
-            console.log(form);
-            const formDa = Object.fromEntries(form);
-            console.log(formDa);
-            const response = await fetch("/api/admin/survey/drive/image", {
-              method: "POST",
-              body: form,
-            });
-
-            const data = await response.json();
-            console.log(data.data);
-          }
-
-          test();
-        }}
-      >
-        確認上傳歡迎頁圖檔
-      </button>
       <BannerField style={{ height: "15rem" }}>
         <Label>歡迎頁文字</Label>
-        <TexteraInput type="text" />
+        <TexteraInput
+          type="text"
+          onChange={(event) => {
+            dispatch(
+              settingActions.updateSingleSettingInput({
+                actionType: settingActionType.START_PAGE_PARAGRAPH,
+                value: event.target.value,
+              })
+            );
+          }}
+        />
       </BannerField>
       <BannerField>
         <Label>結束頁圖檔</Label>
-        <ImageLabel htmlFor="end-banner">{endImageName}</ImageLabel>
+        <ImageLabel htmlFor="end-banner">
+          {endImage ? <Image src={endImage} /> : "點擊上傳"}
+        </ImageLabel>
         <ImageInput
           type="file"
           id="end-banner"
           onChange={(event) => {
-            changeUploadImageHandler(event, setEndImageName);
+            changeUploadImageHandler(
+              event,
+              settingActionType.END_PAGE_IMAGE_FILE,
+              setEndImage
+            );
           }}
         />
       </BannerField>
       <BannerField style={{ height: "15rem" }}>
         <Label>結束頁文字</Label>
-        <TexteraInput type="text" />
+        <TexteraInput
+          type="text"
+          onChange={(event) => {
+            dispatch(
+              settingActions.updateSingleSettingInput({
+                actionType: settingActionType.END_PAGE_PARAGRAPH,
+                value: event.target.value,
+              })
+            );
+          }}
+        />
       </BannerField>
     </SectionWrapper>
   );

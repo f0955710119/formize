@@ -1,4 +1,8 @@
-export default {
+interface SettingActionType {
+  [key: string]: string;
+}
+
+const settingActinoType: SettingActionType = {
   TITLE: "title",
   STATUS: "status",
   MODE: "mode",
@@ -10,3 +14,5 @@ export default {
   END_PAGE_IMAGE_FILE: "endPageImageFile",
   END_PAGE_PARAGRAPH: "endPageParagraph",
 };
+
+export default settingActinoType;
