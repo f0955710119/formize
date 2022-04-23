@@ -200,12 +200,16 @@ export default {
     }
   },
   // STORAGE
-  getStorageRef(photoName: string, photoFormat: string) {
+  generateStorageRef(refName: string) {
+    return ref(storage, refName);
+  },
+  getStorageRef(photoName: string) {
     return ref(
       storage,
-      `gs://${process.env.NEXT_PUBLIC_STORAGE_BUCKET}/${photoName}.${photoFormat}`
+      `gs://${process.env.NEXT_PUBLIC_STORAGE_BUCKET}/${photoName}`
     );
   },
+
   async uploadImage(ref: StorageReference, file: Blob) {
     await uploadBytes(ref, file).catch((error) => console.error(error.message));
   },
@@ -213,6 +217,17 @@ export default {
     try {
       const imageURL = await getDownloadURL(ref);
       return imageURL;
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  },
+
+  async generateImageUrl(file: File) {
+    try {
+      const ref = this.getStorageRef(file.name);
+      await this.uploadImage(ref, file);
+      const url = await this.getStoredImages(ref);
+      return url;
     } catch (error: any) {
       console.error(error.message);
     }

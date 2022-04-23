@@ -28,7 +28,7 @@ const useDeleteQuestion = () => {
         value: pageQuantity - 1,
       })
     );
-    dispatch(questionActions.updateQuestionPage(editingFormPage));
+    dispatch(questionActions.updateQuestionPage({ page: editingFormPage }));
     dispatch(
       questionActions.switchEditingFormPage(
         editingFormPage === 1 ? editingFormPage : editingFormPage - 1

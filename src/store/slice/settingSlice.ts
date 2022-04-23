@@ -8,9 +8,9 @@ export interface SettingState {
   pageQuantity: number;
   limitedAnswerTime: number | null;
   limitedResponseQuantity: number | null;
-  startPageImageFile: File | null;
+  startPageImageFile: string | File | null;
   startPageParagraph: string;
-  endPageImageFile: File | null;
+  endPageImageFile: string | File | null;
   endPageParagraph: string;
 }
 
