@@ -54,6 +54,7 @@ const QuestionPage: FC<QuestionPageProps> = ({
     console.log(target);
     dispatch(questionActions.switchEditingFormPage(page));
     dispatch(questionActions.willChangeLimitationValue(true));
+    dispatch(questionActions.switchEditingQuestion(null));
   };
 
   return (

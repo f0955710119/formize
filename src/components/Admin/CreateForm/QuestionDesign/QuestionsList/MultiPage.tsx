@@ -43,7 +43,7 @@ const MultiPage: FC<MultiPageProps> = ({
   const filteredQuestions = questions.filter(
     (question) => question.page === page
   );
-  console.log(page);
+
   return (
     <>
       {page === 1 && (
@@ -54,14 +54,13 @@ const MultiPage: FC<MultiPageProps> = ({
         >
           {filteredQuestions.map((question, i) => (
             <CreatedQuestionWrapper key={question.id}>
-              <DeleteButtonWrapper
-                onClick={() => {
-                  deleteQuestionHandler(question.id);
-                }}
-              >
+              <DeleteButtonWrapper>
                 <DeleteSharpIcon
+                  onClick={() => {
+                    deleteQuestionHandler(question.id);
+                  }}
                   sx={{
-                    width: "100%",
+                    width: "50%",
                     height: "2.4rem",
                     fill: "#c8c8c8",
                     cursor: "pointer",
@@ -89,12 +88,11 @@ const MultiPage: FC<MultiPageProps> = ({
         >
           {filteredQuestions.map((question, i) => (
             <CreatedQuestionWrapper key={question.id}>
-              <DeleteButtonWrapper
-                onClick={() => {
-                  deleteQuestionHandler(question.id);
-                }}
-              >
+              <DeleteButtonWrapper>
                 <DeleteSharpIcon
+                  onClick={() => {
+                    deleteQuestionHandler(question.id);
+                  }}
                   sx={{
                     width: "100%",
                     height: "2.4rem",

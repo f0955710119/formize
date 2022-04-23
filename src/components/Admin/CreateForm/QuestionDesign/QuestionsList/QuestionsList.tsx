@@ -4,11 +4,7 @@ import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 import useDeleteQuestion from "../../../../../hooks/useDeleteQuestion";
 
 import styled from "styled-components";
-import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
-
 import Layout from "../../UI/Layout";
-import CreatedQuestion from "./CreatedQuestion";
-import QuestionPage from "./QuestionPage";
 
 import helper from "../../../../../utils/helper";
 import NewPageModal from "./NewPageModal";
@@ -17,6 +13,15 @@ import SinglePage from "./SinglePage";
 
 const ListLayout = styled(Layout)`
   width: 22%;
+`;
+
+const QuestionWrapper = styled.div`
+  padding-right: 1rem;
+  width: 100%;
+  height: 54vh;
+  display: flex;
+  flex-direction: column;
+
   overflow-y: scroll;
 
   &::-webkit-scrollbar-track {
@@ -41,13 +46,6 @@ const ListLayout = styled(Layout)`
       transparent
     );
   }
-`;
-
-const CreatedQuestionWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin-top: 2rem;
 `;
 
 const Heading = styled.div`
@@ -80,22 +78,14 @@ const NavigatorButton = styled(ButtonWrapper)`
   background-color: #f90;
 `;
 
-const DeleteButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 5rem;
-  height: 100%;
-`;
-
 const QuestionsList: FC = () => {
   const [hasOpenModal, setHasOpenModal] = useState<boolean>(false);
   const { mode, pageQuantity } = useAppSelector((state) => state.setting);
-  const { questions, editingQuestion } = useAppSelector(
-    (state) => state.question
-  );
+  const { questions } = useAppSelector((state) => state.question);
 
-  const deleteQuestionHandler = useDeleteQuestion(editingQuestion);
+  console.log(questions);
+
+  const deleteQuestionHandler = useDeleteQuestion();
   const switchStepHandler = useSwitchCurrentStep();
   const indexArr = helper.generateQuestionIndexArr(questions);
   const multiPageQuestionIndexArr = helper.generateQuestionMultiPageIndexArr(
@@ -105,42 +95,46 @@ const QuestionsList: FC = () => {
 
   return (
     <ListLayout>
-      {hasOpenModal && (
-        <NewPageModal hasOpenModal={hasOpenModal} setModal={setHasOpenModal} />
-      )}
-      <Heading>題目列表</Heading>
-      {mode === "1" ? (
-        <>
-          {Array(pageQuantity)
-            .fill(null)
-            .map((_, i) => (
-              <MultiPage
-                key={i}
-                page={i + 1}
-                titleIndexArr={multiPageQuestionIndexArr[i]}
-                deleteQuestionHandler={deleteQuestionHandler}
-              />
-            ))}
-        </>
-      ) : (
-        <>
-          {questions.map((question, i) => {
-            const { id, type, note, title } = question;
-            const handledTitle =
-              type === "2" ? "引言" : `${indexArr[i]} ${title}`;
-            return (
-              <SinglePage
-                id={id}
-                type={type}
-                title={handledTitle}
-                note={note}
-                deleteQuestionHandler={deleteQuestionHandler}
-              />
-            );
-          })}
-        </>
-      )}
-
+      <QuestionWrapper>
+        {hasOpenModal && (
+          <NewPageModal
+            hasOpenModal={hasOpenModal}
+            setModal={setHasOpenModal}
+          />
+        )}
+        <Heading>題目列表</Heading>
+        {mode === "1" ? (
+          <>
+            {Array(pageQuantity)
+              .fill(null)
+              .map((_, i) => (
+                <MultiPage
+                  key={i}
+                  page={i + 1}
+                  titleIndexArr={multiPageQuestionIndexArr[i]}
+                  deleteQuestionHandler={deleteQuestionHandler}
+                />
+              ))}
+          </>
+        ) : (
+          <>
+            {questions.map((question, i) => {
+              const { id, type, note, title } = question;
+              const handledTitle =
+                type === "2" ? "引言" : `${indexArr[i]} ${title}`;
+              return (
+                <SinglePage
+                  id={id}
+                  type={type}
+                  title={handledTitle}
+                  note={note}
+                  deleteQuestionHandler={deleteQuestionHandler}
+                />
+              );
+            })}
+          </>
+        )}
+      </QuestionWrapper>
       <Heading>功能</Heading>
       <AddPageButton
         type="button"

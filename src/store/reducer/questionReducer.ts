@@ -170,12 +170,35 @@ const addNewFormPage: CaseReducer<
 
   const defaultQuestion = {
     ...questionDefaultConfig[defaultQuestionType],
+    id: helper.generateId(8),
     page: action.payload.newPage,
   };
 
   state.editingQuestion = defaultQuestion;
   state.questions.push(defaultQuestion);
   state.editingFormPage = action.payload.newPage;
+};
+
+const updateQuestionPage: CaseReducer<QuestionState, PayloadAction<number>> = (
+  state,
+  action
+) => {
+  // action.payload 是被改變的頁數
+  state.questions = state.questions.map((question) => {
+    // 如果是刪除第一頁，而第一頁後面有其他頁
+    // if (question.page === 1 && question.page === action.payload) {
+
+    // }
+    // 如果是刪除頁數的前面頁數
+    if (question.page === 1) return question;
+    if (question.page < action.payload) return question;
+    // 如果是刪除頁後面的頁數
+    const updateQuestion = {
+      ...question,
+      page: question.page - 1,
+    };
+    return updateQuestion;
+  });
 };
 
 export default {
@@ -187,4 +210,5 @@ export default {
   switchCreatingFormStep,
   switchEditingFormPage,
   addNewFormPage,
+  updateQuestionPage,
 };

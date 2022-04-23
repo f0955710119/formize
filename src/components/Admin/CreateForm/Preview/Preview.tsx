@@ -106,6 +106,12 @@ const Preview: FC = () => {
   const { font, backgroundImages } = useAppSelector((state) => state.style);
   const fontTheme = helper.generateResposneThemeFontFamily(font);
   const indexArr = helper.generateQuestionIndexArr(questions);
+  const multiPageQuestionIndexArr = helper.generateQuestionMultiPageIndexArr(
+    pageQuantity,
+    questions
+  );
+
+  console.log(editingFormPage);
 
   return (
     <PreviewLayout
@@ -130,13 +136,23 @@ const Preview: FC = () => {
         </>
       )}
       <QuestionWrapper>
-        {questions.map((question, i) => (
-          <QuestionField
-            question={question}
-            key={question.id}
-            titleIndex={indexArr[i]}
-          />
-        ))}
+        {mode === "1"
+          ? questions
+              .filter((question) => question.page === editingFormPage)
+              .map((question, i) => (
+                <QuestionField
+                  question={question}
+                  key={question.id}
+                  titleIndex={multiPageQuestionIndexArr[editingFormPage - 1][i]}
+                />
+              ))
+          : questions.map((question, i) => (
+              <QuestionField
+                question={question}
+                key={question.id}
+                titleIndex={indexArr[i]}
+              />
+            ))}
       </QuestionWrapper>
     </PreviewLayout>
   );

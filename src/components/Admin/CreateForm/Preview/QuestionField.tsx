@@ -104,7 +104,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
     dispatch(questionActions.switchEditingQuestion(question));
   };
 
-  const deleteAddedQuestionHandler = useDeleteQuestion(editingQuestion);
+  const deleteAddedQuestionHandler = useDeleteQuestion();
 
   return (
     <Field

@@ -1,11 +1,10 @@
 import settingActinoType from "../store/actionType/settingActionType";
 import { questionActions } from "../store/slice/questionSlice";
 import { settingActions } from "../store/slice/settingSlice";
-import { Question } from "../types/question";
 import { useAppDispatch } from "./useAppDispatch";
 import { useAppSelector } from "./useAppSelector";
 
-const useDeleteQuestion = (editingQuestion: Question | null) => {
+const useDeleteQuestion = () => {
   const { questions, editingFormPage } = useAppSelector(
     (state) => state.question
   );
@@ -14,24 +13,27 @@ const useDeleteQuestion = (editingQuestion: Question | null) => {
 
   const deleteQuestionHandler = (questionId: string) => {
     dispatch(questionActions.deleteExistedQuestion(questionId));
-    // if (!editingQuestion) return;
-    // if (editingQuestion.id !== questionId) return;
     dispatch(questionActions.switchEditingQuestion(null));
     dispatch(questionActions.willChangeLimitationValue(true));
 
-    if (editingFormPage === 1) return;
-    const pageHasQuestion =
+    if (editingFormPage === 1 && pageQuantity === 1) return;
+    const pageHasOtherQuestions =
       questions.filter((question) => question.page === editingFormPage).length >
-      0;
-    if (pageHasQuestion) return;
-    console.log(pageQuantity - 1);
+      1;
+    if (pageHasOtherQuestions) return;
+
     dispatch(
       settingActions.updateSingleSettingInput({
         actionType: settingActinoType.PAGE_QUANTITY,
         value: pageQuantity - 1,
       })
     );
-    dispatch(questionActions.switchEditingFormPage(editingFormPage - 1));
+    dispatch(questionActions.updateQuestionPage(editingFormPage));
+    dispatch(
+      questionActions.switchEditingFormPage(
+        editingFormPage === 1 ? editingFormPage : editingFormPage - 1
+      )
+    );
   };
 
   return deleteQuestionHandler;
