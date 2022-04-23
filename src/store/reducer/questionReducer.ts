@@ -7,18 +7,21 @@ import questionConfig from "../../configs/questionConfig";
 import helper from "../../utils/helper";
 import questionDefaultConfig from "../../configs/questionDefaultConfig";
 
-/*
-  新增題目
-  刪除題目
-  改單一選項? ( 移除的話要帶 default 回來)
-*/
+const initQuestion: CaseReducer<QuestionState> = (state) => {
+  state.accumulatedInValidInputError = [{ id: "", message: "" }];
+  state.currentStep = 1;
+  state.editingFormPage = 1;
+  state.editingQuestion = null;
+  state.questions = [];
+  state.willSwitcEditinghQuestion = false;
+};
 
-// BUG: 這邊最好把格式直接寫好，用 switch 去產生 default question 格式
 const addNewQuestion: CaseReducer<QuestionState, PayloadAction<Question>> = (
   state,
   action
 ) => {
   state.questions.push(action.payload);
+  state.questions = state.questions.sort((a, b) => a.page - b.page);
 };
 
 const deleteExistedQuestion: CaseReducer<
@@ -176,23 +179,26 @@ const addNewFormPage: CaseReducer<
 
   state.editingQuestion = defaultQuestion;
   state.questions.push(defaultQuestion);
+  state.questions = state.questions.sort((a, b) => a.page - b.page);
   state.editingFormPage = action.payload.newPage;
 };
 
-const updateQuestionPage: CaseReducer<QuestionState, PayloadAction<number>> = (
-  state,
-  action
-) => {
-  // action.payload 是被改變的頁數
+const updateQuestionPage: CaseReducer<
+  QuestionState,
+  PayloadAction<{ page: number; isSwitchMode?: boolean }>
+> = (state, action) => {
+  if (action.payload.isSwitchMode) {
+    state.questions = state.questions.map((question) => {
+      return {
+        ...question,
+        page: 1,
+      };
+    });
+    return;
+  }
   state.questions = state.questions.map((question) => {
-    // 如果是刪除第一頁，而第一頁後面有其他頁
-    // if (question.page === 1 && question.page === action.payload) {
-
-    // }
-    // 如果是刪除頁數的前面頁數
     if (question.page === 1) return question;
-    if (question.page < action.payload) return question;
-    // 如果是刪除頁後面的頁數
+    if (question.page < action.payload.page) return question;
     const updateQuestion = {
       ...question,
       page: question.page - 1,
@@ -202,6 +208,7 @@ const updateQuestionPage: CaseReducer<QuestionState, PayloadAction<number>> = (
 };
 
 export default {
+  initQuestion,
   addNewQuestion,
   deleteExistedQuestion,
   updateSiglePropOfQuestion,

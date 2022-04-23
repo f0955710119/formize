@@ -6,6 +6,8 @@ import QuestionField from "./QuestionField";
 
 import Layout from "../UI/Layout";
 import helper from "../../../../utils/helper";
+import { useAppDispatch } from "../../../../hooks/useAppDispatch";
+import { questionActions } from "../../../../store/slice/questionSlice";
 
 interface PreviewLayoutProps {
   fontFamily: string;
@@ -99,6 +101,7 @@ const SwitchEditingFormPageButton = styled.div<SwitchEditingFormPageButtonProps>
 `;
 
 const Preview: FC = () => {
+  const dispatch = useAppDispatch();
   const { questions, editingFormPage } = useAppSelector(
     (state) => state.question
   );
@@ -111,7 +114,10 @@ const Preview: FC = () => {
     questions
   );
 
-  console.log(editingFormPage);
+  const switchEditingPageHandler = (page: number) => {
+    dispatch(questionActions.switchEditingFormPage(page));
+    dispatch(questionActions.switchEditingQuestion(null));
+  };
 
   return (
     <PreviewLayout
@@ -124,12 +130,22 @@ const Preview: FC = () => {
             editingFormPage - 1
           )}頁`}</EditingFormPageLabel>
           {editingFormPage !== 1 && (
-            <SwitchEditingFormPageButton isLeft>
+            <SwitchEditingFormPageButton
+              isLeft
+              onClick={() => {
+                switchEditingPageHandler(editingFormPage - 1);
+              }}
+            >
               上一頁
             </SwitchEditingFormPageButton>
           )}
           {editingFormPage !== pageQuantity && (
-            <SwitchEditingFormPageButton isLeft={false}>
+            <SwitchEditingFormPageButton
+              isLeft={false}
+              onClick={() => {
+                switchEditingPageHandler(editingFormPage + 1);
+              }}
+            >
               下一頁
             </SwitchEditingFormPageButton>
           )}

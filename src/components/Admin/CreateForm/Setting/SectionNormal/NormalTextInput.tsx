@@ -2,6 +2,7 @@ import { FC, ChangeEvent } from "react";
 import Input from "../../UI/Input";
 
 interface NormalTextInputProps {
+  value: string | number | null;
   type: string;
   placeholder: string;
   changeHandler: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -9,6 +10,7 @@ interface NormalTextInputProps {
 }
 
 const NormalTextInput: FC<NormalTextInputProps> = ({
+  value,
   type,
   placeholder,
   changeHandler,
@@ -16,6 +18,7 @@ const NormalTextInput: FC<NormalTextInputProps> = ({
 }: NormalTextInputProps) => {
   return style ? (
     <Input
+      value={value ? value : ""}
       style={{ ...style }}
       type={type}
       placeholder={placeholder}

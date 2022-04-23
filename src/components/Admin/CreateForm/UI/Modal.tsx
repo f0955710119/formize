@@ -19,6 +19,7 @@ interface Modal {
   title?: string;
   undoButtonText?: string;
   submitHandler?: () => void;
+  cancelHandler?: () => void;
 }
 
 const Modal: FC<Modal> = ({
@@ -29,6 +30,7 @@ const Modal: FC<Modal> = ({
   title,
   undoButtonText,
   submitHandler,
+  cancelHandler,
 }: Modal) => {
   const closeHandler = () => setModal(false);
 
@@ -40,7 +42,10 @@ const Modal: FC<Modal> = ({
       </DialogContent>
       <DialogActions>
         {undoButtonText && (
-          <button type="button" onClick={closeHandler}>
+          <button
+            type="button"
+            onClick={cancelHandler ? cancelHandler : closeHandler}
+          >
             {undoButtonText}
           </button>
         )}

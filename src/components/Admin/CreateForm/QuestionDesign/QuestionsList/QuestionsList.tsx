@@ -16,6 +16,7 @@ const ListLayout = styled(Layout)`
 `;
 
 const QuestionWrapper = styled.div`
+  margin-bottom: 1rem;
   padding-right: 1rem;
   width: 100%;
   height: 54vh;
@@ -83,8 +84,6 @@ const QuestionsList: FC = () => {
   const { mode, pageQuantity } = useAppSelector((state) => state.setting);
   const { questions } = useAppSelector((state) => state.question);
 
-  console.log(questions);
-
   const deleteQuestionHandler = useDeleteQuestion();
   const switchStepHandler = useSwitchCurrentStep();
   const indexArr = helper.generateQuestionIndexArr(questions);
@@ -136,18 +135,23 @@ const QuestionsList: FC = () => {
         )}
       </QuestionWrapper>
       <Heading>功能</Heading>
-      <AddPageButton
-        type="button"
-        onClick={() => {
-          if (questions.length === 0) {
-            alert("因為分頁型問卷不得有空白頁，請先新增至少一題才能加分頁唷!");
-            return;
-          }
-          setHasOpenModal(true);
-        }}
-      >
-        <ButtonText>新增分頁</ButtonText>
-      </AddPageButton>
+      {mode === "1" && (
+        <AddPageButton
+          type="button"
+          onClick={() => {
+            if (questions.length === 0) {
+              alert(
+                "因為分頁型問卷不得有空白頁，請先新增至少一題才能加分頁唷!"
+              );
+              return;
+            }
+            setHasOpenModal(true);
+          }}
+        >
+          <ButtonText>新增分頁</ButtonText>
+        </AddPageButton>
+      )}
+
       <NavigatorButton
         type="button"
         onClick={() => {

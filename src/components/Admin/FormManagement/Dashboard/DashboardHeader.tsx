@@ -4,6 +4,8 @@ import styled from "styled-components";
 import FilterComboBox from "./FilterComboBox";
 import DisplayButtonGroup from "./DisplayButtonGroup";
 
+import useInitNewForm from "../../../../hooks/useInitNewForm";
+
 const defalutStatusOptions = ["公開", "待上線", "保護", "額滿", "關閉"];
 const defalutDateOptions = ["最新創建", "最舊創建", "最新回覆", "最舊創建"];
 
@@ -44,7 +46,10 @@ const ButtonText = styled.span`
 
 const DashboardHeader: FC = () => {
   const router = useRouter();
+  const initHandler = useInitNewForm();
+
   const goAddNewFormHandler = (): void => {
+    initHandler();
     router.push("/admin/new");
   };
 

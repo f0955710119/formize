@@ -78,7 +78,7 @@ const NewPageModal: FC<NewPageModalProps> = ({
       setModal={setModal}
       submitHandler={addNewFormPageHandler}
     >
-      {questions.length > 1 && (
+      {/* {questions.length > 1 && (
         <ToggleButtonGroup
           sx={{ marginBottom: "1rem", fontSize: "2rem" }}
           value={toggleNewPageQuestion}
@@ -90,7 +90,7 @@ const NewPageModal: FC<NewPageModalProps> = ({
           <ToggleButton value="left">新增題型</ToggleButton>
           <ToggleButton value="right">移動題目</ToggleButton>
         </ToggleButtonGroup>
-      )}
+      )} */}
 
       {toggleNewPageQuestion === "left" ? (
         <FormControl fullWidth>

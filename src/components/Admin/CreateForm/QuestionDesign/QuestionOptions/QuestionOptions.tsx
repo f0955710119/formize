@@ -192,7 +192,6 @@ const QuestionOptions: FC = () => {
         {questionList.map((item) => (
           <OptionItem
             title={item.title}
-            page={1}
             questionType={item.questionType}
             key={item.title}
           >

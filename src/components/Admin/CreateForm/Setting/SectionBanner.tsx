@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useState } from "react";
+import { ChangeEventHandler, FC, useEffect, useRef, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 
@@ -47,11 +47,18 @@ const Image = styled.img`
 `;
 
 const SectionBanner: FC = () => {
-  // const [welcomeImageName, setWelcomeImageName] = useState<string>("點擊上傳");
-  // const [endImageName, setEndImageName] = useState<string>("點擊上傳");
   const dispatch = useAppDispatch();
-  const [welcomeImage, setWelcomeImage] = useState<string | null>();
-  const [endImage, setEndImage] = useState<any>();
+  const { setting } = useAppSelector((state) => state);
+  const [startPageImage, setStartPageImage] = useState<string | null>(() => {
+    if (!setting.startPageImageFile) return null;
+    const url = URL.createObjectURL(setting.startPageImageFile);
+    return url;
+  });
+  const [endPageImage, setEndPageImage] = useState<string | null>(() => {
+    if (!setting.endPageImageFile) return null;
+    const url = URL.createObjectURL(setting.endPageImageFile);
+    return url;
+  });
 
   const changeUploadImageHandler = (
     event: any,
@@ -76,7 +83,7 @@ const SectionBanner: FC = () => {
       <BannerField>
         <Label>歡迎頁圖檔</Label>
         <ImageLabel htmlFor="welcome-banner">
-          {welcomeImage ? <Image src={welcomeImage} /> : "點擊上傳"}
+          {startPageImage ? <Image src={startPageImage} /> : "點擊上傳"}
         </ImageLabel>
         <ImageInput
           type="file"
@@ -85,7 +92,7 @@ const SectionBanner: FC = () => {
             changeUploadImageHandler(
               event,
               settingActionType.START_PAGE_IMAGE_FILE,
-              setWelcomeImage
+              setStartPageImage
             );
           }}
         />
@@ -107,7 +114,7 @@ const SectionBanner: FC = () => {
       <BannerField>
         <Label>結束頁圖檔</Label>
         <ImageLabel htmlFor="end-banner">
-          {endImage ? <Image src={endImage} /> : "點擊上傳"}
+          {endPageImage ? <Image src={endPageImage} /> : "點擊上傳"}
         </ImageLabel>
         <ImageInput
           type="file"
@@ -116,7 +123,7 @@ const SectionBanner: FC = () => {
             changeUploadImageHandler(
               event,
               settingActionType.END_PAGE_IMAGE_FILE,
-              setEndImage
+              setEndPageImage
             );
           }}
         />

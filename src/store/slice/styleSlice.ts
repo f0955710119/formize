@@ -9,7 +9,7 @@ export interface StyleState {
   backgroundImages: string[];
 }
 
-const initialState: StyleState = {
+export const initialState: StyleState = {
   theme: styleConfig.MAIN_CODE,
   font: styleConfig.OPENHUNNINN_CODE,
   backgroundImages: [backgroundConfig.YELLOW1],
