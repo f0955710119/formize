@@ -121,25 +121,37 @@ const questionList: OptionItem[] = [
 const generateLimitation = (question: Question) => {
   switch (question.type) {
     case "0": {
-      return <TextLimitation id={question.id} />;
+      return (
+        <TextLimitation
+          id={question.id}
+          type={question.type}
+          textType={question.validations.textType}
+        />
+      );
     }
 
     case "1": {
-      return <TextLimitation id={question.id} />;
+      return (
+        <TextLimitation
+          id={question.id}
+          type={question.type}
+          textType={question.validations.textType}
+        />
+      );
     }
 
     case "2": {
-      return <TextLimitation id={question.id} />;
+      return <TextLimitation id={question.id} type={question.type} />;
     }
 
     case "3": {
-      return <ChoiceLimitation id={question.id} />;
+      return <ChoiceLimitation id={question.id} type={question.type} />;
     }
     case "4": {
-      return <ChoiceLimitation id={question.id} />;
+      return <ChoiceLimitation id={question.id} type={question.type} />;
     }
     case "5": {
-      return <ChoiceLimitation id={question.id} />;
+      return <ChoiceLimitation id={question.id} type={question.type} />;
     }
     case "6": {
       return (
@@ -152,7 +164,7 @@ const generateLimitation = (question: Question) => {
       );
     }
     case "8": {
-      return <ChoiceLimitation id={question.id} />;
+      return <ChoiceLimitation id={question.id} type={question.type} />;
     }
     case "9": {
       return <DateLimitation id={question.id} />;

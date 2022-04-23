@@ -173,7 +173,7 @@ const addNewFormPage: CaseReducer<
     page: action.payload.newPage,
   };
 
-
+  state.editingQuestion = defaultQuestion;
   state.questions.push(defaultQuestion);
   state.editingFormPage = action.payload.newPage;
 };

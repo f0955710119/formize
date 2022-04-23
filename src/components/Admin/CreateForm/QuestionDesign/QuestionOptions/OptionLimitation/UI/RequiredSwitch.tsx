@@ -22,22 +22,24 @@ const RequiredSwitch: FC<RequiredSwitchProps> = ({
   return (
     <Field>
       <Label>必填</Label>
-      <Switch
-        checked={question.validations.required}
-        onChange={(event) => {
-          if (!question) return;
-          dispatch(
-            questionActions.updateSiglePropOfQuestion({
-              id: question.id,
-              actionType: questionActionType.VALIDATIONS,
-              validations: {
-                ...question.validations,
-                required: event.target.checked,
-              },
-            })
-          );
-        }}
-      />
+      {question && (
+        <Switch
+          checked={question.validations.required}
+          onChange={(event) => {
+            if (!question) return;
+            dispatch(
+              questionActions.updateSiglePropOfQuestion({
+                id: question.id,
+                actionType: questionActionType.VALIDATIONS,
+                validations: {
+                  ...question.validations,
+                  required: event.target.checked,
+                },
+              })
+            );
+          }}
+        />
+      )}
     </Field>
   );
 };

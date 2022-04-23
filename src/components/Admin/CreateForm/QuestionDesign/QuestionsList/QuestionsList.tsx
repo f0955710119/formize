@@ -116,7 +116,7 @@ const QuestionsList: FC = () => {
             .map((_, i) => (
               <MultiPage
                 key={i}
-                page={i}
+                page={i + 1}
                 titleIndexArr={multiPageQuestionIndexArr[i]}
                 deleteQuestionHandler={deleteQuestionHandler}
               />
@@ -142,7 +142,16 @@ const QuestionsList: FC = () => {
       )}
 
       <Heading>功能</Heading>
-      <AddPageButton type="button" onClick={() => setHasOpenModal(true)}>
+      <AddPageButton
+        type="button"
+        onClick={() => {
+          if (questions.length === 0) {
+            alert("因為分頁型問卷不得有空白頁，請先新增至少一題才能加分頁唷!");
+            return;
+          }
+          setHasOpenModal(true);
+        }}
+      >
         <ButtonText>新增分頁</ButtonText>
       </AddPageButton>
       <NavigatorButton

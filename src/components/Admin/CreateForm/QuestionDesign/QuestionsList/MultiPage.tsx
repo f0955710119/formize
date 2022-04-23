@@ -7,6 +7,8 @@ import QuestionPage from "./QuestionPage";
 import CreatedQuestion from "./CreatedQuestion";
 
 import helper from "../../../../../utils/helper";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import { questionActions } from "../../../../../store/slice/questionSlice";
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
@@ -34,39 +36,87 @@ const MultiPage: FC<MultiPageProps> = ({
   titleIndexArr,
   deleteQuestionHandler,
 }: MultiPageProps) => {
-  const { questions } = useAppSelector((state) => state.question);
-  const indexArr = helper.generateQuestionIndexArr(questions);
-
+  const dispatch = useAppDispatch();
+  const { questions, editingFormPage } = useAppSelector(
+    (state) => state.question
+  );
+  const filteredQuestions = questions.filter(
+    (question) => question.page === page
+  );
+  console.log(page);
   return (
-    <QuestionPage title={`第${helper.generateChineseNumberString(page)}頁`}>
-      {questions
-        .filter((question) => question.page === page + 1)
-        .map((question, i) => (
-          <CreatedQuestionWrapper key={question.id}>
-            <DeleteButtonWrapper
-              onClick={() => deleteQuestionHandler(question.id)}
-            >
-              <DeleteSharpIcon
-                sx={{
-                  width: "100%",
-                  height: "2.4rem",
-                  fill: "#c8c8c8",
-                  cursor: "pointer",
+    <>
+      {page === 1 && (
+        <QuestionPage
+          title={`第${helper.generateChineseNumberString(page - 1)}頁`}
+          isActive={editingFormPage === page}
+          page={page}
+        >
+          {filteredQuestions.map((question, i) => (
+            <CreatedQuestionWrapper key={question.id}>
+              <DeleteButtonWrapper
+                onClick={() => {
+                  deleteQuestionHandler(question.id);
                 }}
+              >
+                <DeleteSharpIcon
+                  sx={{
+                    width: "100%",
+                    height: "2.4rem",
+                    fill: "#c8c8c8",
+                    cursor: "pointer",
+                  }}
+                />
+              </DeleteButtonWrapper>
+              <CreatedQuestion
+                title={
+                  question.type === "2"
+                    ? "引言"
+                    : `${titleIndexArr[i]} ${question.title}`
+                }
+                note={question.note}
+                questionType={question.type}
               />
-            </DeleteButtonWrapper>
-            <CreatedQuestion
-              title={
-                question.type === "2"
-                  ? "引言"
-                  : `${titleIndexArr[i]} ${question.title}`
-              }
-              note={question.note}
-              questionType={question.type}
-            />
-          </CreatedQuestionWrapper>
-        ))}
-    </QuestionPage>
+            </CreatedQuestionWrapper>
+          ))}
+        </QuestionPage>
+      )}
+      {page !== 1 && filteredQuestions.length > 0 && (
+        <QuestionPage
+          title={`第${helper.generateChineseNumberString(page - 1)}頁`}
+          isActive={editingFormPage === page}
+          page={page}
+        >
+          {filteredQuestions.map((question, i) => (
+            <CreatedQuestionWrapper key={question.id}>
+              <DeleteButtonWrapper
+                onClick={() => {
+                  deleteQuestionHandler(question.id);
+                }}
+              >
+                <DeleteSharpIcon
+                  sx={{
+                    width: "100%",
+                    height: "2.4rem",
+                    fill: "#c8c8c8",
+                    cursor: "pointer",
+                  }}
+                />
+              </DeleteButtonWrapper>
+              <CreatedQuestion
+                title={
+                  question.type === "2"
+                    ? "引言"
+                    : `${titleIndexArr[i]} ${question.title}`
+                }
+                note={question.note}
+                questionType={question.type}
+              />
+            </CreatedQuestionWrapper>
+          ))}
+        </QuestionPage>
+      )}
+    </>
   );
 };
 

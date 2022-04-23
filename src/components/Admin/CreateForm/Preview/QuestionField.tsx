@@ -95,7 +95,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
     if (hasSwitched) return;
 
     dispatch(questionActions.willChangeLimitationValue(true));
-
+    dispatch(questionActions.switchEditingFormPage(question.page));
     const hasId = target.id ? true : false;
     if (hasId && target.id === question.id) {
       dispatch(questionActions.switchEditingQuestion(null));

@@ -12,10 +12,12 @@ import { Question } from "../../../../../../types/question";
 
 interface ChoiceLimitationProps {
   id: string;
+  type: string;
 }
 
 const ChoiceLimitation: FC<ChoiceLimitationProps> = ({
   id,
+  type,
 }: ChoiceLimitationProps) => {
   const question = useGetQuestion(id) as Question;
   const maxSelectedValidationHandler = (value: string) => {
@@ -34,10 +36,11 @@ const ChoiceLimitation: FC<ChoiceLimitationProps> = ({
     question,
     maxSelectedValidationHandler
   );
+
   return (
     <LimitationWrapper>
       <RequiredSwitch id={id} />
-      {question.type !== "3" && (
+      {type !== "3" && (
         <Field>
           <Label>選填數量</Label>
           <TextInput

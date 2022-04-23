@@ -28,6 +28,8 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
 
   font-family: ${(props: PreviewLayoutProps) => props.fontFamily};
 
+  position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,8 +60,49 @@ const QuestionWrapper = styled.div`
   }
 `;
 
+const EditingFormPageLabel = styled.div`
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+
+  width: 15rem;
+  height: 2rem;
+  border-radius: 3px;
+  line-height: 2rem;
+
+  font-size: 1.4rem;
+  text-align: center;
+  color: #aaa;
+
+  background-color: rgba(255, 153, 0, 0.3);
+`;
+
+interface SwitchEditingFormPageButtonProps {
+  isLeft: boolean;
+}
+
+const SwitchEditingFormPageButton = styled.div<SwitchEditingFormPageButtonProps>`
+  position: absolute;
+  top: 50%;
+  ${(props: SwitchEditingFormPageButtonProps) =>
+    props.isLeft ? "left: 2rem" : "right:2rem"};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0;
+  color: #777;
+  font-size: 1.2rem;
+  background-color: rgba(255, 153, 0, 0.3);
+  transform: translateY(-50%);
+`;
+
 const Preview: FC = () => {
-  const { questions } = useAppSelector((state) => state.question);
+  const { questions, editingFormPage } = useAppSelector(
+    (state) => state.question
+  );
+  const { mode, pageQuantity } = useAppSelector((state) => state.setting);
   const { font, backgroundImages } = useAppSelector((state) => state.style);
   const fontTheme = helper.generateResposneThemeFontFamily(font);
   const indexArr = helper.generateQuestionIndexArr(questions);
@@ -69,6 +112,23 @@ const Preview: FC = () => {
       fontFamily={fontTheme}
       backgroundImageURL={backgroundImages[0]}
     >
+      {mode === "1" && (
+        <>
+          <EditingFormPageLabel>{`第${helper.generateChineseNumberString(
+            editingFormPage - 1
+          )}頁`}</EditingFormPageLabel>
+          {editingFormPage !== 1 && (
+            <SwitchEditingFormPageButton isLeft>
+              上一頁
+            </SwitchEditingFormPageButton>
+          )}
+          {editingFormPage !== pageQuantity && (
+            <SwitchEditingFormPageButton isLeft={false}>
+              下一頁
+            </SwitchEditingFormPageButton>
+          )}
+        </>
+      )}
       <QuestionWrapper>
         {questions.map((question, i) => (
           <QuestionField

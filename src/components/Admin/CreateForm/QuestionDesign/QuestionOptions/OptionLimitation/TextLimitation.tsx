@@ -16,10 +16,14 @@ import Label from "./UI/Label";
 
 interface TextLimitationProps {
   id: string;
+  type: string;
+  textType?: string | undefined;
 }
 
 const TextLimitation: FC<TextLimitationProps> = ({
   id,
+  type,
+  textType,
 }: TextLimitationProps) => {
   const dispatch = useAppDispatch();
   const question = useGetQuestion(id) as Question;
@@ -35,12 +39,10 @@ const TextLimitation: FC<TextLimitationProps> = ({
   return (
     <LimitationWrapper>
       <RequiredSwitch id={id} />
-      {question.type !== "2" && (
+      {type !== "2" && (
         <Field>
           <Label>驗證</Label>
-          {question.validations.textType && (
-            <ComboBox options={["文字", "信箱", "手機"]} />
-          )}
+          {textType && <ComboBox options={["文字", "信箱", "手機"]} />}
         </Field>
       )}
 
