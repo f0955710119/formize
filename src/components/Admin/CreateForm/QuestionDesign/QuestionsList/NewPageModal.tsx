@@ -50,7 +50,7 @@ const NewPageModal: FC<NewPageModalProps> = ({
     useState<string>(questions[0].id);
   const indexArr = helper.generateQuestionIndexArr(questions);
 
-  console.log(pageQuantity);
+  console.log(questions);
   const addNewFormPageHandler = () => {
     if (toggleNewPageQuestion === "left") {
       dispatch(

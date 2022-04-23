@@ -8,7 +8,6 @@ import CreatedQuestion from "./CreatedQuestion";
 
 import helper from "../../../../../utils/helper";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../../store/slice/questionSlice";
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
@@ -56,6 +55,7 @@ const MultiPage: FC<MultiPageProps> = ({
             <CreatedQuestionWrapper key={question.id}>
               <DeleteButtonWrapper>
                 <DeleteSharpIcon
+                  id={question.id}
                   onClick={() => {
                     deleteQuestionHandler(question.id);
                   }}

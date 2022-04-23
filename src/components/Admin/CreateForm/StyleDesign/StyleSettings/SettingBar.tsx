@@ -15,6 +15,8 @@ import helper from "../../../../../utils/helper";
 import useFormData from "../../../../../hooks/useFormData";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 import backgroundConfig from "../../../../../configs/backgroundConfig";
+import { Settings, Styles } from "../../../../../types/survey";
+import { Question } from "../../../../../types/question";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -31,9 +33,35 @@ const Header = styled.header`
   border-bottom: 1px solid #c8c8c8;
 `;
 
-const CardContainer = styled.div`
+const BackGroundContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 0 4rem;
+  width: 100%;
+  height: calc(100% - 17rem);
+`;
+
+const BackGroundCardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 5rem;
+  width: 100%;
+  height: 25rem;
+`;
+
+const BackGroundContainerTitle = styled.span`
+  display: inline-block;
+  width: 7rem;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.4rem;
+  color: #a46302;
+  border-bottom: 2px solid #a46302;
+`;
+
+const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   padding: 0 4rem 0 4rem;
   width: 100%;
   height: calc(100% - 17rem);
@@ -44,6 +72,7 @@ const CardContainer = styled.div`
 
   &::-webkit-scrollbar {
     width: 0.5rem;
+    height: 1rem;
     background-color: #f5f5f5;
   }
 
@@ -73,9 +102,6 @@ const ButtonWrapper = styled.div`
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
 const defaultThemeList = helper.generateStyleKeys("NAME");
 const defaultFontList = helper.generateStyleKeys("FONT");
-const defaultBackgroundURLs = Object.keys(backgroundConfig)
-  .filter((key) => !key.includes("_"))
-  .map((key) => backgroundConfig[key]);
 const defaultBackgroundList = Object.keys(backgroundConfig)
   .filter((key) => key.includes("_"))
   .map((key) => backgroundConfig[key]);
@@ -90,7 +116,15 @@ const SettingBar: FC = () => {
   const sendFormDataHandler = useDeployForm();
   const sendingFormData = useFormData();
 
-  const clickToSendForm = async (sendingFormData: object) => {
+  console.log(sendingFormData);
+
+  const clickToSendForm = async (sendingFormData: {
+    uid: string;
+    groupId: string;
+    settings: any;
+    questions: Question[];
+    styles: Styles;
+  }) => {
     await sendFormDataHandler(sendingFormData);
     switchStepHanlder(4);
   };
@@ -131,17 +165,22 @@ const SettingBar: FC = () => {
         </CardContainer>
       )}
       {stylingOption === 2 && (
-        <CardContainer>
-          {defaultBackgroundList.map((Background, i) => {
-            return (
-              <Card
-                title={Background}
-                key={i}
-                dispatchHandler={switchStyleHandler}
-              />
-            );
-          })}
-        </CardContainer>
+        <BackGroundContainer>
+          <BackGroundContainerTitle>預設圖檔</BackGroundContainerTitle>
+          <BackGroundCardContainer>
+            {defaultBackgroundList.map((Background, i) => {
+              return (
+                <Card
+                  title={Background}
+                  key={i}
+                  dispatchHandler={switchStyleHandler}
+                />
+              );
+            })}
+          </BackGroundCardContainer>
+          <BackGroundContainerTitle>上傳自訂</BackGroundContainerTitle>
+          <BackGroundCardContainer></BackGroundCardContainer>
+        </BackGroundContainer>
       )}
       <ButtonWrapper>
         <Button

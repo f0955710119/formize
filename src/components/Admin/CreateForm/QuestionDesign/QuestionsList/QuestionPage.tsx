@@ -50,8 +50,7 @@ const QuestionPage: FC<QuestionPageProps> = ({
   const dispatch = useAppDispatch();
   const { editingFormPage } = useAppSelector((state) => state.question);
 
-  const switchEditingFormPageHandler = (target: Element, page: number) => {
-    console.log(target);
+  const switchEditingFormPageHandler = (page: number) => {
     dispatch(questionActions.switchEditingFormPage(page));
     dispatch(questionActions.willChangeLimitationValue(true));
     dispatch(questionActions.switchEditingQuestion(null));
@@ -60,10 +59,12 @@ const QuestionPage: FC<QuestionPageProps> = ({
   return (
     <PageWrapper
       isActive={isActive}
-      onClick={(event) => {
+      onClick={(event: any) => {
+        if (event.target.nodeName === "svg" || event.target.nodeName === "path")
+          return;
         if (editingFormPage === page) return;
-        const target = event.target as Element;
-        switchEditingFormPageHandler(target, page);
+
+        switchEditingFormPageHandler(page);
       }}
     >
       <TitleWrapper>

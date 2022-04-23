@@ -18,7 +18,7 @@ const NormalTextInput: FC<NormalTextInputProps> = ({
 }: NormalTextInputProps) => {
   return style ? (
     <Input
-      value={value ? value : ""}
+      defaultValue={value ? value : ""}
       style={{ ...style }}
       type={type}
       placeholder={placeholder}
@@ -28,6 +28,7 @@ const NormalTextInput: FC<NormalTextInputProps> = ({
     />
   ) : (
     <Input
+      defaultValue={value ? value : ""}
       type={type}
       placeholder={placeholder}
       onChange={(event) => {

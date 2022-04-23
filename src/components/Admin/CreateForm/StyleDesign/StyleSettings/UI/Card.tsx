@@ -4,8 +4,7 @@ import { FC } from "react";
 import styled from "styled-components";
 
 const CardWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: inline-block;
   width: 15rem;
   margin-bottom: 1rem;
   margin-right: 1rem;
@@ -13,15 +12,16 @@ const CardWrapper = styled.div`
 `;
 
 const CardItem = styled.div`
+  display: inline-block;
   width: 100%;
-  height: 10rem;
+  height: 13rem;
   background-color: #aaa; // 之後變成圖片
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 `;
 
 const CardTitle = styled.div`
   width: 100%;
-  height: 5rem;
+  height: 2rem;
   font-size: 2rem;
 `;
 

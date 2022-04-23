@@ -13,9 +13,10 @@ import { settingActions } from "../../../../store/slice/settingSlice";
 import settingActionType from "../../../../store/actionType/settingActionType";
 
 const BannerField = styled(Field)`
-  height: 15rem;
+  height: 20rem;
+  align-items: start;
   &:not(:last-child) {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 `;
 
@@ -24,15 +25,13 @@ const ImageLabel = styled(Label)`
   justify-content: center;
   align-items: center;
   width: calc(100% - 12rem);
-  height: 15rem;
+  height: 100%;
   background-color: #aaa;
   z-index: 1;
 `;
 
 const TexteraInput = styled(Input)`
-  height: 12rem;
-  align-self: end;
-  margin-bottom: 2rem;
+  height: 100%;
 `;
 
 const ImageInput = styled(Input)`
@@ -51,13 +50,19 @@ const SectionBanner: FC = () => {
   const { setting } = useAppSelector((state) => state);
   const [startPageImage, setStartPageImage] = useState<string | null>(() => {
     if (!setting.startPageImageFile) return null;
-    const url = URL.createObjectURL(setting.startPageImageFile);
-    return url;
+    if (typeof setting.startPageImageFile !== "string") {
+      const url = URL.createObjectURL(setting.startPageImageFile);
+      return url;
+    }
+    return setting.startPageImageFile;
   });
   const [endPageImage, setEndPageImage] = useState<string | null>(() => {
     if (!setting.endPageImageFile) return null;
-    const url = URL.createObjectURL(setting.endPageImageFile);
-    return url;
+    if (typeof setting.endPageImageFile !== "string") {
+      const url = URL.createObjectURL(setting.endPageImageFile);
+      return url;
+    }
+    return setting.endPageImageFile;
   });
 
   const changeUploadImageHandler = (
@@ -66,8 +71,12 @@ const SectionBanner: FC = () => {
     setState: Dispatch<string | null>
   ) => {
     const file = event.target.files[0];
-    const url = URL.createObjectURL(file);
+    if (file.size > 5_000_000) {
+      alert("不可上傳超過5MB的圖片!");
+      return;
+    }
 
+    const url = URL.createObjectURL(file);
     setState(url);
     dispatch(
       settingActions.updateSingleSettingInput({
@@ -81,12 +90,19 @@ const SectionBanner: FC = () => {
     <SectionWrapper>
       <SectionHeading>橫幅設定</SectionHeading>
       <BannerField>
-        <Label>歡迎頁圖檔</Label>
+        <Label>
+          歡迎頁圖檔
+          <br />
+          <span style={{ fontSize: "1.2rem", color: "#f30" }}>
+            ( 上限為5MB的圖檔 )
+          </span>
+        </Label>
         <ImageLabel htmlFor="welcome-banner">
           {startPageImage ? <Image src={startPageImage} /> : "點擊上傳"}
         </ImageLabel>
         <ImageInput
           type="file"
+          accept="image/*"
           id="welcome-banner"
           onChange={(event) => {
             changeUploadImageHandler(
@@ -98,7 +114,13 @@ const SectionBanner: FC = () => {
         />
       </BannerField>
       <BannerField style={{ height: "15rem" }}>
-        <Label>歡迎頁文字</Label>
+        <Label>
+          歡迎頁文字
+          <br />
+          <span style={{ fontSize: "1.2rem", color: "#f30" }}>
+            ( 上限為250字 )
+          </span>
+        </Label>
         <TexteraInput
           type="text"
           onChange={(event) => {
@@ -112,12 +134,19 @@ const SectionBanner: FC = () => {
         />
       </BannerField>
       <BannerField>
-        <Label>結束頁圖檔</Label>
+        <Label>
+          結束頁圖檔
+          <br />
+          <span style={{ fontSize: "1.2rem", color: "#f30" }}>
+            ( 上限為5MB的圖檔 )
+          </span>
+        </Label>
         <ImageLabel htmlFor="end-banner">
           {endPageImage ? <Image src={endPageImage} /> : "點擊上傳"}
         </ImageLabel>
         <ImageInput
           type="file"
+          accept="image/*"
           id="end-banner"
           onChange={(event) => {
             changeUploadImageHandler(
@@ -129,7 +158,13 @@ const SectionBanner: FC = () => {
         />
       </BannerField>
       <BannerField style={{ height: "15rem" }}>
-        <Label>結束頁文字</Label>
+        <Label>
+          結束頁文字
+          <br />
+          <span style={{ fontSize: "1.2rem", color: "#f30" }}>
+            ( 上限為250字 )
+          </span>
+        </Label>
         <TexteraInput
           type="text"
           onChange={(event) => {

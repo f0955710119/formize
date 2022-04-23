@@ -53,10 +53,10 @@ const QuestionWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 75%;
-  height: 70%;
+  height: 80%;
 
   overflow-y: scroll;
-
+  transform: translateY(2rem);
   &::-webkit-scrollbar {
     display: none;
   }

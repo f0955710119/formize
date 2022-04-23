@@ -32,14 +32,16 @@ const CustomedFormControl = styled(FormControl)`
 `;
 
 const SectionNormal: FC = () => {
+  const dispatch = useAppDispatch();
   const { setting } = useAppSelector((state) => state);
   const [selectedMode, setSelectedMode] = useState<string>(setting.mode);
   const [switchModeComfirmModal, setSwitchModeComfirmModal] =
     useState<boolean>(false);
-  const dispatch = useAppDispatch();
 
   const timeUnit = useRef<number>(1);
   const limitTime = useRef<number>(1);
+
+  console.log(setting);
 
   const dispatchNormalSettingHandler = (
     value: string | number | object | null,
@@ -61,7 +63,7 @@ const SectionNormal: FC = () => {
     );
     setSwitchModeComfirmModal(false);
   };
-  console.log(setting);
+
   const cancelSwitchModeHandler = () => {
     setSelectedMode(setting.mode);
     setSwitchModeComfirmModal(false);
@@ -115,20 +117,13 @@ const SectionNormal: FC = () => {
         <Field>
           <Label>頁面模式</Label>
           <CustomedFormControl>
-            <Select
-              value={setting.mode}
-              // onChange={(event) => {
-              //   const { value } = event.target;
-              //   dispatchNormalSettingHandler(value, settingActionType.MODE);
-              // }}
-            >
+            <Select value={setting.mode}>
               {DEFAULT_MODE_LIST.map((option, i) => (
                 <MenuItem
                   value={"" + i}
                   key={option}
                   onClick={() => {
                     if (+selectedMode === i) return;
-
                     setSelectedMode("" + i);
                     setSwitchModeComfirmModal(true);
                   }}

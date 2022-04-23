@@ -10,6 +10,8 @@ import LooksOneSharpIcon from "@mui/icons-material/LooksOneSharp";
 import TuneSharpIcon from "@mui/icons-material/TuneSharp";
 import LayersSharpIcon from "@mui/icons-material/LayersSharp";
 import QueryBuilderSharpIcon from "@mui/icons-material/QueryBuilderSharp";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import { questionActions } from "../../../../../store/slice/questionSlice";
 
 const QuestionWrapper = styled.div`
   display: flex;
@@ -76,7 +78,6 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
     <QuestionWrapper>
       {generateIcon(questionType)}
       <Title>{title}</Title>
-      {/* BUG: 帶入數字TYPE會報錯，但改文字就可以，為何 */}
       <Note>{note}</Note>
     </QuestionWrapper>
   );

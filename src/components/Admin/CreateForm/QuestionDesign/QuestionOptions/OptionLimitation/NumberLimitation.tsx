@@ -28,7 +28,8 @@ const checkInt = ({
   min: number;
   value: string;
 }) => {
-  const isInt = Number.isInteger((max - min + 1) / +value);
+  const isInt = Number.isInteger((+max - +min + 1) / +value);
+  console.log(+value);
   if (isInt) return null;
   return "每次能移動的數值區間必須符合設定的最大值和最小值，得符合「最大值 - 最小值 + 1」!";
 };
@@ -41,13 +42,13 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
   const minValidationHandler = (value: string) => {
     if (max === undefined || min === undefined) return null;
     if (+value > max) return "最小值不可以超過最大值，請更換數值";
-    return checkInt({ max, min, value });
+    return checkInt({ max, min, value: "" + interval });
   };
 
   const maxValidationHandler = (value: string) => {
     if (min === undefined || max === undefined) return null;
     if (+value < min) "最大值不可以小於最大值，請更換數值";
-    return checkInt({ max, min, value });
+    return checkInt({ max, min, value: "" + interval });
   };
 
   const unitValidationHandler = (value: string) => {
