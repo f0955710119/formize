@@ -18,8 +18,6 @@ const CustomTextareaAutosize = styled(TextareaAutosize)<CustomTextareaAutosizePr
   &:focus {
     outline: none;
   }
-
-  
 `;
 
 interface MultiLineTextProps {

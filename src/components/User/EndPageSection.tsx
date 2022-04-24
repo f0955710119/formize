@@ -1,4 +1,4 @@
-import { Dispatch, FC } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 
 const EndPageContainer = styled.section`
@@ -10,6 +10,7 @@ const EndPageContainer = styled.section`
 const EndPageImageWrapper = styled.div`
   width: 60%;
   height: 100%;
+  background-color: #fff;
 `;
 
 const EndPageImage = styled.img`
@@ -26,14 +27,6 @@ const EndPageInfoWrapper = styled.div`
   padding: 4rem;
   height: 100%;
   background-color: #fff;
-`;
-
-const FormTitle = styled.div`
-  margin-bottom: 2rem;
-  font-size: 3rem;
-  font-weight: bold;
-  line-break: strict;
-  color: ${(props) => props.theme.title};
 `;
 
 const EndPageParagraph = styled.div`

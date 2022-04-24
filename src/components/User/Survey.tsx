@@ -17,6 +17,7 @@ import Date from "./Questions/Date";
 import styleConfig from "../../configs/styleConfig";
 import StartPageSection from "./StartPageSection";
 import EndPageSection from "./EndPageSection";
+import firebase from "../../utils/firebase";
 
 type SurveyProps = UserSurvey;
 
@@ -67,7 +68,7 @@ const MultiPageMain = styled.main<MainProps>`
   overflow: hidden;
 `;
 
-const MultiPageFormSection = styled.section`
+const SinglePageFormSection = styled.section`
   position: relative;
   display: flex;
   justify-content: center;
@@ -76,14 +77,19 @@ const MultiPageFormSection = styled.section`
   height: 100%;
 `;
 
-const MultiPageFormQuestionContainer = styled.div`
+const SinglePageFormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 96rem;
-  height: 80%;
+`;
 
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+const MultiPageFormSection = styled.section`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `;
 
 const MultiPageFormQuestionButtonText = styled.span`
@@ -264,26 +270,35 @@ const Survey: FC<SurveyProps> = ({
             startPageParagraph={settings.startPageParagraph}
             mode={settings.mode}
           />
-          <SurveyContainer>
-            {questions.map((question, i) => {
-              return (
-                <QuestionContainer key={i}>
-                  {question.type !== "2" && (
-                    <>
-                      <Heading>
-                        {helper.generateUserSurveyQuestionTitle(
-                          indexArr[i],
-                          question.title
-                        )}
-                      </Heading>
-                      <NoteText>{question.note}</NoteText>
-                    </>
-                  )}
-                  {generateResponsedUserSurveyQuestion(question.type, question)}
-                </QuestionContainer>
-              );
-            })}
-          </SurveyContainer>
+          <SinglePageFormSection>
+            <SinglePageFormContainer>
+              {questions.map((question, i) => {
+                return (
+                  <QuestionContainer key={i}>
+                    {question.type !== "2" && (
+                      <>
+                        <Heading>
+                          {helper.generateUserSurveyQuestionTitle(
+                            indexArr[i],
+                            question.title
+                          )}
+                        </Heading>
+                        <NoteText>{question.note}</NoteText>
+                      </>
+                    )}
+                    {generateResponsedUserSurveyQuestion(
+                      question.type,
+                      question
+                    )}
+                  </QuestionContainer>
+                );
+              })}
+            </SinglePageFormContainer>
+          </SinglePageFormSection>
+          <EndPageSection
+            endPageParagraph={settings.endPageParagraph}
+            imageUrl={settings.endPageImageFile}
+          />
         </SinglePageMain>
       )}
       {settings.mode === "1" && (
