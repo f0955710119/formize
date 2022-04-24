@@ -22,22 +22,22 @@ const createNewSurveyId: CaseReducer<Admin, PayloadAction<string>> = (
   state.newSurveyId = action.payload;
 };
 
-const setUserDriveToken: CaseReducer<
-  Admin,
-  PayloadAction<{
-    accessToken: string;
-    refreshToken: string;
-    scope: string;
-    tokenType: string;
-    expiryDate: number;
-  }>
-> = (state, action) => {
-  state.driveToken = action.payload;
-};
+// const setUserDriveToken: CaseReducer<
+//   Admin,
+//   PayloadAction<{
+//     accessToken: string;
+//     refreshToken: string;
+//     scope: string;
+//     tokenType: string;
+//     expiryDate: number;
+//   }>
+// > = (state, action) => {
+//   state.driveToken = action.payload;
+// };
 
 export default {
   updateLoginState,
   switchEditingGroup,
   createNewSurveyId,
-  setUserDriveToken,
+  // setUserDriveToken,
 };
