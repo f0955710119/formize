@@ -51,7 +51,13 @@ const EndPageSection: FC<EndPageSectionProps> = ({
         <EndPageParagraph>{endPageParagraph}</EndPageParagraph>
       </EndPageInfoWrapper>
       <EndPageImageWrapper>
-        <EndPageImage src={imageUrl} />
+        <EndPageImage
+          src={
+            imageUrl
+              ? imageUrl
+              : "/images/kelly-sikkema--1_RZL8BGBM-unsplash.jpg"
+          }
+        />
       </EndPageImageWrapper>
     </EndPageContainer>
   );

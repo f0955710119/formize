@@ -262,7 +262,22 @@ const generateResponsedUserSurveyQuestion = (
       return;
     }
     case questionConfig.DATE: {
-      return <Date />;
+      if (!question.validations.startDate || !question.validations.endDate) {
+        return (
+          <Date
+            isMultipleDate={question.validations.multipleDate}
+            hasRange={question.validations.hasRange}
+          />
+        );
+      }
+      return (
+        <Date
+          isMultipleDate={question.validations.multipleDate}
+          hasRange={question.validations.hasRange}
+          startDate={question.validations.startDate}
+          endDate={question.validations.endDate}
+        />
+      );
     }
   }
 };
@@ -396,7 +411,9 @@ const Survey: FC<SurveyProps> = ({
                             {question.validations.required && (
                               <RequireQuestionTag>必填</RequireQuestionTag>
                             )}
-                            <NoteText>{question.note}</NoteText>
+                            {question.note !== "" && (
+                              <NoteText>{question.note}</NoteText>
+                            )}
                           </>
                         )}
                         {generateResponsedUserSurveyQuestion(

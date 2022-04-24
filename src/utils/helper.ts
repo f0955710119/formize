@@ -177,6 +177,12 @@ export default {
     if (date) return new Date(date);
     return new Date();
   },
+  generateDateFormatString(incomingDate: Date) {
+    const year = incomingDate.getFullYear();
+    const month = `${incomingDate.getMonth() + 1}`.padStart(2, "0");
+    const date = `${incomingDate.getDate()}`.padStart(2, "0");
+    return `${year}-${month}-${date}`;
+  },
   generateDateInterval(start: Date, end: Date) {
     const startDate = new Date(start);
     const endDate = new Date(end);
