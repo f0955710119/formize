@@ -136,7 +136,7 @@ const SurveyContainer = styled.div`
 const QuestionContainer = styled.div`
   width: 100%;
   &:not(:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
   }
 `;
 
@@ -190,9 +190,12 @@ const generateResponsedUserSurveyQuestion = (
     }
 
     case questionConfig.MULTIPLE_LINE_TEXT: {
-      if (question.validations.length) {
-        return <MultipleLineText maxLength={question.validations.length} />;
-      }
+      return (
+        <MultipleLineText
+          maxLength={question.validations.length}
+          questionId={question.id}
+        />
+      );
     }
 
     case questionConfig.INTRODUCTION: {
