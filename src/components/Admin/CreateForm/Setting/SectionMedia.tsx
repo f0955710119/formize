@@ -27,53 +27,53 @@ const SectionMedia: FC = () => {
   const [accessToTokenUri, setAccessToTokenUri] =
     useState<string>("/admin/new");
   console.log(driveToken);
-  const getDriveUri = async () => {
-    try {
-      const response = await fetch("/api/admin/survey/drive/auth").catch(() => {
-        throw new Error("沒有取得前往開權限的連結");
-      });
-      const data = await response.json().catch(() => {
-        throw new Error("轉換連結失敗");
-      });
+  // const getDriveUri = async () => {
+  //   try {
+  //     const response = await fetch("/api/admin/survey/drive/auth").catch(() => {
+  //       throw new Error("沒有取得前往開權限的連結");
+  //     });
+  //     const data = await response.json().catch(() => {
+  //       throw new Error("轉換連結失敗");
+  //     });
 
-      setAccessToTokenUri(data.data.uri);
-      hasGetCode.current = true;
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
+  //     setAccessToTokenUri(data.data.uri);
+  //     hasGetCode.current = true;
+  //   } catch (error: any) {
+  //     console.error(error.message);
+  //   }
+  // };
   const query = router.query;
   console.log(query);
 
-  const getDriveToken = async () => {
-    const { code } = query;
-    try {
-      const response = await fetch("/api/admin/survey/drive/auth", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ code }),
-      }).catch(() => {
-        throw new Error("發送取得token的post失敗");
-      });
-      const data = await response.json().catch(() => {
-        throw new Error("轉換token的json失敗");
-      });
-      dispatch(adminActions.setUserDriveToken(data.data));
-      setTest("1");
-      router.push("/admin/new");
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
+  // const getDriveToken = async () => {
+  //   const { code } = query;
+  //   try {
+  //     const response = await fetch("/api/admin/survey/drive/auth", {
+  //       method: "POST",
+  //       headers: { "content-type": "application/json" },
+  //       body: JSON.stringify({ code }),
+  //     }).catch(() => {
+  //       throw new Error("發送取得token的post失敗");
+  //     });
+  //     const data = await response.json().catch(() => {
+  //       throw new Error("轉換token的json失敗");
+  //     });
+  //     dispatch(adminActions.setUserDriveToken(data.data));
+  //     setTest("1");
+  //     router.push("/admin/new");
+  //   } catch (error: any) {
+  //     console.error(error.message);
+  //   }
+  // };
 
   useEffect(() => {
     if (!router.isReady) return;
     if (query.code) {
       console.log("d");
-      getDriveToken();
+      // getDriveToken();
       return;
     }
-    getDriveUri();
+    // getDriveUri();
   }, [router.isReady]);
 
   return (
