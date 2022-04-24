@@ -55,7 +55,7 @@ const EndPageSection: FC<EndPageSectionProps> = ({
           src={
             imageUrl
               ? imageUrl
-              : "/images/kelly-sikkema--1_RZL8BGBM-unsplash.jpg"
+              : "/images/manuel-cosentino-M3fhZSBFoFQ-unsplash.jpg"
           }
         />
       </EndPageImageWrapper>

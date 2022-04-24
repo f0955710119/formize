@@ -32,7 +32,7 @@ interface SortProps {
 
 const Sort: FC<SortProps> = ({ options, maxSelected }) => {
   const [selectedOptionArr, setSelectedOptionArr] = useState<string[]>([]);
-  console.log(maxSelected);
+  console.log(selectedOptionArr);
   return (
     <ChoiceWrapper>
       {options.map((option, i) => (

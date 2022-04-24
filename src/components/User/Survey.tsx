@@ -240,6 +240,7 @@ const generateResponsedUserSurveyQuestion = (
     case questionConfig.SLIDER: {
       return (
         <Slider
+          questionId={question.id}
           max={question.validations.max && question.validations.max}
           min={question.validations.min && question.validations.min}
           unit={question.validations.unit && question.validations.unit}
