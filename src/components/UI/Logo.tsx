@@ -6,23 +6,31 @@ const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 10rem;
+  /* width: 10rem; */
   cursor: pointer;
 `;
 
-const LogoText = styled.span`
+interface LogoTextProps {
+  fontSize: string;
+}
+
+const LogoText = styled.span<LogoTextProps>`
   display: block;
-  width: 100%;
-  font-size: 2.6rem;
+  /* width: 100%; */
+  font-size: ${(props: LogoTextProps) => props.fontSize};
   color: #333;
   font-family: Vidaloka !important;
 `;
 
-const Logo: FC = () => {
+interface LogoProps {
+  fontSize?: string;
+}
+
+const Logo: FC<LogoProps> = ({ fontSize }: LogoProps) => {
   return (
     <Link href="/admin">
       <LogoWrapper>
-        <LogoText>FORMiZE</LogoText>
+        <LogoText fontSize={fontSize ? fontSize : "2.6rem"}>FORMiZE</LogoText>
       </LogoWrapper>
     </Link>
   );

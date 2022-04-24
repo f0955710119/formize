@@ -1,5 +1,6 @@
 import { Dispatch, FC } from "react";
 import styled from "styled-components";
+import Logo from "../UI/Logo";
 
 const StartPageContainer = styled.section`
   display: flex;
@@ -23,13 +24,16 @@ const StartPageInfoWrapper = styled.div`
   width: 40%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 4rem;
   height: 100%;
   background-color: #fff;
 `;
 
 const FormTitle = styled.div`
-  margin-bottom: 2rem;
+  margin-top: 10rem;
+  margin-bottom: 4rem;
   font-size: 3rem;
   font-weight: bold;
   line-break: strict;
@@ -37,7 +41,7 @@ const FormTitle = styled.div`
 `;
 
 const StartPageParagraph = styled.div`
-  width: 80%;
+  width: 70%;
   color: ${(props) => props.theme.note};
   font-size: 2rem;
   margin-bottom: 4rem;
@@ -66,9 +70,16 @@ const StartPageSection: FC<StartPageSectionProps> = ({
   return (
     <StartPageContainer>
       <StartPageImageWrapper>
-        <StartPageImage src={imageUrl} />
+        <StartPageImage
+          src={
+            imageUrl
+              ? imageUrl
+              : "/images/nick-morrison-FHnnjk1Yj7Y-unsplash.jpg"
+          }
+        />
       </StartPageImageWrapper>
       <StartPageInfoWrapper>
+        <Logo fontSize="4rem" />
         <FormTitle>{title}</FormTitle>
         <StartPageParagraph>{startPageParagraph}</StartPageParagraph>
         {mode === "1" && <div onClick={clickHandler}>下一頁</div>}
