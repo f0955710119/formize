@@ -17,10 +17,8 @@ import Date from "./Questions/Date";
 import styleConfig from "../../configs/styleConfig";
 import StartPageSection from "./StartPageSection";
 import EndPageSection from "./EndPageSection";
-import firebase from "../../utils/firebase";
 
 type SurveyProps = UserSurvey;
-
 interface MainProps {
   font: string;
   backgroundImage: string;
@@ -56,12 +54,12 @@ const MultiPageMain = styled.main<MainProps>`
 
   /* background-image: ${(props: MainProps) =>
     `url(${props.backgroundImage})`}; */
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
       to right,
       rgba(255, 255, 255, 0.7),
       rgba(255, 255, 255, 0.7)
     ),
-    url("https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1167&q=80");
+    url("https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1167&q=80"); */
 
   background-size: cover;
 
@@ -143,11 +141,10 @@ const QuestionContainer = styled.div`
 `;
 
 const Heading = styled.div`
-  width: 100%;
+  display: inline-block;
   font-size: 2rem;
   line-break: strict;
   color: ${(props) => {
-    console.log(props.theme.title);
     return props.theme.title;
   }};
 
@@ -157,10 +154,23 @@ const Heading = styled.div`
 `;
 
 const NoteText = styled.div`
+  width: 100%;
   color: #aaa;
   font-size: 1.6rem;
   margin-bottom: 2rem;
   color: ${(props) => props.theme.note}; ;
+`;
+
+const RequireQuestionTag = styled.div`
+  display: inline-block;
+  margin-left: 1rem;
+  width: 5rem;
+  height: 2.4rem;
+  border-radius: 30px;
+  background-color: ${(props) => props.theme.option};
+  text-align: center;
+  line-height: 24px;
+  color: ${(props) => props.theme.optionText};
 `;
 
 const generateResponsedUserSurveyQuestion = (
@@ -169,7 +179,14 @@ const generateResponsedUserSurveyQuestion = (
 ) => {
   switch (questionType) {
     case questionConfig.ONE_LINE_TEXT: {
-      return <OneLineText textType="text" />;
+      if (!question.validations.length) return;
+      return (
+        <OneLineText
+          textType="text"
+          length={question.validations.length}
+          questionId={question.id}
+        />
+      );
     }
 
     case questionConfig.MULTIPLE_LINE_TEXT: {
@@ -206,7 +223,15 @@ const generateResponsedUserSurveyQuestion = (
     }
 
     case questionConfig.NUMBER: {
-      return <OneLineText textType="text" />;
+      return (
+        <OneLineText
+          textType="number"
+          questionId={question.id}
+          max={question.validations.max}
+          min={question.validations.min}
+          decimal={question.validations.decimal}
+        />
+      );
     }
 
     case questionConfig.SLIDER: {
@@ -365,6 +390,9 @@ const Survey: FC<SurveyProps> = ({
                                 question.title
                               )}
                             </Heading>
+                            {question.validations.required && (
+                              <RequireQuestionTag>必填</RequireQuestionTag>
+                            )}
                             <NoteText>{question.note}</NoteText>
                           </>
                         )}
@@ -392,10 +420,3 @@ const Survey: FC<SurveyProps> = ({
 };
 
 export default Survey;
-
-/*
-
-1. 用 switch 來決定要產生的對應題型 (title / note 是固定)
-2. 產生後要為各種題型加上它的限制，使他真的能變成它的題型限制
-3. 先把各種資料拿掉就好，demo 完再實際發送
-*/

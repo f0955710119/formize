@@ -3,6 +3,7 @@ import { settingReducer } from "./slice/settingSlice";
 import { questionReducer } from "./slice/questionSlice";
 import { styleReducer } from "./slice/styleSlice";
 import { adminReducer } from "./slice/adminSlice";
+import { userReducer } from "./slice/userSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     question: questionReducer,
     style: styleReducer,
     admin: adminReducer,
+    user: userReducer,
   },
 });
 
