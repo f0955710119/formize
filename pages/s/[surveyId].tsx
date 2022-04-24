@@ -19,8 +19,9 @@ const SurveyId: NextPage = () => {
     styles: userSurveyConfig.initStyles,
   });
   const [hasFetchedData, setHasFetchedData] = useState<boolean>(false);
+  const [colorTheme, setColorTheme] = useState<{ [key: string]: string }>({});
   const router = useRouter();
-  let colorTheme = {};
+  // let colorTheme = {};
 
   const getQuestion = async () => {
     const response = await fetch("/api/user/survey", {
@@ -36,11 +37,12 @@ const SurveyId: NextPage = () => {
       settings,
       styles,
     };
-    colorTheme =
+
+    const colorTheme =
       themes[
         helper.generateResponseThemePalette(initUserSurvey.current.styles.theme)
       ];
-    console.log(questions);
+    setColorTheme(colorTheme);
     setHasFetchedData(true);
   };
   const hasColorTheme = hasFetchedData && Object.keys(colorTheme).length === 0;

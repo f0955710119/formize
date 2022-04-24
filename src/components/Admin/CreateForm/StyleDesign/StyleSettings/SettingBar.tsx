@@ -100,8 +100,8 @@ const ButtonWrapper = styled.div`
 `;
 
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
-const defaultThemeList = helper.generateStyleKeys("NAME");
-const defaultFontList = helper.generateStyleKeys("FONT");
+const defaultThemeList = helper.generateStyleKeys("_NAME");
+const defaultFontList = helper.generateStyleKeys("_FONT");
 const defaultBackgroundList = Object.keys(backgroundConfig)
   .filter((key) => key.includes("_"))
   .map((key) => backgroundConfig[key]);

@@ -1,14 +1,7 @@
 type Color = string;
 
 export interface StyledComponentTheme {
-  title: Color;
-  note: Color;
-  placeholder: Color;
-  option: Color;
-  martix: Color;
-  optionClicked: Color;
-  addOption: Color;
-  optionText: Color;
+  [key: string]: Color;
 }
 
 interface Themes {

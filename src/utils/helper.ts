@@ -240,4 +240,18 @@ export default {
 
     return responsedObj[type];
   },
+  generateDifferentPageQuestionsArr(
+    pageQuantity: number,
+    questions: Question[]
+  ) {
+    const differentQuestionsArr = Array(pageQuantity)
+      .fill(null)
+      .map(() => []);
+
+    questions.forEach((question) => {
+      (differentQuestionsArr[question.page - 1] as Question[]).push(question);
+    });
+
+    return differentQuestionsArr;
+  },
 };

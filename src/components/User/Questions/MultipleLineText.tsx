@@ -13,12 +13,13 @@ const CustomTextareaAutosize = styled(TextareaAutosize)<CustomTextareaAutosizePr
   width: 100%;
   border-radius: 0px;
   resize: none;
-
-  border: 1px solid ${(props) => (props.isValid ? props.theme.note : "red")};
+  border: 2px solid ${(props) => (props.isValid ? props.theme.note : "red")};
 
   &:focus {
     outline: none;
   }
+
+  
 `;
 
 interface MultiLineTextProps {
