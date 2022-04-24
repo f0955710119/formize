@@ -78,15 +78,6 @@ const LoginForm: FC = () => {
     password: "",
   });
 
-  useEffect(() => {
-    async function getStoredImage(name: string, format: string) {
-      const path = firebase.getStorageRef(name, format);
-      const url = await firebase.getStoredImages(path);
-      console.log(url);
-    }
-    // router.isReady && getStoredImage("layered-waves-haikei-01-desktop", "svg");
-  }, [router.isReady]);
-
   const changeAccountHandler: ChangeHandler = (event) => {
     const { value } = event.target;
     setUserInfo((prevState) => {
