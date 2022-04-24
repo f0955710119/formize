@@ -123,6 +123,7 @@ const QuestionsList: FC = () => {
                 type === "2" ? "引言" : `${indexArr[i]} ${title}`;
               return (
                 <SinglePage
+                  key={id}
                   id={id}
                   type={type}
                   title={handledTitle}
