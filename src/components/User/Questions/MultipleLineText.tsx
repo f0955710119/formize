@@ -1,44 +1,74 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
-import { TextareaAutosize } from "@mui/material";
+// import { TextareaAutosize } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
+import useCheckValidTimer from "../../../hooks/useCheckValidTimer";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { userActions } from "../../../store/slice/userSlice";
+import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 
 interface CustomTextareaAutosizeProps {
   isValid: boolean;
 }
 
 // prettier-ignore
-const CustomTextareaAutosize = styled(TextareaAutosize)<CustomTextareaAutosizeProps>`
+const CustomTextareaAutosize = styled(TextField)`
   margin-top: 2rem;
   padding: 1rem;
   width: 100%;
   border-radius: 0px;
   resize: none;
 
-  border: 1px solid ${(props) => (props.isValid ? props.theme.note : "red")};
-
+  & div,
+  & input {
+    font-size: 1.6rem;
+  }
   &:focus {
     outline: none;
   }
 `;
 
 interface MultiLineTextProps {
-  maxLength: number;
+  questionId: string;
+  maxLength?: number;
 }
 
-const MultiLineText: FC<MultiLineTextProps> = ({ maxLength }) => {
-  const [isValid, setIsValid] = useState<boolean>(true);
-  console.log(maxLength);
+const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
+  const {
+    invalidMessage,
+    setInvalidMessage,
+    isInvalid,
+    setIsInvalid,
+    showInvalidHandler,
+  } = useCheckAnswerValid();
+
+  const validTimerHandler = useCheckValidTimer();
+  const dispatch = useAppDispatch();
+  const questionIdIndex = useGetQuestionIdIndex(questionId);
+
   return (
     <CustomTextareaAutosize
-      isValid={isValid}
-      minRows={3}
+      error={isInvalid}
+      // isValid={isInvalid}
+      minRows={5}
+      maxRows={maxLength ? Math.round(maxLength / 100) * 5 : 10}
+      multiline
       onChange={(event) => {
-        if (+event.target.value.length <= maxLength) {
-          !isValid && setIsValid(true);
-          return;
-        }
-        setIsValid(false);
+        const input = event.target.value;
+        validTimerHandler(() => {
+          setIsInvalid(false);
+          setInvalidMessage("");
+          const hasMaxLengthInvalid =
+            maxLength && event.target.value.length > maxLength;
+          if (!hasMaxLengthInvalid) {
+            dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+            return;
+          }
+          showInvalidHandler(`不能超過${maxLength}字`);
+        }, 300);
       }}
+      helperText={invalidMessage}
     />
   );
 };

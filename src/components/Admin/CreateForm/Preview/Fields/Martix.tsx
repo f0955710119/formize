@@ -1,7 +1,7 @@
 import { FC, useState, useRef } from "react";
 import styled from "styled-components";
-import AddOptionButton from "./UI/AddOptionButton";
-import { ButtonWrapper, ButtonText } from "./UI/Button";
+import AddOptionButton from "../UI/AddOptionButton";
+import { ButtonWrapper, ButtonText } from "../UI/Button";
 import AddMartixButton from "./Martix/AddMartixButton";
 import MartixTitle from "./Martix/MartixTitle";
 import MartixRadio from "./Martix/MartixRadio";

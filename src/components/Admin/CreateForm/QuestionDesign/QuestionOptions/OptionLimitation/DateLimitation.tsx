@@ -1,8 +1,11 @@
 import { FC } from "react";
 import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
 import useGetQuestion from "../../../../../../hooks/useQuestion";
+import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
 
 import type { Question } from "../../../../../../types/question";
+
+import { Switch } from "@mui/material";
 import RequiredSwitch from "./UI/RequiredSwitch";
 import TextInput from "./UI/TextInput";
 import LimitationWrapper from "./UI/LimitationWrapper";
@@ -10,8 +13,10 @@ import Field from "./UI/Field";
 import Label from "./UI/Label";
 
 import helper from "../../../../../../utils/helper";
-import questionConfig from "../../../../../../utils/questionConfig";
-
+import questionConfig from "../../../../../../configs/questionConfig";
+import { questionActions } from "../../../../../../store/slice/questionSlice";
+import questionActionType from "../../../../../../store/actionType/questionActionType";
+import { useAppSelector } from "../../../../../../hooks/useAppSelector";
 interface DateLimitationProps {
   id: string;
 }
@@ -20,6 +25,7 @@ const DateLimitation: FC<DateLimitationProps> = ({
   id,
 }: DateLimitationProps) => {
   const question = useGetQuestion(id) as Question;
+  const dispatch = useAppDispatch();
   const startDate = questionConfig.START_DATE;
   const endDate = questionConfig.END_DATE;
 
@@ -49,33 +55,71 @@ const DateLimitation: FC<DateLimitationProps> = ({
 
   return (
     <LimitationWrapper>
-      <RequiredSwitch />
-      {/* <Field>
+      <RequiredSwitch id={id} />
+      <Field>
         <Label>允許多日</Label>
-        <Switch />
-      </Field> */}
-      <Field>
-        <Label>起始日期</Label>
-        <TextInput
-          id={id}
-          label="設定範圍起始"
-          inputType="date"
-          defaultValue={helper.generateDate()}
-          validationType={questionConfig.DATE}
-          dispatchHandler={startDateHandler}
+        <Switch
+          checked={question.validations.multipleDate}
+          onChange={(event) => {
+            const { checked } = event.target;
+            dispatch(
+              questionActions.updateSiglePropOfQuestion({
+                id: question.id,
+                actionType: questionActionType.VALIDATIONS,
+                validations: {
+                  ...question.validations,
+                  multipleDate: checked,
+                },
+              })
+            );
+          }}
         />
       </Field>
       <Field>
-        <Label>結尾日期</Label>
-        <TextInput
-          id={id}
-          label="設定範圍終點"
-          inputType="date"
-          defaultValue={helper.generateDate()}
-          validationType={questionConfig.DATE}
-          dispatchHandler={endDateHandler}
+        <Label>設定範圍</Label>
+        <Switch
+          checked={question.validations.hasRange}
+          onChange={(event) => {
+            const { checked } = event.target;
+            dispatch(
+              questionActions.updateSiglePropOfQuestion({
+                id: question.id,
+                actionType: questionActionType.VALIDATIONS,
+                validations: {
+                  ...question.validations,
+                  hasRange: checked,
+                },
+              })
+            );
+          }}
         />
       </Field>
+      {question.validations.hasRange && (
+        <>
+          <Field>
+            <Label>起始日期</Label>
+            <TextInput
+              id={id}
+              label="設定範圍起始"
+              inputType="date"
+              defaultValue={helper.generateDate()}
+              validationType={questionConfig.DATE}
+              dispatchHandler={startDateHandler}
+            />
+          </Field>
+          <Field>
+            <Label>結尾日期</Label>
+            <TextInput
+              id={id}
+              label="設定範圍終點"
+              inputType="date"
+              defaultValue={helper.generateDate(false)}
+              validationType={questionConfig.DATE}
+              dispatchHandler={endDateHandler}
+            />
+          </Field>
+        </>
+      )}
     </LimitationWrapper>
   );
 };

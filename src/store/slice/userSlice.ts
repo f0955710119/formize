@@ -1,20 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import reducers from "../reducer/userReducer";
 
-export interface User {
-  uid: string;
-  editingGroupId: string;
-  newSurveyId: string;
+export interface Answer {
+  questionId: string;
+  input: string;
 }
 
-const initialState: User = {
-  uid: "",
-  editingGroupId: "d4HICCM6",
-  newSurveyId: "",
+export interface UserState {
+  answers: Answer[];
+  questionIdKeys: {
+    [key: string]: string;
+  };
+}
+
+const initialState: UserState = {
+  answers: [],
+  questionIdKeys: {},
 };
 
 const userSlice = createSlice({
-  name: "login",
+  name: "user",
   initialState,
   reducers,
 });

@@ -60,7 +60,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({ options, maxSelected }) => {
         ))}
       </FormGroup>
       {error && (
-        <FormHelperText>最多只能選擇`${maxSelected}`個選項!</FormHelperText>
+        <FormHelperText>最多只能選擇{maxSelected}個選項!</FormHelperText>
       )}
     </FormControl>
   );

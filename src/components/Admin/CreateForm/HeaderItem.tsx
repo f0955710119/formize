@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+import useSwitchCurrentStep from "../../../hooks/useSwitchCurrentStep";
 
 interface ItemWrapperProps {
   number: number;
@@ -58,7 +59,6 @@ interface HeaderItemProps {
   title: string;
   isLastItem: boolean;
   currentStep: number;
-  setCurrentStep(number: number): void;
 }
 
 const HeaderItem: FC<HeaderItemProps> = ({
@@ -66,15 +66,11 @@ const HeaderItem: FC<HeaderItemProps> = ({
   title,
   isLastItem,
   currentStep,
-  setCurrentStep,
 }: HeaderItemProps) => {
+  const switchStepHandler = useSwitchCurrentStep();
   return (
     <ItemWrapper number={number} currentStep={currentStep}>
-      <OptionWrapper
-        onClick={() => {
-          setCurrentStep(number);
-        }}
-      >
+      <OptionWrapper onClick={() => switchStepHandler(number)}>
         <NumberIconWrapper>
           <NumberIcon>{number}</NumberIcon>
         </NumberIconWrapper>

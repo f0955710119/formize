@@ -1,10 +1,11 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Question, Questions } from "../../../src/types/question";
-import type { Surveys } from "../../../src/types/survey";
-import firebase from "../../../src/utils/firebase";
-import firestoreCollectionCongfig from "../../../src/configs/firestoreCollectionConfig";
-import helper from "../../../src/utils/helper";
+import type { Surveys } from "../../../../src/types/survey";
+import firebase from "../../../../src/utils/firebase";
+import firestoreCollectionCongfig from "../../../../src/configs/firestoreCollectionConfig";
+import helper from "../../../../src/utils/helper";
+
+const dotenv = require("dotenv");
+dotenv.config();
 interface Data {
   status: string;
   status_code: number;
@@ -41,7 +42,7 @@ export default async function handler(
       (collectionName) => firebase.generateDocRef(collectionName)
     );
 
-    const url = `'http://localhost:3000/s/${surveyDocRef.id}`;
+    const url = `'${process.env.NEXT_PUBLIC_ORIGIN}/s/${surveyDocRef.id}`;
     const newHandledQuestions = helper.generateNewHandledQuestion(questions);
     const newSurveyDocData: Surveys = {
       title: settings.title,
@@ -85,3 +86,7 @@ export default async function handler(
     });
   }
 }
+
+/*
+4/0AX4XfWiL38kgW_yf8m8Om8PQOCtACpkaQENCHf0f9om2hQg7lNp9vM6G6qBHO_EIDTjKgw&scope=https://www.googleapis.com/auth/drive.appdata%20https://www.googleapis.com/auth/drive.file
+*/

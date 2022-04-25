@@ -1,25 +1,28 @@
 import { FC, useState } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
-import styled from "styled-components";
-import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
-import Layout from "../../UI/Layout";
-import CreatedQuestion from "./CreatedQuestion";
-import QuestionPage from "./QuestionPage";
+import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
+import useDeleteQuestion from "../../../../../hooks/useDeleteQuestion";
 
-interface QuestionList {
-  title: string;
-  note: string;
-  questionType: string;
-}
-// BUG: 要去想怎麼做數值對照的轉換( 寫 switch function 匯出對應的中文字) + 設定 config 轉換
-// const defaultQuestionList: QuestionList[] = [
-//   { title: "1.您的姓名?", note: "有關係就沒關係", questionType: 0 },
-//   { title: "2.您的年齡?", note: "有關係就沒關係", questionType: 6 },
-//   { title: "3.通勤方式?", note: "有關係就沒關係", questionType: 3 },
-// ];
+import styled from "styled-components";
+import Layout from "../../UI/Layout";
+
+import helper from "../../../../../utils/helper";
+import NewPageModal from "./NewPageModal";
+import MultiPage from "./MultiPage";
+import SinglePage from "./SinglePage";
 
 const ListLayout = styled(Layout)`
   width: 22%;
+`;
+
+const QuestionWrapper = styled.div`
+  margin-bottom: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+  height: 54vh;
+  display: flex;
+  flex-direction: column;
+
   overflow-y: scroll;
 
   &::-webkit-scrollbar-track {
@@ -44,13 +47,6 @@ const ListLayout = styled(Layout)`
       transparent
     );
   }
-`;
-
-const CreatedQuestionWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin-top: 2rem;
 `;
 
 const Heading = styled.div`
@@ -83,63 +79,84 @@ const NavigatorButton = styled(ButtonWrapper)`
   background-color: #f90;
 `;
 
-interface QuestionsListProps {
-  setCurrentStep(number: number): void;
-}
-
-const QuestionsList: FC<QuestionsListProps> = ({
-  setCurrentStep,
-}: QuestionsListProps) => {
+const QuestionsList: FC = () => {
+  const [hasOpenModal, setHasOpenModal] = useState<boolean>(false);
   const { mode, pageQuantity } = useAppSelector((state) => state.setting);
   const { questions } = useAppSelector((state) => state.question);
+
+  const deleteQuestionHandler = useDeleteQuestion();
+  const switchStepHandler = useSwitchCurrentStep();
+  const indexArr = helper.generateQuestionIndexArr(questions);
+  const multiPageQuestionIndexArr = helper.generateQuestionMultiPageIndexArr(
+    pageQuantity,
+    questions
+  );
+
   return (
     <ListLayout>
-      <Heading>題目列表</Heading>
-      {mode === "1" ? (
-        Array(pageQuantity)
-          .fill(null)
-          .map((_, i) => (
-            <QuestionPage title={`第${i + 1}頁`} key={i}>
-              {questions.map((question) => (
-                <CreatedQuestionWrapper key={question.id}>
-                  <DeleteSharpIcon
-                    sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
-                  />
-                  <CreatedQuestion
-                    title={question.title}
-                    note={question.note}
-                    questionType={question.type}
-                  />
-                </CreatedQuestionWrapper>
+      <QuestionWrapper>
+        {hasOpenModal && (
+          <NewPageModal
+            hasOpenModal={hasOpenModal}
+            setModal={setHasOpenModal}
+          />
+        )}
+        <Heading>題目列表</Heading>
+        {mode === "1" ? (
+          <>
+            {Array(pageQuantity)
+              .fill(null)
+              .map((_, i) => (
+                <MultiPage
+                  key={i}
+                  page={i + 1}
+                  titleIndexArr={multiPageQuestionIndexArr[i]}
+                  deleteQuestionHandler={deleteQuestionHandler}
+                />
               ))}
-            </QuestionPage>
-          ))
-      ) : (
-        <>
-          {questions.map((list, i) => (
-            <CreatedQuestionWrapper key={list.title}>
-              <DeleteSharpIcon
-                sx={{ width: "20%", height: "2rem", fill: "#c8c8c8" }}
-              />
-              <CreatedQuestion
-                title={list.title}
-                note={list.note}
-                questionType={list.type}
-              />
-            </CreatedQuestionWrapper>
-          ))}
-        </>
+          </>
+        ) : (
+          <>
+            {questions.map((question, i) => {
+              const { id, type, note, title } = question;
+              const handledTitle =
+                type === "2" ? "引言" : `${indexArr[i]} ${title}`;
+              return (
+                <SinglePage
+                  key={id}
+                  id={id}
+                  type={type}
+                  title={handledTitle}
+                  note={note}
+                  deleteQuestionHandler={deleteQuestionHandler}
+                />
+              );
+            })}
+          </>
+        )}
+      </QuestionWrapper>
+      <Heading>功能</Heading>
+      {mode === "1" && (
+        <AddPageButton
+          type="button"
+          onClick={() => {
+            if (questions.length === 0) {
+              alert(
+                "因為分頁型問卷不得有空白頁，請先新增至少一題才能加分頁唷!"
+              );
+              return;
+            }
+            setHasOpenModal(true);
+          }}
+        >
+          <ButtonText>新增分頁</ButtonText>
+        </AddPageButton>
       )}
 
-      <Heading>功能</Heading>
-      {/* BUG: 為什麼有時候帶styled-component的樣式去component會失敗 */}
-      <AddPageButton type="button" onClick={() => console.log("h1")}>
-        <ButtonText>新增分頁</ButtonText>
-      </AddPageButton>
       <NavigatorButton
         type="button"
         onClick={() => {
-          setCurrentStep(3);
+          switchStepHandler(3);
         }}
       >
         <ButtonText>前往外觀樣式設計</ButtonText>
@@ -147,7 +164,7 @@ const QuestionsList: FC<QuestionsListProps> = ({
       <ButtonWrapper
         type="button"
         onClick={() => {
-          setCurrentStep(1);
+          switchStepHandler(1);
         }}
       >
         <ButtonText>回到資訊設定</ButtonText>

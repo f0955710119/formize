@@ -3,19 +3,25 @@ import type { QuestionState, ErrorMessage } from "../slice/questionSlice";
 import type { Question } from "../../types/question";
 import type { Validation } from "../../types/validation";
 import questionActionType from "../actionType/questionActionType";
+import questionConfig from "../../configs/questionConfig";
+import helper from "../../utils/helper";
+import questionDefaultConfig from "../../configs/questionDefaultConfig";
 
-/*
-  新增題目
-  刪除題目
-  改單一選項? ( 移除的話要帶 default 回來)
-*/
+const initQuestion: CaseReducer<QuestionState> = (state) => {
+  state.accumulatedInValidInputError = [{ id: "", message: "" }];
+  state.currentStep = 1;
+  state.editingFormPage = 1;
+  state.editingQuestion = null;
+  state.questions = [];
+  state.willSwitcEditinghQuestion = false;
+};
 
-// BUG: 這邊最好把格式直接寫好，用 switch 去產生 default question 格式
 const addNewQuestion: CaseReducer<QuestionState, PayloadAction<Question>> = (
   state,
   action
 ) => {
   state.questions.push(action.payload);
+  state.questions = state.questions.sort((a, b) => a.page - b.page);
 };
 
 const deleteExistedQuestion: CaseReducer<
@@ -128,7 +134,7 @@ const updateSiglePropOfQuestion: CaseReducer<
 
 const switchEditingQuestion: CaseReducer<
   QuestionState,
-  PayloadAction<Question>
+  PayloadAction<Question | null>
 > = (state, action) => {
   state.editingQuestion = action.payload;
 };
@@ -140,10 +146,76 @@ const willChangeLimitationValue: CaseReducer<
   state.willSwitcEditinghQuestion = action.payload;
 };
 
+const switchCreatingFormStep: CaseReducer<
+  QuestionState,
+  PayloadAction<number>
+> = (state, action) => {
+  state.currentStep = action.payload;
+};
+
+const switchEditingFormPage: CaseReducer<
+  QuestionState,
+  PayloadAction<number>
+> = (state, action) => {
+  state.editingFormPage = action.payload;
+};
+
+const addNewFormPage: CaseReducer<
+  QuestionState,
+  PayloadAction<{
+    questionType: string;
+    newPage: number;
+  }>
+> = (state, action) => {
+  const defaultQuestionType = helper.generateResponsedQuestionDefault(
+    action.payload.questionType
+  );
+
+  const defaultQuestion = {
+    ...questionDefaultConfig[defaultQuestionType],
+    id: helper.generateId(8),
+    page: action.payload.newPage,
+  };
+
+  state.editingQuestion = defaultQuestion;
+  state.questions.push(defaultQuestion);
+  state.questions = state.questions.sort((a, b) => a.page - b.page);
+  state.editingFormPage = action.payload.newPage;
+};
+
+const updateQuestionPage: CaseReducer<
+  QuestionState,
+  PayloadAction<{ page: number; isSwitchMode?: boolean }>
+> = (state, action) => {
+  if (action.payload.isSwitchMode) {
+    state.questions = state.questions.map((question) => {
+      return {
+        ...question,
+        page: 1,
+      };
+    });
+    return;
+  }
+  state.questions = state.questions.map((question) => {
+    if (question.page === 1) return question;
+    if (question.page < action.payload.page) return question;
+    const updateQuestion = {
+      ...question,
+      page: question.page - 1,
+    };
+    return updateQuestion;
+  });
+};
+
 export default {
+  initQuestion,
   addNewQuestion,
   deleteExistedQuestion,
   updateSiglePropOfQuestion,
   switchEditingQuestion,
   willChangeLimitationValue,
+  switchCreatingFormStep,
+  switchEditingFormPage,
+  addNewFormPage,
+  updateQuestionPage,
 };

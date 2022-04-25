@@ -10,6 +10,7 @@ export interface Question {
   options?: string[];
   martixs?: string[];
   validations: Validation;
+  image?: string | File | null;
 }
 
 export interface Questions {

@@ -11,6 +11,8 @@ export interface QuestionState {
   editingQuestion: Question | null;
   willSwitcEditinghQuestion: boolean;
   accumulatedInValidInputError: ErrorMessage[];
+  currentStep: number;
+  editingFormPage: number;
 }
 
 const initialState: QuestionState = {
@@ -18,6 +20,8 @@ const initialState: QuestionState = {
   editingQuestion: null,
   willSwitcEditinghQuestion: false,
   accumulatedInValidInputError: [{ id: "", message: "" }],
+  currentStep: 1,
+  editingFormPage: 1,
 };
 
 // BUG: 把 type 是引言的濾掉產生的 array 長度 index + 1 就是題號，題目長度有更新要跑處理這塊的function

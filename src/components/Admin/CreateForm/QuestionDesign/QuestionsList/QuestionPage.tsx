@@ -1,15 +1,24 @@
 import { FC, ReactNode, useState } from "react";
 import styled from "styled-components";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import { questionActions } from "../../../../../store/slice/questionSlice";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
-const PageWrapper = styled.div`
+interface PageWrapperProps {
+  isActive: boolean;
+}
+
+const PageWrapper = styled.div<PageWrapperProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
   padding: 1rem;
   width: 100%;
-  border: 1px solid #c8c8c8;
+  border: ${(props: PageWrapperProps) =>
+    props.isActive ? " 2px solid#333 " : "1px solid  #c8c8c8"};
+  transition: border 0.3s;
 `;
 
 const TitleWrapper = styled.div`
@@ -26,16 +35,38 @@ const Title = styled.div`
 
 interface QuestionPageProps {
   title: string;
+  isActive: boolean;
+  page: number;
   children: ReactNode;
 }
 
 const QuestionPage: FC<QuestionPageProps> = ({
   title,
+  isActive,
+  page,
   children,
 }: QuestionPageProps) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
+  const { editingFormPage } = useAppSelector((state) => state.question);
+
+  const switchEditingFormPageHandler = (page: number) => {
+    dispatch(questionActions.switchEditingFormPage(page));
+    dispatch(questionActions.willChangeLimitationValue(true));
+    dispatch(questionActions.switchEditingQuestion(null));
+  };
+
   return (
-    <PageWrapper>
+    <PageWrapper
+      isActive={isActive}
+      onClick={(event: any) => {
+        if (event.target.nodeName === "svg" || event.target.nodeName === "path")
+          return;
+        if (editingFormPage === page) return;
+
+        switchEditingFormPageHandler(page);
+      }}
+    >
       <TitleWrapper>
         <Title>{title}</Title>
         {!isExpanded && (

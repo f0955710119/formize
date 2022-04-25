@@ -10,6 +10,8 @@ import LooksOneSharpIcon from "@mui/icons-material/LooksOneSharp";
 import TuneSharpIcon from "@mui/icons-material/TuneSharp";
 import LayersSharpIcon from "@mui/icons-material/LayersSharp";
 import QueryBuilderSharpIcon from "@mui/icons-material/QueryBuilderSharp";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import { questionActions } from "../../../../../store/slice/questionSlice";
 
 const QuestionWrapper = styled.div`
   display: flex;
@@ -29,24 +31,6 @@ const Title = styled.div`
 interface DefaultIconProps {
   readonly color: string;
 }
-
-const DefaultIcon = styled.div<DefaultIconProps>`
-  width: 10%;
-  height: 2.4rem;
-  background-color: ${(props: DefaultIconProps) => {
-    switch (props.color) {
-      case "0": {
-        return "red";
-      }
-      case "6": {
-        return "orange";
-      }
-      case "3": {
-        return "yellow";
-      }
-    }
-  }};
-`;
 
 const Note = styled.div`
   width: 100%;
@@ -92,16 +76,11 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
 }: CreatedQuestionProps) => {
   return (
     <QuestionWrapper>
-      <Title>{title}</Title>
-      {/* BUG: 帶入數字TYPE會報錯，但改文字就可以，為何 */}
       {generateIcon(questionType)}
+      <Title>{title}</Title>
       <Note>{note}</Note>
     </QuestionWrapper>
   );
 };
 
 export default CreatedQuestion;
-
-{
-  /* <ExpandMoreIcon sx={{ width: "10%", height: "2rem" }} /> */
-}

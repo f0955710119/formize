@@ -6,9 +6,12 @@ import QuestionField from "./QuestionField";
 
 import Layout from "../UI/Layout";
 import helper from "../../../../utils/helper";
+import { useAppDispatch } from "../../../../hooks/useAppDispatch";
+import { questionActions } from "../../../../store/slice/questionSlice";
 
 interface PreviewLayoutProps {
   fontFamily: string;
+  backgroundImageURL: string;
 }
 
 const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
@@ -27,6 +30,8 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
 
   font-family: ${(props: PreviewLayoutProps) => props.fontFamily};
 
+  position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +42,10 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
       rgba(255, 255, 255, 0.7),
       rgba(255, 255, 255, 0.7)
     ),
-    url("/images/stacked-waves-haikei.svg");
+    url(${(props: PreviewLayoutProps) => props.backgroundImageURL});
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 `;
 
 const QuestionWrapper = styled.div`
@@ -45,25 +53,122 @@ const QuestionWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 75%;
-  height: 70%;
+  height: 80%;
 
   overflow-y: scroll;
-
+  transform: translateY(2rem);
   &::-webkit-scrollbar {
     display: none;
   }
 `;
 
+const EditingFormPageLabel = styled.div`
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+
+  width: 15rem;
+  height: 2rem;
+  border-radius: 3px;
+  line-height: 2rem;
+
+  font-size: 1.4rem;
+  text-align: center;
+  color: #aaa;
+
+  background-color: rgba(255, 153, 0, 0.3);
+`;
+
+interface SwitchEditingFormPageButtonProps {
+  isLeft: boolean;
+}
+
+const SwitchEditingFormPageButton = styled.div<SwitchEditingFormPageButtonProps>`
+  position: absolute;
+  top: 50%;
+  ${(props: SwitchEditingFormPageButtonProps) =>
+    props.isLeft ? "left: 2rem" : "right:2rem"};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0;
+  color: #777;
+  font-size: 1.2rem;
+  background-color: rgba(255, 153, 0, 0.3);
+  transform: translateY(-50%);
+`;
+
 const Preview: FC = () => {
-  const { questions } = useAppSelector((state) => state.question);
-  const { font } = useAppSelector((state) => state.style);
+  const dispatch = useAppDispatch();
+  const { questions, editingFormPage } = useAppSelector(
+    (state) => state.question
+  );
+  const { mode, pageQuantity } = useAppSelector((state) => state.setting);
+  const { font, backgroundImages } = useAppSelector((state) => state.style);
   const fontTheme = helper.generateResposneThemeFontFamily(font);
+  const indexArr = helper.generateQuestionIndexArr(questions);
+  const multiPageQuestionIndexArr = helper.generateQuestionMultiPageIndexArr(
+    pageQuantity,
+    questions
+  );
+
+  const switchEditingPageHandler = (page: number) => {
+    dispatch(questionActions.switchEditingFormPage(page));
+    dispatch(questionActions.switchEditingQuestion(null));
+  };
+
   return (
-    <PreviewLayout fontFamily={fontTheme}>
+    <PreviewLayout
+      fontFamily={fontTheme}
+      backgroundImageURL={backgroundImages[0]}
+    >
+      {mode === "1" && (
+        <>
+          <EditingFormPageLabel>{`第${helper.generateChineseNumberString(
+            editingFormPage - 1
+          )}頁`}</EditingFormPageLabel>
+          {editingFormPage !== 1 && (
+            <SwitchEditingFormPageButton
+              isLeft
+              onClick={() => {
+                switchEditingPageHandler(editingFormPage - 1);
+              }}
+            >
+              上一頁
+            </SwitchEditingFormPageButton>
+          )}
+          {editingFormPage !== pageQuantity && (
+            <SwitchEditingFormPageButton
+              isLeft={false}
+              onClick={() => {
+                switchEditingPageHandler(editingFormPage + 1);
+              }}
+            >
+              下一頁
+            </SwitchEditingFormPageButton>
+          )}
+        </>
+      )}
       <QuestionWrapper>
-        {questions.map((question) => (
-          <QuestionField question={question} key={question.id} />
-        ))}
+        {mode === "1"
+          ? questions
+              .filter((question) => question.page === editingFormPage)
+              .map((question, i) => (
+                <QuestionField
+                  question={question}
+                  key={question.id}
+                  titleIndex={multiPageQuestionIndexArr[editingFormPage - 1][i]}
+                />
+              ))
+          : questions.map((question, i) => (
+              <QuestionField
+                question={question}
+                key={question.id}
+                titleIndex={indexArr[i]}
+              />
+            ))}
       </QuestionWrapper>
     </PreviewLayout>
   );

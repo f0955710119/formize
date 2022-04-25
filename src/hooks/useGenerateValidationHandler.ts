@@ -21,7 +21,7 @@ const useGenerateValidationHandler = (
           throw inValidErrorMessage;
         }
       }
-      console.log(value);
+
       if (question === undefined) return;
       dispatch(
         questionActions.updateSiglePropOfQuestion({

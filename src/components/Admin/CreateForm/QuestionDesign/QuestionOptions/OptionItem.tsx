@@ -3,8 +3,10 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import styled from "styled-components";
 import AddCommentSharpIcon from "@mui/icons-material/AddCommentSharp";
-import questionConfig from "../../../../../utils/questionConfig";
+
 import helper from "../../../../../utils/helper";
+import questionDefaultConfig from "../../../../../configs/questionDefaultConfig";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
 const OptionWrapper = styled.div`
   display: flex;
@@ -46,21 +48,20 @@ const AddCommentSharpIconWrapper = styled(IconWrapper)<AddCommentSharpIconWrappe
 `;
 
 const questionDefaultList = [
-  questionConfig.ONE_LINE_TEXT_DEFAULT,
-  questionConfig.MULTIPLE_LINE_TEXT_DEFAULT,
-  questionConfig.INTRODUCTION_DEFAULT,
-  questionConfig.ONE_CHOICE_DEFAULT,
-  questionConfig.MULTIPLE_CHOICE_DEFAULT,
-  questionConfig.MARTIX_DEFAULT,
-  questionConfig.NUMBER_DEFAULT,
-  questionConfig.SLIDER_DEFAULT,
-  questionConfig.SORT_DEFAULT,
-  questionConfig.DATE_DEFAULT,
+  questionDefaultConfig.ONE_LINE_TEXT_DEFAULT,
+  questionDefaultConfig.MULTIPLE_LINE_TEXT_DEFAULT,
+  questionDefaultConfig.INTRODUCTION_DEFAULT,
+  questionDefaultConfig.ONE_CHOICE_DEFAULT,
+  questionDefaultConfig.MULTIPLE_CHOICE_DEFAULT,
+  questionDefaultConfig.MARTIX_DEFAULT,
+  questionDefaultConfig.NUMBER_DEFAULT,
+  questionDefaultConfig.SLIDER_DEFAULT,
+  questionDefaultConfig.SORT_DEFAULT,
+  questionDefaultConfig.DATE_DEFAULT,
 ];
 
 interface OptionItemProps {
   title: string;
-  page: number;
   questionType: string;
   children: ReactNode;
   dragStartHandler?: (event: DragEvent) => void;
@@ -68,34 +69,39 @@ interface OptionItemProps {
 
 const OptionItem: FC<OptionItemProps> = ({
   title,
-  page,
   questionType,
   children,
 }: OptionItemProps) => {
   const dispatch = useAppDispatch();
-  const addNewQuestionHandler = (questionType: string, page: number) => {
+  const { editingFormPage } = useAppSelector((state) => state.question);
+  const addNewQuestionHandler = (questionType: string) => {
     const id = helper.generateId(8);
-    // BUG: 為什麼不break還會持續跑?
     const defaultQuestion = questionDefaultList[+questionType];
     const newQuestion = {
       ...defaultQuestion,
       id,
-      page,
+      page: editingFormPage,
     };
+    dispatch(questionActions.willChangeLimitationValue(true));
     dispatch(questionActions.addNewQuestion(newQuestion));
     dispatch(questionActions.switchEditingQuestion(newQuestion));
   };
   return (
-    <OptionWrapper draggable>
+    <OptionWrapper>
       <Option>
         <OptionText>{title}</OptionText>
         <OptionTypeIconWrapper>{children}</OptionTypeIconWrapper>
       </Option>
       <AddCommentSharpIconWrapper
-        onClick={() => addNewQuestionHandler(questionType, page)}
+        onClick={() => addNewQuestionHandler(questionType)}
       >
         <AddCommentSharpIcon
-          sx={{ width: "100%", height: "100%", fill: "#c8c8c8" }}
+          sx={{
+            width: "100%",
+            height: "100%",
+            fill: "#c8c8c8",
+            cursor: "pointer",
+          }}
         />
       </AddCommentSharpIconWrapper>
     </OptionWrapper>

@@ -10,13 +10,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   @font-face {
-    font-family: HanaMinA;
+    font-family: hanaMinA;
     src: url('/fonts/HanaMinA.ttf') format('truetype');
   }
 
 
   @font-face {
-    font-family: HanaMinB;
+    font-family: hanaMinB;
     src: url('/fonts/HanaMinB.ttf') format('truetype');
   }
 
@@ -25,15 +25,15 @@ const GlobalStyle = createGlobalStyle`
     src: url('/fonts/Vidaloka-Regular.ttf') format('truetype');
   }
   @font-face {
-    font-family: TaipeiSansTCBetaBold;
+    font-family: taipeiSansTCBold;
     src: url('/fonts/TaipeiSansTCBeta-Bold.ttf') format('truetype');
   }
   @font-face {
-    font-family: TaipeiSansTCBetaLight;
+    font-family: taipeiSansTCLight;
     src: url('/fonts/TaipeiSansTCBeta-Light.ttf') format('truetype');
   }
   @font-face {
-    font-family: TaipeiSansTCBetaRegular;
+    font-family: taipeiSansTCRegular;
     src: url('/fonts/TaipeiSansTCBeta-Regular.ttf') format('truetype');
   }
 
@@ -50,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-size: 1.6rem;
-    font-family: TaipeiSansTCBetaBold;
+    font-family: taipeiSansTCBold;
   }
 
   ul {

@@ -64,7 +64,7 @@ const CustomTextDisableField = styled(TextField)`
 
 const DeployFormSection: FC = () => {
   const router = useRouter();
-  const surveyId = useAppSelector((state) => state.user.newSurveyId);
+  const surveyId = useAppSelector((state) => state.admin.newSurveyId);
   const newSurveyPath = `/s/${surveyId}`;
   const newSurveyHref = `${window.location.origin}${newSurveyPath}`;
   return (

@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../../../store/slice/questionSlice";
-import questionActionType from "../../../../../../store/actionType/questionActionType";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import { questionActions } from "../../../../../store/slice/questionSlice";
+import questionActionType from "../../../../../store/actionType/questionActionType";
 import styled from "styled-components";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { ButtonWrapper, ButtonText } from "./Button";

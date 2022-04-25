@@ -1,18 +1,10 @@
-import type { Question } from "../types/question";
-import helper from "./helper";
+import { Question } from "../types/question";
 
-export default {
-  ONE_LINE_TEXT: "0",
-  MULTIPLE_LINE_TEXT: "1",
-  INTRODUCTION: "2",
-  ONE_CHOICE: "3",
-  MULTIPLE_CHOICE: "4",
-  MARTIX: "5",
-  NUMBER: "6",
-  SLIDER: "7",
-  SORT: "8",
-  DATE: "9",
-  DEFAULT_TEXT_TYPE_LIST: ["文字", "信箱", "手機"],
+interface QuestionDefaultConfig {
+  [key: string]: Question;
+}
+
+const questionDefaultConfig: QuestionDefaultConfig = {
   ONE_LINE_TEXT_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
@@ -104,6 +96,7 @@ export default {
       min: 1,
       decimal: 0,
       unit: "",
+      interval: 1,
     },
   },
   SLIDER_DEFAULT: <Question>{
@@ -145,48 +138,11 @@ export default {
     validations: {
       required: false,
       multipleDate: false,
-      startDate: helper.generateDate(),
-      endDate: helper.generateDate(),
+      hasRange: false,
+      startDate: null,
+      endDate: null,
     },
   },
-  REQUIRED: "required",
-  LENGTH: "length",
-  MAX_SELECTED: "maxSelected",
-  MIN: "min",
-  MAX: "max",
-  UNIT: "unit",
-  INTERVAL: "interval",
-  DECIMAL: "decimal",
-  START_DATE: "startDate",
-  END_DATE: "endDate",
 };
 
-/*
-export interface Validation {
-  required: boolean;
-  length?: number;
-  textType?: number;
-  max?: number;
-  min?: number;
-  decimal?: number;
-  unit?: string;
-  interval?: number;
-  maxSelected?: number;
-  maxMartixTitleQuantity?: number;
-  multipleDate?: boolean;
-  startDate?: Date;
-  endDate?: Date;
-}
-
-export interface Question {
-  id: string;
-  page: number;
-  title: string;
-  note: string;
-  placeholder?: string;
-  type: string;
-  options?: string[];
-  martixs?: string[];
-  validations: Validation;
-}
-*/
+export default questionDefaultConfig;

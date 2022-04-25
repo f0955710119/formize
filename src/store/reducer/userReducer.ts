@@ -1,29 +1,40 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
-import type { User } from "../slice/userSlice";
+import { Question } from "../../types/question";
+import { UserState } from "../slice/userSlice";
 
-const updateLoginState: CaseReducer<User, PayloadAction<string>> = (
+const setUpQuestionIdKeys: CaseReducer<UserState, PayloadAction<Question[]>> = (
   state,
   action
 ) => {
-  state.uid = action.payload;
+  const keyObject: { [key: string]: string } = {};
+  action.payload.forEach((question, i) => {
+    keyObject[question.id] = `${i}`;
+  });
+  state.questionIdKeys = keyObject;
 };
 
-const switchEditingGroup: CaseReducer<User, PayloadAction<string>> = (
-  state,
-  action
-) => {
-  state.editingGroupId = action.payload;
+const setUpQuestionInitList: CaseReducer<
+  UserState,
+  PayloadAction<Question[]>
+> = (state, action) => {
+  state.answers = action.payload.map((question) => {
+    return {
+      questionId: question.id,
+      input: "",
+    };
+  });
 };
 
-const createNewSurveyId: CaseReducer<User, PayloadAction<string>> = (
-  state,
-  action
-) => {
-  state.newSurveyId = action.payload;
+const updateFormAnswer: CaseReducer<
+  UserState,
+  PayloadAction<{ questionIdIndex: number; input: string }>
+> = (state, action) => {
+  const answerIndex = action.payload.questionIdIndex;
+  state.answers[answerIndex].input = action.payload.input;
 };
 
 export default {
-  updateLoginState,
-  switchEditingGroup,
-  createNewSurveyId,
+  setUpQuestionIdKeys,
+  setUpQuestionInitList,
+  updateFormAnswer,
 };

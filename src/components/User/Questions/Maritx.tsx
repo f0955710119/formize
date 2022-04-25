@@ -34,7 +34,7 @@ const MartixRadio: FC<MartixRadioProps> = ({ martixs }: MartixRadioProps) => {
     <FormControl>
       <RadioGroup
         row
-        aria-labelledby="demo-row-radio-buttons-group-label"
+        aria-labelledby="row-radio-buttons-group-label"
         name="row-radio-buttons-group"
       >
         {martixs.map((martix) => (

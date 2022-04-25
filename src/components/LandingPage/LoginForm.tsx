@@ -72,11 +72,11 @@ const Button = styled.button`
 `;
 
 const LoginForm: FC = () => {
+  const router = useRouter();
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     email: "",
     password: "",
   });
-  const router = useRouter();
 
   const changeAccountHandler: ChangeHandler = (event) => {
     const { value } = event.target;

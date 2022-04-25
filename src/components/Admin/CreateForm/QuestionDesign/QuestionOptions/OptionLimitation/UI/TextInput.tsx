@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../../../store/slice/questionSlice";
 import styled from "styled-components";
 import { TextField } from "@mui/material";
-import questionConfig from "../../../../../../../utils/questionConfig";
+import questionConfig from "../../../../../../../configs/questionConfig";
 import useGetQuestion from "../../../../../../../hooks/useQuestion";
 import { Question } from "../../../../../../../types/question";
 

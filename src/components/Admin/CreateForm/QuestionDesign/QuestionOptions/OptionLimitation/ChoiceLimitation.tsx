@@ -7,15 +7,17 @@ import LimitationWrapper from "./UI/LimitationWrapper";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
 
-import questionConfig from "../../../../../../utils/questionConfig";
+import questionConfig from "../../../../../../configs/questionConfig";
 import { Question } from "../../../../../../types/question";
 
 interface ChoiceLimitationProps {
   id: string;
+  type: string;
 }
 
 const ChoiceLimitation: FC<ChoiceLimitationProps> = ({
   id,
+  type,
 }: ChoiceLimitationProps) => {
   const question = useGetQuestion(id) as Question;
   const maxSelectedValidationHandler = (value: string) => {
@@ -34,10 +36,11 @@ const ChoiceLimitation: FC<ChoiceLimitationProps> = ({
     question,
     maxSelectedValidationHandler
   );
+
   return (
     <LimitationWrapper>
-      <RequiredSwitch />
-      {question.type !== "3" && (
+      <RequiredSwitch id={id} />
+      {type !== "3" && (
         <Field>
           <Label>選填數量</Label>
           <TextInput

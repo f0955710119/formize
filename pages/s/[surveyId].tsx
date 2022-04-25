@@ -10,8 +10,13 @@ import Survey from "../../src/components/User/Survey";
 import userSurveyConfig from "../../src/configs/userSurveyConfig";
 import helper from "../../src/utils/helper";
 import themes from "../../src/store/theme/theme";
+import { useAppDispatch } from "../../src/hooks/useAppDispatch";
+import { userActions } from "../../src/store/slice/userSlice";
 
 const SurveyId: NextPage = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const initUserSurvey = useRef<UserSurvey>({
     responseDocId: "",
     questions: userSurveyConfig.initQuestions,
@@ -19,8 +24,7 @@ const SurveyId: NextPage = () => {
     styles: userSurveyConfig.initStyles,
   });
   const [hasFetchedData, setHasFetchedData] = useState<boolean>(false);
-  const router = useRouter();
-  let colorTheme = {};
+  const [colorTheme, setColorTheme] = useState<{ [key: string]: string }>({});
 
   const getQuestion = async () => {
     const response = await fetch("/api/user/survey", {
@@ -36,16 +40,23 @@ const SurveyId: NextPage = () => {
       settings,
       styles,
     };
-    colorTheme =
-      themes[
-        helper.generateResponseThemePalette(initUserSurvey.current.styles.theme)
-      ];
-    console.log(questions);
+    const themeKey = initUserSurvey.current.styles.theme;
+    const colorTheme = themes[helper.generateResponseThemePalette(themeKey)];
+    setColorTheme(colorTheme);
     setHasFetchedData(true);
   };
+
+  const initSurvey = async () => {
+    await getQuestion();
+    dispatch(
+      userActions.setUpQuestionInitList(initUserSurvey.current.questions)
+    );
+    dispatch(userActions.setUpQuestionIdKeys(initUserSurvey.current.questions));
+  };
   const hasColorTheme = hasFetchedData && Object.keys(colorTheme).length === 0;
+
   useEffect(() => {
-    router.isReady && getQuestion();
+    router.isReady && initSurvey();
   }, [router.isReady]);
   return (
     <>

@@ -1,8 +1,14 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import type { StyleState } from "../slice/styleSlice";
 import styleActionType from "../actionType/styleActionType";
+import styleConfig from "../../configs/styleConfig";
+import backgroundConfig from "../../configs/backgroundConfig";
 
-import themes from "../theme/theme";
+const initStyle: CaseReducer<StyleState> = (state) => {
+  state.theme = styleConfig.MAIN_CODE;
+  state.font = styleConfig.OPENHUNNINN_CODE;
+  state.backgroundImages = [backgroundConfig.YELLOW1];
+};
 
 const changeStyle: CaseReducer<
   StyleState,
@@ -32,7 +38,7 @@ const changeStyle: CaseReducer<
           };
         }
       }
-      // 每次傳進來的資料都要按照分頁順序
+
       case styleActionType.BACKGROUND_IMAGES: {
         if (action.payload.backgroundImages) {
           return {
@@ -50,4 +56,4 @@ const changeStyle: CaseReducer<
   }
 };
 
-export default { changeStyle };
+export default { initStyle, changeStyle };
