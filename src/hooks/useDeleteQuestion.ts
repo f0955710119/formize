@@ -16,10 +16,20 @@ const useDeleteQuestion = () => {
     dispatch(questionActions.switchEditingQuestion(null));
     dispatch(questionActions.willChangeLimitationValue(true));
 
-    if (editingFormPage === 1 && pageQuantity === 1) return;
+    const deletingPageQuestion = questions.find(
+      (question) => question.id === questionId
+    );
+    if (!deletingPageQuestion) throw new Error("沒有對應的題型id");
+    const deletingPageQuestionPage = deletingPageQuestion.page;
+
+    if (deletingPageQuestionPage === 1 && pageQuantity === 1) return;
+    // BUG: 之後可以改成用KEY去找對應的ARRAY INDEX
+
     const pageHasOtherQuestions =
-      questions.filter((question) => question.page === editingFormPage).length >
-      1;
+      questions.filter((question) => question.page === deletingPageQuestionPage)
+        .length > 1;
+
+    console.log(pageHasOtherQuestions);
     if (pageHasOtherQuestions) return;
 
     dispatch(
@@ -28,10 +38,14 @@ const useDeleteQuestion = () => {
         value: pageQuantity - 1,
       })
     );
-    dispatch(questionActions.updateQuestionPage({ page: editingFormPage }));
+    dispatch(
+      questionActions.updateQuestionPage({ page: deletingPageQuestionPage })
+    );
     dispatch(
       questionActions.switchEditingFormPage(
-        editingFormPage === 1 ? editingFormPage : editingFormPage - 1
+        deletingPageQuestionPage === 1
+          ? deletingPageQuestionPage
+          : deletingPageQuestionPage - 1
       )
     );
   };
