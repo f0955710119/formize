@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: openhuninn;
+    font-family: jfOpenhuninn;
     src: url('/fonts/jf-openhuninn-1.1.ttf') format('truetype');
   }
 

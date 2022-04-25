@@ -39,7 +39,6 @@ const Sort: FC<SortProps> = ({ options, maxSelected }) => {
         <OptionItemWrapper
           key={i}
           onClick={() => {
-            if (selectedOptionArr.length > maxSelected) return;
             if (
               selectedOptionArr.find(
                 (existedOption) => existedOption === option
@@ -51,6 +50,7 @@ const Sort: FC<SortProps> = ({ options, maxSelected }) => {
               setSelectedOptionArr(updateSelectedOptionArr);
               return;
             }
+            if (selectedOptionArr.length > maxSelected) return;
             setSelectedOptionArr((prevState) => {
               const oldSelectedOptioArr = [...prevState, option];
               return oldSelectedOptioArr;
