@@ -203,7 +203,9 @@ const generateResponsedUserSurveyQuestion = (
 
     case questionConfig.ONE_CHOICE: {
       if (question.options) {
-        return <OneChoice options={question.options} questionId={question.id}/>;
+        return (
+          <OneChoice options={question.options} questionId={question.id} />
+        );
       }
     }
 
@@ -221,7 +223,13 @@ const generateResponsedUserSurveyQuestion = (
 
     case questionConfig.MARTIX: {
       if (question.options && question.martixs) {
-        return <Martix options={question.options} martixs={question.martixs} />;
+        return (
+          <Martix
+            options={question.options}
+            martixs={question.martixs}
+            questionId={question.id}
+          />
+        );
       }
     }
 
@@ -257,6 +265,7 @@ const generateResponsedUserSurveyQuestion = (
           <Sort
             options={question.options}
             maxSelected={question.validations.maxSelected}
+            questionId={question.id}
           />
         );
       }
