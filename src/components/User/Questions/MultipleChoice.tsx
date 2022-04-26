@@ -51,7 +51,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
     });
 
     const input = `${+event.target.id + 1}.${event.target.name}`;
-    const updateInput = selectedOptions.includes(input) ? "" : input;
+    const updateInput = selectedOptions.includes(input) ? "" : `${input}`;
 
     setSelectedOptions((prevState) => {
       const updateState = [...prevState];
@@ -70,7 +70,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
     dispatch(
       userActions.updateFormAnswer({
         questionIdIndex,
-        input: selectedOptions.join("\n"),
+        input: selectedOptions.join(""),
       })
     );
   }, [selectedOptions]);
