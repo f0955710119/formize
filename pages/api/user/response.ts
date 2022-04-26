@@ -17,16 +17,29 @@ export default async function handler(
       const { answers, responseDocId, surveyId } = req.body;
 
       const data = await firebase
-        .getDocData(firestoreCollectionConfig.RESPONSES, surveyId)
-        .catch((error) => {
-          throw new Error("fail to get survey data " + error.message);
+        .getDocData(firestoreCollectionConfig.SURVEYS, surveyId)
+        .catch(() => {
+          throw new Error("fail to get survey data");
         });
-
+      const responseData = await firebase
+        .getDocData(firestoreCollectionConfig.RESPONSES, responseDocId)
+        .catch(() => {
+          throw new Error("fail to get response data");
+        });
       if (!data) {
         res.status(400).json({
           status: "fail",
           status_code: 400,
           message: `this survey has no data`,
+        });
+        return;
+      }
+
+      if (!responseData) {
+        res.status(400).json({
+          status: "fail",
+          status_code: 400,
+          message: `this response collection has no data`,
         });
         return;
       }
@@ -61,14 +74,12 @@ export default async function handler(
         firebase.updateFieldArrayValue({
           docPath: `${firestoreCollectionConfig.RESPONSES}/${responseDocId}`,
           fieldKey: "answers",
-          updateData: answers,
+          updateData: { [responseData.answers.length]: answers },
         }),
       ];
 
-      await Promise.all(fetchList).catch((error) => {
-        throw new Error(
-          "can not update responses to this survey " + error.message
-        );
+      await Promise.all(fetchList).catch(() => {
+        throw new Error("fail to update survey and response collection");
       });
 
       res.status(201).json({
@@ -81,7 +92,7 @@ export default async function handler(
       res.status(400).json({
         status: "fail",
         status_code: 400,
-        message: `unexpected errors happened ` + error.message,
+        message: `unexpected errors happened: ` + error.message,
       });
     }
   }

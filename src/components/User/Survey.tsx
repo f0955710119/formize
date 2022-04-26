@@ -329,7 +329,7 @@ const Survey: FC<SurveyProps> = ({
         }),
       });
 
-      if (!response.ok) throw new Error("fail to send data to server");
+      // if (!response.ok) throw new Error("fail to send data to server");
       const data = await response.json();
       if (data.status !== "success") throw new Error(data.message);
       setNavigatePage(2);
