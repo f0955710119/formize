@@ -17,6 +17,7 @@ import Date from "./Questions/Date";
 import styleConfig from "../../configs/styleConfig";
 import StartPageSection from "./StartPageSection";
 import EndPageSection from "./EndPageSection";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 type SurveyProps = UserSurvey;
 interface MainProps {
@@ -102,9 +103,7 @@ interface MultiPageFormQuestionButtonProps {
 const MultiPageFormQuestionButton = styled.button<MultiPageFormQuestionButtonProps>`
   position: absolute;
   ${(props: MultiPageFormQuestionButtonProps) =>
-    props.isLastPage
-      ? "left: calc(100% - 96rem)"
-      : "right: calc(100% - 96rem)"};
+    props.isLastPage ? "left: 30%" : "right: 30%"};
   bottom: 4rem;
   display: flex;
   justify-content: center;
@@ -204,7 +203,7 @@ const generateResponsedUserSurveyQuestion = (
 
     case questionConfig.ONE_CHOICE: {
       if (question.options) {
-        return <OneChoice options={question.options} />;
+        return <OneChoice options={question.options} questionId={question.id}/>;
       }
     }
 
@@ -214,6 +213,7 @@ const generateResponsedUserSurveyQuestion = (
           <MultiChoice
             options={question.options}
             maxSelected={question.validations.maxSelected}
+            questionId={question.id}
           />
         );
       }
@@ -289,6 +289,8 @@ const Survey: FC<SurveyProps> = ({
   settings,
   styles,
 }: SurveyProps) => {
+  const { answers } = useAppSelector((state) => state.user);
+  console.log(answers);
   const [navigatePage, setNavigatePage] = useState<number>(0);
   const [questionPage, setQuestionPage] = useState<number>(0);
   const indexArr = helper.generateQuestionIndexArr(questions);

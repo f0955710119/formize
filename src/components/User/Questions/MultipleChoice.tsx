@@ -1,18 +1,27 @@
-import { FC, useState, ChangeEvent } from "react";
-import {
-  FormControl,
-  FormGroup,
-  Checkbox,
-  FormControlLabel,
-  FormHelperText,
-} from "@mui/material";
+import { FC, useState, useEffect, useRef, ChangeEvent } from "react";
+
+import FormControl from "@mui/material/FormControl";
+import FormGroup from "@mui/material/FormGroup";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormHelperText from "@mui/material/FormHelperText";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
+import { userActions } from "../../../store/slice/userSlice";
 
 interface MultipleChoiceProps {
   options: string[];
   maxSelected: number;
+  questionId: string;
 }
 
-const MultipleChoice: FC<MultipleChoiceProps> = ({ options, maxSelected }) => {
+const MultipleChoice: FC<MultipleChoiceProps> = ({
+  options,
+  maxSelected,
+  questionId,
+}) => {
+  const dispatch = useAppDispatch();
+  const questionIdIndex = useGetQuestionIdIndex(questionId);
   const [isValid, setIsValid] = useState(() => {
     const existedOption: {
       [key: string]: boolean;
@@ -23,6 +32,13 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({ options, maxSelected }) => {
     });
     return existedOption;
   });
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(
+    Array(options.length).fill("")
+  );
+
+  const isDidMount = useRef<boolean>(true);
+  const optionValue = Object.values(isValid);
+  const error = optionValue.filter((value) => value).length > maxSelected;
 
   const checkSelectedOptionNumberHandler = (
     event: ChangeEvent<HTMLInputElement>
@@ -33,9 +49,32 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({ options, maxSelected }) => {
         [event.target.name]: event.target.checked,
       };
     });
+
+    const input = `${+event.target.id + 1}.${event.target.name}`;
+    const updateInput = selectedOptions.includes(input) ? "" : input;
+
+    setSelectedOptions((prevState) => {
+      const updateState = [...prevState];
+      updateState[+event.target.id] = updateInput;
+      return updateState;
+    });
   };
-  const optionValue = Object.values(isValid);
-  const error = optionValue.filter((value) => value).length > maxSelected;
+
+  useEffect(() => {
+    if (isDidMount.current) {
+      isDidMount.current = false;
+      return;
+    }
+
+    if (error) return;
+    dispatch(
+      userActions.updateFormAnswer({
+        questionIdIndex,
+        input: selectedOptions.join("\n"),
+      })
+    );
+  }, [selectedOptions]);
+
   return (
     <FormControl
       required
@@ -53,6 +92,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({ options, maxSelected }) => {
                 checked={optionValue[i]}
                 onChange={checkSelectedOptionNumberHandler}
                 name={option}
+                id={`${i}`}
               />
             }
             label={option}
