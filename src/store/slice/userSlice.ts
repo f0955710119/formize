@@ -4,6 +4,7 @@ import reducers from "../reducer/userReducer";
 export interface Answer {
   questionId: string;
   input: string;
+  type: string;
 }
 
 export interface UserState {
