@@ -23,7 +23,6 @@ export default async function handler(
   console.log(process.env.NEXT_PUBLIC_ORIGIN);
   if (req.method === "POST") {
     const surveyId = JSON.parse(req.body).surveyId;
-
     if (!surveyId) {
       res.status(400).json({
         status: "fail",
@@ -46,7 +45,7 @@ export default async function handler(
       return;
     }
 
-    const { questionDocId, responseDocId, settings, styles } = data;
+    const { questionDocId, responseDocId, settings, styles, openTimes } = data;
 
     const questions = await firebase.getDocData(
       firestoreCollectionConfig.QUESTIONS,
@@ -66,7 +65,12 @@ export default async function handler(
     const existedSettings = settings as Settings;
     const existedStyles = styles as Styles;
 
-    console.log(responseDocId);
+    await firebase.updateExistedDoc(
+      firestoreCollectionConfig.SURVEYS,
+      surveyId,
+      "openTimes",
+      openTimes + 1
+    );
 
     res.status(201).json({
       status: "success",

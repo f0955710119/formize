@@ -27,6 +27,7 @@ import type { Surveys } from "../types/survey";
 import type { Questions } from "../types/question";
 
 import helper from "./helper";
+import { Responses } from "../types/responses";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -141,6 +142,17 @@ export default {
       console.log("No such document!");
     }
   },
+  async updateExistedDoc(
+    collectionName: string,
+    docId: string,
+    field: string,
+    data: string | number | Date | null
+  ) {
+    const docRef = doc(db, collectionName, docId);
+    await updateDoc(docRef, {
+      [field]: data,
+    });
+  },
   async updateUserGroupsIdArray(
     uid: string,
     groupId: string,
@@ -159,23 +171,8 @@ export default {
     const docRef = doc(db, collectionName, id);
     return docRef;
   },
-  async setNewDoc<
-    T extends
-      | Surveys
-      | Questions
-      | {
-          surveyId: string;
-          createdDate: never[];
-          answers: never[];
-          tableInfo: {
-            title: string;
-            id: string;
-            type: string;
-            martixs?: string[];
-            options?: string[];
-          }[];
-        }
-  >(docRef: DocumentReference<DocumentData>, data: T) {
+  // prettier-ignore
+  async setNewDoc<T extends Surveys| Questions | Responses >(docRef: DocumentReference<DocumentData>, data: T) {
     try {
       await setDoc(docRef, data);
       return "成功發送資料";
@@ -189,7 +186,7 @@ export default {
     if (!docSnap.exists()) throw "沒有找到文件，確認一下拼字跟帶入的值";
     return docSnap.data();
   },
-  async updateFieldArrayValue<T extends string>(
+  async updateFieldArrayValue<T>(
     {
       docPath,
       fieldKey,

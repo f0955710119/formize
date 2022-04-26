@@ -18,6 +18,7 @@ import styleConfig from "../../configs/styleConfig";
 import StartPageSection from "./StartPageSection";
 import EndPageSection from "./EndPageSection";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import { useRouter } from "next/router";
 
 type SurveyProps = UserSurvey;
 interface MainProps {
@@ -300,6 +301,8 @@ const Survey: FC<SurveyProps> = ({
   settings,
   styles,
 }: SurveyProps) => {
+  const router = useRouter();
+  const { surveyId } = router.query;
   const { answers } = useAppSelector((state) => state.user);
   console.log(answers);
   const [navigatePage, setNavigatePage] = useState<number>(0);
@@ -313,6 +316,28 @@ const Survey: FC<SurveyProps> = ({
     settings.pageQuantity,
     questions
   );
+
+  const sendResponses = async () => {
+    try {
+      const response = await fetch("/api/user/response", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          answers,
+          responseDocId,
+          surveyId,
+        }),
+      });
+
+      if (!response.ok) throw new Error("fail to send data to server");
+      const data = await response.json();
+      if (data.status !== "success") throw new Error(data.message);
+      setNavigatePage(2);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   console.log(helper.generateResponseTableInfoArr(questions));
   return (
     <>
@@ -397,7 +422,7 @@ const Survey: FC<SurveyProps> = ({
                       questionPage ===
                       questionsInDiffernetPageArr.length - 1
                     ) {
-                      setNavigatePage(2);
+                      sendResponses();
                       return;
                     }
                     setQuestionPage((prevState) => prevState + 1);

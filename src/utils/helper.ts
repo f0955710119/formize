@@ -1,5 +1,6 @@
 import type { Question } from "../types/question";
 import styleConfig from "../configs/styleConfig";
+import { Table } from "../types/responses";
 
 interface CheckStringName {
   stringArr: string[];
