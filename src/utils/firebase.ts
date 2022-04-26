@@ -159,10 +159,23 @@ export default {
     const docRef = doc(db, collectionName, id);
     return docRef;
   },
-  async setNewDoc<T extends Surveys | Questions | { exists: boolean }>(
-    docRef: DocumentReference<DocumentData>,
-    data: T
-  ) {
+  async setNewDoc<
+    T extends
+      | Surveys
+      | Questions
+      | {
+          surveyId: string;
+          createdDate: never[];
+          answers: never[];
+          tableInfo: {
+            title: string;
+            id: string;
+            type: string;
+            martixs?: string[];
+            options?: string[];
+          }[];
+        }
+  >(docRef: DocumentReference<DocumentData>, data: T) {
     try {
       await setDoc(docRef, data);
       return "成功發送資料";

@@ -313,7 +313,7 @@ const Survey: FC<SurveyProps> = ({
     settings.pageQuantity,
     questions
   );
-
+  console.log(helper.generateResponseTableInfoArr(questions));
   return (
     <>
       {settings.mode === "0" && (

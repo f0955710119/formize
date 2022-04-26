@@ -263,6 +263,7 @@ export default {
   generateQuestionsKeysForResponses(questions: Question[]) {
     const questionKeysConfig: { [key: string]: string } = {};
     const questionKeysType: { [key: string]: string } = {};
+    // const questionKeysTitle: {} = {};
     let keyIndex = 0;
     questions.forEach((question) => {
       if (question.type === "2") return;
@@ -300,5 +301,85 @@ export default {
     });
 
     return [questionKeysConfig, questionKeysType];
+  },
+
+  generateResponseTableInfoArr(questions: Question[]) {
+    const questionsObject = this.generateQuestionsKeysForResponses(questions);
+    const ids = Object.keys(questionsObject[1]);
+    const types = Object.values(questionsObject[1]);
+    const hasOptions: { [key: string]: string[] } = {};
+    const hasMartixs: { [key: string]: string[] } = {};
+    const titles: { [key: string]: string } = {};
+
+    questions.forEach((question) => {
+      titles[question.id] = question.title;
+      if (question.type === "5" && question.options && question.martixs) {
+        hasOptions[question.id] = question.options;
+        hasMartixs[question.id] = question.martixs;
+        return;
+      }
+
+      if (
+        question.type === "8" ||
+        question.type === "3" ||
+        question.type === "4"
+      ) {
+        if (!question.options) return;
+        hasOptions[question.id] = question.options;
+      }
+    });
+
+    const tables = ids.map((id, i) => {
+      const originalId = id.includes("_") ? id.split("_")[0] : id;
+      const originTitle = titles[originalId];
+      if (id.includes("_start") || id.includes("_end")) {
+        const titleNote = id.includes("_start") ? "起始日" : "結束日";
+        return {
+          title: `${originTitle} (${titleNote})`,
+          id,
+          type: types[i],
+        };
+      }
+
+      if (types[i] === "5") {
+        const options = hasOptions[originalId];
+        const martixs = hasMartixs[originalId];
+        const optionIndex: number = +id.split("_")[1];
+        return {
+          title: `${originTitle} - ${options[optionIndex]}`,
+          id,
+          type: types[i],
+          martixs,
+        };
+      }
+
+      if (types[i] === "8") {
+        const options = hasOptions[originalId];
+        const optionIndex = +id.split("_")[1];
+        return {
+          title: `${originTitle} - ${options[optionIndex]}`,
+          id,
+          type: types[i],
+        };
+      }
+
+      if (types[i] === "3" || types[i] === "4") {
+        const options = hasOptions[originalId];
+        return {
+          title: `${originTitle}`,
+          id,
+          type: types[i],
+          options,
+        };
+      }
+
+      return {
+        title: `${originTitle}`,
+        id,
+        type: types[i],
+      };
+    });
+
+    return tables;
   },
 };

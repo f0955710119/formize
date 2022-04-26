@@ -58,8 +58,12 @@ export default async function handler(
     const newQuestionDocData = {
       questions: newHandledQuestions,
     };
+
     const newDefaultResponssDocData = {
-      exists: true,
+      surveyId: surveyDocRef.id,
+      createdDate: [],
+      answers: [],
+      tableInfo: helper.generateResponseTableInfoArr(questions),
     };
 
     const fetchFirestore = [
@@ -74,7 +78,6 @@ export default async function handler(
     ];
 
     await Promise.all(fetchFirestore);
-
     res.status(201).json({
       status: "success",
       status_code: 201,
