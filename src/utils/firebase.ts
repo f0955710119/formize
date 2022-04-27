@@ -6,9 +6,11 @@ import {
   setDoc,
   getDoc,
   updateDoc,
-  Query,
+  where,
   arrayUnion,
   arrayRemove,
+  query,
+  getDocs,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -90,8 +92,8 @@ export default {
         email,
         password
       );
-      this.getUser(userCredential.user.uid);
-      // 拿去store找user的資料 signinHandler(userCredential.user.uid);
+      const data = await this.getUser(userCredential.user.uid);
+      return data;
     } catch (error: any) {
       const { message } = error;
       console.error(message);
@@ -132,16 +134,18 @@ export default {
 
     await setDoc(newUserRef, defalutUsers);
   },
-  async getUser(uid: string): Promise<void> {
+  async getUser(uid: string) {
     const userDocRef = doc(db, "users", uid);
     const docSnap = await getDoc(userDocRef);
 
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
+      return docSnap.data();
     } else {
       console.log("No such document!");
     }
   },
+  // FOR_DOC
   async updateExistedDoc(
     collectionName: string,
     docId: string,
@@ -164,6 +168,19 @@ export default {
       { groupId: isAddNewGroup ? arrayUnion(groupId) : arrayRemove(groupId) },
       { merge: true }
     );
+  },
+  // FOR_FILTER
+  async getAllEqualDoc(
+    collectionName: string,
+    fieldKey: string,
+    equalValue: string
+  ) {
+    const collectionRef = collection(db, collectionName);
+    const fields = query(collectionRef, where(fieldKey, "==", equalValue));
+
+    const querySnapshot = await getDocs(fields);
+    const datas = querySnapshot.docs.map((doc) => doc.data());
+    return datas;
   },
   // FOR_GENERAL
   generateDocRef(collectionName: string) {

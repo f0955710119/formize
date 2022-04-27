@@ -24,4 +24,5 @@ export interface Surveys {
   styles: Styles;
   questionDocId: string;
   responseDocId: string;
+  groupId: string;
 }

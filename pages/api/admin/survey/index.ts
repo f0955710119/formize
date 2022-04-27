@@ -12,7 +12,7 @@ interface Data {
   message: string;
   data?: {
     url: string;
-    survey_id: string;
+    surveyId: string;
   };
 }
 
@@ -54,6 +54,7 @@ export default async function handler(
       styles,
       questionDocId: questionDocRef.id,
       responseDocId: responseDocRef.id,
+      groupId,
     };
     const newQuestionDocData = {
       questions: newHandledQuestions,
@@ -84,12 +85,8 @@ export default async function handler(
       message: "create new survey successfully",
       data: {
         url,
-        survey_id: surveyDocRef.id,
+        surveyId: surveyDocRef.id,
       },
     });
   }
 }
-
-/*
-4/0AX4XfWiL38kgW_yf8m8Om8PQOCtACpkaQENCHf0f9om2hQg7lNp9vM6G6qBHO_EIDTjKgw&scope=https://www.googleapis.com/auth/drive.appdata%20https://www.googleapis.com/auth/drive.file
-*/

@@ -99,9 +99,19 @@ const LoginForm: FC = () => {
   const singinHandler: SignFunctionType = async (email, password) => {
     try {
       //BUG: 之後要寫type gurad + validation
-      await firebase.nativeLogin({ email, password });
-      window.alert("登入成功，將前往問卷管理頁面!");
-      router.push("/admin");
+      const response = await fetch("/api/admin/auth/sign-in", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok)
+        throw new Error(
+          "fail to login in client-side, please check the network"
+        );
+      const userInfo = await response.json();
+
+      // window.alert("登入成功，將前往問卷管理頁面!");
+      // router.push("/admin");
     } catch (error: any) {
       window.alert(error.message);
     }
