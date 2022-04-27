@@ -4,13 +4,6 @@ import { Surveys } from "../../../../src/types/survey";
 import firebase from "../../../../src/utils/firebase";
 import type { DocumentData } from "firebase/firestore";
 
-interface Group {
-  id: string;
-  name: string;
-  surveys: string[];
-  userId: string;
-}
-
 interface Data {
   status: string;
   status_code: number;

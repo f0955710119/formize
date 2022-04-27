@@ -108,7 +108,7 @@ const LoginForm: FC = () => {
         throw new Error(
           "fail to login in client-side, please check the network"
         );
-      const userInfo = await response.json();
+      const adminInfo = await response.json();
 
       // window.alert("登入成功，將前往問卷管理頁面!");
       // router.push("/admin");
