@@ -10,7 +10,8 @@ interface ItemWrapperProps {
 const ItemWrapper = styled.div<ItemWrapperProps>`
   display: flex;
   align-items: center;
-  color: ${(props) => (props.currentStep === props.number ? "#f90" : "#333")};
+  color: ${(props) =>
+    props.currentStep === props.number ? "#6e917bd6" : "#333"};
   font-weight: ${(props) =>
     props.currentStep === props.number ? "bold" : "normal"};
   transition: color 0.3s;
@@ -44,7 +45,7 @@ const IntervalLineWrapper = styled.div`
   display: flex;
   align-items: center;
   margin: 0 1rem;
-  width: 6rem;
+  width: 8rem;
   height: 100%;
 `;
 

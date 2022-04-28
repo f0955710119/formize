@@ -21,7 +21,7 @@ const Admin: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
-      <Header />
+      {/* <Header /> */}
       <Main>
         <GroupSideBar />
         <Dashboard />

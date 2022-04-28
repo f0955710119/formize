@@ -12,16 +12,17 @@ const defalutDateOptions = ["最新創建", "最舊創建", "最新回覆", "最
 const HeaderWrapper = styled.header`
   display: flex;
   align-items: center;
+  margin: 1rem 0 0.5rem 0;
   padding-bottom: 2rem;
   width: 100%;
   height: 6rem;
-  border-bottom: 1px solid #e8e8e8;
 `;
 
 const FilterWrapper = styled.div`
   display: flex;
   align-items: center;
   width: calc(100% - 12rem);
+  border-radius: 5px;
 `;
 
 const ButtonWrapper = styled.button`
@@ -31,20 +32,24 @@ const ButtonWrapper = styled.button`
   padding: 0.4rem 1rem;
   width: 12rem;
   height: 4.6rem;
-  background-color: #f3d28b;
+  background-color: #8e9aa2;
   cursor: pointer;
+  color: #fff;
+  font-family: inherit;
+
+  border-radius: 3px;
 
   &:hover {
-    color: #fff;
-    background-color: #f90;
+    background-color: #646665;
   }
 `;
 
 const ButtonText = styled.span`
+  letter-spacing: 1px;
   font-size: 1.4rem;
 `;
 
-const DashboardHeader: FC = () => {
+const DashboardSubHeader: FC = () => {
   const router = useRouter();
   const initHandler = useInitNewForm();
 
@@ -81,4 +86,4 @@ const DashboardHeader: FC = () => {
   );
 };
 
-export default DashboardHeader;
+export default DashboardSubHeader;

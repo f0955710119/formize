@@ -16,6 +16,7 @@ const ViewRecordAnalysis: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
+      <div>record</div>
     </>
   );
 };

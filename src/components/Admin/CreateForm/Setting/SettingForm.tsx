@@ -14,14 +14,21 @@ const Wrapper = styled.main`
   align-items: center;
   width: 100%;
   height: calc(100vh - 6rem - 6rem);
+  /* background-image: linear-gradient(
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.7)
+    ),
+    url("/images/setting-bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover; */
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   margin: 2rem auto 4rem auto;
-  padding: 0 2rem 0 0;
-  width: 62.4rem;
+  padding: 0 3.2rem 0 0;
+  width: 68.4rem;
   height: calc(100% - 6rem);
 
   overflow-y: scroll;
@@ -36,7 +43,7 @@ const Form = styled.form`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #f90;
+    background-color: rgba(180, 188, 183, 1);
     background-image: -webkit-linear-gradient(
       45deg,
       rgba(255, 255, 255, 0.2) 25%,
@@ -62,7 +69,6 @@ const SettingForm: FC = () => {
   const backToAdminIndexPage = (): void => {
     router.push("/admin");
   };
-  const setting = useAppSelector((state) => state.setting);
 
   return (
     <Wrapper>

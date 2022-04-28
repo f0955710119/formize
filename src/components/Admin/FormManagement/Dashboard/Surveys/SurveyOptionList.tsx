@@ -13,7 +13,6 @@ const ListWrapper = styled.div`
   width: 10rem;
   background-color: #333;
   z-index: 1;
-  /* height: 100%; */
 `;
 
 const Item = styled.div`
@@ -24,8 +23,7 @@ const Item = styled.div`
   cursor: pointer;
 
   &:hover {
-    /* color: #f90; */
-    background-color: #f90;
+    background-color: #b4bcb7;
   }
 `;
 

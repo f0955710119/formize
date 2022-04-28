@@ -7,7 +7,7 @@ const Field = styled.div`
   align-items: center;
 
   &:not(:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: 2.4rem;
   }
 `;
 

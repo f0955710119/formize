@@ -45,6 +45,7 @@ export default async function handler(
     const url = `'${process.env.NEXT_PUBLIC_ORIGIN}/s/${surveyDocRef.id}`;
     const newHandledQuestions = helper.generateNewHandledQuestion(questions);
     const newSurveyDocData: Surveys = {
+      id: surveyDocRef.id,
       title: settings.title,
       url,
       createdTime: new Date(),

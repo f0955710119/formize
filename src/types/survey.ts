@@ -15,6 +15,7 @@ export interface Styles {
   backgroundImages: string[];
 }
 export interface Surveys {
+  id: string;
   title: string;
   url: string;
   createdTime: Date;

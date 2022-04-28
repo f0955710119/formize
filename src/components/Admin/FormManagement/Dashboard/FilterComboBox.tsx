@@ -6,7 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 // BUG: 之後要照官方文件建議去改
 const CustomedComboBox = styled(Autocomplete)`
   & div {
-    border-radius: 0px;
+    border-radius: 3px;
   }
 
   & label {

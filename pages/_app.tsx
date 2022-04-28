@@ -51,7 +51,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-size: 1.6rem;
-    font-family: taipeiSansTCBold;
+    font-family: jfOpenhuninn;
   }
 
   ul {

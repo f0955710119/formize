@@ -34,7 +34,7 @@ export interface Admin {
 
 const initialState: Admin = {
   uid: "",
-  editingGroupId: "",
+  editingGroupId: "0",
   editingSurveyId: "",
   newSurveyId: "",
   driveToken: {
@@ -75,7 +75,7 @@ const adminReducer = (state: AdminReducerState, action: AdminAction) => {
 
 const initAdminReducerState = {
   uid: "",
-  editingGroupId: "",
+  editingGroupId: "0",
   editingSurveyId: "",
   newSurveyId: "",
   driveToken: {
@@ -96,6 +96,7 @@ interface AdminProviderProps {
 export const AdminProvider: FC<AdminProviderProps> = ({ children }) => {
   const [adminInfo, dispatch] = useReducer(adminReducer, initAdminReducerState);
   const setFieldHandler: SetFieldHandler = (fieldKey, value) => {
+    console.log(value);
     dispatch({ type: fieldKey, payload: value });
   };
   const adminDefaultContext = {

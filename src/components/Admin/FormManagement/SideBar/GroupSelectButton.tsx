@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+import { RightArrow } from "@styled-icons/boxicons-solid/RightArrow";
 
 interface ButtonWrapper {
   active: boolean;
@@ -7,21 +8,25 @@ interface ButtonWrapper {
 
 const ButtonWrapper = styled.button`
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 0.4rem;
+  padding-left: 1rem;
   width: 100%;
   height: 3.2rem;
   color: ${({ active }: ButtonWrapper) => (active ? "#e9f1ff" : "#333")};
   background-color: ${({ active }: ButtonWrapper) =>
-    active ? "#ff4400" : "#c8c8c8"};
-  margin-bottom: 0.5rem;
+    active ? "#646665" : "transparent"};
   cursor: pointer;
 
   &:hover {
     color: #e9f1ff;
-    background-color: #f90;
+    background-color: #b4bcb7;
   }
+`;
+
+const ButtonIcon = styled(RightArrow)`
+  color: inherit;
+  margin-right: 0.5rem;
+  width: 1rem;
 `;
 
 const ButtonText = styled.span`
@@ -31,14 +36,17 @@ const ButtonText = styled.span`
 interface GroupSelectButtonProps {
   buttonText: string;
   active: boolean;
+  clickHandler: () => void;
 }
 
 const GroupSelectButton: FC<GroupSelectButtonProps> = ({
   buttonText,
   active,
+  clickHandler,
 }: GroupSelectButtonProps) => {
   return (
-    <ButtonWrapper active={active}>
+    <ButtonWrapper active={active} onClick={clickHandler}>
+      {active && <ButtonIcon />}
       <ButtonText>{buttonText}</ButtonText>
     </ButtonWrapper>
   );

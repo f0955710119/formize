@@ -4,7 +4,7 @@ import styled from "styled-components";
 const MainWrapper = styled.main`
   display: flex;
   width: 100vw;
-  height: calc(100vh - 6rem);
+  height: 100vh;
 `;
 
 interface Main {

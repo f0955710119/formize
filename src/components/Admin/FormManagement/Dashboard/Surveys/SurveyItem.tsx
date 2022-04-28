@@ -2,34 +2,35 @@ import { FC, useState } from "react";
 import styled from "styled-components";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SurveyOptionList from "./SurveyOptionList";
+import SurveyItemExpand from "./SurveyItemExpand/SurveyItemExpand";
 
-const ItemWrapper = styled.li`
+interface ItemContainerProps {
+  isExpand: boolean;
+}
+
+const ItemContainer = styled.li<ItemContainerProps>`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-bottom: 1px solid rgba(180, 188, 183, 0.15);
+  background-color: rgba(180, 188, 183, 0.2);
+`;
+
+const ItemWrapper = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  padding: 1rem 3rem;
+  padding: 0.5rem 0 0 3rem;
   width: 100%;
-  height: 6rem;
-  color: #fff;
+  height: 5rem;
+  color: #333;
   font-size: 1.4rem;
-  background-color: #aaa;
-  box-shadow: 4px 4px 0 transparent;
-  transition: box-shadow 0.2s;
-
-  &:hover {
-    box-shadow: 4px 4px 0 #777;
-    /* transform: translateY(-0.5rem); */
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 2rem;
-  }
 `;
 
 const Title = styled.span`
   display: block;
   width: 71.3%;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 `;
 
 const ResponseNumber = styled.span`
@@ -46,67 +47,59 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 4%;
+  width: 3%;
   height: 100%;
-
-  /* &::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    right: 30%;
-    width: 10rem;
-    background-color: #333;
-
-    height: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: height 0.1s ease-in-out, opacity 0.1s ease-in-out;
-  }
-
-  &:hover::after {
-    height: 5rem;
-    opacity: 1;
-    visibility: visible;
-  } */
 `;
 
 interface SurveyItemProps {
   title: string;
   responseNumber: number;
   date: Date;
+  formId: string;
 }
 
 const SurveyItem: FC<SurveyItemProps> = ({
   title,
   responseNumber,
   date,
+  formId,
 }: SurveyItemProps) => {
   const [hasClickExpand, setHasClickExpand] = useState<boolean>(false);
   return (
-    <ItemWrapper onMouseLeave={() => setHasClickExpand(false)}>
-      <Title>{title}</Title>
-      <ResponseNumber>{responseNumber}</ResponseNumber>
-      <Date>
-        {date.toLocaleString("zh-tw", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
-      </Date>
-      <Date>
-        {date.toLocaleString("zh-tw", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
-      </Date>
-      <IconWrapper onMouseEnter={() => setHasClickExpand(true)}>
-        <ExpandMoreIcon
-          sx={{ width: "55%", height: "100%", cursor: "pointer" }}
-        />
-      </IconWrapper>
-      {hasClickExpand && <SurveyOptionList />}
-    </ItemWrapper>
+    <ItemContainer isExpand={hasClickExpand}>
+      <ItemWrapper>
+        <Title>{title}</Title>
+        <ResponseNumber>{responseNumber}</ResponseNumber>
+        <Date>
+          {date.toLocaleString("zh-tw", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </Date>
+        <Date>
+          {date.toLocaleString("zh-tw", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </Date>
+        <IconWrapper
+          onClick={() => setHasClickExpand((prevState) => !prevState)}
+        >
+          <ExpandMoreIcon
+            sx={{
+              width: "55%",
+              height: "100%",
+              cursor: "pointer",
+              transform: `rotate(${hasClickExpand ? "180deg" : "0"})`,
+              transition: "transform 0.3s",
+            }}
+          />
+        </IconWrapper>
+      </ItemWrapper>
+      <SurveyItemExpand isExpand={hasClickExpand} formId={formId} />
+    </ItemContainer>
   );
 };
 

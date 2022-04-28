@@ -17,6 +17,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  if (req.method === "POST" && req.body.newGroupName) {
+    console.log(req.body.newGroupName);
+    return;
+  }
   if (req.method === "POST") {
     try {
       const { uid } = req.body;

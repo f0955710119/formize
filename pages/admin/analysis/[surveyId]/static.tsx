@@ -16,6 +16,7 @@ const Analysis: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
+      <div>static</div>
     </>
   );
 };
