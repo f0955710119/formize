@@ -49,7 +49,7 @@ const initialState: Admin = {
   setField: (fieldKey, value) => {},
 };
 
-const AdminContext = createContext(initialState);
+export const adminContext = createContext(initialState);
 
 interface AdminAction {
   type: string;
@@ -93,20 +93,24 @@ interface AdminProviderProps {
   children: ReactNode;
 }
 
-const AdminProvider: FC<AdminProviderProps> = ({ children }) => {
+export const AdminProvider: FC<AdminProviderProps> = ({ children }) => {
   const [adminInfo, dispatch] = useReducer(adminReducer, initAdminReducerState);
   const setFieldHandler: SetFieldHandler = (fieldKey, value) => {
     dispatch({ type: fieldKey, payload: value });
   };
   const adminDefaultContext = {
-    ...initialState,
+    uid: adminInfo.uid,
+    editingGroupId: adminInfo.editingGroupId,
+    editingSurveyId: adminInfo.editingSurveyId,
+    newSurveyId: adminInfo.newSurveyId,
+    driveToken: adminInfo.driveToken,
+    groups: adminInfo.groups,
+    surveys: adminInfo.surveys,
     setField: setFieldHandler,
   };
   return (
-    <AdminContext.Provider value={adminDefaultContext}>
+    <adminContext.Provider value={adminDefaultContext}>
       {children}
-    </AdminContext.Provider>
+    </adminContext.Provider>
   );
 };
-
-export default AdminProvider;

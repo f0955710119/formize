@@ -4,8 +4,12 @@ import Header from "../../src/components/UI/Header";
 import Main from "../../src/components/UI/Main";
 import GroupSideBar from "../../src/components/Admin/FormManagement/SideBar/GroupSideBar";
 import Dashboard from "../../src/components/Admin/FormManagement/Dashboard/Dashboard";
+import { useContext } from "react";
+import { adminContext } from "../../src/store/context/adminContext";
 
 const Admin: NextPage = () => {
+  const context = useContext(adminContext);
+  console.log(context);
   return (
     <>
       <Head>
