@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import firestoreCollectionConfig from "../../../../src/configs/firestoreCollectionConfig";
-import { Surveys } from "../../../../src/types/survey";
 import firebase from "../../../../src/utils/firebase";
-import type { DocumentData } from "firebase/firestore";
+import loginConfig from "../../../../src/configs/loginConfig";
 
 interface Data {
   status: string;
@@ -10,8 +8,6 @@ interface Data {
   message: string;
   data?: {
     uid?: string;
-    groups?: DocumentData[];
-    surveys?: DocumentData[];
   };
 }
 
@@ -22,71 +18,38 @@ export default async function handler(
   if (req.method === "POST") {
     const { email, password } = req.body;
 
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const passwordRegex = /^[A-Za-z\d]{6,}$/;
+    const emailRegex = loginConfig.EMAIL_REG;
+    const passwordRegex = loginConfig.PASSWORD_REG;
 
     const invalidEmailRegex = !emailRegex.test(email);
     const invalidPasswordRegex = !passwordRegex.test(password);
 
-    if (invalidEmailRegex && invalidPasswordRegex) {
-      res.status(400).json({
-        status: "fail",
-        status_code: 400,
-        message: "both email and password are invalid input",
-      });
-      return;
-    }
+    if (invalidEmailRegex && invalidPasswordRegex)
+      throw new Error("both email and password are invalid input");
 
-    if (invalidEmailRegex) {
-      res.status(400).json({
-        status: "fail",
-        status_code: 400,
-        message: "email has invalid input, please try again",
-      });
-      return;
-    }
+    if (invalidEmailRegex)
+      throw new Error("email has invalid input, please try again");
 
-    if (invalidPasswordRegex) {
-      res.status(400).json({
-        status: "fail",
-        status_code: 400,
-        message: "password has invalid input, please try again",
-      });
-      return;
-    }
+    if (invalidPasswordRegex)
+      throw new Error("password has invalid input, please try again");
 
     try {
-      const userData = await firebase
+      const adminData = await firebase
         .nativeLogin({ email, password })
         .catch((error) => {
           throw new Error("fail to pass native login: " + error.message);
         });
-      if (!userData) {
+      if (!adminData) {
         throw new Error("this account is not existed, please sign up");
       }
-      const { id } = userData;
-      const groupData = await firebase.getAllEqualDoc(
-        firestoreCollectionConfig.GROUPS,
-        "userId",
-        id
-      );
-      const surveysList: string[] = [];
-      groupData.forEach((d) => {
-        surveysList.push(...d.surveys);
-      });
-      const fetchSurveysList = surveysList.map((surveyId) =>
-        firebase.getDocData(firestoreCollectionConfig.SURVEYS, surveyId)
-      );
-      const surveys = await Promise.all(fetchSurveysList);
+      const { id: uid } = adminData;
 
       res.status(200).json({
         status: "success",
         status_code: 200,
         message: "login successfully with user data back!",
         data: {
-          uid: id,
-          groups: groupData,
-          surveys,
+          uid,
         },
       });
     } catch (error: any) {
