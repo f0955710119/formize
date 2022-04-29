@@ -3,6 +3,8 @@ import type { Surveys } from "../../../../src/types/survey";
 import firebase from "../../../../src/utils/firebase";
 import firestoreCollectionCongfig from "../../../../src/configs/firestoreCollectionConfig";
 import helper from "../../../../src/utils/helper";
+import { Question } from "../../../../src/types/question";
+import { Answer, Table } from "../../../../src/types/responses";
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -61,12 +63,18 @@ export default async function handler(
       questions: newHandledQuestions,
     };
 
-    const newDefaultResponssDocData = {
+    const newDefaultResponssDocData: {
+      [key: string]: string | Date[] | Answer[] | Table[] | never[];
+    } = {
       surveyId: surveyDocRef.id,
       createdDate: [],
-      answers: [],
       tableInfo: helper.generateResponseTableInfoArr(questions),
     };
+
+    questions.forEach((question: Question) => {
+      const id = question.id as string;
+      newDefaultResponssDocData[id] = [];
+    });
 
     const fetchFirestore = [
       firebase.updateFieldArrayValue({

@@ -13,8 +13,5 @@ export interface Table {
 }
 
 export interface Responses {
-  surveyId: string;
-  createdDate: Date[] | never[];
-  answers: Answer[] | never[];
-  tableInfo: Table[];
+  [key: string]: string | Date[] | Answer[] | Table[] | never[];
 }
