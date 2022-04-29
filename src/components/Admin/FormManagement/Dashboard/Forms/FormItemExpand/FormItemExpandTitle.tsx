@@ -13,13 +13,13 @@ const TitleText = styled.span`
   color: #555;
 `;
 
-interface SurveyItemExpandTitleProps {
+interface FormItemExpandTitleProps {
   text: string;
 }
 
-const SurveyItemExpandTitle: FC<SurveyItemExpandTitleProps> = ({
+const FormItemExpandTitle: FC<FormItemExpandTitleProps> = ({
   text,
-}: SurveyItemExpandTitleProps) => {
+}: FormItemExpandTitleProps) => {
   return (
     <TitleWrapper>
       <TitleText>{text}</TitleText>
@@ -27,4 +27,4 @@ const SurveyItemExpandTitle: FC<SurveyItemExpandTitleProps> = ({
   );
 };
 
-export default SurveyItemExpandTitle;
+export default FormItemExpandTitle;

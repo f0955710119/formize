@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {
+  FieldValue,
   getFirestore,
   doc,
   collection,
@@ -11,6 +12,7 @@ import {
   arrayRemove,
   query,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -25,7 +27,7 @@ import type { DocumentReference, DocumentData } from "firebase/firestore";
 import type { StorageReference } from "firebase/storage";
 import type { UserInfoType } from "../types/login";
 import type { Users } from "../types/firebase/usersType";
-import type { Surveys } from "../types/survey";
+import type { Forms } from "../types/form";
 import type { Questions } from "../types/question";
 
 import helper from "./helper";
@@ -127,7 +129,7 @@ export default {
       groups: [
         {
           name: "預設群組",
-          surveys: [""],
+          forms: [""],
         },
       ],
     };
@@ -156,6 +158,21 @@ export default {
     await updateDoc(docRef, {
       [field]: data,
     });
+  },
+  async updateExistResponseFields(
+    collectionName: string,
+    docId: string,
+    dataArr: []
+  ) {
+    const docRef = doc(db, collectionName, docId);
+
+    const updateObj: { [key: string]: FieldValue } = {};
+    dataArr.forEach((d: { questionId: string; input: string }) => {
+      const key = d.questionId as string;
+      updateObj[key] = arrayUnion(d.input);
+    });
+
+    await updateDoc(docRef, updateObj);
   },
   async updateUserGroupsIdArray(
     uid: string,
@@ -189,7 +206,7 @@ export default {
     return docRef;
   },
   // prettier-ignore
-  async setNewDoc<T extends Surveys| Questions | Responses >(docRef: DocumentReference<DocumentData>, data: T) {
+  async setNewDoc<T extends Forms| Questions | Responses >(docRef: DocumentReference<DocumentData>, data: T) {
     try {
       await setDoc(docRef, data);
       return "成功發送資料";
@@ -225,6 +242,10 @@ export default {
     } catch (error: any) {
       throw error.message;
     }
+  },
+  async deleteDocDate(collectionName: string, docId: string) {
+    const docRef = doc(db, collectionName, docId);
+    await deleteDoc(docRef);
   },
   // STORAGE
   generateStorageRef(refName: string) {

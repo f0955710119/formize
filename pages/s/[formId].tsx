@@ -4,59 +4,57 @@ import { ThemeProvider } from "styled-components";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
-import type { UserSurvey } from "../../src/types/userSurvey";
+import type { UserForm } from "../../src/types/userForm";
 
-import Survey from "../../src/components/User/Survey";
-import userSurveyConfig from "../../src/configs/userSurveyConfig";
+import Form from "../../src/components/User/Form";
+import userFormConfig from "../../src/configs/userFormConfig";
 import helper from "../../src/utils/helper";
 import themes from "../../src/store/theme/theme";
 import { useAppDispatch } from "../../src/hooks/useAppDispatch";
 import { userActions } from "../../src/store/slice/userSlice";
 
-const SurveyId: NextPage = () => {
+const FormId: NextPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const initUserSurvey = useRef<UserSurvey>({
+  const initUserForm = useRef<UserForm>({
     responseDocId: "",
-    questions: userSurveyConfig.initQuestions,
-    settings: userSurveyConfig.initSettings,
-    styles: userSurveyConfig.initStyles,
+    questions: userFormConfig.initQuestions,
+    settings: userFormConfig.initSettings,
+    styles: userFormConfig.initStyles,
   });
   const [hasFetchedData, setHasFetchedData] = useState<boolean>(false);
   const [colorTheme, setColorTheme] = useState<{ [key: string]: string }>({});
 
   const getQuestion = async () => {
-    const response = await fetch("/api/user/survey", {
+    const response = await fetch("/api/user/form", {
       method: "POST",
       headers: { ContentType: "application/json" },
       body: JSON.stringify(router.query),
     });
     const data = await response.json();
     const { responseDocId, questions, settings, styles } = data.data;
-    initUserSurvey.current = {
+    initUserForm.current = {
       responseDocId,
       questions,
       settings,
       styles,
     };
-    const themeKey = initUserSurvey.current.styles.theme;
+    const themeKey = initUserForm.current.styles.theme;
     const colorTheme = themes[helper.generateResponseThemePalette(themeKey)];
     setColorTheme(colorTheme);
     setHasFetchedData(true);
   };
 
-  const initSurvey = async () => {
+  const initForm = async () => {
     await getQuestion();
-    dispatch(
-      userActions.setUpQuestionInitList(initUserSurvey.current.questions)
-    );
-    dispatch(userActions.setUpQuestionIdKeys(initUserSurvey.current.questions));
+    dispatch(userActions.setUpQuestionInitList(initUserForm.current.questions));
+    dispatch(userActions.setUpQuestionIdKeys(initUserForm.current.questions));
   };
   const hasColorTheme = hasFetchedData && Object.keys(colorTheme).length === 0;
 
   useEffect(() => {
-    router.isReady && initSurvey();
+    router.isReady && initForm();
   }, [router.isReady]);
   return (
     <>
@@ -70,19 +68,19 @@ const SurveyId: NextPage = () => {
         />
       </Head>
       {hasColorTheme ? (
-        <Survey
-          responseDocId={initUserSurvey.current.responseDocId}
-          questions={initUserSurvey.current.questions}
-          settings={initUserSurvey.current.settings}
-          styles={initUserSurvey.current.styles}
+        <Form
+          responseDocId={initUserForm.current.responseDocId}
+          questions={initUserForm.current.questions}
+          settings={initUserForm.current.settings}
+          styles={initUserForm.current.styles}
         />
       ) : (
         <ThemeProvider theme={colorTheme}>
-          <Survey
-            responseDocId={initUserSurvey.current.responseDocId}
-            questions={initUserSurvey.current.questions}
-            settings={initUserSurvey.current.settings}
-            styles={initUserSurvey.current.styles}
+          <Form
+            responseDocId={initUserForm.current.responseDocId}
+            questions={initUserForm.current.questions}
+            settings={initUserForm.current.settings}
+            styles={initUserForm.current.styles}
           />
         </ThemeProvider>
       )}
@@ -90,4 +88,4 @@ const SurveyId: NextPage = () => {
   );
 };
 
-export default SurveyId;
+export default FormId;

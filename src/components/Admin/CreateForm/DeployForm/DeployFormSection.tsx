@@ -64,9 +64,9 @@ const CustomTextDisableField = styled(TextField)`
 
 const DeployFormSection: FC = () => {
   const router = useRouter();
-  const surveyId = useAppSelector((state) => state.admin.newSurveyId);
-  const newSurveyPath = `/s/${surveyId}`;
-  const newSurveyHref = `${window.location.origin}${newSurveyPath}`;
+  const formId = useAppSelector((state) => state.admin.newFormId);
+  const newFormPath = `/s/${formId}`;
+  const newFormHref = `${window.location.origin}${newFormPath}`;
   return (
     <Main>
       <Container>
@@ -75,13 +75,13 @@ const DeployFormSection: FC = () => {
           <CustomShareSharpIcon />
           <SubHeadingText>分享問卷 ( 點擊連結前往 )</SubHeadingText>
         </SubHeading>
-        <URLWrapper onClick={() => router.push(newSurveyPath)}>
+        <URLWrapper onClick={() => router.push(newFormPath)}>
           <CustomTextDisableField
-            defaultValue={newSurveyHref}
+            defaultValue={newFormHref}
             disabled
             sx={{}}
             onClick={() => {
-              navigator.clipboard.writeText(newSurveyHref);
+              navigator.clipboard.writeText(newFormHref);
             }}
           />
         </URLWrapper>
@@ -91,21 +91,21 @@ const DeployFormSection: FC = () => {
         </SubHeading>
         <Button
           clickHandler={() => {
-            router.push(`/admin/analysis/${surveyId}/`);
+            router.push(`/admin/analysis/${formId}/`);
           }}
         >
           統計分析
         </Button>
         <Button
           clickHandler={() => {
-            router.push(`/admin/analysis/${surveyId}/export`);
+            router.push(`/admin/analysis/${formId}/export`);
           }}
         >
           明細匯出
         </Button>
         <Button
           clickHandler={() => {
-            router.push(`/admin/analysis/${surveyId}/record`);
+            router.push(`/admin/analysis/${formId}/record`);
           }}
         >
           訪問紀錄

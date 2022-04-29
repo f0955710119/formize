@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import DashboardSubHeader from "./DashboardSubHeader";
 import DashboardMainHeader from "./DashboardMainHeader";
-import SurveyList from "./Surveys/SurveyList";
+import FormList from "./Forms/FormList";
 import { adminContext } from "../../../../store/context/adminContext";
 
 const DashboardWrapper = styled.div`
@@ -60,7 +60,7 @@ const Dashboard: FC = () => {
       <DashboardMainHeader />
       <DashboardSubHeader />
       <DashboarMain>
-        <SurveyList />
+        <FormList />
       </DashboarMain>
     </DashboardWrapper>
   );

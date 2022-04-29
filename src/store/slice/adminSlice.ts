@@ -4,7 +4,7 @@ import reducers from "../reducer/adminReducer";
 export interface Admin {
   uid: string;
   editingGroupId: string;
-  newSurveyId: string;
+  newFormId: string;
   driveToken?: {
     access_token: string;
     refresh_token: string;
@@ -17,7 +17,7 @@ export interface Admin {
 const initialState: Admin = {
   uid: "",
   editingGroupId: "d4HICCM6",
-  newSurveyId: "",
+  newFormId: "",
 };
 
 const adminSlice = createSlice({

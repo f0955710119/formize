@@ -1,4 +1,4 @@
-export interface UserSurvey {
+export interface UserForm {
   responseDocId: string;
   questions: Question[];
   settings: Settings;

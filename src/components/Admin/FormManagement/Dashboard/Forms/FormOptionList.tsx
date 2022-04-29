@@ -38,7 +38,7 @@ const defalutOptionItems = [
   "刪除問卷",
 ];
 
-const SurveyOptionList: FC = () => {
+const FormOptionList: FC = () => {
   return (
     <ListWrapper>
       {defalutOptionItems.map((t, i) => (
@@ -48,4 +48,4 @@ const SurveyOptionList: FC = () => {
   );
 };
 
-export default SurveyOptionList;
+export default FormOptionList;

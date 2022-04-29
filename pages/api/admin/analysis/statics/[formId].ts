@@ -19,7 +19,7 @@ export default async function handler(
     try {
       const formId = req.query.formId as string;
       const form = await firebase.getDocData(
-        firestoreCollectionCongfig.SURVEYS,
+        firestoreCollectionCongfig.FORMS,
         formId
       );
       if (!form) throw new Error("問卷已不存在");

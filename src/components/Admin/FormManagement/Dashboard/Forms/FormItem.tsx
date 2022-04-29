@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import SurveyOptionList from "./SurveyOptionList";
-import SurveyItemExpand from "./SurveyItemExpand/SurveyItemExpand";
+import FormOptionList from "./FormOptionList";
+import FormItemExpand from "./FormItemExpand/FormItemExpand";
 
 interface ItemContainerProps {
   isExpand: boolean;
@@ -51,19 +51,19 @@ const IconWrapper = styled.div`
   height: 100%;
 `;
 
-interface SurveyItemProps {
+interface FormItemProps {
   title: string;
   responseNumber: number;
   date: Date;
   formId: string;
 }
 
-const SurveyItem: FC<SurveyItemProps> = ({
+const FormItem: FC<FormItemProps> = ({
   title,
   responseNumber,
   date,
   formId,
-}: SurveyItemProps) => {
+}: FormItemProps) => {
   const [hasClickExpand, setHasClickExpand] = useState<boolean>(false);
   return (
     <ItemContainer isExpand={hasClickExpand}>
@@ -98,9 +98,9 @@ const SurveyItem: FC<SurveyItemProps> = ({
           />
         </IconWrapper>
       </ItemWrapper>
-      <SurveyItemExpand isExpand={hasClickExpand} formId={formId} />
+      <FormItemExpand isExpand={hasClickExpand} formId={formId} />
     </ItemContainer>
   );
 };
 
-export default SurveyItem;
+export default FormItem;

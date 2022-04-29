@@ -29,7 +29,7 @@ const SectionMedia: FC = () => {
   console.log(driveToken);
   // const getDriveUri = async () => {
   //   try {
-  //     const response = await fetch("/api/admin/survey/drive/auth").catch(() => {
+  //     const response = await fetch("/api/admin/form/drive/auth").catch(() => {
   //       throw new Error("沒有取得前往開權限的連結");
   //     });
   //     const data = await response.json().catch(() => {
@@ -48,7 +48,7 @@ const SectionMedia: FC = () => {
   // const getDriveToken = async () => {
   //   const { code } = query;
   //   try {
-  //     const response = await fetch("/api/admin/survey/drive/auth", {
+  //     const response = await fetch("/api/admin/form/drive/auth", {
   //       method: "POST",
   //       headers: { "content-type": "application/json" },
   //       body: JSON.stringify({ code }),

@@ -14,7 +14,7 @@ export interface Styles {
   font: string;
   backgroundImages: string[];
 }
-export interface Surveys {
+export interface Forms {
   id: string;
   title: string;
   url: string;

@@ -1,7 +1,7 @@
 export interface Answer {
   type: string;
   id: string;
-  input: string | number;
+  input: string;
 }
 
 export interface Table {

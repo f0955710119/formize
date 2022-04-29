@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Surveys } from "../../../../src/types/survey";
+import type { Forms } from "../../../../src/types/form";
 import firebase from "../../../../src/utils/firebase";
 import firestoreCollectionCongfig from "../../../../src/configs/firestoreCollectionConfig";
 import helper from "../../../../src/utils/helper";
@@ -14,7 +14,7 @@ interface Data {
   message: string;
   data?: {
     url: string;
-    surveyId: string;
+    formId: string;
   };
 }
 
@@ -29,25 +29,25 @@ export default async function handler(
       res.status(400).json({
         status: "fail",
         status_code: 400,
-        message: "only admin can add new survey",
+        message: "only admin can add new form",
       });
       return;
     }
 
     const neededDoc = [
-      firestoreCollectionCongfig.SURVEYS,
+      firestoreCollectionCongfig.FORMS,
       firestoreCollectionCongfig.QUESTIONS,
       firestoreCollectionCongfig.RESPONSES,
     ];
 
-    const [surveyDocRef, questionDocRef, responseDocRef] = neededDoc.map(
+    const [formDocRef, questionDocRef, responseDocRef] = neededDoc.map(
       (collectionName) => firebase.generateDocRef(collectionName)
     );
 
-    const url = `'${process.env.NEXT_PUBLIC_ORIGIN}/s/${surveyDocRef.id}`;
+    const url = `'${process.env.NEXT_PUBLIC_ORIGIN}/s/${formDocRef.id}`;
     const newHandledQuestions = helper.generateNewHandledQuestion(questions);
-    const newSurveyDocData: Surveys = {
-      id: surveyDocRef.id,
+    const newFormDocData: Forms = {
+      id: formDocRef.id,
       title: settings.title,
       url,
       createdTime: new Date(),
@@ -63,26 +63,28 @@ export default async function handler(
       questions: newHandledQuestions,
     };
 
+    const tableInfo = helper.generateResponseTableInfoArr(questions);
+
     const newDefaultResponssDocData: {
       [key: string]: string | Date[] | Answer[] | Table[] | never[];
     } = {
-      surveyId: surveyDocRef.id,
-      createdDate: [],
-      tableInfo: helper.generateResponseTableInfoArr(questions),
+      formId: formDocRef.id,
+      createdTime: [],
+      tableInfo,
     };
 
-    questions.forEach((question: Question) => {
-      const id = question.id as string;
+    tableInfo.forEach((table: Table) => {
+      const id = table.id as string;
       newDefaultResponssDocData[id] = [];
     });
 
     const fetchFirestore = [
       firebase.updateFieldArrayValue({
         docPath: `${firestoreCollectionCongfig.GROUPS}/${groupId}`,
-        fieldKey: "surveys",
-        updateData: surveyDocRef.id,
+        fieldKey: "forms",
+        updateData: formDocRef.id,
       }),
-      firebase.setNewDoc(surveyDocRef, newSurveyDocData),
+      firebase.setNewDoc(formDocRef, newFormDocData),
       firebase.setNewDoc(questionDocRef, newQuestionDocData),
       firebase.setNewDoc(responseDocRef, newDefaultResponssDocData),
     ];
@@ -91,11 +93,16 @@ export default async function handler(
     res.status(201).json({
       status: "success",
       status_code: 201,
-      message: "create new survey successfully",
+      message: "create new form successfully",
       data: {
         url,
-        surveyId: surveyDocRef.id,
+        formId: formDocRef.id,
       },
     });
+  }
+
+  if (req.method === "DELETE") {
+    const formId = req.body.formId as string;
+    if (!formId) throw new Error("查無此問卷");
   }
 }

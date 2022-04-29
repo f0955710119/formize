@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
 import firebase from "../../../src/utils/firebase";
 import { Question } from "../../../src/types/question";
-import { Settings, Styles } from "../../../src/types/survey";
+import { Settings, Styles } from "../../../src/types/form";
 
 interface Data {
   status: string;
@@ -20,27 +20,27 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  console.log(process.env.NEXT_PUBLIC_ORIGIN);
   if (req.method === "POST") {
-    const surveyId = JSON.parse(req.body).surveyId;
-    if (!surveyId) {
+    const formId = JSON.parse(req.body).formId;
+
+    if (!formId) {
       res.status(400).json({
         status: "fail",
         status_code: 400,
-        message: "lack params: surveyId",
+        message: "lack params: formId",
       });
       return;
     }
     const data = await firebase.getDocData(
-      firestoreCollectionConfig.SURVEYS,
-      surveyId
+      firestoreCollectionConfig.FORMS,
+      formId
     );
 
     if (!data) {
       res.status(400).json({
         status: "fail",
         status_code: 400,
-        message: "no such survey exists",
+        message: "no such form exists",
       });
       return;
     }
@@ -66,8 +66,8 @@ export default async function handler(
     const existedStyles = styles as Styles;
 
     await firebase.updateExistedDoc(
-      firestoreCollectionConfig.SURVEYS,
-      surveyId,
+      firestoreCollectionConfig.FORMS,
+      formId,
       "openTimes",
       openTimes + 1
     );

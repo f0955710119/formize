@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
 import { Question } from "../../types/question";
-import type { UserSurvey } from "../../types/userSurvey";
+import type { UserForm } from "../../types/userForm";
 import helper from "../../utils/helper";
 import questionConfig from "../../configs/questionConfig";
 
@@ -20,7 +20,7 @@ import EndPageSection from "./EndPageSection";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useRouter } from "next/router";
 
-type SurveyProps = UserSurvey;
+type FormProps = UserForm;
 interface MainProps {
   font: string;
   backgroundImage: string;
@@ -123,7 +123,7 @@ const MultiPageFormQuestionButton = styled.button<MultiPageFormQuestionButtonPro
   }
 `;
 
-const SurveyContainer = styled.div`
+const FormContainer = styled.div`
   width: 96rem;
   height: 70%;
   padding: 4rem;
@@ -173,7 +173,7 @@ const RequireQuestionTag = styled.div`
   color: ${(props) => props.theme.optionText};
 `;
 
-const generateResponsedUserSurveyQuestion = (
+const generateResponsedUserFormQuestion = (
   questionType: string,
   question: Question
 ) => {
@@ -295,16 +295,16 @@ const generateResponsedUserSurveyQuestion = (
   }
 };
 
-const Survey: FC<SurveyProps> = ({
+const Form: FC<FormProps> = ({
   responseDocId,
   questions,
   settings,
   styles,
-}: SurveyProps) => {
+}: FormProps) => {
   const router = useRouter();
-  const { surveyId } = router.query;
+  const { formId } = router.query;
   const { answers } = useAppSelector((state) => state.user);
-  console.log(answers);
+
   const [navigatePage, setNavigatePage] = useState<number>(0);
   const [questionPage, setQuestionPage] = useState<number>(0);
   const indexArr = helper.generateQuestionIndexArr(questions);
@@ -325,20 +325,19 @@ const Survey: FC<SurveyProps> = ({
         body: JSON.stringify({
           answers,
           responseDocId,
-          surveyId,
+          formId,
         }),
       });
 
-      // if (!response.ok) throw new Error("fail to send data to server");
       const data = await response.json();
       if (data.status !== "success") throw new Error(data.message);
+      alert("回應成功!");
       setNavigatePage(2);
     } catch (error) {
       console.error(error);
     }
   };
 
-  console.log(helper.generateResponseTableInfoArr(questions));
   return (
     <>
       {settings.mode === "0" && (
@@ -360,7 +359,7 @@ const Survey: FC<SurveyProps> = ({
                     {question.type !== "2" && (
                       <>
                         <Heading>
-                          {helper.generateUserSurveyQuestionTitle(
+                          {helper.generateUserFormQuestionTitle(
                             indexArr[i],
                             question.title
                           )}
@@ -368,10 +367,7 @@ const Survey: FC<SurveyProps> = ({
                         <NoteText>{question.note}</NoteText>
                       </>
                     )}
-                    {generateResponsedUserSurveyQuestion(
-                      question.type,
-                      question
-                    )}
+                    {generateResponsedUserFormQuestion(question.type, question)}
                   </QuestionContainer>
                 );
               })}
@@ -400,7 +396,7 @@ const Survey: FC<SurveyProps> = ({
 
           {navigatePage === 1 && (
             <MultiPageFormSection>
-              <SurveyContainer>
+              <FormContainer>
                 <MultiPageFormQuestionButton
                   isLastPage
                   onClick={() => {
@@ -442,7 +438,7 @@ const Survey: FC<SurveyProps> = ({
                         {question.type !== "2" && (
                           <>
                             <Heading>
-                              {helper.generateUserSurveyQuestionTitle(
+                              {helper.generateUserFormQuestionTitle(
                                 indexInDifferentPageArr[questionPage][i],
                                 question.title
                               )}
@@ -455,14 +451,14 @@ const Survey: FC<SurveyProps> = ({
                             )}
                           </>
                         )}
-                        {generateResponsedUserSurveyQuestion(
+                        {generateResponsedUserFormQuestion(
                           question.type,
                           question
                         )}
                       </QuestionContainer>
                     );
                   })}
-              </SurveyContainer>
+              </FormContainer>
             </MultiPageFormSection>
           )}
 
@@ -478,4 +474,4 @@ const Survey: FC<SurveyProps> = ({
   );
 };
 
-export default Survey;
+export default Form;

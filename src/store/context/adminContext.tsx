@@ -1,5 +1,5 @@
 import { createContext, useReducer, ReactNode, FC } from "react";
-import { Surveys } from "../../types/survey";
+import { Forms } from "../../types/form";
 
 interface DriveToken {
   access_token: string;
@@ -12,31 +12,31 @@ interface DriveToken {
 interface Group {
   id: string;
   name: string;
-  surveys: string[];
+  forms: string[];
   userId: string;
 }
 
 type SetFieldHandler = (
   fieldKey: string,
-  value: string | DriveToken | Group[] | Surveys[]
+  value: string | DriveToken | Group[] | Forms[]
 ) => void;
 
 export interface Admin {
   uid: string;
   editingGroupId: string;
-  editingSurveyId: string;
-  newSurveyId: string;
+  editingFormId: string;
+  newFormId: string;
   driveToken?: DriveToken;
   groups: Group[];
-  surveys: Surveys[];
+  forms: Forms[];
   setField: SetFieldHandler;
 }
 
 const initialState: Admin = {
   uid: "",
   editingGroupId: "0",
-  editingSurveyId: "",
-  newSurveyId: "",
+  editingFormId: "",
+  newFormId: "",
   driveToken: {
     access_token: "",
     refresh_token: "",
@@ -45,7 +45,7 @@ const initialState: Admin = {
     expiry_date: 0,
   },
   groups: [],
-  surveys: [],
+  forms: [],
   setField: (fieldKey, value) => {},
 };
 
@@ -53,17 +53,17 @@ export const adminContext = createContext(initialState);
 
 interface AdminAction {
   type: string;
-  payload: string | DriveToken | Group[] | Surveys[];
+  payload: string | DriveToken | Group[] | Forms[];
 }
 
 interface AdminReducerState {
   uid: string;
   editingGroupId: string;
-  editingSurveyId: string;
-  newSurveyId: string;
+  editingFormId: string;
+  newFormId: string;
   driveToken?: DriveToken;
   groups: Group[];
-  surveys: Surveys[];
+  forms: Forms[];
 }
 
 const adminReducer = (state: AdminReducerState, action: AdminAction) => {
@@ -76,8 +76,8 @@ const adminReducer = (state: AdminReducerState, action: AdminAction) => {
 const initAdminReducerState = {
   uid: "",
   editingGroupId: "0",
-  editingSurveyId: "",
-  newSurveyId: "",
+  editingFormId: "",
+  newFormId: "",
   driveToken: {
     access_token: "",
     refresh_token: "",
@@ -86,7 +86,7 @@ const initAdminReducerState = {
     expiry_date: 0,
   },
   groups: [],
-  surveys: [],
+  forms: [],
 };
 
 interface AdminProviderProps {
@@ -102,11 +102,11 @@ export const AdminProvider: FC<AdminProviderProps> = ({ children }) => {
   const adminDefaultContext = {
     uid: adminInfo.uid,
     editingGroupId: adminInfo.editingGroupId,
-    editingSurveyId: adminInfo.editingSurveyId,
-    newSurveyId: adminInfo.newSurveyId,
+    editingFormId: adminInfo.editingFormId,
+    newFormId: adminInfo.newFormId,
     driveToken: adminInfo.driveToken,
     groups: adminInfo.groups,
-    surveys: adminInfo.surveys,
+    forms: adminInfo.forms,
     setField: setFieldHandler,
   };
   return (

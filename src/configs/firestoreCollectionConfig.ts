@@ -1,7 +1,7 @@
 export default {
   USERS: "users",
   GROUPS: "groups",
-  SURVEYS: "surveys",
+  FORMS: "forms",
   QUESTIONS: "questions",
   RESPONSES: "responses",
 };

@@ -2,7 +2,7 @@ import { FC, useContext } from "react";
 import styled from "styled-components";
 import { adminContext } from "../../../../../store/context/adminContext";
 import { Group } from "../../../../../types/firebase/usersType";
-import SurveyItem from "./SurveyItem";
+import FormItem from "./FormItem";
 
 const ListContainer = styled.div`
   width: 100%;
@@ -30,7 +30,7 @@ const ListWrapper = styled.ul`
   border-bottom-right-radius: 5px;
 `;
 
-const SurveyList: FC = () => {
+const FormList: FC = () => {
   const context = useContext(adminContext);
   const isShowAllForm = context.editingGroupId === "0";
   const showSingleGroup = () => {
@@ -48,14 +48,14 @@ const SurveyList: FC = () => {
         <ListContainer key={group.id}>
           <GroupTag>{group.name}</GroupTag>
           <ListWrapper>
-            {context.surveys.length > 0 &&
-              context.surveys
+            {context.forms.length > 0 &&
+              context.forms
                 .filter((form) => form.groupId === group.id)
                 .map((form) => {
                   const dataArray = Object.values(form.createdTime);
                   const data = new Date(dataArray[0] * 1000);
                   return (
-                    <SurveyItem
+                    <FormItem
                       formId={form.id}
                       title={form.title}
                       responseNumber={form.responsedTimes}
@@ -71,4 +71,4 @@ const SurveyList: FC = () => {
   );
 };
 
-export default SurveyList;
+export default FormList;

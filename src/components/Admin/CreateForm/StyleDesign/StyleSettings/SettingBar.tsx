@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
 import useCheckUid from "../../../../../hooks/useCheckUid";
@@ -15,8 +15,9 @@ import helper from "../../../../../utils/helper";
 import useFormData from "../../../../../hooks/useFormData";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 import backgroundConfig from "../../../../../configs/backgroundConfig";
-import { Settings, Styles } from "../../../../../types/survey";
+import { Settings, Styles } from "../../../../../types/form";
 import { Question } from "../../../../../types/question";
+import { adminContext } from "../../../../../store/context/adminContext";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -108,7 +109,7 @@ const defaultBackgroundList = Object.keys(backgroundConfig)
 
 const SettingBar: FC = () => {
   const [stylingOption, setStylingOption] = useState<number>(0);
-  const { uid } = useAppSelector((state) => state.admin);
+  const uid = useContext(adminContext).uid;
 
   useCheckUid(uid);
   const switchStepHanlder = useSwitchCurrentStep();

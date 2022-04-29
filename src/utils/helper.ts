@@ -62,7 +62,7 @@ export default {
     );
     return indexInDifferentPageArr;
   },
-  generateUserSurveyQuestionTitle(index: string, title: string) {
+  generateUserFormQuestionTitle(index: string, title: string) {
     if (index === "") return title;
     return `${index}. ${title}`;
   },
@@ -148,7 +148,7 @@ export default {
       return question;
     });
   },
-  generateResponsedUserSurveyFontFamily(fontCode: string) {
+  generateResponsedUserFormFontFamily(fontCode: string) {
     switch (fontCode) {
       case fontCode: {
         return styleConfig[fontCode];

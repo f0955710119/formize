@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
 
-const SurveyCard = () => {};
+const FormCard = () => {};
 
-export default SurveyCard;
+export default FormCard;

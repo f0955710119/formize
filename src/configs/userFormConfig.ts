@@ -1,13 +1,13 @@
 import { Question } from "../types/question";
-import type { Settings, Styles } from "../types/survey";
+import type { Settings, Styles } from "../types/form";
 
-interface UserSurveyConfig {
+interface UserFormConfig {
   initQuestions: Question[];
   initSettings: Settings;
   initStyles: Styles;
 }
 
-const userSurveyConfig: UserSurveyConfig = {
+const userFormConfig: UserFormConfig = {
   initQuestions: [],
   initSettings: {
     title: "",
@@ -27,4 +27,4 @@ const userSurveyConfig: UserSurveyConfig = {
   },
 };
 
-export default userSurveyConfig;
+export default userFormConfig;

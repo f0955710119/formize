@@ -16,7 +16,7 @@ const useInitAdminInfo = () => {
     context.setField(adminActionType.UID, uid);
     if (!adminInfo.data) return;
     context.setField(adminActionType.GROUPS, adminInfo.data.groups);
-    context.setField(adminActionType.SURVEYS, adminInfo.data.surveys);
+    context.setField(adminActionType.FORMS, adminInfo.data.forms);
   };
 
   return initAdminHandler;

@@ -9,7 +9,7 @@ interface Data {
   message: string;
   data?: {
     groups?: DocumentData[];
-    surveys?: DocumentData[];
+    forms?: DocumentData[];
   };
 }
 
@@ -38,28 +38,28 @@ export default async function handler(
           status: "success",
           status_code: 200,
           message:
-            "return emtpy group list and surveys since admin have not created groups yet",
+            "return emtpy group list and forms since admin have not created groups yet",
         });
         return;
       }
 
-      const surveysList: string[] = [];
+      const formsList: string[] = [];
       groupData.forEach((d) => {
-        surveysList.push(...d.surveys);
+        formsList.push(...d.forms);
       });
 
-      const fetchSurveysList = surveysList.map((surveyId) =>
-        firebase.getDocData(firestoreCollectionConfig.SURVEYS, surveyId)
+      const fetchFormsList = formsList.map((formId) =>
+        firebase.getDocData(firestoreCollectionConfig.FORMS, formId)
       );
-      const surveys = await Promise.all(fetchSurveysList);
+      const forms = await Promise.all(fetchFormsList);
 
       res.status(200).json({
         status: "success",
         status_code: 200,
-        message: "get admin's group and survey data back!",
+        message: "get admin's group and form data back!",
         data: {
           groups: groupData,
-          surveys,
+          forms,
         },
       });
     } catch (error: any) {

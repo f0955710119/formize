@@ -15,11 +15,11 @@ const switchEditingGroup: CaseReducer<Admin, PayloadAction<string>> = (
   state.editingGroupId = action.payload;
 };
 
-const createNewSurveyId: CaseReducer<Admin, PayloadAction<string>> = (
+const createNewFormId: CaseReducer<Admin, PayloadAction<string>> = (
   state,
   action
 ) => {
-  state.newSurveyId = action.payload;
+  state.newFormId = action.payload;
 };
 
 // const setUserDriveToken: CaseReducer<
@@ -38,6 +38,6 @@ const createNewSurveyId: CaseReducer<Admin, PayloadAction<string>> = (
 export default {
   updateLoginState,
   switchEditingGroup,
-  createNewSurveyId,
+  createNewFormId,
   // setUserDriveToken,
 };

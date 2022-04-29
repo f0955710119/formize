@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
+import { Answer } from "../../../src/types/responses";
 import firebase from "../../../src/utils/firebase";
 
 interface Data {
@@ -14,12 +15,12 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      const { answers, responseDocId, surveyId } = req.body;
+      const { answers, responseDocId, formId } = req.body;
 
       const data = await firebase
-        .getDocData(firestoreCollectionConfig.SURVEYS, surveyId)
+        .getDocData(firestoreCollectionConfig.FORMS, formId)
         .catch(() => {
-          throw new Error("fail to get survey data");
+          throw new Error("fail to get form data");
         });
       const responseData = await firebase
         .getDocData(firestoreCollectionConfig.RESPONSES, responseDocId)
@@ -30,7 +31,7 @@ export default async function handler(
         res.status(400).json({
           status: "fail",
           status_code: 400,
-          message: `this survey has no data`,
+          message: `this form has no data`,
         });
         return;
       }
@@ -48,21 +49,21 @@ export default async function handler(
         res.status(403).json({
           status: "fail",
           status_code: 403,
-          message: `you can not send responses to this survey since the survey has not been launched or has been closed`,
+          message: `you can not send responses to this form since the form has not been launched or has been closed`,
         });
         return;
       }
 
       const fetchList = [
         firebase.updateExistedDoc(
-          firestoreCollectionConfig.SURVEYS,
-          surveyId,
+          firestoreCollectionConfig.FORMS,
+          formId,
           "responsedTimes",
           data.responsedTimes + 1
         ),
         firebase.updateExistedDoc(
-          firestoreCollectionConfig.SURVEYS,
-          surveyId,
+          firestoreCollectionConfig.FORMS,
+          formId,
           "latestResponsedTime",
           new Date()
         ),
@@ -71,21 +72,21 @@ export default async function handler(
           fieldKey: "createdTime",
           updateData: new Date(),
         }),
-        firebase.updateFieldArrayValue({
-          docPath: `${firestoreCollectionConfig.RESPONSES}/${responseDocId}`,
-          fieldKey: "answers",
-          updateData: { [responseData.answers.length]: answers },
-        }),
+        firebase.updateExistResponseFields(
+          firestoreCollectionConfig.RESPONSES,
+          responseDocId,
+          answers
+        ),
       ];
 
       await Promise.all(fetchList).catch(() => {
-        throw new Error("fail to update survey and response collection");
+        throw new Error("fail to update form and response collection");
       });
 
       res.status(201).json({
         status: "success",
         status_code: 201,
-        message: `send response to ${surveyId} survey`,
+        message: `send response to ${formId} form`,
       });
     } catch (error: any) {
       console.log(error.message);
