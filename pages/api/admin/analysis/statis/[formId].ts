@@ -153,8 +153,8 @@ export default async function handler(
 
               data.forEach((d: string) => {
                 if (d === "0") {
-                  counts[`${(table.options as string[]).length}`]["未選"] =
-                    (counts[`${(table.options as string[]).length}`]["未選"] ||
+                  counts[+`${(table.options as string[]).length}`]["未選"] =
+                    (counts[+`${(table.options as string[]).length}`]["未選"] ||
                       0) + 1;
                   return;
                 }
