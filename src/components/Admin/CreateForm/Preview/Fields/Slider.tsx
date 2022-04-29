@@ -22,11 +22,10 @@ const CustomSlider = styled(UISlider)`
 interface SliderProps {
   min: number;
   max: number;
+  id: string;
 }
 
-const Slider: FC<SliderProps> = ({ min, max }: SliderProps) => {
-  console.log(max);
-  console.log(min);
+const Slider: FC<SliderProps> = ({ min, max, id }: SliderProps) => {
   return (
     <SliderWrapper>
       <span>{min}</span>

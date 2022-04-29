@@ -55,9 +55,10 @@ const Date: FC<DateProps> = ({
   endDate,
 }: DateProps) => {
   const dispatch = useAppDispatch();
-  const questionIdIndex = isMultipleDate
-    ? useGetQuestionIdIndex(`${questionId}_start`)
-    : useGetQuestionIdIndex(`${questionId}_0`);
+  const questionIdIndexForMultipleDate = useGetQuestionIdIndex(
+    `${questionId}_start`
+  );
+  const questionIdIndexForSignleDate = useGetQuestionIdIndex(`${questionId}_0`);
 
   const currentDate = helper.generateNewDate();
   const startDateObject = helper.generateNewDate(startDate);
@@ -126,7 +127,7 @@ const Date: FC<DateProps> = ({
             setStartDateText(startDate);
             dispatch(
               userActions.updateFormAnswer({
-                questionIdIndex,
+                questionIdIndex: questionIdIndexForMultipleDate,
                 input: startDate,
               })
             );
@@ -138,7 +139,7 @@ const Date: FC<DateProps> = ({
             setEndDateText(endDate);
             dispatch(
               userActions.updateFormAnswer({
-                questionIdIndex: questionIdIndex + 1,
+                questionIdIndex: questionIdIndexForMultipleDate + 1,
                 input: endDate,
               })
             );
@@ -170,7 +171,7 @@ const Date: FC<DateProps> = ({
 
           dispatch(
             userActions.updateFormAnswer({
-              questionIdIndex,
+              questionIdIndex: questionIdIndexForSignleDate,
               input: incomingDate,
             })
           );
