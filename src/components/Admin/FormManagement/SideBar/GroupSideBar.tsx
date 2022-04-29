@@ -1,7 +1,8 @@
 import { FC, useContext } from "react";
 import styled from "styled-components";
 
-import GroupSelectButton from "./GroupSelectButton";
+import SideBarButton from "../../../UI/SideBarButton";
+
 import Logo from "../../../UI/Logo";
 import { adminContext } from "../../../../store/context/adminContext";
 import adminActionType from "../../../../store/actionType/adminActionType";
@@ -12,7 +13,6 @@ const BarContainer = styled.div`
 
   width: 23rem;
   height: 100%;
-  /* background-color: #b4bcb7; */
   background-color: rgba(180, 188, 183, 0.298);
   background-image: url("/images/side-bar-pic.svg");
   background-repeat: no-repeat;
@@ -76,7 +76,7 @@ const GroupSideBar: FC = () => {
       <GroupHeading>群組分類</GroupHeading>
       {context.groups.length > 0 &&
         context.groups.map((group) => (
-          <GroupSelectButton
+          <SideBarButton
             buttonText={group.name}
             key={group.id}
             active={context.editingGroupId === group.id}

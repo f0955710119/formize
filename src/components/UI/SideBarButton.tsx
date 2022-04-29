@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+
 import { RightArrow } from "@styled-icons/boxicons-solid/RightArrow";
 
 interface ButtonWrapper {
@@ -33,17 +34,17 @@ const ButtonText = styled.span`
   font-size: 1.4rem;
 `;
 
-interface GroupSelectButtonProps {
+interface SideBarButtonProps {
   buttonText: string;
   active: boolean;
   clickHandler: () => void;
 }
 
-const GroupSelectButton: FC<GroupSelectButtonProps> = ({
+const SideBarButton: FC<SideBarButtonProps> = ({
   buttonText,
   active,
   clickHandler,
-}: GroupSelectButtonProps) => {
+}: SideBarButtonProps) => {
   return (
     <ButtonWrapper active={active} onClick={clickHandler}>
       {active && <ButtonIcon />}
@@ -52,4 +53,4 @@ const GroupSelectButton: FC<GroupSelectButtonProps> = ({
   );
 };
 
-export default GroupSelectButton;
+export default SideBarButton;

@@ -1,10 +1,14 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import Main from "../../../../src/components/UI/Main";
+import FormAnalysisSideBar from "../../../../src/components/Admin/FormAnalysis/FormAnalysisSideBar";
 
 const Analysis: NextPage = () => {
   const router = useRouter();
+  const [analysisPage, setAnalysisPage] = useState<number>(0);
   const formId = router.query.formId as string;
   const getStaticsAnalysisData = async (formId: string) => {
     const response = await fetch(`/api/admin/analysis/statis/${formId}`);
@@ -12,9 +16,9 @@ const Analysis: NextPage = () => {
     console.log(data);
   };
 
-  useEffect(() => {
-    router.isReady && getStaticsAnalysisData(formId);
-  }, [router.isReady]);
+  // useEffect(() => {
+  //   router.isReady && getStaticsAnalysisData(formId);
+  // }, [router.isReady]);
   return (
     <>
       <Head>
@@ -26,7 +30,9 @@ const Analysis: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
-      <div>static</div>
+      <Main>
+        <FormAnalysisSideBar>st</FormAnalysisSideBar>
+      </Main>
     </>
   );
 };

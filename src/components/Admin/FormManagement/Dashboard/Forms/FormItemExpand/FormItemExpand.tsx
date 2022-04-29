@@ -1,6 +1,8 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import styled from "styled-components";
 import useRoutePush from "../../../../../../hooks/useRoutePush";
+import adminActionType from "../../../../../../store/actionType/adminActionType";
+import { adminContext } from "../../../../../../store/context/adminContext";
 import FeatureButton from "./FeatureButton";
 
 interface FormItemExpandContainerProps {
@@ -30,7 +32,7 @@ interface FormItemExpandProps {
 }
 
 const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
-  console.log(formId);
+  const context = useContext(adminContext);
   const pushRouterHandler = useRoutePush();
   return (
     <FormItemExpandContainer isExpand={isExpand}>
@@ -43,19 +45,22 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
         <FeatureButton
           text="統計分析"
           clickHandler={() => {
-            pushRouterHandler(`/admin/analysis/${formId}/statis`);
+            context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 0);
+            pushRouterHandler(`/admin/analysis/${formId}`);
           }}
         />
         <FeatureButton
           text="明細匯出"
           clickHandler={() => {
-            pushRouterHandler(`/admin/analysis/${formId}/export`);
+            context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 1);
+            pushRouterHandler(`/admin/analysis/${formId}`);
           }}
         />
         <FeatureButton
           text="訪問紀錄"
           clickHandler={() => {
-            pushRouterHandler(`/admin/analysis/${formId}/record`);
+            context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 2);
+            pushRouterHandler(`/admin/analysis/${formId}`);
           }}
         />
         <FeatureButton text="建立子問卷" />
