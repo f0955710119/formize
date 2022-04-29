@@ -2,6 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import type { AppProps } from "next/app";
 import { store } from "../src/store";
 import { Provider } from "react-redux";
+import { adminContext, AdminProvider } from "../src/store/context/adminContext";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -50,7 +51,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-size: 1.6rem;
-    font-family: taipeiSansTCBold;
+    font-family: jfOpenhuninn;
   }
 
   ul {
@@ -74,8 +75,10 @@ const GlobalStyle = createGlobalStyle`
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <GlobalStyle />
-      <Component {...pageProps} />
+      <AdminProvider>
+        <GlobalStyle />
+        <Component {...pageProps} />
+      </AdminProvider>
     </Provider>
   );
 }

@@ -5,8 +5,8 @@ export const Heading = styled.div`
   margin-bottom: 3rem;
   padding-bottom: 1rem;
   font-size: 1.6rem;
-  color: #a46302;
-  border-bottom: 0.1px solid #a46302;
+  color: #6e917bd6;
+  border-bottom: 0.1px solid #6e917bd6;
 `;
 
 interface SectionHeadingProps {

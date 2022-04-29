@@ -10,6 +10,9 @@ import helper from "../../../utils/helper";
 
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { userActions } from "../../../store/slice/userSlice";
+import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 
 const CalendarWrapper = styled.div`
   margin-top: 2rem;
@@ -37,6 +40,7 @@ const CustomedDateTextInput = styled(TextField)`
 `;
 
 interface DateProps {
+  questionId: string;
   isMultipleDate?: boolean;
   hasRange?: boolean;
   startDate?: string;
@@ -44,11 +48,18 @@ interface DateProps {
 }
 
 const Date: FC<DateProps> = ({
+  questionId,
   isMultipleDate,
   hasRange,
   startDate,
   endDate,
 }: DateProps) => {
+  const dispatch = useAppDispatch();
+  const questionIdIndexForMultipleDate = useGetQuestionIdIndex(
+    `${questionId}_start`
+  );
+  const questionIdIndexForSignleDate = useGetQuestionIdIndex(`${questionId}_0`);
+
   const currentDate = helper.generateNewDate();
   const startDateObject = helper.generateNewDate(startDate);
   const endDateObject = helper.generateNewDate(endDate);
@@ -114,12 +125,24 @@ const Date: FC<DateProps> = ({
               item.selection.startDate
             );
             setStartDateText(startDate);
+            dispatch(
+              userActions.updateFormAnswer({
+                questionIdIndex: questionIdIndexForMultipleDate,
+                input: startDate,
+              })
+            );
           }
           if (item.selection.endDate) {
             const endDate = helper.generateDateFormatString(
               item.selection.endDate
             );
             setEndDateText(endDate);
+            dispatch(
+              userActions.updateFormAnswer({
+                questionIdIndex: questionIdIndexForMultipleDate + 1,
+                input: endDate,
+              })
+            );
           }
         }}
         moveRangeOnFirstSelection={false}
@@ -145,6 +168,13 @@ const Date: FC<DateProps> = ({
           const incomingDate = helper.generateDateFormatString(date);
           setSelectedOneDateText(incomingDate);
           setSelectedTime(date);
+
+          dispatch(
+            userActions.updateFormAnswer({
+              questionIdIndex: questionIdIndexForSignleDate,
+              input: incomingDate,
+            })
+          );
         }}
         date={selectedTime}
         locale={zhTW}

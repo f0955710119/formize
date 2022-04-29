@@ -1,5 +1,5 @@
 import { FC, ChangeEventHandler } from "react";
-import { TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
@@ -10,7 +10,6 @@ import useCheckValidTimer from "../../../hooks/useCheckValidTimer";
 
 const CustomedTextField = styled(TextField)`
   width: 100%;
-  /* font-size: 1.4rem; */
   & div,
   & input {
     font-size: 2rem;
@@ -37,9 +36,6 @@ const OneLineText: FC<OneLineTextProps> = ({
   decimal,
 }: OneLineTextProps) => {
   const dispatch = useAppDispatch();
-  const { answers } = useAppSelector((state) => state.user);
-  console.log(answers);
-
   const {
     invalidMessage,
     setInvalidMessage,

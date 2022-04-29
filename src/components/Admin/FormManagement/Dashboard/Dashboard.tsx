@@ -1,22 +1,31 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import styled from "styled-components";
 
-import DashboardHeader from "./DashboardHeader";
-import SurveyList from "./Surveys/SurveyList";
+import DashboardSubHeader from "./DashboardSubHeader";
+import DashboardMainHeader from "./DashboardMainHeader";
+import FormList from "./Forms/FormList";
+import { adminContext } from "../../../../store/context/adminContext";
 
 const DashboardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 3.4rem 4rem 3rem 4rem;
-  width: calc(100vw - 30rem);
-  height: calc(100vh - 6rem);
+  padding: 2rem 2.5rem 3rem 3.5rem;
+  width: calc(100vw - 23rem);
+  height: 100%;
+
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("/images/main-bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const DashboarMain = styled.main`
-  padding: 4rem 3rem 4rem 4rem;
+  padding: 0 2rem 0 0;
   width: 100%;
   height: calc(100% - 6rem);
-  background-color: #f0f0f0;
   overflow-y: scroll;
 
   &::-webkit-scrollbar-track {
@@ -29,7 +38,7 @@ const DashboarMain = styled.main`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #f90;
+    background-color: #8e9aa2;
     background-image: -webkit-linear-gradient(
       45deg,
       rgba(255, 255, 255, 0.2) 25%,
@@ -44,11 +53,14 @@ const DashboarMain = styled.main`
 `;
 
 const Dashboard: FC = () => {
+  const context = useContext(adminContext);
+  const isShowAllGroup = context.editingGroupId === "0";
   return (
     <DashboardWrapper>
-      <DashboardHeader />
+      <DashboardMainHeader />
+      <DashboardSubHeader />
       <DashboarMain>
-        <SurveyList />
+        <FormList />
       </DashboarMain>
     </DashboardWrapper>
   );

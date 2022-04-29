@@ -26,7 +26,7 @@ const ImageLabel = styled(Label)`
   align-items: center;
   width: calc(100% - 12rem);
   height: 100%;
-  background-color: #aaa;
+  background-color: #eee;
   z-index: 1;
 `;
 
@@ -93,7 +93,7 @@ const SectionBanner: FC = () => {
         <Label>
           歡迎頁圖檔
           <br />
-          <span style={{ fontSize: "1.2rem", color: "#f30" }}>
+          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
             ( 上限為5MB的圖檔 )
           </span>
         </Label>
@@ -117,7 +117,7 @@ const SectionBanner: FC = () => {
         <Label>
           歡迎頁文字
           <br />
-          <span style={{ fontSize: "1.2rem", color: "#f30" }}>
+          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
             ( 上限為250字 )
           </span>
         </Label>
@@ -137,7 +137,7 @@ const SectionBanner: FC = () => {
         <Label>
           結束頁圖檔
           <br />
-          <span style={{ fontSize: "1.2rem", color: "#f30" }}>
+          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
             ( 上限為5MB的圖檔 )
           </span>
         </Label>
@@ -161,7 +161,7 @@ const SectionBanner: FC = () => {
         <Label>
           結束頁文字
           <br />
-          <span style={{ fontSize: "1.2rem", color: "#f30" }}>
+          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
             ( 上限為250字 )
           </span>
         </Label>

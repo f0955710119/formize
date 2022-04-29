@@ -1,14 +1,18 @@
 import { initializeApp } from "firebase/app";
 import {
+  FieldValue,
   getFirestore,
   doc,
   collection,
   setDoc,
   getDoc,
   updateDoc,
-  Query,
+  where,
   arrayUnion,
   arrayRemove,
+  query,
+  getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -23,10 +27,11 @@ import type { DocumentReference, DocumentData } from "firebase/firestore";
 import type { StorageReference } from "firebase/storage";
 import type { UserInfoType } from "../types/login";
 import type { Users } from "../types/firebase/usersType";
-import type { Surveys } from "../types/survey";
+import type { Forms } from "../types/form";
 import type { Questions } from "../types/question";
 
 import helper from "./helper";
+import { Responses } from "../types/responses";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -89,8 +94,8 @@ export default {
         email,
         password
       );
-      this.getUser(userCredential.user.uid);
-      // 拿去store找user的資料 signinHandler(userCredential.user.uid);
+      const data = await this.getUser(userCredential.user.uid);
+      return data;
     } catch (error: any) {
       const { message } = error;
       console.error(message);
@@ -111,7 +116,7 @@ export default {
           resolve(user.uid);
           return;
         }
-        reject(null);
+        reject("未登入狀態");
       });
       unsubscribe();
     });
@@ -124,22 +129,50 @@ export default {
       groups: [
         {
           name: "預設群組",
-          surveys: [""],
+          forms: [""],
         },
       ],
     };
 
     await setDoc(newUserRef, defalutUsers);
   },
-  async getUser(uid: string): Promise<void> {
+  async getUser(uid: string) {
     const userDocRef = doc(db, "users", uid);
     const docSnap = await getDoc(userDocRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
+      return docSnap.data();
     } else {
       console.log("No such document!");
     }
+  },
+  // FOR_DOC
+  async updateExistedDoc(
+    collectionName: string,
+    docId: string,
+    field: string,
+    data: string | number | Date | null
+  ) {
+    const docRef = doc(db, collectionName, docId);
+    await updateDoc(docRef, {
+      [field]: data,
+    });
+  },
+  async updateExistResponseFields(
+    collectionName: string,
+    docId: string,
+    dataArr: [],
+    id: string
+  ) {
+    const docRef = doc(db, collectionName, docId);
+
+    const updateObj: { [key: string]: FieldValue } = {};
+    dataArr.forEach((d: { questionId: string; input: string }) => {
+      const key = d.questionId as string;
+      updateObj[key] = arrayUnion({ [id]: d.input });
+    });
+
+    await updateDoc(docRef, updateObj);
   },
   async updateUserGroupsIdArray(
     uid: string,
@@ -153,16 +186,27 @@ export default {
       { merge: true }
     );
   },
+  // FOR_FILTER
+  async getAllEqualDoc(
+    collectionName: string,
+    fieldKey: string,
+    equalValue: string
+  ) {
+    const collectionRef = collection(db, collectionName);
+    const fields = query(collectionRef, where(fieldKey, "==", equalValue));
+
+    const querySnapshot = await getDocs(fields);
+    const datas = querySnapshot.docs.map((doc) => doc.data());
+    return datas;
+  },
   // FOR_GENERAL
   generateDocRef(collectionName: string) {
     const id = helper.generateId(8);
     const docRef = doc(db, collectionName, id);
     return docRef;
   },
-  async setNewDoc<T extends Surveys | Questions | { exists: boolean }>(
-    docRef: DocumentReference<DocumentData>,
-    data: T
-  ) {
+  // prettier-ignore
+  async setNewDoc<T extends Forms| Questions | Responses >(docRef: DocumentReference<DocumentData>, data: T) {
     try {
       await setDoc(docRef, data);
       return "成功發送資料";
@@ -176,7 +220,7 @@ export default {
     if (!docSnap.exists()) throw "沒有找到文件，確認一下拼字跟帶入的值";
     return docSnap.data();
   },
-  async updateFieldArrayValue<T extends string>(
+  async updateFieldArrayValue<T>(
     {
       docPath,
       fieldKey,
@@ -198,6 +242,10 @@ export default {
     } catch (error: any) {
       throw error.message;
     }
+  },
+  async deleteDocDate(collectionName: string, docId: string) {
+    const docRef = doc(db, collectionName, docId);
+    await deleteDoc(docRef);
   },
   // STORAGE
   generateStorageRef(refName: string) {

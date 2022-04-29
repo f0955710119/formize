@@ -1,28 +1,35 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import { Question } from "../../types/question";
+import helper from "../../utils/helper";
 import { UserState } from "../slice/userSlice";
 
 const setUpQuestionIdKeys: CaseReducer<UserState, PayloadAction<Question[]>> = (
   state,
   action
 ) => {
-  const keyObject: { [key: string]: string } = {};
-  action.payload.forEach((question, i) => {
-    keyObject[question.id] = `${i}`;
-  });
-  state.questionIdKeys = keyObject;
+  const questionObject = helper.generateQuestionsKeysForResponses(
+    action.payload
+  );
+  state.questionIdKeys = questionObject[0];
 };
 
 const setUpQuestionInitList: CaseReducer<
   UserState,
   PayloadAction<Question[]>
 > = (state, action) => {
-  state.answers = action.payload.map((question) => {
+  const questionObject = helper.generateQuestionsKeysForResponses(
+    action.payload
+  );
+  const keysArr = Object.keys(questionObject[0]);
+  const initAnswers = keysArr.map((key) => {
     return {
-      questionId: question.id,
+      questionId: key,
       input: "",
+      type: questionObject[1][key],
     };
   });
+
+  state.answers = initAnswers;
 };
 
 const updateFormAnswer: CaseReducer<

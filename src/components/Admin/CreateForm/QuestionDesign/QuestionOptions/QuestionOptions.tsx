@@ -141,7 +141,7 @@ const generateLimitation = (question: Question) => {
     }
 
     case "2": {
-      return <TextLimitation id={question.id} type={question.type} />;
+      return <></>;
     }
 
     case "3": {

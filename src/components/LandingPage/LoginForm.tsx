@@ -1,9 +1,12 @@
-import { FC, useEffect, useState, ChangeEvent } from "react";
+import { FC, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import firebase from "../../utils/firebase";
 import { SignFunctionType, UserInfoType } from "../../types/login";
 import { ChangeHandler } from "../../types/common";
+import { adminContext } from "../../store/context/adminContext";
+import loginConfig from "../../configs/loginConfig";
+import useInitAdminInfo from "../../hooks/useInitAdminInfo";
 
 const DefaultLandingTitle = styled.h1`
   display: block;
@@ -77,6 +80,7 @@ const LoginForm: FC = () => {
     email: "",
     password: "",
   });
+  const initAdminHandler = useInitAdminInfo();
 
   const changeAccountHandler: ChangeHandler = (event) => {
     const { value } = event.target;
@@ -96,10 +100,27 @@ const LoginForm: FC = () => {
       };
     });
   };
-  const singinHandler: SignFunctionType = async (email, password) => {
+
+  const signinHandler: SignFunctionType = async (email, password) => {
+    const emailRegex = loginConfig.EMAIL_REG;
+    const passwordRegex = loginConfig.PASSWORD_REG;
+    const invalidEmail = !emailRegex.test(email);
+    const invalidPassword = !passwordRegex.test(password);
+
+    // BUG: 顯示給使用者跟開發的人的錯誤訊息不一樣，之後要優化
     try {
-      //BUG: 之後要寫type gurad + validation
-      await firebase.nativeLogin({ email, password });
+      if (invalidEmail) throw new Error("請輸入正確的Email格式");
+      if (invalidPassword)
+        throw new Error(
+          "密碼請輸入至少6個字元的英文字母或數字，且不得包含特殊符號"
+        );
+
+      const adminInfo = await firebase.nativeLogin({ email, password });
+
+      if (!adminInfo) return;
+      const uid = adminInfo.id as string;
+
+      await initAdminHandler(uid);
       window.alert("登入成功，將前往問卷管理頁面!");
       router.push("/admin");
     } catch (error: any) {
@@ -143,7 +164,7 @@ const LoginForm: FC = () => {
       </Field>
       <Button
         type="button"
-        onClick={() => singinHandler(userInfo.email, userInfo.password)}
+        onClick={() => signinHandler(userInfo.email, userInfo.password)}
       >
         登入
       </Button>

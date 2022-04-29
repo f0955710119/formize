@@ -1,15 +1,17 @@
-// response 裡有多筆 answers
-export interface QuestionTitle {
-  questionName: string;
-  questionId: string;
+export interface Answer {
+  type: string;
+  id: string;
+  input: string;
 }
 
-export interface Answer {
-  questionTitles: QuestionTitle[];
-  input: string | number | Date | Date[] | string[] | number[];
+export interface Table {
+  title: string;
+  id: string;
+  type: string;
+  martixs?: string[];
+  options?: string[];
 }
-export interface Response {
-  surveyId: string;
-  createdTime: Date;
-  answers: Answer[];
+
+export interface Responses {
+  [key: string]: string | Date[] | Answer[] | Table[] | never[];
 }

@@ -3,21 +3,19 @@ import { useAppDispatch } from "./useAppDispatch";
 import { adminActions } from "../store/slice/adminSlice";
 import firebase from "../utils/firebase";
 import { useRouter } from "next/router";
+import useInitAdminInfo from "./useInitAdminInfo";
 
-const useLoginCheck = (isHomePage: boolean = false) => {
-  const isLoading = useRef<boolean>(true);
+const useLoginCheck = () => {
+  const initAdminHandler = useInitAdminInfo();
   const dispatch = useAppDispatch();
   const router = useRouter();
   useEffect(() => {
-    if (!isLoading.current) return;
     async function initLandingPage() {
       try {
-        isLoading.current = false;
         const uid = await firebase.checkAuthState();
-        if (typeof uid !== "string") throw "未登入狀態";
-        dispatch(adminActions.updateLoginState(uid));
-
-        if (!isHomePage) return;
+        if (typeof uid !== "string") return;
+        // dispatch(adminActions.updateLoginState(uid));
+        await initAdminHandler(uid);
         router.push("/admin");
       } catch (error: any) {
         console.error(error);

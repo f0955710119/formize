@@ -1,5 +1,8 @@
-import { FC, useState } from "react";
+import { FC, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
+import { userActions } from "../../../store/slice/userSlice";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
@@ -28,22 +31,44 @@ const OptionItemText = styled.div`
 interface SortProps {
   options: string[];
   maxSelected: number;
+  questionId: string;
 }
 
-const Sort: FC<SortProps> = ({ options, maxSelected }) => {
+const Sort: FC<SortProps> = ({ options, maxSelected, questionId }) => {
+  const dispatch = useAppDispatch();
   const [selectedOptionArr, setSelectedOptionArr] = useState<string[]>([]);
-  console.log(selectedOptionArr);
+  const questionIndexForFirstOption = useGetQuestionIdIndex(
+    `${questionId}_${0}`
+  );
+  const questionIdIndexList = Array(options.length)
+    .fill(null)
+    .map((_, i) => questionIndexForFirstOption + i);
+
+  const didMount = useRef<boolean>(true);
+
+  useEffect(() => {
+    if (didMount.current) {
+      didMount.current = false;
+      return;
+    }
+
+    questionIdIndexList.forEach((questionIdIndex, i) => {
+      const input = `${selectedOptionArr.indexOf(options[i]) + 1}`;
+      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+    });
+  }, [selectedOptionArr]);
+
   return (
     <ChoiceWrapper>
       {options.map((option, i) => (
         <OptionItemWrapper
           key={i}
           onClick={() => {
-            if (
-              selectedOptionArr.find(
-                (existedOption) => existedOption === option
-              )
-            ) {
+            const hasExistedOption = selectedOptionArr.find(
+              (existedOption) => existedOption === option
+            );
+
+            if (hasExistedOption) {
               const updateSelectedOptionArr = selectedOptionArr.filter(
                 (existedOption) => existedOption !== option
               );
@@ -51,6 +76,7 @@ const Sort: FC<SortProps> = ({ options, maxSelected }) => {
               return;
             }
             if (selectedOptionArr.length > maxSelected) return;
+
             setSelectedOptionArr((prevState) => {
               const oldSelectedOptioArr = [...prevState, option];
               return oldSelectedOptioArr;

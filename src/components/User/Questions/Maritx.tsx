@@ -1,6 +1,12 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
-import { FormControl, RadioGroup, Radio } from "@mui/material";
+
+import FormControl from "@mui/material/FormControl";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { userActions } from "../../../store/slice/userSlice";
+import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 
 const MartixWrapper = styled.div`
   display: flex;
@@ -26,16 +32,28 @@ const MartixOptions = styled(FlexAlignCenter)`
 `;
 
 interface MartixRadioProps {
+  optionIndex: number;
   martixs: string[];
+  questionId: string;
 }
 
-const MartixRadio: FC<MartixRadioProps> = ({ martixs }: MartixRadioProps) => {
+const MartixRadio: FC<MartixRadioProps> = ({
+  optionIndex,
+  martixs,
+  questionId,
+}: MartixRadioProps) => {
+  const dispatch = useAppDispatch();
+  const questionIdIndex = useGetQuestionIdIndex(`${questionId}_${optionIndex}`);
   return (
     <FormControl>
       <RadioGroup
         row
         aria-labelledby="row-radio-buttons-group-label"
         name="row-radio-buttons-group"
+        onChange={(event) => {
+          const input = event.target.value;
+          dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+        }}
       >
         {martixs.map((martix) => (
           <Radio
@@ -53,10 +71,14 @@ const MartixRadio: FC<MartixRadioProps> = ({ martixs }: MartixRadioProps) => {
 interface MartixProps {
   options: string[];
   martixs: string[];
+  questionId: string;
 }
 
-const Martix: FC<MartixProps> = ({ options, martixs }: MartixProps) => {
-  // 之後樣式用綁ref的方式去得到title的width值，來改變選項的位置 > window.getComputedStyle(document.querySelector('#mainbar')).width
+const Martix: FC<MartixProps> = ({
+  options,
+  martixs,
+  questionId,
+}: MartixProps) => {
   return (
     <MartixWrapper>
       <MartixTitleWrapper>
@@ -67,7 +89,11 @@ const Martix: FC<MartixProps> = ({ options, martixs }: MartixProps) => {
       {options.map((option, i) => (
         <MartixOptions key={i}>
           <span key={i}>{option}</span>
-          <MartixRadio martixs={martixs} />
+          <MartixRadio
+            optionIndex={i}
+            martixs={martixs}
+            questionId={questionId}
+          />
         </MartixOptions>
       ))}
     </MartixWrapper>

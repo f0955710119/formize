@@ -1,7 +1,7 @@
-type SurveyId = string;
+type FormId = string;
 export interface Group {
   name: string;
-  surveys: SurveyId[];
+  forms: FormId[];
 }
 export interface Users {
   id: string;

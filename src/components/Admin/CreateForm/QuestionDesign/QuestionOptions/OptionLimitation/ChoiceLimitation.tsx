@@ -28,7 +28,7 @@ const ChoiceLimitation: FC<ChoiceLimitationProps> = ({
     if (+value <= question?.options?.length) return null;
     return "選擇上限數量不可超過選項總數量，請再輸入一次";
   };
-
+  const hasNoMaxLimitationOptionsTypes = ["3", "5"];
   const saveMaxSelectedHandler = useGenerateValidationHandler(
     id,
     questionConfig.MAX_SELECTED,
@@ -40,7 +40,9 @@ const ChoiceLimitation: FC<ChoiceLimitationProps> = ({
   return (
     <LimitationWrapper>
       <RequiredSwitch id={id} />
-      {type !== "3" && (
+      {!hasNoMaxLimitationOptionsTypes.find(
+        (typehasNoMaxSelected) => typehasNoMaxSelected === type
+      ) && (
         <Field>
           <Label>選填數量</Label>
           <TextInput

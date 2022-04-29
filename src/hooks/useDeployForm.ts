@@ -1,6 +1,6 @@
 import { useAppDispatch } from "./useAppDispatch";
 import { adminActions } from "../store/slice/adminSlice";
-import { Settings, Styles } from "../types/survey";
+import { Settings, Styles } from "../types/form";
 import { Question } from "../types/question";
 import firebase from "../utils/firebase";
 
@@ -54,7 +54,7 @@ const useDeployForm = () => {
 
       // console.log(newSendingObj);
       // deploy
-      const response = await fetch("/api/admin/survey", {
+      const response = await fetch("/api/admin/form", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -64,7 +64,7 @@ const useDeployForm = () => {
       const data = await response.json();
       alert(data.message);
       if (data.status !== "success") throw "上傳資料失敗";
-      dispatch(adminActions.createNewSurveyId(data.data.survey_id));
+      dispatch(adminActions.createNewFormId(data.data.formId));
     } catch (error: any) {
       console.error(error.message);
     }
