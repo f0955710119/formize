@@ -1,10 +1,20 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
+import { useEffect } from "react";
 
 const Analysis: NextPage = () => {
   const router = useRouter();
-  console.log(router.query);
+  const formId = router.query.formId as string;
+  const getStaticsAnalysisData = async (formId: string) => {
+    const response = await fetch(`/api/admin/analysis/statis/${formId}`);
+    const data = await response.json();
+    console.log(data);
+  };
+
+  useEffect(() => {
+    router.isReady && getStaticsAnalysisData(formId);
+  }, [router.isReady]);
   return (
     <>
       <Head>

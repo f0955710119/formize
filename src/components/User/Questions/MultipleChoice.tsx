@@ -50,7 +50,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
       };
     });
 
-    const input = `${+event.target.id + 1}.${event.target.name}`;
+    const input = `${+event.target.id + 1}.${event.target.name}\n`;
     const updateInput = selectedOptions.includes(input) ? "" : `${input}`;
 
     setSelectedOptions((prevState) => {

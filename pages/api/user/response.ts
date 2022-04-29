@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
 import { Answer } from "../../../src/types/responses";
 import firebase from "../../../src/utils/firebase";
+import helper from "../../../src/utils/helper";
 
 interface Data {
   status: string;
@@ -54,6 +55,8 @@ export default async function handler(
         return;
       }
 
+      const idForArrayUnqine = helper.generateId(8);
+
       const fetchList = [
         firebase.updateExistedDoc(
           firestoreCollectionConfig.FORMS,
@@ -70,12 +73,13 @@ export default async function handler(
         firebase.updateFieldArrayValue({
           docPath: `${firestoreCollectionConfig.RESPONSES}/${responseDocId}`,
           fieldKey: "createdTime",
-          updateData: new Date(),
+          updateData: { [idForArrayUnqine]: new Date() },
         }),
         firebase.updateExistResponseFields(
           firestoreCollectionConfig.RESPONSES,
           responseDocId,
-          answers
+          answers,
+          idForArrayUnqine
         ),
       ];
 

@@ -337,6 +337,7 @@ const Form: FC<FormProps> = ({
       console.error(error);
     }
   };
+  console.log(answers);
 
   return (
     <>

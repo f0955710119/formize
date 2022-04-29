@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import firebase from "../../../../../src/utils/firebase";
 import firestoreCollectionCongfig from "../../../../../src/configs/firestoreCollectionConfig";
-import helper from "../../../../../src/utils/helper";
 import { max, min, mean, median } from "mathjs";
 
 interface Data {
@@ -30,7 +29,7 @@ export default async function handler(
 
       if (!response) throw new Error("問卷已不存在");
 
-      const tableStatics = response.tableInfo.map(
+      const tableCounts = response.tableInfo.map(
         (table: {
           type: string;
           id: string;
@@ -38,8 +37,15 @@ export default async function handler(
           options?: string[];
           martixs?: string[];
         }) => {
-          const data = response[table.id];
+          const rawData = response[table.id];
+          const data = rawData.map((d: { [key: string]: string }) => {
+            return Object.values(d).join("");
+          });
+
           switch (table.type) {
+            case "1": {
+              return;
+            }
             case "0":
             case "9": {
               const counts: { [key: string]: number } = {};
@@ -50,24 +56,48 @@ export default async function handler(
               return counts;
             }
 
-            case "3":
+            case "3": {
+              if (!table.options) {
+                throw new Error("問卷題型有誤，選擇題不得沒有選項");
+              }
+              const counts = table.options.map((option) => {
+                const countObj: { [key: string]: number | string } = {};
+                countObj.option = option;
+                countObj.times = 0;
+                return countObj;
+              });
+
+              data.forEach((d: string) => {
+                if (d === "") return;
+                const splitedInput = d.split(".");
+                const optionIndex = splitedInput[0];
+                counts[+optionIndex].times =
+                  (+counts[+optionIndex - 1].times || 0) + 1;
+              });
+
+              return counts;
+            }
             case "4": {
               if (!table.options) {
                 throw new Error("問卷題型有誤，選擇題不得沒有選項");
               }
               const counts = table.options.map((option) => {
                 const countObj: { [key: string]: number | string } = {};
-                countObj[option] = option;
+                countObj.option = option;
+                countObj.times = 0;
                 return countObj;
               });
               data.forEach((d: string) => {
                 if (d === "") return;
-                const splitedInput = d.split(".");
-                const optionIndex = splitedInput[0];
-                const optionName = splitedInput[1];
-                counts[+optionIndex][optionName] =
-                  (+counts[+optionIndex][optionName] || 0) + 1;
+                const splitedInputs = d.split("\n").slice(0, -1);
+                splitedInputs.forEach((splitedInputString) => {
+                  const splitedInput = splitedInputString.split(".");
+                  const optionIndex = splitedInput[0];
+                  counts[+optionIndex - 1].times =
+                    (+counts[+optionIndex - 1].times || 0) + 1;
+                });
               });
+
               return counts;
             }
             case "5": {
@@ -80,8 +110,20 @@ export default async function handler(
                 if (d === "") return;
                 counts[d] = (counts[d] || 0) + 1;
               });
+              const martixCounts = table.martixs.map((martix) => {
+                if (!counts[martix])
+                  return {
+                    martix,
+                    times: 0,
+                  };
 
-              return counts;
+                return {
+                  martix,
+                  times: counts[martix],
+                };
+              });
+
+              return martixCounts;
             }
 
             case "6":
@@ -98,13 +140,27 @@ export default async function handler(
             }
 
             case "8": {
-              const counts: { [key: string]: number } = {};
+              if (!table.options) {
+                throw new Error("問卷題型有誤，排序題不得沒有選項");
+              }
+
+              const counts = table.options.map((option, i) => {
+                const countObj: { [key: string]: number } = {};
+                countObj[`排序${i + 1}`] = 0;
+                return countObj;
+              });
+              counts.push({ 未被選取: 0 });
+
               data.forEach((d: string) => {
-                if (d === "") {
-                  counts["未選"] = (counts["未選"] || 0) + 1;
+                if (d === "0") {
+                  counts[`${(table.options as string[]).length}`]["未選"] =
+                    (counts[`${(table.options as string[]).length}`]["未選"] ||
+                      0) + 1;
                   return;
                 }
-                counts[d] = (counts[d] || 0) + 1;
+                const dNumber = +d;
+                counts[dNumber - 1][`排序${dNumber}`] =
+                  (counts[dNumber - 1][`排序${dNumber}`] || 0) + 1;
               });
               return counts;
             }
@@ -115,12 +171,26 @@ export default async function handler(
         }
       );
 
+      const tableStatis = tableCounts.map(
+        (
+          table:
+            | { [key: string]: string | number }[]
+            | { [key: string]: string | number },
+          i: number
+        ) => {
+          return {
+            id: response.tableInfo[i].id,
+            count: table,
+          };
+        }
+      );
+
       res.status(200).json({
         status: "success",
         status_code: 200,
         message: "成功讀取問卷的回應",
         data: {
-          tableStatics,
+          tableStatis,
         },
       });
     } catch (error: any) {

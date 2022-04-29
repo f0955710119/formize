@@ -43,7 +43,7 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
         <FeatureButton
           text="統計分析"
           clickHandler={() => {
-            pushRouterHandler(`/admin/analysis/${formId}/static`);
+            pushRouterHandler(`/admin/analysis/${formId}/statis`);
           }}
         />
         <FeatureButton

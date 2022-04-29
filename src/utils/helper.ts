@@ -264,7 +264,7 @@ export default {
   generateQuestionsKeysForResponses(questions: Question[]) {
     const questionKeysConfig: { [key: string]: string } = {};
     const questionKeysType: { [key: string]: string } = {};
-    // const questionKeysTitle: {} = {};
+
     let keyIndex = 0;
     questions.forEach((question) => {
       if (question.type === "2") return;
@@ -361,6 +361,7 @@ export default {
           title: `${originTitle} - ${options[optionIndex]}`,
           id,
           type: types[i],
+          options,
         };
       }
 

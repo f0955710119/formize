@@ -141,7 +141,6 @@ export default {
     const docSnap = await getDoc(userDocRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
       return docSnap.data();
     } else {
       console.log("No such document!");
@@ -162,14 +161,15 @@ export default {
   async updateExistResponseFields(
     collectionName: string,
     docId: string,
-    dataArr: []
+    dataArr: [],
+    id: string
   ) {
     const docRef = doc(db, collectionName, docId);
 
     const updateObj: { [key: string]: FieldValue } = {};
     dataArr.forEach((d: { questionId: string; input: string }) => {
       const key = d.questionId as string;
-      updateObj[key] = arrayUnion(d.input);
+      updateObj[key] = arrayUnion({ [id]: d.input });
     });
 
     await updateDoc(docRef, updateObj);
