@@ -18,7 +18,7 @@ interface Group {
 
 type SetFieldHandler = (
   fieldKey: string,
-  value: string | DriveToken | Group[] | Forms[]
+  value: string | DriveToken | Group[] | Forms[] | number
 ) => void;
 
 export interface Admin {
@@ -29,6 +29,7 @@ export interface Admin {
   driveToken?: DriveToken;
   groups: Group[];
   forms: Forms[];
+  currentAnalysisPage: number;
   setField: SetFieldHandler;
 }
 
@@ -44,6 +45,7 @@ const initialState: Admin = {
     token_type: "",
     expiry_date: 0,
   },
+  currentAnalysisPage: 0,
   groups: [],
   forms: [],
   setField: (fieldKey, value) => {},
@@ -53,7 +55,7 @@ export const adminContext = createContext(initialState);
 
 interface AdminAction {
   type: string;
-  payload: string | DriveToken | Group[] | Forms[];
+  payload: string | DriveToken | Group[] | Forms[] | number;
 }
 
 interface AdminReducerState {
@@ -62,6 +64,7 @@ interface AdminReducerState {
   editingFormId: string;
   newFormId: string;
   driveToken?: DriveToken;
+  currentAnalysisPage: number;
   groups: Group[];
   forms: Forms[];
 }
@@ -85,6 +88,7 @@ const initAdminReducerState = {
     token_type: "",
     expiry_date: 0,
   },
+  currentAnalysisPage: 0,
   groups: [],
   forms: [],
 };
@@ -96,7 +100,6 @@ interface AdminProviderProps {
 export const AdminProvider: FC<AdminProviderProps> = ({ children }) => {
   const [adminInfo, dispatch] = useReducer(adminReducer, initAdminReducerState);
   const setFieldHandler: SetFieldHandler = (fieldKey, value) => {
-    console.log(value);
     dispatch({ type: fieldKey, payload: value });
   };
   const adminDefaultContext = {
@@ -105,6 +108,7 @@ export const AdminProvider: FC<AdminProviderProps> = ({ children }) => {
     editingFormId: adminInfo.editingFormId,
     newFormId: adminInfo.newFormId,
     driveToken: adminInfo.driveToken,
+    currentAnalysisPage: adminInfo.currentAnalysisPage,
     groups: adminInfo.groups,
     forms: adminInfo.forms,
     setField: setFieldHandler,

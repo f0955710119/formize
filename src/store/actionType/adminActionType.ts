@@ -6,6 +6,7 @@ const adminActionType: { [key: string]: string } = {
   DRIVE_TOKEN: "driveToken",
   GROUPS: "groups",
   FORMS: "forms",
+  CURRENT_ANALYSIS_PAGE: "currentAnalysisPage",
 };
 
 export default adminActionType;

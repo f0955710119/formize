@@ -1,7 +1,6 @@
 import { FC, useContext } from "react";
 import styled from "styled-components";
 import { adminContext } from "../../../../../store/context/adminContext";
-import { Group } from "../../../../../types/firebase/usersType";
 import FormItem from "./FormItem";
 
 const ListContainer = styled.div`
