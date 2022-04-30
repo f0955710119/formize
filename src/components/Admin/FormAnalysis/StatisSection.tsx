@@ -92,15 +92,29 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
   return statisData ? (
     <StatisSectionContainer>
       <StatisSectionHeading>問卷標題: {formData?.title}</StatisSectionHeading>
-      {statisData.map((data) => (
-        <StatisResponseItem
-          key={data.id}
-          id={data.id}
-          title={data.title}
-          type={data.type}
-          count={data.count}
-        />
-      ))}
+      {statisData.map((data) => {
+        if (data.numericData) {
+          return (
+            <StatisResponseItem
+              key={data.id}
+              id={data.id}
+              title={data.title}
+              type={data.type}
+              count={data.count}
+              numericData={data.numericData}
+            />
+          );
+        }
+        return (
+          <StatisResponseItem
+            key={data.id}
+            id={data.id}
+            title={data.title}
+            type={data.type}
+            count={data.count}
+          />
+        );
+      })}
     </StatisSectionContainer>
   ) : (
     <></>

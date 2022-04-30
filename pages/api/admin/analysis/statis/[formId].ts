@@ -10,6 +10,14 @@ interface Data {
   data?: {};
 }
 
+interface TableInfoItem {
+  type: string;
+  id: string;
+  title: string;
+  options?: string[];
+  martixs?: string[];
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
@@ -29,165 +37,178 @@ export default async function handler(
 
       if (!response) throw new Error("問卷已不存在");
 
-      const tableCounts = response.tableInfo.map(
-        (table: {
-          type: string;
-          id: string;
-          title: string;
-          options?: string[];
-          martixs?: string[];
-        }) => {
+      const tableCounts = response.tableInfo.map((table: TableInfoItem) => {
+        const rawData = response[table.id];
+        const data = rawData.map((d: { [key: string]: string }) => {
+          return Object.values(d).join("");
+        });
+
+        switch (table.type) {
+          case "1": {
+            const counts: { [key: string]: string } = {};
+            data.forEach((d: string, i: number) => {
+              if (d === "") return;
+              counts[`${i + 1}`] = d;
+            });
+            return counts;
+          }
+          case "0":
+          case "9": {
+            const counts: { [key: string]: number } = {};
+            data.forEach((d: string) => {
+              if (d === "") return;
+              counts[d] = (counts[d] || 0) + 1;
+            });
+            return counts;
+          }
+
+          case "3": {
+            if (!table.options) {
+              throw new Error("問卷題型有誤，選擇題不得沒有選項");
+            }
+            const counts = table.options.map((option) => {
+              const countObj: { [key: string]: number | string } = {};
+              countObj.rowTitle = option;
+              countObj.value = 0;
+              return countObj;
+            });
+
+            data.forEach((d: string) => {
+              if (d === "") return;
+              const splitedInput = d.split(".");
+              const optionIndex = splitedInput[0];
+              counts[+optionIndex].value =
+                (+counts[+optionIndex - 1].value || 0) + 1;
+            });
+
+            return counts;
+          }
+          case "4": {
+            if (!table.options) {
+              throw new Error("問卷題型有誤，選擇題不得沒有選項");
+            }
+            const counts = table.options.map((option) => {
+              const countObj: { [key: string]: number | string } = {};
+              countObj.rowTitle = option;
+              countObj.value = 0;
+              return countObj;
+            });
+            data.forEach((d: string) => {
+              if (d === "") return;
+              const splitedInputs = d.split("\n").slice(0, -1);
+              splitedInputs.forEach((splitedInputString) => {
+                const splitedInput = splitedInputString.split(".");
+                const optionIndex = splitedInput[0];
+                counts[+optionIndex - 1].value =
+                  (+counts[+optionIndex - 1].value || 0) + 1;
+              });
+            });
+
+            return counts;
+          }
+          case "5": {
+            if (!table.martixs) {
+              throw new Error("問卷題型有誤，矩陣題不得沒有欄位指標");
+            }
+            const counts: { [key: string]: number } = {};
+
+            data.forEach((d: string) => {
+              if (d === "") return;
+              counts[d] = (counts[d] || 0) + 1;
+            });
+            const martixCounts = table.martixs.map((martix) => {
+              if (!counts[martix])
+                return {
+                  rowTitle: martix,
+                  value: 0,
+                };
+
+              return {
+                rowTitle: martix,
+                value: counts[martix],
+              };
+            });
+
+            return martixCounts;
+          }
+
+          case "6":
+          case "7": {
+            const dataNumber = data
+              .filter((d: string) => d !== "")
+              .map((d: string) => +d);
+            const numberObj = {
+              最大值: max(dataNumber),
+              最小值: min(dataNumber),
+              平均值: mean(dataNumber),
+              中位數: median(dataNumber),
+              眾數:
+                mode(dataNumber).length > 1
+                  ? mode(dataNumber).join(",")
+                  : mode(dataNumber).join(""),
+            };
+
+            const numberKeys = Object.keys(numberObj);
+            const numberValues = Object.values(numberObj);
+
+            return numberKeys.map((key, i) => {
+              return {
+                rowTitle: key,
+                value: numberValues[i],
+              };
+            });
+          }
+
+          case "8": {
+            if (!table.options) {
+              throw new Error("問卷題型有誤，排序題不得沒有選項");
+            }
+
+            const counts = table.options.map((option, i) => {
+              const countObj: { [key: string]: number | string } = {};
+              countObj.rowTitle = `排序${i + 1}`;
+              countObj.value = 0;
+              return countObj;
+            });
+            counts.push({ rowTitle: "未被選取", value: 0 });
+
+            data.forEach((d: string) => {
+              if (d === "0") {
+                counts[counts.length - 1].value =
+                  (+counts[counts.length - 1].value || 0) + 1;
+                return;
+              }
+              const dNumber = +d;
+              counts[dNumber - 1].value = (+counts[dNumber - 1].value || 0) + 1;
+            });
+            return counts;
+          }
+          default: {
+            throw new Error("問卷題型有誤，未發現對應的題型");
+          }
+        }
+      });
+
+      const tableCountsForNumericData = response.tableInfo.filter(
+        (table: TableInfoItem) => table.type === "6" || table.type === "7"
+      );
+
+      const numericExtraDataForDisplay = tableCountsForNumericData.map(
+        (table: TableInfoItem) => {
           const rawData = response[table.id];
+
           const data = rawData.map((d: { [key: string]: string }) => {
             return Object.values(d).join("");
           });
 
-          switch (table.type) {
-            case "1": {
-              const counts: { [key: string]: string } = {};
-              data.forEach((d: string, i: number) => {
-                if (d === "") return;
-                counts[`${i + 1}`] = d;
-              });
-              return counts;
-            }
-            case "0":
-            case "9": {
-              const counts: { [key: string]: number } = {};
-              data.forEach((d: string) => {
-                if (d === "") return;
-                counts[d] = (counts[d] || 0) + 1;
-              });
-              return counts;
-            }
-
-            case "3": {
-              if (!table.options) {
-                throw new Error("問卷題型有誤，選擇題不得沒有選項");
-              }
-              const counts = table.options.map((option) => {
-                const countObj: { [key: string]: number | string } = {};
-                countObj.rowTitle = option;
-                countObj.value = 0;
-                return countObj;
-              });
-
-              data.forEach((d: string) => {
-                if (d === "") return;
-                const splitedInput = d.split(".");
-                const optionIndex = splitedInput[0];
-                counts[+optionIndex].value =
-                  (+counts[+optionIndex - 1].value || 0) + 1;
-              });
-
-              return counts;
-            }
-            case "4": {
-              if (!table.options) {
-                throw new Error("問卷題型有誤，選擇題不得沒有選項");
-              }
-              const counts = table.options.map((option) => {
-                const countObj: { [key: string]: number | string } = {};
-                countObj.rowTitle = option;
-                countObj.value = 0;
-                return countObj;
-              });
-              data.forEach((d: string) => {
-                if (d === "") return;
-                const splitedInputs = d.split("\n").slice(0, -1);
-                splitedInputs.forEach((splitedInputString) => {
-                  const splitedInput = splitedInputString.split(".");
-                  const optionIndex = splitedInput[0];
-                  counts[+optionIndex - 1].value =
-                    (+counts[+optionIndex - 1].value || 0) + 1;
-                });
-              });
-
-              return counts;
-            }
-            case "5": {
-              if (!table.martixs) {
-                throw new Error("問卷題型有誤，矩陣題不得沒有欄位指標");
-              }
-              const counts: { [key: string]: number } = {};
-
-              data.forEach((d: string) => {
-                if (d === "") return;
-                counts[d] = (counts[d] || 0) + 1;
-              });
-              const martixCounts = table.martixs.map((martix) => {
-                if (!counts[martix])
-                  return {
-                    rowTitle: martix,
-                    value: 0,
-                  };
-
-                return {
-                  rowTitle: martix,
-                  value: counts[martix],
-                };
-              });
-
-              return martixCounts;
-            }
-
-            case "6":
-            case "7": {
-              const dataNumber = data
-                .filter((d: string) => d !== "")
-                .map((d: string) => +d);
-              const numberObj = {
-                最大值: max(dataNumber),
-                最小值: min(dataNumber),
-                平均值: mean(dataNumber),
-                中位數: median(dataNumber),
-                眾數:
-                  mode(dataNumber).length > 1
-                    ? mode(dataNumber).join(",")
-                    : mode(dataNumber).join(""),
-              };
-
-              const numberKeys = Object.keys(numberObj);
-              const numberValues = Object.values(numberObj);
-
-              return numberKeys.map((key, i) => {
-                return {
-                  rowTitle: key,
-                  value: numberValues[i],
-                };
-              });
-            }
-
-            case "8": {
-              if (!table.options) {
-                throw new Error("問卷題型有誤，排序題不得沒有選項");
-              }
-
-              const counts = table.options.map((option, i) => {
-                const countObj: { [key: string]: number | string } = {};
-                countObj.rowTitle = `排序${i + 1}`;
-                countObj.value = 0;
-                return countObj;
-              });
-              counts.push({ rowTitle: "未被選取", value: 0 });
-
-              data.forEach((d: string) => {
-                if (d === "0") {
-                  counts[counts.length - 1].value =
-                    (+counts[counts.length - 1].value || 0) + 1;
-                  return;
-                }
-                const dNumber = +d;
-                counts[dNumber - 1].value =
-                  (+counts[dNumber - 1].value || 0) + 1;
-              });
-              console.log(counts);
-              return counts;
-            }
-            default: {
-              throw new Error("問卷題型有誤，未發現對應的題型");
-            }
-          }
+          const counts: { [key: string]: number } = {};
+          data.forEach((d: string) => {
+            if (d === "") return;
+            counts[d] = (counts[d] || 0) + 1;
+          });
+          return {
+            [table.id]: counts,
+          };
         }
       );
 
@@ -198,12 +219,30 @@ export default async function handler(
             | { [key: string]: string | number },
           i: number
         ) => {
-          return {
-            id: response.tableInfo[i].id,
-            title: response.tableInfo[i].title,
-            type: response.tableInfo[i].type,
+          const id = response.tableInfo[i].id;
+          const title = response.tableInfo[i].title;
+          const type = response.tableInfo[i].type;
+          const hasNumericExtraData = numericExtraDataForDisplay.find(
+            (data: {
+              [key: string]: {
+                [key: string]: number;
+              };
+            }) => data[response.tableInfo[i].id]
+          );
+
+          const tableStatisObj = {
+            id,
+            title,
+            type,
             count: table,
           };
+
+          return hasNumericExtraData
+            ? {
+                ...tableStatisObj,
+                numericData: hasNumericExtraData[id],
+              }
+            : tableStatisObj;
         }
       );
 

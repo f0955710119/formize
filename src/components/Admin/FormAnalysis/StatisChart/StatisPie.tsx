@@ -1,5 +1,12 @@
 import { FC, useState, useCallback, useMemo } from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Sector,
+  Legend,
+} from "recharts";
 import type { NonTextCount } from "../../../../types/statis";
 
 const COLORS = [
@@ -177,6 +184,7 @@ const StatisPie: FC<StatisPieProps> = ({ count }) => {
           label={renderCustomizedLabel}
           outerRadius={120}
           dataKey="value"
+          nameKey="rowTitle"
           fill="#7e8480"
           onMouseEnter={onPieEnter}
         >
@@ -184,6 +192,7 @@ const StatisPie: FC<StatisPieProps> = ({ count }) => {
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
+        <Legend verticalAlign="top" height={0} />
       </PieChart>
     </ResponsiveContainer>
   );

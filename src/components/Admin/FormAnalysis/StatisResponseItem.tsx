@@ -36,7 +36,7 @@ const ChartWrapper = styled.div`
 const PieWrapper = styled(ChartWrapper)``;
 
 const BarWrapper = styled(ChartWrapper)`
-  transform: translateY(2.5rem);
+  /* transform: translateY(2.5rem); */
   height: 36rem;
 `;
 
@@ -46,24 +46,39 @@ const WordCloudWrapper = styled(ChartWrapper)`
   border-radius: 7px;
 `;
 
+const MultipleTextReminder = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 64rem);
+  height: 100%;
+`;
+
+const MultipleTextReminderText = styled.span`
+  font-size: 2rem;
+  color: #c3c9c5;
+`;
+
 interface StatisResponseItemProps {
   type: string;
   id: string;
   title: string;
   count: Count;
+  numericData?: StringKeyObject;
 }
 
 const renderResponseItemContent = (
   type: string,
   title: string,
-  count: Count
+  count: Count,
+  numericData?: StringKeyObject
 ) => {
   switch (type) {
     case "0":
     case "1":
     case "9": {
       const countForText = count as StringKeyObject;
-      const countForBar = Object.keys(count)
+      const countForChart = Object.keys(count)
         .map((key, i) => {
           return {
             rowTitle: key,
@@ -80,26 +95,57 @@ const renderResponseItemContent = (
           <Table title={title} isTextContent>
             <TextContent count={countForText} isCountRepeat={type !== "1"} />
           </Table>
-          <WordCloudWrapper>
-            <StatisWordCloud count={countForBar} />
-          </WordCloudWrapper>
-          <BarWrapper>
-            <StatisBar count={countForBar} />
-          </BarWrapper>
+          {type !== "1" ? (
+            <>
+              <WordCloudWrapper>
+                <StatisWordCloud count={countForChart} />
+              </WordCloudWrapper>
+              <BarWrapper>
+                <StatisBar count={countForChart} />
+              </BarWrapper>
+            </>
+          ) : (
+            <MultipleTextReminder>
+              <MultipleTextReminderText>
+                此題型不提供文字統計
+              </MultipleTextReminderText>
+            </MultipleTextReminder>
+          )}
         </>
       );
     }
 
     case "6":
     case "7": {
+      if (!numericData) return <></>;
       const countForOptionType = count as NonTextCount[];
+      const countForChart = Object.keys(numericData)
+        .map((key, i) => {
+          return {
+            rowTitle: key,
+            value: Object.values(numericData)[i],
+          };
+        })
+        .sort((a, b) => {
+          if (+a.rowTitle > +b.rowTitle) return -1;
+          return 1;
+        });
+
       return (
-        <Table title={title} isTextContent={false}>
-          <NonTextContent
-            count={countForOptionType}
-            headerNames={helper.generateheaderName(type)}
-          />
-        </Table>
+        <>
+          <Table title={title} isTextContent={false}>
+            <NonTextContent
+              count={countForOptionType}
+              headerNames={helper.generateheaderName(type)}
+            />
+          </Table>
+          <WordCloudWrapper>
+            <StatisWordCloud count={countForChart} />
+          </WordCloudWrapper>
+          <BarWrapper>
+            <StatisBar count={countForChart} />
+          </BarWrapper>
+        </>
       );
     }
     case "3":
@@ -124,6 +170,8 @@ const renderResponseItemContent = (
         </>
       );
     }
+    default:
+      return <></>;
   }
 };
 
@@ -131,10 +179,11 @@ const StatisResponseItem: FC<StatisResponseItemProps> = ({
   type,
   title,
   count,
+  numericData,
 }) => {
   return (
     <ItemContainer>
-      {renderResponseItemContent(type, title, count)}
+      {renderResponseItemContent(type, title, count, numericData)}
     </ItemContainer>
   );
 };
