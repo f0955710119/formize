@@ -8,13 +8,13 @@ interface RowProps {
 
 const Row = styled.div<RowProps>`
   padding: 1rem 1rem;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   background-color: ${(props: RowProps) =>
     props.isOdd ? "#f8f8f8" : "transparent"};
 `;
 
 const Times = styled.span`
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   margin-right: 0.5rem;
 `;
 

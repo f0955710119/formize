@@ -12,6 +12,7 @@ import type {
 } from "../../../types/statis";
 import StatisPie from "./StatisChart/StatisPie";
 import StatisBar from "./StatisChart/StatisBar";
+import StatisWordCloud from "./StatisChart/StatisWordCloud";
 
 const ItemContainer = styled.div`
   display: flex;
@@ -35,7 +36,14 @@ const ChartWrapper = styled.div`
 const PieWrapper = styled(ChartWrapper)``;
 
 const BarWrapper = styled(ChartWrapper)`
-  transform: translateY(3.5rem);
+  transform: translateY(2.5rem);
+  height: 36rem;
+`;
+
+const WordCloudWrapper = styled(ChartWrapper)`
+  height: 32.2rem;
+  border: 3px solid rgba(180, 188, 183, 0.298);
+  border-radius: 7px;
 `;
 
 interface StatisResponseItemProps {
@@ -72,6 +80,9 @@ const renderResponseItemContent = (
           <Table title={title} isTextContent>
             <TextContent count={countForText} isCountRepeat={type !== "1"} />
           </Table>
+          <WordCloudWrapper>
+            <StatisWordCloud count={countForBar} />
+          </WordCloudWrapper>
           <BarWrapper>
             <StatisBar count={countForBar} />
           </BarWrapper>

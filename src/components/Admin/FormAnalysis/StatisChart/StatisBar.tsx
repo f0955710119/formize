@@ -16,7 +16,7 @@ interface StatisBarProps {
 
 const StatisBar: FC<StatisBarProps> = ({ count }) => {
   return (
-    <BarChart width={460} height={320} data={count}>
+    <BarChart width={460} height={330} data={count}>
       <XAxis dataKey="rowTitle" />
       <YAxis yAxisId="left" orientation="left" stroke="#8e9aa2" />
       <Tooltip />

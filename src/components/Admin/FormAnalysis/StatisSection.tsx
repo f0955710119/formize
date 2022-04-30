@@ -14,8 +14,8 @@ const StatisSectionContainer = styled.section`
   height: 100%;
 
   background-image: linear-gradient(
-      rgba(255, 255, 255, 0.7),
-      rgba(255, 255, 255, 0.7)
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.8)
     ),
     url("/images/main-bg.svg");
   background-repeat: no-repeat;
