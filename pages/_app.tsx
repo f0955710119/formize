@@ -52,6 +52,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-size: 1.6rem;
     font-family: jfOpenhuninn;
+    color:#333;
   }
 
   ul {

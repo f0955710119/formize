@@ -10,8 +10,11 @@ import type {
   Count,
   NonTextCount,
 } from "../../../types/statis";
+import StatisPie from "./StatisChart/StatisPie";
 
 const ItemContainer = styled.div`
+  display: flex;
+  align-items: center;
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   width: 100%;
@@ -45,14 +48,10 @@ const renderResponseItemContent = (
         </Table>
       );
     }
-    case "3":
-    case "4":
-    case "5":
-    case "6":
-    case "7":
-    case "8": {
-      const countForOptionType = count as NonTextCount[];
 
+    case "6":
+    case "7": {
+      const countForOptionType = count as NonTextCount[];
       return (
         <Table title={title} isTextContent={false}>
           <NonTextContent
@@ -60,6 +59,28 @@ const renderResponseItemContent = (
             headerNames={helper.generateheaderName(type)}
           />
         </Table>
+      );
+    }
+    case "3":
+    case "4":
+    case "5":
+    case "8": {
+      const countForOptionType = count as NonTextCount[];
+
+      return (
+        <>
+          <Table title={title} isTextContent={false}>
+            <NonTextContent
+              count={countForOptionType}
+              headerNames={helper.generateheaderName(type)}
+            />
+          </Table>
+          <div
+            style={{ display: "inline-block", width: "46rem", height: "30rem" }}
+          >
+            <StatisPie count={countForOptionType} />
+          </div>
+        </>
       );
     }
   }

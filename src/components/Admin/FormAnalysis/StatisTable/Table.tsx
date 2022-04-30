@@ -6,14 +6,14 @@ interface TableWrapperProps {
 }
 
 const TableWrapper = styled.div<TableWrapperProps>`
+  display: inline-block;
+  margin-right: 6rem;
   max-width: 64rem;
   width: 100%;
   height: ${(props: TableWrapperProps) =>
     props.isTextContent ? "32rem" : "auto"};
   border-radius: 5px;
   background-color: rgba(180, 188, 183, 0.298);
-
-  /* overflow: scroll; */
 `;
 
 const TableTitle = styled.div`
