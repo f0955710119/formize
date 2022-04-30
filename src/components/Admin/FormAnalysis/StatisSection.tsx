@@ -5,10 +5,50 @@ import NonTextTableContent from "./StatisTable/NonTextTableContent";
 import Table from "./StatisTable/Table";
 import TextTableContent from "./StatisTable/TextTableContent";
 
+import type { StatisResponse } from "../../../types/statis";
+import StatisResponseItem from "./StatisResponseItem";
+
 const StatisSectionContainer = styled.section`
   padding: 2rem 2.5rem 0 3.5rem;
   width: calc(100% - 23rem);
   height: 100%;
+
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar-track {
+    background-color: #ccc;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    background-color: #f5f5f5;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #8e9aa2;
+    background-image: -webkit-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.2) 75%,
+      transparent 75%,
+      transparent
+    );
+  }
+`;
+
+const StatisSectionHeadingPesudoElement = `
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  background-color: #b4bcb747;
+  border-radius: 3px;
 `;
 
 const StatisSectionHeading = styled.div`
@@ -19,70 +59,43 @@ const StatisSectionHeading = styled.div`
   z-index: 1;
 
   &::after {
-    content: "";
-    position: absolute;
+    ${StatisSectionHeadingPesudoElement}
     bottom: 0.4rem;
     left: 1rem;
-    width: 100%;
-    height: 6px;
-    background-color: #b4bcb747;
-    border-radius: 3px;
   }
 
   &::before {
-    content: "";
-    position: absolute;
+    ${StatisSectionHeadingPesudoElement}
     bottom: -0.6rem;
     left: -0.4rem;
-    width: 100%;
-    height: 6px;
-    background-color: #b4bcb747;
-    border-radius: 3px;
   }
 `;
 
-const StatisSection: FC = () => {
+interface StatisSectionProps {
+  statisData?: StatisResponse[];
+}
+
+const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
   const context = useContext(adminContext);
   const formData = context.forms.find(
     (form) => form.id === context.editingFormId
   );
 
-  return (
+  return statisData ? (
     <StatisSectionContainer>
       <StatisSectionHeading>問卷標題: {formData?.title}</StatisSectionHeading>
-      <Table title="ddddddd">
-        <TextTableContent
-          count={{
-            好好: 2,
-            你好: 5,
-            嗨: 1,
-            好好好: 2,
-            嗨你好: 5,
-            U嗨: 1,
-            好好好12: 2,
-            嗨121你好: 5,
-            U2445嗨: 1,
-          }}
+      {statisData.map((data) => (
+        <StatisResponseItem
+          key={data.id}
+          id={data.id}
+          title={data.title}
+          type={data.type}
+          count={data.count}
         />
-      </Table>
-      <br />
-      <Table title="1248484fg">
-        <NonTextTableContent
-          headerNames={["選項", "次數"]}
-          count={[
-            { option: "選項1", times: 0 },
-            { option: "選項2", times: 1 },
-            { option: "選項3", times: 0 },
-            { option: "選項1", times: 0 },
-            { option: "選項1", times: 0 },
-            { option: "選項1", times: 0 },
-            { option: "選項1", times: 0 },
-            { option: "選項1", times: 0 },
-            { option: "選項1", times: 0 },
-          ]}
-        />
-      </Table>
+      ))}
     </StatisSectionContainer>
+  ) : (
+    <></>
   );
 };
 

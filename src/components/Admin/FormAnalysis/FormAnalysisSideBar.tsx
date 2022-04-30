@@ -27,6 +27,7 @@ const FormAnalysisSideBar: FC = () => {
       <Logo style={{ margin: "2rem 0 1rem 1rem", justifyContent: "start" }} />
       {analysisFeatureList.map((feature, i) => (
         <SideBarButton
+          key={i}
           buttonText={feature}
           active={context.currentAnalysisPage === i}
           clickHandler={() => {

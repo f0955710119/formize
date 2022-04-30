@@ -44,7 +44,12 @@ export default async function handler(
 
           switch (table.type) {
             case "1": {
-              return;
+              const counts: { [key: string]: string } = {};
+              data.forEach((d: string, i: number) => {
+                if (d === "") return;
+                counts[`${i + 1}`] = d;
+              });
+              return counts;
             }
             case "0":
             case "9": {
@@ -62,8 +67,8 @@ export default async function handler(
               }
               const counts = table.options.map((option) => {
                 const countObj: { [key: string]: number | string } = {};
-                countObj.option = option;
-                countObj.times = 0;
+                countObj.rowTitle = option;
+                countObj.value = 0;
                 return countObj;
               });
 
@@ -71,8 +76,8 @@ export default async function handler(
                 if (d === "") return;
                 const splitedInput = d.split(".");
                 const optionIndex = splitedInput[0];
-                counts[+optionIndex].times =
-                  (+counts[+optionIndex - 1].times || 0) + 1;
+                counts[+optionIndex].value =
+                  (+counts[+optionIndex - 1].value || 0) + 1;
               });
 
               return counts;
@@ -83,8 +88,8 @@ export default async function handler(
               }
               const counts = table.options.map((option) => {
                 const countObj: { [key: string]: number | string } = {};
-                countObj.option = option;
-                countObj.times = 0;
+                countObj.rowTitle = option;
+                countObj.value = 0;
                 return countObj;
               });
               data.forEach((d: string) => {
@@ -93,8 +98,8 @@ export default async function handler(
                 splitedInputs.forEach((splitedInputString) => {
                   const splitedInput = splitedInputString.split(".");
                   const optionIndex = splitedInput[0];
-                  counts[+optionIndex - 1].times =
-                    (+counts[+optionIndex - 1].times || 0) + 1;
+                  counts[+optionIndex - 1].value =
+                    (+counts[+optionIndex - 1].value || 0) + 1;
                 });
               });
 
@@ -113,13 +118,13 @@ export default async function handler(
               const martixCounts = table.martixs.map((martix) => {
                 if (!counts[martix])
                   return {
-                    martix,
-                    times: 0,
+                    rowTitle: martix,
+                    value: 0,
                   };
 
                 return {
-                  martix,
-                  times: counts[martix],
+                  rowTitle: martix,
+                  value: counts[martix],
                 };
               });
 
@@ -131,13 +136,26 @@ export default async function handler(
               const dataNumber = data
                 .filter((d: string) => d !== "")
                 .map((d: string) => +d);
-              return {
+              const numberObj = {
                 最大值: max(dataNumber),
                 最小值: min(dataNumber),
                 平均值: mean(dataNumber),
                 中位數: median(dataNumber),
-                眾數: mode(dataNumber),
+                眾數:
+                  mode(dataNumber).length > 1
+                    ? mode(dataNumber).join(",")
+                    : mode(dataNumber).join(""),
               };
+
+              const numberKeys = Object.keys(numberObj);
+              const numberValues = Object.values(numberObj);
+
+              return numberKeys.map((key, i) => {
+                return {
+                  rowTitle: key,
+                  value: numberValues[i],
+                };
+              });
             }
 
             case "8": {
@@ -146,23 +164,24 @@ export default async function handler(
               }
 
               const counts = table.options.map((option, i) => {
-                const countObj: { [key: string]: number } = {};
-                countObj[`排序${i + 1}`] = 0;
+                const countObj: { [key: string]: number | string } = {};
+                countObj.rowTitle = `排序${i + 1}`;
+                countObj.value = 0;
                 return countObj;
               });
-              counts.push({ 未被選取: 0 });
+              counts.push({ rowTitle: "未被選取", value: 0 });
 
               data.forEach((d: string) => {
                 if (d === "0") {
-                  counts[+`${(table.options as string[]).length}`]["未選"] =
-                    (counts[+`${(table.options as string[]).length}`]["未選"] ||
-                      0) + 1;
+                  counts[counts.length - 1].value =
+                    (+counts[counts.length - 1].value || 0) + 1;
                   return;
                 }
                 const dNumber = +d;
-                counts[dNumber - 1][`排序${dNumber}`] =
-                  (counts[dNumber - 1][`排序${dNumber}`] || 0) + 1;
+                counts[dNumber - 1].value =
+                  (+counts[dNumber - 1].value || 0) + 1;
               });
+              console.log(counts);
               return counts;
             }
             default: {
@@ -181,6 +200,8 @@ export default async function handler(
         ) => {
           return {
             id: response.tableInfo[i].id,
+            title: response.tableInfo[i].title,
+            type: response.tableInfo[i].type,
             count: table,
           };
         }

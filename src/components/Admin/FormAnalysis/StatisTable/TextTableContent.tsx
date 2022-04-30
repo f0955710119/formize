@@ -19,18 +19,30 @@ const Times = styled.span`
 `;
 
 interface TextTableContentProps {
-  count: { [key: string]: number };
+  count: { [key: string]: number | string };
+  isCountRepeat: boolean;
 }
 
-const TextTableContent: FC<TextTableContentProps> = ({ count }) => {
-  const inputContentArr = Object.keys(count);
-  const sameContentTimesArr = Object.values(count);
+const TextTableContent: FC<TextTableContentProps> = ({
+  count,
+  isCountRepeat,
+}) => {
+  const inputContentArr = isCountRepeat
+    ? Object.keys(count)
+    : Object.values(count);
+  const sameContentTimesArr = isCountRepeat
+    ? Object.values(count)
+    : Object.keys(count);
 
   return (
     <TableContentWrapper>
       {inputContentArr.map((content, i) => (
         <Row key={i} isOdd={Number.isInteger((i + 1) / 2)}>
-          <Times>{`(${sameContentTimesArr[i]})`}</Times>
+          {isCountRepeat ? (
+            <Times>{`(${sameContentTimesArr[i]})`}</Times>
+          ) : (
+            <Times>{`${sameContentTimesArr[i]}.`}</Times>
+          )}
           {content}
         </Row>
       ))}

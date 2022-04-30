@@ -384,4 +384,15 @@ export default {
 
     return tables;
   },
+  generateheaderName(type: string) {
+    const typeObj: { [key: string]: string[] } = {
+      "3": ["選項名稱", "次數"],
+      "4": ["選項名稱", "次數"],
+      "5": ["欄位名稱", "次數"],
+      "6": ["統計項目", "數值"],
+      "7": ["統計項目", "數值"],
+      "8": ["排序列", "次數"],
+    };
+    return typeObj[type];
+  },
 };

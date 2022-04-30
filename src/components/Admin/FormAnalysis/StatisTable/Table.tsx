@@ -4,7 +4,7 @@ import styled from "styled-components";
 const TableWrapper = styled.div`
   max-width: 54rem;
   width: 100%;
-  height: 32rem;
+  /* height: 32rem; */
   border-radius: 5px;
   background-color: rgba(180, 188, 183, 0.298);
   /* overflow: scroll; */
