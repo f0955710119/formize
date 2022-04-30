@@ -46,6 +46,7 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
           text="統計分析"
           clickHandler={() => {
             context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 0);
+            context.setField(adminActionType.EDITING_FORM_ID, formId);
             pushRouterHandler(`/admin/analysis/${formId}`);
           }}
         />
@@ -53,6 +54,7 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
           text="明細匯出"
           clickHandler={() => {
             context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 1);
+            context.setField(adminActionType.EDITING_FORM_ID, formId);
             pushRouterHandler(`/admin/analysis/${formId}`);
           }}
         />
@@ -60,6 +62,7 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
           text="訪問紀錄"
           clickHandler={() => {
             context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 2);
+            context.setField(adminActionType.EDITING_FORM_ID, formId);
             pushRouterHandler(`/admin/analysis/${formId}`);
           }}
         />

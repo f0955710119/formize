@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import firebase from "../../../../../src/utils/firebase";
 import firestoreCollectionCongfig from "../../../../../src/configs/firestoreCollectionConfig";
-import { max, min, mean, median } from "mathjs";
+import { max, min, mean, median, mode } from "mathjs";
 
 interface Data {
   status: string;
@@ -132,10 +132,11 @@ export default async function handler(
                 .filter((d: string) => d !== "")
                 .map((d: string) => +d);
               return {
-                max: max(dataNumber),
-                min: min(dataNumber),
-                mean: mean(dataNumber),
-                median: median(dataNumber),
+                最大值: max(dataNumber),
+                最小值: min(dataNumber),
+                平均值: mean(dataNumber),
+                中位數: median(dataNumber),
+                眾數: mode(dataNumber),
               };
             }
 
