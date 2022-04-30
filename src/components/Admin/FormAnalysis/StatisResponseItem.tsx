@@ -1,9 +1,9 @@
-import { Table } from "@mui/material";
 import { FC } from "react";
 import styled from "styled-components";
 import helper from "../../../utils/helper";
-import NonTextTableContent from "./StatisTable/NonTextTableContent";
-import TextTableContent from "./StatisTable/TextTableContent";
+import Table from "./StatisTable/Table";
+import NonTextContent from "./StatisTable/NonTextContent";
+import TextContent from "./StatisTable/TextContent";
 
 import type {
   StringKeyObject,
@@ -13,9 +13,8 @@ import type {
 
 const ItemContainer = styled.div`
   margin-bottom: 2rem;
-  padding: 1rem 0;
+  padding-bottom: 2rem;
   width: 100%;
-  /* height: 36rem; */
   border-radius: 3px;
 
   &:not(:last-child) {
@@ -41,8 +40,8 @@ const renderResponseItemContent = (
     case "9": {
       const countForText = count as StringKeyObject;
       return (
-        <Table title={title}>
-          <TextTableContent count={countForText} isCountRepeat={type !== "1"} />
+        <Table title={title} isTextContent>
+          <TextContent count={countForText} isCountRepeat={type !== "1"} />
         </Table>
       );
     }
@@ -55,8 +54,8 @@ const renderResponseItemContent = (
       const countForOptionType = count as NonTextCount[];
 
       return (
-        <Table title={title}>
-          <NonTextTableContent
+        <Table title={title} isTextContent={false}>
+          <NonTextContent
             count={countForOptionType}
             headerNames={helper.generateheaderName(type)}
           />

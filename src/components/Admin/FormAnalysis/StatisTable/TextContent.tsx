@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
-import { TableContentWrapper } from "./style";
+import { ContentWrapper } from "./style";
 
 interface RowProps {
   isOdd: boolean;
@@ -18,15 +18,12 @@ const Times = styled.span`
   margin-right: 0.5rem;
 `;
 
-interface TextTableContentProps {
+interface TextContentProps {
   count: { [key: string]: number | string };
   isCountRepeat: boolean;
 }
 
-const TextTableContent: FC<TextTableContentProps> = ({
-  count,
-  isCountRepeat,
-}) => {
+const TextContent: FC<TextContentProps> = ({ count, isCountRepeat }) => {
   const inputContentArr = isCountRepeat
     ? Object.keys(count)
     : Object.values(count);
@@ -35,7 +32,7 @@ const TextTableContent: FC<TextTableContentProps> = ({
     : Object.keys(count);
 
   return (
-    <TableContentWrapper>
+    <ContentWrapper>
       {inputContentArr.map((content, i) => (
         <Row key={i} isOdd={Number.isInteger((i + 1) / 2)}>
           {isCountRepeat ? (
@@ -46,7 +43,7 @@ const TextTableContent: FC<TextTableContentProps> = ({
           {content}
         </Row>
       ))}
-    </TableContentWrapper>
+    </ContentWrapper>
   );
 };
-export default TextTableContent;
+export default TextContent;

@@ -1,9 +1,9 @@
 import { FC, useContext } from "react";
 import styled from "styled-components";
 import { adminContext } from "../../../store/context/adminContext";
-import NonTextTableContent from "./StatisTable/NonTextTableContent";
+import NonTextTableContent from "./StatisTable/NonTextContent";
 import Table from "./StatisTable/Table";
-import TextTableContent from "./StatisTable/TextTableContent";
+import TextTableContent from "./StatisTable/TextContent";
 
 import type { StatisResponse } from "../../../types/statis";
 import StatisResponseItem from "./StatisResponseItem";
@@ -13,6 +13,14 @@ const StatisSectionContainer = styled.section`
   width: calc(100% - 23rem);
   height: 100%;
 
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.7)
+    ),
+    url("/images/main-bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
   overflow-y: scroll;
 
   &::-webkit-scrollbar-track {
@@ -21,7 +29,7 @@ const StatisSectionContainer = styled.section`
   }
 
   &::-webkit-scrollbar {
-    width: 0.5rem;
+    width: 1rem;
     background-color: #f5f5f5;
     border-radius: 3px;
   }
