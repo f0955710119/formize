@@ -16,6 +16,7 @@ const Header = styled.div`
   display: inline-block;
   width: 50%;
   text-align: center;
+  color: #777;
   border-bottom: 1px solid #c8c8c8;
   padding: 0.5rem 0;
 `;

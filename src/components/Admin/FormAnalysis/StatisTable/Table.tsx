@@ -7,13 +7,15 @@ interface TableWrapperProps {
 
 const TableWrapper = styled.div<TableWrapperProps>`
   display: inline-block;
-  margin-right: 6rem;
-  max-width: 64rem;
+  margin-right: 3rem;
+  max-width: 60rem;
   width: 100%;
+  border: 3px solid rgba(180, 188, 183, 0.298);
   height: ${(props: TableWrapperProps) =>
     props.isTextContent ? "32rem" : "auto"};
-  border-radius: 5px;
-  background-color: rgba(180, 188, 183, 0.298);
+  border-radius: 7px;
+  /* background-color: rgba(180, 188, 183, 0.298); */
+  background-color: rgba(255, 255, 255, 0.7);
 `;
 
 const TableTitle = styled.div`

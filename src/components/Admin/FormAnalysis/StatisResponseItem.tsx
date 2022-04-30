@@ -11,6 +11,7 @@ import type {
   NonTextCount,
 } from "../../../types/statis";
 import StatisPie from "./StatisChart/StatisPie";
+import StatisBar from "./StatisChart/StatisBar";
 
 const ItemContainer = styled.div`
   display: flex;
@@ -23,6 +24,18 @@ const ItemContainer = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid rgba(180, 188, 183, 0.298);
   }
+`;
+
+const ChartWrapper = styled.div`
+  display: inline-block;
+  width: 46rem;
+  height: 36rem;
+`;
+
+const PieWrapper = styled(ChartWrapper)``;
+
+const BarWrapper = styled(ChartWrapper)`
+  transform: translateY(3.5rem);
 `;
 
 interface StatisResponseItemProps {
@@ -42,10 +55,27 @@ const renderResponseItemContent = (
     case "1":
     case "9": {
       const countForText = count as StringKeyObject;
+      const countForBar = Object.keys(count)
+        .map((key, i) => {
+          return {
+            rowTitle: key,
+            value: Object.values(count)[i],
+          };
+        })
+        .sort((a, b) => {
+          if (a.value > b.value) return -1;
+          return 1;
+        })
+        .slice(0, 5);
       return (
-        <Table title={title} isTextContent>
-          <TextContent count={countForText} isCountRepeat={type !== "1"} />
-        </Table>
+        <>
+          <Table title={title} isTextContent>
+            <TextContent count={countForText} isCountRepeat={type !== "1"} />
+          </Table>
+          <BarWrapper>
+            <StatisBar count={countForBar} />
+          </BarWrapper>
+        </>
       );
     }
 
@@ -66,7 +96,6 @@ const renderResponseItemContent = (
     case "5":
     case "8": {
       const countForOptionType = count as NonTextCount[];
-
       return (
         <>
           <Table title={title} isTextContent={false}>
@@ -75,11 +104,12 @@ const renderResponseItemContent = (
               headerNames={helper.generateheaderName(type)}
             />
           </Table>
-          <div
-            style={{ display: "inline-block", width: "46rem", height: "30rem" }}
-          >
+          <PieWrapper>
             <StatisPie count={countForOptionType} />
-          </div>
+          </PieWrapper>
+          <BarWrapper>
+            <StatisBar count={countForOptionType} />
+          </BarWrapper>
         </>
       );
     }

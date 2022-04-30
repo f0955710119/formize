@@ -42,7 +42,7 @@ const renderCustomizedLabel = (props: any) => {
 
   // prettier-ignore
   const [xLotText, yLotText] = generateLabelPoisitionValue({ ...settings, percentage: 0.4 });
-  const [x, y] = generateLabelPoisitionValue({ ...settings, percentage: 0.3 });
+  const [x, y] = generateLabelPoisitionValue({ ...settings, percentage: 0.1 });
 
   const title = payload.payload.rowTitle;
   const textColor = index < 2 ? "#fff" : "#555";
@@ -155,7 +155,7 @@ const StatisPie: FC<StatisPieProps> = ({ count }) => {
 
   const handledCount = useMemo(
     () =>
-      count
+      [...count]
         .sort((a, b) => {
           if (a.value > b.value) return -1;
           else return 1;
@@ -166,7 +166,7 @@ const StatisPie: FC<StatisPieProps> = ({ count }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <PieChart width={400} height={300}>
+      <PieChart width={350} height={300}>
         <Pie
           data={handledCount}
           cx="50%"
@@ -175,7 +175,7 @@ const StatisPie: FC<StatisPieProps> = ({ count }) => {
           activeIndex={activePieIndex}
           activeShape={renderActiveShape}
           label={renderCustomizedLabel}
-          outerRadius={140}
+          outerRadius={120}
           dataKey="value"
           fill="#7e8480"
           onMouseEnter={onPieEnter}
