@@ -126,11 +126,15 @@ const FormList: FC = () => {
                 const dateCreatedArray = Object.values(
                   (form as Forms).createdTime
                 );
-                const dateResponsedArray = Object.values(
-                  (form as Forms).latestResponsedTime
-                );
+                const dateResponsedArray =
+                  form.latestResponsedTime !== null
+                    ? Object.values(form.latestResponsedTime)
+                    : null;
                 const dateCreated = new Date(dateCreatedArray[0] * 1000);
-                const dateResponsed = new Date(dateResponsedArray[0] * 1000);
+                const dateResponsed =
+                  dateResponsedArray !== null
+                    ? new Date(dateResponsedArray[0] * 1000)
+                    : null;
 
                 return (
                   <FormItem

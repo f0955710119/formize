@@ -61,7 +61,7 @@ interface FormItemProps {
   title: string;
   responseNumber: number;
   dateCreated: Date;
-  dateResponsed: Date;
+  dateResponsed: Date | null;
   formId: string;
 }
 
@@ -86,11 +86,13 @@ const FormItem: FC<FormItemProps> = ({
           })}
         </CreatedTime>
         <ResponsedTime>
-          {dateResponsed.toLocaleString("zh-tw", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
+          {dateResponsed
+            ? dateResponsed.toLocaleString("zh-tw", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            : "尚無回應"}
         </ResponsedTime>
         <ExpandMore
           onClick={() => setHasClickExpand((prevState) => !prevState)}

@@ -19,7 +19,7 @@ export interface Forms {
   title: string;
   url: string;
   createdTime: Date;
-  latestResponsedTime: Date;
+  latestResponsedTime: Date | null;
   responsedTimes: number;
   openTimes: number;
   settings: Settings;
