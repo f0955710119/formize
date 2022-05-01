@@ -6,7 +6,7 @@ import SideBarButton from "../../../UI/SideBarButton";
 import Logo from "../../../UI/Logo";
 import { adminContext } from "../../../../store/context/adminContext";
 import adminActionType from "../../../../store/actionType/adminActionType";
-import type { Group } from "../../../../store/context/adminContext";
+import type { Group } from "../../../../types/group";
 const BarContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -96,7 +96,7 @@ const GroupSideBar: FC = () => {
     if (!response.ok) throw new Error("新增群組失敗，請聯繫IT部門");
 
     const data = await response.json();
-    const { groupId } = data.data;
+    const { groupId, createdTime } = data.data;
 
     if (!groupId) throw new Error("查無此群組而新增失敗，請聯繫IT部門");
 
@@ -105,6 +105,7 @@ const GroupSideBar: FC = () => {
       name: newGroupName,
       forms: [],
       userId: context.uid,
+      createdTime,
     };
 
     const updateGropus = [...context.groups, newGroupObj];
@@ -129,6 +130,13 @@ const GroupSideBar: FC = () => {
         />
       </ButtonWrapper>
       <GroupHeading>群組分類</GroupHeading>
+      <SideBarButton
+        buttonText="總表"
+        active={context.editingGroupId === "0"}
+        clickHandler={() => {
+          switchEditingGroupHandler("0");
+        }}
+      />
       {context.groups.length > 0 &&
         context.groups.map((group) => (
           <SideBarButton

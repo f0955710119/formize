@@ -11,6 +11,7 @@ interface Data {
     groups?: DocumentData[];
     forms?: DocumentData[];
     groupId?: string;
+    createdTime?: Date;
   };
 }
 
@@ -78,13 +79,15 @@ export default async function handler(
         throw new Error("fail to add a group, need new group name");
 
       const groupDoc = firebase.generateDocRef("groups");
+      const createdTime = new Date();
       const newGroupData = {
         id: groupDoc.id,
-        userId: uid,
+        adminId: uid,
         name: newGroupName,
         forms: [],
+        createdTime,
       };
-
+      // BUG:用泛型判斷時，用|還是沒辦法自動去知道它可能屬於哪一種
       const createNewGroupAjaxList = [
         firebase.updateUserGroupsIdArray(uid, groupDoc.id, true).catch(() => {
           throw new Error("fail to update new group in users");
@@ -102,6 +105,7 @@ export default async function handler(
         message: "create new group successfully!",
         data: {
           groupId: groupDoc.id,
+          createdTime,
         },
       });
     } catch (error: any) {

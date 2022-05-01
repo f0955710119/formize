@@ -32,6 +32,7 @@ import type { Questions } from "../types/question";
 
 import helper from "./helper";
 import { Responses } from "../types/responses";
+import { Group } from "../types/group";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -206,7 +207,7 @@ export default {
     return docRef;
   },
   // prettier-ignore
-  async setNewDoc<T extends Forms| Questions | Responses >(docRef: DocumentReference<DocumentData>, data: T) {
+  async setNewDoc<T extends Forms| Questions | Group |Responses  >(docRef: DocumentReference<DocumentData>, data: T) {
     try {
       await setDoc(docRef, data);
       return "成功發送資料";

@@ -33,7 +33,7 @@ const ButtonWrapper = styled.button`
   padding: 0.4rem 1rem;
   width: 12rem;
   height: 4.6rem;
-  background-color: #8e9aa2;
+  background-color: #5b8f8b;
   cursor: pointer;
   color: #fff;
   font-family: inherit;
@@ -41,6 +41,7 @@ const ButtonWrapper = styled.button`
   border-radius: 3px;
 
   &:hover {
+    /* background-color: #8e9aa2; */
     background-color: #646665;
   }
 `;
@@ -48,6 +49,21 @@ const ButtonWrapper = styled.button`
 const ButtonText = styled.span`
   letter-spacing: 1px;
   font-size: 1.4rem;
+  font-weight: bold;
+`;
+
+const DeleteButtonWrapper = styled(ButtonWrapper)`
+  background-color: #eee;
+  margin-right: 1rem;
+  color: #777;
+  &:hover {
+    color: #f78a8a;
+    background-color: #646665;
+  }
+`;
+
+const DeleteButtonText = styled(ButtonText)`
+  font-weight: normal;
 `;
 
 const DashboardSubHeader: FC = () => {
@@ -82,9 +98,14 @@ const DashboardSubHeader: FC = () => {
         <DisplayButtonGroup />
       </FilterWrapper>
       {context.editingGroupId !== "0" && (
-        <ButtonWrapper onClick={goAddNewFormHandler}>
-          <ButtonText>新增問卷</ButtonText>
-        </ButtonWrapper>
+        <>
+          <DeleteButtonWrapper>
+            <DeleteButtonText>刪除群組</DeleteButtonText>
+          </DeleteButtonWrapper>
+          <ButtonWrapper onClick={goAddNewFormHandler}>
+            <ButtonText>新增問卷</ButtonText>
+          </ButtonWrapper>
+        </>
       )}
     </HeaderWrapper>
   );

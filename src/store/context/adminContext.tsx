@@ -1,5 +1,6 @@
 import { createContext, useReducer, ReactNode, FC } from "react";
-import { Forms } from "../../types/form";
+import type { Forms } from "../../types/form";
+import type { Group } from "../../types/group";
 
 interface DriveToken {
   access_token: string;
@@ -7,13 +8,6 @@ interface DriveToken {
   scope: string;
   token_type: string;
   expiry_date: number;
-}
-
-export interface Group {
-  id: string;
-  name: string;
-  forms: string[];
-  userId: string;
 }
 
 type SetFieldHandler = (

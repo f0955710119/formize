@@ -13,5 +13,5 @@ export interface Table {
 }
 
 export interface Responses {
-  [key: string]: string | Date[] | Answer[] | Table[] | never[];
+  [key: string]: string | Date[] | Answer[] | Table[] | never[] | Date;
 }
