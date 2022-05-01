@@ -9,7 +9,7 @@ interface DriveToken {
   expiry_date: number;
 }
 
-interface Group {
+export interface Group {
   id: string;
   name: string;
   forms: string[];

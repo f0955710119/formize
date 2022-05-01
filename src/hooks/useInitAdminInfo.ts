@@ -7,9 +7,10 @@ const useInitAdminInfo = () => {
 
   const initAdminHandler = async (uid: string) => {
     const response = await fetch("/api/admin/group", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ uid }),
+      method: "GET",
+      headers: {
+        Authorization: uid,
+      },
     });
 
     const adminInfo = await response.json();

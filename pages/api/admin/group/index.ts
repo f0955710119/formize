@@ -10,6 +10,7 @@ interface Data {
   data?: {
     groups?: DocumentData[];
     forms?: DocumentData[];
+    groupId?: string;
   };
 }
 
@@ -17,15 +18,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  if (req.method === "POST" && req.body.newGroupName) {
-    console.log(req.body.newGroupName);
-    return;
-  }
-  if (req.method === "POST") {
+  if (req.method === "GET") {
     try {
-      const { uid } = req.body;
-      if (!uid)
-        throw new Error("need admin's id as param to get group data back");
+      const uid = req.headers.authorization;
+      if (!uid) throw new Error("need admin's id to get group data back");
 
       const groupData = await firebase.getAllEqualDoc(
         firestoreCollectionConfig.GROUPS,
@@ -60,6 +56,52 @@ export default async function handler(
         data: {
           groups: groupData,
           forms,
+        },
+      });
+    } catch (error: any) {
+      const { message } = error;
+      res.status(400).json({
+        status: "fail",
+        status_code: 400,
+        message,
+      });
+    }
+  }
+
+  if (req.method === "POST") {
+    try {
+      const uid = req.headers.authorization;
+      if (!uid) throw new Error("need admin's id to create new group data");
+      const { newGroupName } = req.body;
+
+      if (!newGroupName)
+        throw new Error("fail to add a group, need new group name");
+
+      const groupDoc = firebase.generateDocRef("groups");
+      const newGroupData = {
+        id: groupDoc.id,
+        userId: uid,
+        name: newGroupName,
+        forms: [],
+      };
+
+      const createNewGroupAjaxList = [
+        firebase.updateUserGroupsIdArray(uid, groupDoc.id, true).catch(() => {
+          throw new Error("fail to update new group in users");
+        }),
+        firebase.setNewDoc(groupDoc, newGroupData).catch(() => {
+          throw new Error("fail to create new group in groups");
+        }),
+      ];
+
+      await Promise.all(createNewGroupAjaxList);
+
+      res.status(201).json({
+        status: "success",
+        status_code: 201,
+        message: "create new group successfully!",
+        data: {
+          groupId: groupDoc.id,
         },
       });
     } catch (error: any) {
