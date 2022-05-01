@@ -8,8 +8,19 @@ const ListContainer = styled.div`
   width: 100%;
 
   &:not(:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: 6rem;
   }
+  font-size: 1.4rem;
+`;
+
+const ListColumnTitleContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
+const GroupTagWrapper = styled.div`
+  display: inline-block;
+  width: calc(100% - 36rem);
 `;
 
 const GroupTag = styled.div`
@@ -18,6 +29,26 @@ const GroupTag = styled.div`
   line-height: 3rem;
   height: 3rem;
   background-color: rgba(180, 188, 183, 1);
+`;
+
+const ResponsedQuantity = styled.span`
+  width: 7.5rem;
+  text-align: center;
+`;
+
+const CreatedTime = styled.span`
+  width: 12rem;
+  text-align: center;
+`;
+
+const ResponsedTime = styled.span`
+  width: 12rem;
+  text-align: center;
+`;
+
+const ExpandMore = styled.span`
+  width: 4.5rem;
+  text-align: center;
 `;
 
 const ListWrapper = styled.ul`
@@ -70,12 +101,21 @@ const FormList: FC = () => {
 
         return (
           <ListContainer key={group.id}>
-            <GroupTag>{group.name}</GroupTag>
+            <ListColumnTitleContainer>
+              <GroupTagWrapper>
+                <GroupTag>{group.name}</GroupTag>
+              </GroupTagWrapper>
+
+              <ResponsedQuantity>回應數量</ResponsedQuantity>
+              <CreatedTime>創建時間</CreatedTime>
+              <ResponsedTime>最新回應時間</ResponsedTime>
+              <ExpandMore>更多</ExpandMore>
+            </ListColumnTitleContainer>
             <ListWrapper>
-              {groupForms.map((form) => {
+              {groupForms.map((form, i) => {
                 if (form === "1" || typeof form === "string") {
                   return (
-                    <EmptyListContainer>
+                    <EmptyListContainer key={i}>
                       <EmptyListContainerText>
                         此群組還沒有問卷唷!
                       </EmptyListContainerText>
@@ -83,14 +123,22 @@ const FormList: FC = () => {
                   );
                 }
 
-                const dataArray = Object.values((form as Forms).createdTime);
-                const data = new Date(dataArray[0] * 1000);
+                const dateCreatedArray = Object.values(
+                  (form as Forms).createdTime
+                );
+                const dateResponsedArray = Object.values(
+                  (form as Forms).latestResponsedTime
+                );
+                const dateCreated = new Date(dateCreatedArray[0] * 1000);
+                const dateResponsed = new Date(dateResponsedArray[0] * 1000);
+
                 return (
                   <FormItem
                     formId={form.id}
                     title={form.title}
                     responseNumber={form.responsedTimes}
-                    date={data}
+                    dateCreated={dateCreated}
+                    dateResponsed={dateResponsed}
                     key={form.id}
                   />
                 );

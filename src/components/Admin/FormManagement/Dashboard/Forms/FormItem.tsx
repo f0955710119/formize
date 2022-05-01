@@ -20,7 +20,7 @@ const ItemWrapper = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  padding: 0.5rem 0 0 3rem;
+  padding-top: 0.5rem;
   width: 100%;
   height: 5rem;
   color: #333;
@@ -29,39 +29,47 @@ const ItemWrapper = styled.div`
 
 const Title = styled.span`
   display: block;
-  width: 71.3%;
-  font-size: 1.6rem;
+  padding-left: 3rem;
+  width: calc(100% - 36rem);
+  font-size: 1.5rem;
 `;
 
-const ResponseNumber = styled.span`
-  width: 4.7%;
+const ResponsedQuantity = styled.span`
+  width: 7.5rem;
+  text-align: center;
 `;
 
-const Date = styled.span`
-  font-size: 1.4rem;
-  width: 10%;
+const CreatedTime = styled.span`
+  width: 12rem;
+  text-align: center;
 `;
 
-const IconWrapper = styled.div`
+const ResponsedTime = styled.span`
+  width: 12rem;
+  text-align: center;
+`;
+
+const ExpandMore = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  width: 3%;
+  width: 4.5rem;
   height: 100%;
 `;
 
 interface FormItemProps {
   title: string;
   responseNumber: number;
-  date: Date;
+  dateCreated: Date;
+  dateResponsed: Date;
   formId: string;
 }
 
 const FormItem: FC<FormItemProps> = ({
   title,
   responseNumber,
-  date,
+  dateCreated,
+  dateResponsed,
   formId,
 }: FormItemProps) => {
   const [hasClickExpand, setHasClickExpand] = useState<boolean>(false);
@@ -69,22 +77,22 @@ const FormItem: FC<FormItemProps> = ({
     <ItemContainer isExpand={hasClickExpand}>
       <ItemWrapper>
         <Title>{title}</Title>
-        <ResponseNumber>{responseNumber}</ResponseNumber>
-        <Date>
-          {date.toLocaleString("zh-tw", {
+        <ResponsedQuantity>{responseNumber}</ResponsedQuantity>
+        <CreatedTime>
+          {dateCreated.toLocaleString("zh-tw", {
             year: "numeric",
             month: "long",
             day: "numeric",
           })}
-        </Date>
-        <Date>
-          {date.toLocaleString("zh-tw", {
+        </CreatedTime>
+        <ResponsedTime>
+          {dateResponsed.toLocaleString("zh-tw", {
             year: "numeric",
             month: "long",
             day: "numeric",
           })}
-        </Date>
-        <IconWrapper
+        </ResponsedTime>
+        <ExpandMore
           onClick={() => setHasClickExpand((prevState) => !prevState)}
         >
           <ExpandMoreIcon
@@ -96,7 +104,7 @@ const FormItem: FC<FormItemProps> = ({
               transition: "transform 0.3s",
             }}
           />
-        </IconWrapper>
+        </ExpandMore>
       </ItemWrapper>
       <FormItemExpand isExpand={hasClickExpand} formId={formId} />
     </ItemContainer>
