@@ -95,7 +95,7 @@ const DashboardSubHeader: FC = () => {
           id="form-date"
           style={{ width: "15rem", radius: 0, mr: "2.4rem" }}
         />
-        <DisplayButtonGroup />
+        {/* <DisplayButtonGroup /> */}
       </FilterWrapper>
       {context.editingGroupId !== "0" && (
         <>

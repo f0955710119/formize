@@ -43,6 +43,9 @@ const BackGroundContainer = styled.div`
 `;
 
 const BackGroundCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 5rem;
   width: 100%;
   height: 25rem;
@@ -85,6 +88,9 @@ const BackGroundContainerTitle = styled.span`
 `;
 
 const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 2rem;
   padding: 0 0 0 2rem;
   width: 100%;

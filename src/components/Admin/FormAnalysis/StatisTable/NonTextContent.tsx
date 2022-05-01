@@ -10,6 +10,8 @@ const NonTextContentWrapper = styled.div`
 
 const Row = styled.div`
   width: 100%;
+  display: flex;
+  align-items: center;
 `;
 
 const Header = styled.div`

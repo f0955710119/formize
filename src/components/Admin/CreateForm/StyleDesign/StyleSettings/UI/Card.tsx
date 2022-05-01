@@ -4,18 +4,14 @@ import styled from "styled-components";
 const CardWrapper = styled.div`
   display: inline-block;
   align-items: center;
-  width: 13rem;
+  width: 15rem;
   margin-bottom: 2rem;
-
-  &:not(:nth-child(2n)) {
-    margin-right: 2rem;
-  }
 `;
 
 const CardItem = styled.div`
   display: inline-block;
-  width: 13rem;
-  height: 11.5rem;
+  width: 15rem;
+  height: 13rem;
   background-color: #aaa;
   margin-bottom: 0.5rem;
 `;

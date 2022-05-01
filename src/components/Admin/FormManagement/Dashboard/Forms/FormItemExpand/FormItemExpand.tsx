@@ -10,12 +10,12 @@ interface FormItemExpandContainerProps {
 }
 
 const FormItemExpandContainer = styled.div<FormItemExpandContainerProps>`
-  padding-left: 2rem;
+  padding-left: 2.6rem;
   width: 100%;
   opacity: ${(props: FormItemExpandContainerProps) =>
     props.isExpand ? "1" : "0"};
   height: ${(props: FormItemExpandContainerProps) =>
-    props.isExpand ? "5.2rem" : "0"};
+    props.isExpand ? "4.6rem" : "0"};
   transition: opacity 0.1s, height 0.3s;
 `;
 
@@ -23,7 +23,7 @@ const FormItemExpandFeatureList = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  height: 3.6rem;
+  height: 3rem;
 `;
 
 interface FormItemExpandProps {
@@ -37,6 +37,7 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
   return (
     <FormItemExpandContainer isExpand={isExpand}>
       <FormItemExpandFeatureList>
+        <FeatureButton text="刪除" />
         <FeatureButton text="開啟" />
         <FeatureButton text="預覽" />
         <FeatureButton text="編輯" />
@@ -67,7 +68,6 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
           }}
         />
         <FeatureButton text="建立子問卷" />
-        <FeatureButton text="刪除" />
       </FormItemExpandFeatureList>
     </FormItemExpandContainer>
   );

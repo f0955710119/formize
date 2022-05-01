@@ -14,7 +14,7 @@ const TableWrapper = styled.div<TableWrapperProps>`
   height: ${(props: TableWrapperProps) =>
     props.isTextContent ? "32rem" : "auto"};
   border-radius: 7px;
-  /* background-color: rgba(180, 188, 183, 0.298); */
+
   background-color: rgba(255, 255, 255, 0.7);
 `;
 

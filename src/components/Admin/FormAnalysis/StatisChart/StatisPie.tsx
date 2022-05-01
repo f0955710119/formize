@@ -146,6 +146,8 @@ const renderActiveShape = (props: any) => {
   );
 };
 
+const deviceWidth = window.innerWidth * 0.25 > 460 ? window.innerWidth : 460;
+console.log(deviceWidth);
 interface StatisPieProps {
   count: NonTextCount[];
 }
@@ -173,7 +175,7 @@ const StatisPie: FC<StatisPieProps> = ({ count }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <PieChart width={350} height={300}>
+      <PieChart width={deviceWidth} height={300}>
         <Pie
           data={handledCount}
           cx="50%"
