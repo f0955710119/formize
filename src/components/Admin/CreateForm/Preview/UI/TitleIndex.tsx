@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
 const TitleIndexText = styled.span`
+  align-self: stretch;
   font-size: 2.2rem;
   margin-right: 1rem;
   color: ${(props) => props.theme.title};
+  cursor: default;
 `;
 
 interface TitleIndexProps {

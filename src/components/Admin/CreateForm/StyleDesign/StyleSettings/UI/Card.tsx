@@ -1,26 +1,28 @@
-// title / background / colorBar(之後直接用做圖，不用刻)
-// Card / Button ( router ) / O[tion hEADER] / able to scroll
 import { FC } from "react";
 import styled from "styled-components";
 
 const CardWrapper = styled.div`
   display: inline-block;
-  width: 15rem;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
-  height: 15rem;
+  align-items: center;
+  width: 13rem;
+  margin-bottom: 2rem;
+
+  &:not(:nth-child(2n)) {
+    margin-right: 2rem;
+  }
 `;
 
 const CardItem = styled.div`
   display: inline-block;
-  width: 100%;
-  height: 13rem;
-  background-color: #aaa; // 之後變成圖片
+  width: 13rem;
+  height: 11.5rem;
+  background-color: #aaa;
   margin-bottom: 0.5rem;
 `;
 
 const CardTitle = styled.div`
   width: 100%;
+  text-align: center;
   height: 2rem;
   font-size: 2rem;
 `;

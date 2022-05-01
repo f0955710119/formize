@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Logo from "./Logo";
@@ -26,7 +26,11 @@ const Button = styled.button`
   }
 `;
 
-const Header: FC = () => {
+interface HeaderProps {
+  children?: ReactNode;
+}
+
+const Header: FC<HeaderProps> = ({ children }) => {
   const router = useRouter();
   const logoutHandler = (): void => {
     firebase.nativeSignOut();
@@ -36,6 +40,7 @@ const Header: FC = () => {
   return (
     <HeaderWrapper>
       <Logo />
+      {children}
       <Button type="button" onClick={logoutHandler}>
         登出
       </Button>

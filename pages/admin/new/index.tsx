@@ -21,8 +21,10 @@ const New: NextPage = () => {
         <title>Formize - 問卷進行式</title>
         <meta name="description" content="Formize - 問卷進行式" />
       </Head>
-      <Header />
-      <StepHeader currentStep={currentStep} />
+      <Header>
+        <StepHeader currentStep={currentStep} />
+      </Header>
+
       {currentStep === 1 && <SettingForm />}
       <ThemeProvider theme={colorTheme}>
         {currentStep === 2 && <QuestionDesign />}

@@ -13,7 +13,7 @@ const Wrapper = styled.main`
   display: flex;
   align-items: center;
   width: 100%;
-  height: calc(100vh - 6rem - 6rem);
+  height: calc(100vh - 6rem);
   /* background-image: linear-gradient(
       rgba(255, 255, 255, 0.7),
       rgba(255, 255, 255, 0.7)
@@ -30,6 +30,7 @@ const Form = styled.form`
   padding: 0 3.2rem 0 0;
   width: 68.4rem;
   height: calc(100% - 6rem);
+  transform: translateX(1.5rem);
 
   overflow-y: scroll;
 
@@ -38,12 +39,12 @@ const Form = styled.form`
   }
 
   &::-webkit-scrollbar {
-    width: 0.5rem;
+    width: 0.7rem;
     background-color: #f5f5f5;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(180, 188, 183, 1);
+    background-color: #87a792;
     background-image: -webkit-linear-gradient(
       45deg,
       rgba(255, 255, 255, 0.2) 25%,
@@ -57,10 +58,31 @@ const Form = styled.form`
   }
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: end;
+  align-items: center;
+`;
+
+const ButtonWrapper = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1rem;
+  padding: 1rem 3rem;
+  width: 15rem;
+  height: 4rem;
+  background-color: #c8c8c8;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #6e917bd6;
+  }
+`;
+
+const ButtonText = styled.span`
+  font-size: 1.4rem;
 `;
 
 const SettingForm: FC = () => {
@@ -76,14 +98,18 @@ const SettingForm: FC = () => {
         <SectionNormal />
         {/* <SectionMedia /> */}
         <SectionBanner />
-        <ButtonWrapper>
-          <Button buttonType="button" clickHandler={backToAdminIndexPage}>
-            回到管理頁面
-          </Button>
-          <Button buttonType="button" clickHandler={() => switchStepHandler(2)}>
-            進入題目設計
-          </Button>
-        </ButtonWrapper>
+        <ButtonContainer>
+          <ButtonWrapper onClick={() => backToAdminIndexPage()}>
+            <ButtonText>回到管理頁面</ButtonText>
+          </ButtonWrapper>
+          <ButtonWrapper
+            onClick={() => {
+              switchStepHandler(2);
+            }}
+          >
+            <ButtonText>前往題目設計</ButtonText>
+          </ButtonWrapper>
+        </ButtonContainer>
       </Form>
     </Wrapper>
   );

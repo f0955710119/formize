@@ -16,8 +16,9 @@ const PageWrapper = styled.div<PageWrapperProps>`
   margin-bottom: 2rem;
   padding: 1rem;
   width: 100%;
+  border-radius: 3px;
   border: ${(props: PageWrapperProps) =>
-    props.isActive ? " 2px solid#333 " : "1px solid  #c8c8c8"};
+    props.isActive ? " 3px solid#777 " : "1px solid  #c8c8c8"};
   transition: border 0.3s;
 `;
 
@@ -25,7 +26,6 @@ const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  /* margin-bottom: 1rem; */
 `;
 
 const Title = styled.div`

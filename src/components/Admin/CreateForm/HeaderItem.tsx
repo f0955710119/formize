@@ -31,6 +31,7 @@ const NumberIconWrapper = styled.div`
   height: 3rem;
   font-size: 1.2rem;
   border: 0.8px solid #c8c8c8;
+  border-radius: 3px;
   cursor: pointer;
 `;
 const NumberIcon = styled.span`

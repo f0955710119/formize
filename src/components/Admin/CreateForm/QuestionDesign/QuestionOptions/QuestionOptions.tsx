@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
 import styled from "styled-components";
@@ -23,13 +23,22 @@ import LooksOneSharpIcon from "@mui/icons-material/LooksOneSharp";
 import TuneSharpIcon from "@mui/icons-material/TuneSharp";
 import LayersSharpIcon from "@mui/icons-material/LayersSharp";
 import QueryBuilderSharpIcon from "@mui/icons-material/QueryBuilderSharp";
+import NewPageModal from "../QuestionsList/NewPageModal";
+import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
 const OptionsLayout = styled(Layout)`
   width: 18%;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const OptionHeading = styled(Heading)`
   margin-bottom: 2rem;
+  color: #7a807c;
+  border-bottom: 1px solid #7a807c;
 `;
 
 const OptionList = styled.div`
@@ -51,7 +60,7 @@ const OptionList = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #f90;
+    background-color: #b4bcb7;
     background-image: -webkit-linear-gradient(
       45deg,
       rgba(255, 255, 255, 0.2) 25%,
@@ -63,6 +72,41 @@ const OptionList = styled.div`
       transparent
     );
   }
+`;
+
+const ButtonWrapper = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 3rem;
+  width: 100%;
+  height: 4rem;
+  background-color: #c8c8c8;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #6e917bd6;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+`;
+
+const ButtonText = styled.span`
+  font-size: 1.4rem;
+`;
+
+const AddPageButton = styled(ButtonWrapper)`
+  background-color: #c8c8c8;
+  &:hover {
+    color: #fff;
+    background-color: #333;
+  }
+`;
+
+const NavigatorButton = styled(ButtonWrapper)`
+  background-color: #c8c8c8;
 `;
 
 const questionList: OptionItem[] = [
@@ -181,27 +225,70 @@ interface OptionItem {
 }
 
 const QuestionOptions: FC = () => {
-  const editingQuestion = useAppSelector(
-    (state) => state.question.editingQuestion
+  const { editingQuestion, questions } = useAppSelector(
+    (state) => state.question
   );
+  const { mode } = useAppSelector((state) => state.setting);
+  const switchStepHandler = useSwitchCurrentStep();
+  const [hasOpenModal, setHasOpenModal] = useState<boolean>(false);
 
   return (
-    <OptionsLayout>
-      <OptionHeading>題型</OptionHeading>
-      <OptionList>
-        {questionList.map((item) => (
-          <OptionItem
-            title={item.title}
-            questionType={item.questionType}
-            key={item.title}
+    <>
+      {hasOpenModal && (
+        <NewPageModal hasOpenModal={hasOpenModal} setModal={setHasOpenModal} />
+      )}
+      <OptionsLayout>
+        <OptionHeading>題型</OptionHeading>
+        <OptionList>
+          {questionList.map((item) => (
+            <OptionItem
+              title={item.title}
+              questionType={item.questionType}
+              key={item.title}
+            >
+              {item.iconComponent}
+            </OptionItem>
+          ))}
+        </OptionList>
+        <OptionHeading>限制</OptionHeading>
+        {editingQuestion && generateLimitation(editingQuestion)}
+
+        <OptionHeading>切換頁面</OptionHeading>
+        {mode === "1" && (
+          <AddPageButton
+            type="button"
+            onClick={() => {
+              if (questions.length === 0) {
+                alert(
+                  "因為分頁型問卷不得有空白頁，請先新增至少一題才能加分頁唷!"
+                );
+                return;
+              }
+              setHasOpenModal(true);
+            }}
           >
-            {item.iconComponent}
-          </OptionItem>
-        ))}
-      </OptionList>
-      <OptionHeading>限制</OptionHeading>
-      {editingQuestion && generateLimitation(editingQuestion)}
-    </OptionsLayout>
+            <ButtonText>新增分頁</ButtonText>
+          </AddPageButton>
+        )}
+
+        <NavigatorButton
+          type="button"
+          onClick={() => {
+            switchStepHandler(3);
+          }}
+        >
+          <ButtonText>前往外觀樣式設計</ButtonText>
+        </NavigatorButton>
+        <ButtonWrapper
+          type="button"
+          onClick={() => {
+            switchStepHandler(1);
+          }}
+        >
+          <ButtonText>回到資訊設定</ButtonText>
+        </ButtonWrapper>
+      </OptionsLayout>
+    </>
   );
 };
 

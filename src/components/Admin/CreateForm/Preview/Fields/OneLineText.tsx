@@ -23,6 +23,13 @@ const TextInput = styled(TextField)`
     border-bottom: 2px solid ${(props) => props.theme.placeholder};
   }
 
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:hover {
+    background-color: transparent;
+  }
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root.Mui-focused {
+    background-color: transparent;
+  }
+
   & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
     border-bottom: 2px solid ${(props) => props.theme.title};
   }

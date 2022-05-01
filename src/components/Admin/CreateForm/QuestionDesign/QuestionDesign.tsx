@@ -7,9 +7,9 @@ import QuestionsList from "./QuestionsList/QuestionsList";
 const QuestionDesign: FC = () => {
   return (
     <Main>
+      <QuestionsList />
       <Preview />
       <QuestionOptions />
-      <QuestionsList />
     </Main>
   );
 };
