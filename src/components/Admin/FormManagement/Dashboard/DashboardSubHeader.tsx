@@ -1,10 +1,11 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import FilterComboBox from "./FilterComboBox";
 import DisplayButtonGroup from "./DisplayButtonGroup";
 
 import useInitNewForm from "../../../../hooks/useInitNewForm";
+import { adminContext } from "../../../../store/context/adminContext";
 
 const defalutStatusOptions = ["公開", "待上線", "保護", "額滿", "關閉"];
 const defalutDateOptions = ["最新創建", "最舊創建", "最新回覆", "最舊創建"];
@@ -52,6 +53,7 @@ const ButtonText = styled.span`
 const DashboardSubHeader: FC = () => {
   const router = useRouter();
   const initHandler = useInitNewForm();
+  const context = useContext(adminContext);
 
   const goAddNewFormHandler = (): void => {
     initHandler();
@@ -79,9 +81,11 @@ const DashboardSubHeader: FC = () => {
         />
         <DisplayButtonGroup />
       </FilterWrapper>
-      <ButtonWrapper onClick={goAddNewFormHandler}>
-        <ButtonText>新增問卷</ButtonText>
-      </ButtonWrapper>
+      {context.editingGroupId !== "0" && (
+        <ButtonWrapper onClick={goAddNewFormHandler}>
+          <ButtonText>新增問卷</ButtonText>
+        </ButtonWrapper>
+      )}
     </HeaderWrapper>
   );
 };
