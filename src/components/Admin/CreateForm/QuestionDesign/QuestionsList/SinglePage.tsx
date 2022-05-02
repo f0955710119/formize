@@ -2,16 +2,20 @@ import { FC } from "react";
 
 import styled from "styled-components";
 import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
-
 import CreatedQuestion from "./CreatedQuestion";
-
-import helper from "../../../../../utils/helper";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   margin-top: 2rem;
+
+  /* @media ${breakpointConfig.laptopM} {
+    display: inline-block;
+    width: auto;
+    margin-top: 0rem;
+  } ; */
 `;
 
 const DeleteButtonWrapper = styled.div`
@@ -20,6 +24,10 @@ const DeleteButtonWrapper = styled.div`
   align-items: center;
   width: 5rem;
   height: 100%;
+
+  @media ${breakpointConfig.laptopM} {
+    display: none;
+  }
 `;
 
 interface SingplePageProps {

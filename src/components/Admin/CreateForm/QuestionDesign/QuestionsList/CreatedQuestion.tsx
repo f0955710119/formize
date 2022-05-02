@@ -13,6 +13,8 @@ import QueryBuilderSharpIcon from "@mui/icons-material/QueryBuilderSharp";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+
 const QuestionWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -20,6 +22,18 @@ const QuestionWrapper = styled.div`
   padding: 0.4rem 1rem;
   width: 80%;
   border: 1px solid #c8c8c8;
+
+  @media ${breakpointConfig.laptopM} {
+    min-height: 6rem;
+    min-width: 35rem;
+    margin-right: 1.5rem;
+  }
+
+  @media ${breakpointConfig.mobileM} {
+    min-height: 6rem;
+    min-width: 25rem;
+    margin-right: 1.5rem;
+  }
 `;
 
 const Title = styled.div`
@@ -74,11 +88,12 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
   note,
   questionType,
 }: CreatedQuestionProps) => {
+  const noteText = questionType === "2" ? "引言沒有註解" : note;
   return (
     <QuestionWrapper>
       {generateIcon(questionType)}
       <Title>{title}</Title>
-      <Note>{note}</Note>
+      <Note>{noteText}</Note>
     </QuestionWrapper>
   );
 };

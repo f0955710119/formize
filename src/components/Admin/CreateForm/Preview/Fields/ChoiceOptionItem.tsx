@@ -7,11 +7,18 @@ import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 import { TextField } from "@mui/material";
 import helper from "../../../../../utils/helper";
 
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+
 export const ChoiceWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   width: 100%;
+
+  @media ${breakpointConfig.laptopS} {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
 `;
 
 const OptionItemWrapper = styled.div`
@@ -23,6 +30,10 @@ const OptionItemWrapper = styled.div`
   width: 30%;
   height: 6rem;
   border: 2px solid ${(props) => props.theme.optionText};
+
+  @media ${breakpointConfig.laptopS} {
+    width: 100%;
+  }
 `;
 
 const OptionItemText = styled.div`

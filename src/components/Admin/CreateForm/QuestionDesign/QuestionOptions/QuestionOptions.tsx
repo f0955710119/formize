@@ -26,6 +26,8 @@ import QueryBuilderSharpIcon from "@mui/icons-material/QueryBuilderSharp";
 import NewPageModal from "../QuestionsList/NewPageModal";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+
 const OptionsLayout = styled(Layout)`
   width: 18%;
   overflow: scroll;
@@ -33,6 +35,18 @@ const OptionsLayout = styled(Layout)`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  @media ${breakpointConfig.laptopM} {
+    width: 100%;
+    order: 3;
+    height: 50vh;
+    padding: 2rem 12rem 0 12rem;
+    margin-bottom: 1rem;
+  }
+
+  @media ${breakpointConfig.tablet} {
+    padding: 2rem 6rem 0 6rem;
+  } ;
 `;
 
 const OptionHeading = styled(Heading)`

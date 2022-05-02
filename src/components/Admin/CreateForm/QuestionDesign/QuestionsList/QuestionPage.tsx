@@ -5,6 +5,9 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+import scrollBar from "../../UI/scrollBar";
+
 interface PageWrapperProps {
   isActive: boolean;
 }
@@ -20,6 +23,14 @@ const PageWrapper = styled.div<PageWrapperProps>`
   border: ${(props: PageWrapperProps) =>
     props.isActive ? " 3px solid#777 " : "1px solid  #c8c8c8"};
   transition: border 0.3s;
+
+  @media ${breakpointConfig.laptopM} {
+    margin-top: 2rem;
+    padding: 2rem 1rem;
+    margin-bottom: 0;
+    overflow-y: auto;
+    ${scrollBar}
+  } ;
 `;
 
 const TitleWrapper = styled.div`

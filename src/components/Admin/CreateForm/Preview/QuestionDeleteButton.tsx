@@ -8,8 +8,8 @@ const DeleteButtonWrapper = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3rem;
-  height: 3rem;
+  width: 1rem;
+  height: 1rem;
   font-size: 1.4rem;
   color: #333;
   background-color: transparent;

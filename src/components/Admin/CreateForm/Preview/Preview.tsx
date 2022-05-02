@@ -9,9 +9,10 @@ import helper from "../../../../utils/helper";
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../store/slice/questionSlice";
 
+import breakpointConfig from "../../../../configs/breakpointConfig";
+
 interface PreviewLayoutProps {
   fontFamily: string;
-  // backgroundImageURL: string;
 }
 
 const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
@@ -38,10 +39,18 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
   height: 100%;
   padding: 0rem;
   background-color: #f8f8f8;
+
+  @media ${breakpointConfig.laptopM} {
+    width: 100%;
+    height: 100vh;
+    order: 1;
+    background-color: #fff;
+  }
 `;
 
 const formWidth = Math.round((window.innerHeight / 4) * 3);
 interface QuestionWrapperProps {
+  hasQuestion: boolean;
   backgroundImageURL: string;
 }
 
@@ -52,13 +61,12 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   width: ${formWidth}px;
   height: 100%;
   padding: 2rem 4rem;
-  background-image: linear-gradient(
+  ${(props: QuestionWrapperProps) => `background-image: linear-gradient(
       to bottom right,
       rgba(255, 255, 255, 0),
       rgba(255, 255, 255, 0)
-    ),
-    url(${(props: QuestionWrapperProps) => props.backgroundImageURL});
-  background-position: center;
+    ),url(${props.hasQuestion ? props.backgroundImageURL : ""})`};
+
   background-size: cover;
   background-repeat: no-repeat;
 
@@ -67,6 +75,28 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const NoQuestionReminder = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 80%;
+  height: 50rem;
+  margin: auto 0;
+  border-radius: 9px;
+  background-image: url("/images/form-preview-default.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 50% 70%;
+`;
+
+const NoQuestionReminderText = styled.div`
+  font-size: 1.6rem;
+  transform: translateY(-10rem);
+  text-align: center;
+  color: #777;
 `;
 
 const EditingFormPageLabel = styled.div`
@@ -124,6 +154,27 @@ const Preview: FC = () => {
   //   dispatch(questionActions.switchEditingQuestion(null));
   // };
 
+  const hasQuestions = questions.length > 0;
+
+  const renderQuestions =
+    mode === "1"
+      ? questions
+          .filter((question) => question.page === editingFormPage)
+          .map((question, i) => (
+            <QuestionField
+              question={question}
+              key={question.id}
+              titleIndex={multiPageQuestionIndexArr[editingFormPage - 1][i]}
+            />
+          ))
+      : questions.map((question, i) => (
+          <QuestionField
+            question={question}
+            key={question.id}
+            titleIndex={indexArr[i]}
+          />
+        ));
+
   return (
     <PreviewLayout fontFamily={fontTheme}>
       {/* {mode === "1" && (
@@ -153,24 +204,19 @@ const Preview: FC = () => {
           )}
         </>
       )} */}
-      <QuestionWrapper backgroundImageURL={backgroundImages[0]}>
-        {mode === "1"
-          ? questions
-              .filter((question) => question.page === editingFormPage)
-              .map((question, i) => (
-                <QuestionField
-                  question={question}
-                  key={question.id}
-                  titleIndex={multiPageQuestionIndexArr[editingFormPage - 1][i]}
-                />
-              ))
-          : questions.map((question, i) => (
-              <QuestionField
-                question={question}
-                key={question.id}
-                titleIndex={indexArr[i]}
-              />
-            ))}
+      <QuestionWrapper
+        backgroundImageURL={backgroundImages[0]}
+        hasQuestion={hasQuestions}
+      >
+        {hasQuestions ? (
+          renderQuestions
+        ) : (
+          <NoQuestionReminder>
+            <NoQuestionReminderText>
+              尚無題目，下滑點擊題目的新增符號來創建題型吧!
+            </NoQuestionReminderText>
+          </NoQuestionReminder>
+        )}
       </QuestionWrapper>
     </PreviewLayout>
   );

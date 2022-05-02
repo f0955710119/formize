@@ -9,12 +9,31 @@ import Layout from "../../UI/Layout";
 import helper from "../../../../../utils/helper";
 import MultiPage from "./MultiPage";
 import SinglePage from "./SinglePage";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
 
-const ListLayout = styled(Layout)`
+interface ListLayoutProps {
+  isMultiplePage: boolean;
+}
+
+const ListLayout = styled(Layout)<ListLayoutProps>`
   width: 18%;
+  @media ${breakpointConfig.laptopM} {
+    width: 100%;
+    height: ${(props: ListLayoutProps) =>
+      props.isMultiplePage ? "auto" : "17rem"};
+    order: 2;
+    padding: 2rem 12rem 0 12rem;
+  }
+  @media ${breakpointConfig.tablet} {
+    padding: 2rem 6rem 0 6rem;
+  } ;
 `;
 
-const QuestionWrapper = styled.div`
+interface QuestionWrapperProps {
+  isMultiplePage: boolean;
+}
+
+const QuestionWrapper = styled.div<QuestionWrapperProps>`
   margin-bottom: 1rem;
   padding-right: 1rem;
   width: 100%;
@@ -45,6 +64,27 @@ const QuestionWrapper = styled.div`
       transparent
     );
   }
+
+  @media ${breakpointConfig.laptopM} {
+    margin-bottom: 0;
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+    width: 100%;
+    height: 100%;
+    /* max-height: 10rem; */
+
+    ${(props: QuestionWrapperProps) =>
+      props.isMultiplePage
+        ? " overflow-y: auto;overflow-x: hidden; max-height: 50rem;"
+        : "overflow-y: hidden;overflow-x: auto; max-height: 10rem; flex-direction: row;"}
+
+    display: flex;
+
+    &::-webkit-scrollbar {
+      height: 0.5rem;
+      background-color: #f5f5f5;
+    }
+  } ;
 `;
 
 const Heading = styled.div`
@@ -53,6 +93,38 @@ const Heading = styled.div`
   font-size: 1.6rem;
   color: #7a807c;
   border-bottom: 0.1px solid #7a807c;
+
+  @media ${breakpointConfig.laptopM} {
+    margin-bottom: 0;
+  } ;
+`;
+
+// const T = styled.span`
+//   width: 100%;
+//   height: 100%;
+//   min-height: 10rem;
+//   min-width: 10rem;
+//   line-height: 10rem;
+//   background-color: #eee;
+// `;
+
+const NoQuestionsReminder = styled.div`
+  position: relative;
+  width: 100%;
+  height: 8rem;
+  text-align: center;
+  line-height: 9.5rem;
+  background-color: #e8e8e8;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -1.5rem;
+    left: 0;
+    width: 100%;
+    height: 1.5rem;
+    background-color: #e8e8e8;
+  }
 `;
 
 const QuestionsList: FC = () => {
@@ -67,41 +139,49 @@ const QuestionsList: FC = () => {
     questions
   );
 
+  const hasQuestions = questions.length > 0;
+  const isMultiplePage = mode === "1";
+
+  const renderQuestionsList = isMultiplePage ? (
+    <>
+      {Array(pageQuantity)
+        .fill(null)
+        .map((_, i) => (
+          <MultiPage
+            key={i}
+            page={i + 1}
+            titleIndexArr={multiPageQuestionIndexArr[i]}
+            deleteQuestionHandler={deleteQuestionHandler}
+          />
+        ))}
+    </>
+  ) : (
+    <>
+      {questions.map((question, i) => {
+        const { id, type, note, title } = question;
+        const handledTitle = type === "2" ? "引言" : `${indexArr[i]} ${title}`;
+        return (
+          <SinglePage
+            key={id}
+            id={id}
+            type={type}
+            title={handledTitle}
+            note={note}
+            deleteQuestionHandler={deleteQuestionHandler}
+          />
+        );
+      })}
+    </>
+  );
+
   return (
-    <ListLayout>
+    <ListLayout isMultiplePage={isMultiplePage}>
       <Heading>題目列表</Heading>
-      <QuestionWrapper>
-        {mode === "1" ? (
-          <>
-            {Array(pageQuantity)
-              .fill(null)
-              .map((_, i) => (
-                <MultiPage
-                  key={i}
-                  page={i + 1}
-                  titleIndexArr={multiPageQuestionIndexArr[i]}
-                  deleteQuestionHandler={deleteQuestionHandler}
-                />
-              ))}
-          </>
+      <QuestionWrapper isMultiplePage={isMultiplePage}>
+        {hasQuestions ? (
+          renderQuestionsList
         ) : (
-          <>
-            {questions.map((question, i) => {
-              const { id, type, note, title } = question;
-              const handledTitle =
-                type === "2" ? "引言" : `${indexArr[i]} ${title}`;
-              return (
-                <SinglePage
-                  key={id}
-                  id={id}
-                  type={type}
-                  title={handledTitle}
-                  note={note}
-                  deleteQuestionHandler={deleteQuestionHandler}
-                />
-              );
-            })}
-          </>
+          <NoQuestionsReminder>此為空的題目列表</NoQuestionsReminder>
         )}
       </QuestionWrapper>
     </ListLayout>
