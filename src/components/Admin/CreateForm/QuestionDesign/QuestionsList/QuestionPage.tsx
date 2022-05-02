@@ -5,6 +5,9 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+import scrollBar from "../../UI/scrollBar";
+
 interface PageWrapperProps {
   isActive: boolean;
 }
@@ -16,16 +19,24 @@ const PageWrapper = styled.div<PageWrapperProps>`
   margin-bottom: 2rem;
   padding: 1rem;
   width: 100%;
+  border-radius: 3px;
   border: ${(props: PageWrapperProps) =>
-    props.isActive ? " 2px solid#333 " : "1px solid  #c8c8c8"};
+    props.isActive ? " 3px solid#777 " : "1px solid  #c8c8c8"};
   transition: border 0.3s;
+
+  @media ${breakpointConfig.laptopM} {
+    margin-top: 2rem;
+    padding: 2rem 1rem;
+    margin-bottom: 0;
+    overflow-y: auto;
+    ${scrollBar}
+  } ;
 `;
 
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  /* margin-bottom: 1rem; */
 `;
 
 const Title = styled.div`

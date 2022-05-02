@@ -1,6 +1,5 @@
 import type { Question } from "../types/question";
 import styleConfig from "../configs/styleConfig";
-import { Table } from "../types/responses";
 
 interface CheckStringName {
   stringArr: string[];
@@ -238,7 +237,7 @@ export default {
       "2": "INTRODUCTION_DEFAULT",
       "3": "ONE_CHOICE_DEFAULT",
       "4": "MULTIPLE_CHOICE_DEFAULT",
-      "5": "MARTIX_DEFAULT",
+      "5": "MATRIX_DEFAULT",
       "6": "NUMBER_DEFAULT",
       "7": "SLIDER_DEFAULT",
       "8": "SORT_DEFAULT",
@@ -309,14 +308,14 @@ export default {
     const ids = Object.keys(questionsObject[1]);
     const types = Object.values(questionsObject[1]);
     const hasOptions: { [key: string]: string[] } = {};
-    const hasMartixs: { [key: string]: string[] } = {};
+    const hasMatrixs: { [key: string]: string[] } = {};
     const titles: { [key: string]: string } = {};
 
     questions.forEach((question) => {
       titles[question.id] = question.title;
-      if (question.type === "5" && question.options && question.martixs) {
+      if (question.type === "5" && question.options && question.matrixs) {
         hasOptions[question.id] = question.options;
-        hasMartixs[question.id] = question.martixs;
+        hasMatrixs[question.id] = question.matrixs;
         return;
       }
 
@@ -344,13 +343,13 @@ export default {
 
       if (types[i] === "5") {
         const options = hasOptions[originalId];
-        const martixs = hasMartixs[originalId];
+        const matrixs = hasMatrixs[originalId];
         const optionIndex: number = +id.split("_")[1];
         return {
           title: `${originTitle} - ${options[optionIndex]}`,
           id,
           type: types[i],
-          martixs,
+          matrixs,
         };
       }
 
@@ -394,5 +393,16 @@ export default {
       "8": ["排序列", "次數"],
     };
     return typeObj[type];
+  },
+  convertFirebaseTimeToDate(timeObj: Date) {
+    const timeValueArr = Object.values(timeObj);
+    return new Date(timeValueArr[0] * 1000 + timeValueArr[1] / 1000000);
+  },
+  convertDateToLocaleString(time: Date) {
+    return time.toLocaleString("zh-tw", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
   },
 };

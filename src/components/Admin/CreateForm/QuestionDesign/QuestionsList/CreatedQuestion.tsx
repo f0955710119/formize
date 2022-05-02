@@ -1,17 +1,8 @@
 import { FC } from "react";
 import styled from "styled-components";
 
-import TextFormatSharpIcon from "@mui/icons-material/TextFormatSharp";
-import TextIncreaseSharpIcon from "@mui/icons-material/TextIncreaseSharp";
-import FormatQuoteSharpIcon from "@mui/icons-material/FormatQuoteSharp";
-import AdjustSharpIcon from "@mui/icons-material/AdjustSharp";
-import FormatListNumberedSharpIcon from "@mui/icons-material/FormatListNumberedSharp";
-import LooksOneSharpIcon from "@mui/icons-material/LooksOneSharp";
-import TuneSharpIcon from "@mui/icons-material/TuneSharp";
-import LayersSharpIcon from "@mui/icons-material/LayersSharp";
-import QueryBuilderSharpIcon from "@mui/icons-material/QueryBuilderSharp";
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../../store/slice/questionSlice";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+import QuestionIcon from "../QuestionIcon";
 
 const QuestionWrapper = styled.div`
   display: flex;
@@ -20,17 +11,27 @@ const QuestionWrapper = styled.div`
   padding: 0.4rem 1rem;
   width: 80%;
   border: 1px solid #c8c8c8;
+
+  @media ${breakpointConfig.laptopM} {
+    min-height: 6rem;
+    min-width: 35rem;
+    margin-right: 1.5rem;
+  }
+
+  @media ${breakpointConfig.tablet} {
+    min-width: 30rem;
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    min-width: 20rem;
+  }
 `;
 
 const Title = styled.div`
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   width: 90%;
   margin-bottom: 0.5rem;
 `;
-
-interface DefaultIconProps {
-  readonly color: string;
-}
 
 const Note = styled.div`
   width: 100%;
@@ -38,47 +39,33 @@ const Note = styled.div`
   color: #aaa;
 `;
 
+const iconStyle = {
+  width: "1.8rem",
+  height: "1.8rem",
+  fill: "#aaa",
+  transform: "translateY(-0.2rem)",
+  marginRight: "0.3rem",
+};
+
 interface CreatedQuestionProps {
   title: string;
   note: string;
   questionType: string;
 }
 
-const generateIcon = (questionType: string) => {
-  switch (questionType) {
-    case "0":
-      return <TextFormatSharpIcon />;
-    case "1":
-      return <TextIncreaseSharpIcon />;
-    case "2":
-      return <FormatQuoteSharpIcon />;
-    case "3":
-      return <AdjustSharpIcon />;
-    case "4":
-      return <FormatListNumberedSharpIcon />;
-    case "5":
-      return <LooksOneSharpIcon />;
-    case "6":
-      return <TuneSharpIcon />;
-    case "7":
-      return <LayersSharpIcon />;
-    case "8":
-      return <QueryBuilderSharpIcon />;
-    case "9":
-      return <LooksOneSharpIcon />;
-  }
-};
-
 const CreatedQuestion: FC<CreatedQuestionProps> = ({
   title,
   note,
   questionType,
 }: CreatedQuestionProps) => {
+  const noteText = questionType === "2" ? "引言沒有註解" : note;
   return (
     <QuestionWrapper>
-      {generateIcon(questionType)}
-      <Title>{title}</Title>
-      <Note>{note}</Note>
+      <Title>
+        <QuestionIcon questionType={questionType} />
+        {title}
+      </Title>
+      <Note>{noteText}</Note>
     </QuestionWrapper>
   );
 };

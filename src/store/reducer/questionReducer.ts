@@ -101,11 +101,11 @@ const updateSiglePropOfQuestion: CaseReducer<
           }
         }
 
-        case questionActionType.MARTIXS: {
+        case questionActionType.MATRIXS: {
           if (action.payload.stringArr) {
             return {
               ...question,
-              martixs: action.payload.stringArr,
+              matrixs: action.payload.stringArr,
             };
           }
         }

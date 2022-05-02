@@ -173,7 +173,7 @@ const StatisPie: FC<StatisPieProps> = ({ count }) => {
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <PieChart width={350} height={300}>
+      <PieChart width={460} height={300}>
         <Pie
           data={handledCount}
           cx="50%"

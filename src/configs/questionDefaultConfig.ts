@@ -69,7 +69,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
       maxSelected: 3,
     },
   },
-  MARTIX_DEFAULT: <Question>{
+  MATRIX_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
     note: "新增備註文字，若不需要則留白",
@@ -77,7 +77,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     page: 1,
     type: "5",
     options: ["選項1"],
-    martixs: ["欄位1", "欄位2", "欄位3"],
+    matrixs: ["欄位1", "欄位2", "欄位3"],
     validations: {
       required: false,
       maxSelected: 3,

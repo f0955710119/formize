@@ -1,174 +1,162 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
-import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
+
 import useDeleteQuestion from "../../../../../hooks/useDeleteQuestion";
 
 import styled from "styled-components";
 import Layout from "../../UI/Layout";
 
 import helper from "../../../../../utils/helper";
-import NewPageModal from "./NewPageModal";
 import MultiPage from "./MultiPage";
 import SinglePage from "./SinglePage";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+import scrollBar from "../../UI/scrollBar";
 
-const ListLayout = styled(Layout)`
-  width: 22%;
+interface ListLayoutProps {
+  isMultiplePage: boolean;
+}
+
+const ListLayout = styled(Layout)<ListLayoutProps>`
+  width: 20%;
+  @media ${breakpointConfig.laptopM} {
+    width: 100%;
+    height: ${(props: ListLayoutProps) =>
+      props.isMultiplePage ? "auto" : "17rem"};
+    order: 2;
+    padding: 2rem 12rem 0 12rem;
+  }
+  @media ${breakpointConfig.tablet} {
+    padding: 2rem 6rem 0 6rem;
+  } ;
 `;
 
-const QuestionWrapper = styled.div`
+interface QuestionWrapperProps {
+  isMultiplePage: boolean;
+}
+
+const QuestionWrapper = styled.div<QuestionWrapperProps>`
   margin-bottom: 1rem;
   padding-right: 1rem;
   width: 100%;
-  height: 54vh;
+  height: calc(100% - 4.7rem);
   display: flex;
   flex-direction: column;
 
   overflow-y: scroll;
+  ${scrollBar}
 
-  &::-webkit-scrollbar-track {
-    background-color: #ccc;
-  }
+  @media ${breakpointConfig.laptopM} {
+    margin-bottom: 0;
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+    width: 100%;
+    height: 100%;
 
-  &::-webkit-scrollbar {
-    width: 0.5rem;
-    background-color: #f5f5f5;
-  }
+    ${(props: QuestionWrapperProps) =>
+      props.isMultiplePage
+        ? " overflow-y: auto;overflow-x: hidden; max-height: 50rem;"
+        : "overflow-y: hidden;overflow-x: auto; max-height: 10rem; flex-direction: row;"}
 
-  &::-webkit-scrollbar-thumb {
-    background-color: #f90;
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-    );
-  }
+    display: flex;
+
+    &::-webkit-scrollbar {
+      height: 0.5rem;
+      background-color: #f5f5f5;
+    }
+  } ;
 `;
 
 const Heading = styled.div`
   margin-bottom: 2rem;
   padding-bottom: 0.5rem;
   font-size: 1.6rem;
-  color: #a46302;
-  border-bottom: 0.1px solid #a46302;
+  color: #7a807c;
+  border-bottom: 0.1px solid #7a807c;
+
+  @media ${breakpointConfig.laptopM} {
+    margin-bottom: 0;
+  } ;
 `;
 
-const ButtonWrapper = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 3rem;
+const NoQuestionsReminder = styled.div`
   width: 100%;
-  height: 4rem;
-  background-color: #c8c8c8;
-`;
+  text-align: center;
+  line-height: 50rem;
+  @media ${breakpointConfig.laptopM} {
+    position: relative;
+    height: 8rem;
+    line-height: 9.5rem;
+    background-color: #e8e8e8;
 
-const ButtonText = styled.span`
-  font-size: 1.4rem;
-`;
-
-const AddPageButton = styled(ButtonWrapper)`
-  background-color: #a46302;
-`;
-
-const NavigatorButton = styled(ButtonWrapper)`
-  background-color: #f90;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1.5rem;
+      left: 0;
+      width: 100%;
+      height: 1.5rem;
+      background-color: #e8e8e8;
+    }
+  }
 `;
 
 const QuestionsList: FC = () => {
-  const [hasOpenModal, setHasOpenModal] = useState<boolean>(false);
   const { mode, pageQuantity } = useAppSelector((state) => state.setting);
   const { questions } = useAppSelector((state) => state.question);
 
   const deleteQuestionHandler = useDeleteQuestion();
-  const switchStepHandler = useSwitchCurrentStep();
+
   const indexArr = helper.generateQuestionIndexArr(questions);
   const multiPageQuestionIndexArr = helper.generateQuestionMultiPageIndexArr(
     pageQuantity,
     questions
   );
 
-  return (
-    <ListLayout>
-      <QuestionWrapper>
-        {hasOpenModal && (
-          <NewPageModal
-            hasOpenModal={hasOpenModal}
-            setModal={setHasOpenModal}
+  const hasQuestions = questions.length > 0;
+  const isMultiplePage = mode === "1";
+
+  const renderQuestionsList = isMultiplePage ? (
+    <>
+      {Array(pageQuantity)
+        .fill(null)
+        .map((_, i) => (
+          <MultiPage
+            key={i}
+            page={i + 1}
+            titleIndexArr={multiPageQuestionIndexArr[i]}
+            deleteQuestionHandler={deleteQuestionHandler}
           />
-        )}
-        <Heading>題目列表</Heading>
-        {mode === "1" ? (
-          <>
-            {Array(pageQuantity)
-              .fill(null)
-              .map((_, i) => (
-                <MultiPage
-                  key={i}
-                  page={i + 1}
-                  titleIndexArr={multiPageQuestionIndexArr[i]}
-                  deleteQuestionHandler={deleteQuestionHandler}
-                />
-              ))}
-          </>
+        ))}
+    </>
+  ) : (
+    <>
+      {questions.map((question, i) => {
+        const { id, type, note, title } = question;
+        const handledTitle = type === "2" ? "引言" : `${indexArr[i]} ${title}`;
+        return (
+          <SinglePage
+            key={id}
+            id={id}
+            type={type}
+            title={handledTitle}
+            note={note}
+            deleteQuestionHandler={deleteQuestionHandler}
+          />
+        );
+      })}
+    </>
+  );
+
+  return (
+    <ListLayout isMultiplePage={isMultiplePage}>
+      <Heading>題目列表</Heading>
+      <QuestionWrapper isMultiplePage={isMultiplePage}>
+        {hasQuestions ? (
+          renderQuestionsList
         ) : (
-          <>
-            {questions.map((question, i) => {
-              const { id, type, note, title } = question;
-              const handledTitle =
-                type === "2" ? "引言" : `${indexArr[i]} ${title}`;
-              return (
-                <SinglePage
-                  key={id}
-                  id={id}
-                  type={type}
-                  title={handledTitle}
-                  note={note}
-                  deleteQuestionHandler={deleteQuestionHandler}
-                />
-              );
-            })}
-          </>
+          <NoQuestionsReminder>此為空的題目列表</NoQuestionsReminder>
         )}
       </QuestionWrapper>
-      <Heading>功能</Heading>
-      {mode === "1" && (
-        <AddPageButton
-          type="button"
-          onClick={() => {
-            if (questions.length === 0) {
-              alert(
-                "因為分頁型問卷不得有空白頁，請先新增至少一題才能加分頁唷!"
-              );
-              return;
-            }
-            setHasOpenModal(true);
-          }}
-        >
-          <ButtonText>新增分頁</ButtonText>
-        </AddPageButton>
-      )}
-
-      <NavigatorButton
-        type="button"
-        onClick={() => {
-          switchStepHandler(3);
-        }}
-      >
-        <ButtonText>前往外觀樣式設計</ButtonText>
-      </NavigatorButton>
-      <ButtonWrapper
-        type="button"
-        onClick={() => {
-          switchStepHandler(1);
-        }}
-      >
-        <ButtonText>回到資訊設定</ButtonText>
-      </ButtonWrapper>
     </ListLayout>
   );
 };

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormOptionList from "./FormOptionList";
 import FormItemExpand from "./FormItemExpand/FormItemExpand";
+import helper from "../../../../../utils/helper";
 
 interface ItemContainerProps {
   isExpand: boolean;
@@ -20,7 +21,7 @@ const ItemWrapper = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  padding: 0.5rem 0 0 3rem;
+  padding-top: 0.5rem;
   width: 100%;
   height: 5rem;
   color: #333;
@@ -29,39 +30,47 @@ const ItemWrapper = styled.div`
 
 const Title = styled.span`
   display: block;
-  width: 71.3%;
-  font-size: 1.6rem;
+  padding-left: 3rem;
+  width: calc(100% - 36rem);
+  font-size: 1.5rem;
 `;
 
-const ResponseNumber = styled.span`
-  width: 4.7%;
+const ResponsedQuantity = styled.span`
+  width: 7.5rem;
+  text-align: center;
 `;
 
-const Date = styled.span`
-  font-size: 1.4rem;
-  width: 10%;
+const CreatedTime = styled.span`
+  width: 12rem;
+  text-align: center;
 `;
 
-const IconWrapper = styled.div`
+const ResponsedTime = styled.span`
+  width: 12rem;
+  text-align: center;
+`;
+
+const ExpandMore = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  width: 3%;
+  width: 4.5rem;
   height: 100%;
 `;
 
 interface FormItemProps {
   title: string;
-  responseNumber: number;
-  date: Date;
+  responsedTimes: number;
+  dateCreated: Date;
+  dateResponsed: Date | null;
   formId: string;
 }
 
 const FormItem: FC<FormItemProps> = ({
   title,
-  responseNumber,
-  date,
+  responsedTimes,
+  dateCreated,
+  dateResponsed,
   formId,
 }: FormItemProps) => {
   const [hasClickExpand, setHasClickExpand] = useState<boolean>(false);
@@ -69,22 +78,16 @@ const FormItem: FC<FormItemProps> = ({
     <ItemContainer isExpand={hasClickExpand}>
       <ItemWrapper>
         <Title>{title}</Title>
-        <ResponseNumber>{responseNumber}</ResponseNumber>
-        <Date>
-          {date.toLocaleString("zh-tw", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </Date>
-        <Date>
-          {date.toLocaleString("zh-tw", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </Date>
-        <IconWrapper
+        <ResponsedQuantity>{responsedTimes}</ResponsedQuantity>
+        <CreatedTime>
+          {helper.convertDateToLocaleString(dateCreated)}
+        </CreatedTime>
+        <ResponsedTime>
+          {dateResponsed
+            ? helper.convertDateToLocaleString(dateResponsed)
+            : "尚無回應"}
+        </ResponsedTime>
+        <ExpandMore
           onClick={() => setHasClickExpand((prevState) => !prevState)}
         >
           <ExpandMoreIcon
@@ -96,7 +99,7 @@ const FormItem: FC<FormItemProps> = ({
               transition: "transform 0.3s",
             }}
           />
-        </IconWrapper>
+        </ExpandMore>
       </ItemWrapper>
       <FormItemExpand isExpand={hasClickExpand} formId={formId} />
     </ItemContainer>

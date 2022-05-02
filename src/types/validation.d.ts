@@ -8,7 +8,7 @@ export interface Validation {
   unit?: string;
   interval?: number;
   maxSelected?: number;
-  maxMartixTitleQuantity?: number;
+  maxMatrixTitleQuantity?: number;
   multipleDate?: boolean;
   hasRange?: boolean;
   startDate?: string | null;

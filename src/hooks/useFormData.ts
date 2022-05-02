@@ -4,8 +4,8 @@ import { useAppSelector } from "./useAppSelector";
 
 const useFormData = () => {
   const { setting, style, question } = useAppSelector((state) => state);
-  const { editingGroupId } = useAppSelector((state) => state.admin);
-  const uid = useContext(adminContext).uid;
+  const context = useContext(adminContext);
+  const { uid, editingGroupId } = context;
 
   const sendingFormData = {
     uid,

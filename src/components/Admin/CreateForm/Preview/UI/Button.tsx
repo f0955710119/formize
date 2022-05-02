@@ -15,7 +15,7 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const ButtonText = styled.div`
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
   font-size: 1.8rem;
   color: ${(props) => props.theme.title};
 `;

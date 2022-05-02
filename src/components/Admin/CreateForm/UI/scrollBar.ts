@@ -1,14 +1,4 @@
-import styled from "styled-components";
-
-const LimitationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-  padding-right: 1rem;
-  width: 100%;
-  height: 25vh;
-  overflow-y: scroll;
-
+export default `
   &::-webkit-scrollbar-track {
     background-color: #ccc;
   }
@@ -32,5 +22,3 @@ const LimitationWrapper = styled.div`
     );
   }
 `;
-
-export default LimitationWrapper;

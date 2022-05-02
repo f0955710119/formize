@@ -6,6 +6,9 @@ import DashboardMainHeader from "./DashboardMainHeader";
 import FormList from "./Forms/FormList";
 import { adminContext } from "../../../../store/context/adminContext";
 
+import breakpointConfig from "../../../../configs/breakpointConfig";
+import DashboardAddGroupBar from "./DashboardAddGroupBar";
+
 const DashboardWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,6 +23,10 @@ const DashboardWrapper = styled.div`
     url("/images/main-bg.svg");
   background-repeat: no-repeat;
   background-size: cover;
+
+  @media ${breakpointConfig.laptopS} {
+    width: 100%;
+  } ;
 `;
 
 const DashboarMain = styled.main`
@@ -58,6 +65,7 @@ const Dashboard: FC = () => {
   return (
     <DashboardWrapper>
       <DashboardMainHeader />
+      <DashboardAddGroupBar />
       <DashboardSubHeader />
       <DashboarMain>
         <FormList />

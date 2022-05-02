@@ -17,7 +17,7 @@ const useGenerateValidationHandler = (
       if (valiationHandler) {
         const inValidErrorMessage = valiationHandler(value);
         if (inValidErrorMessage) {
-          window.alert(inValidErrorMessage);
+          alert(inValidErrorMessage);
           throw inValidErrorMessage;
         }
       }

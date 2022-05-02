@@ -14,7 +14,7 @@ import MultiLineText from "./Fields/MultiLineText";
 import Introduction from "./Fields/Introduction";
 import Choice from "./Fields/OneChoice";
 import MultiChoice from "./Fields/MultiChoice";
-import Martix from "./Fields/Martix";
+import Matrix from "./Fields/Matrix";
 import Slider from "./Fields/Slider";
 import SequenceWeight from "./Fields/Sort";
 import Date from "./Fields/Date";
@@ -50,12 +50,12 @@ const generateResponseQuestion = (type: string, question: Question) => {
         return <Choice id={question.id} options={question.options} />;
       }
     case "5":
-      if (question.options && question.martixs) {
+      if (question.options && question.matrixs) {
         return (
-          <Martix
+          <Matrix
             id={question.id}
             options={question.options}
-            martixs={question.martixs}
+            matrixs={question.matrixs}
           />
         );
       }

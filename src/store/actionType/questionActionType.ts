@@ -5,6 +5,6 @@ export default {
   PAGE: "page",
   TYPE: "type",
   OPTIONS: "options",
-  MARTIXS: "martixs",
+  MATRIXS: "matrixs",
   VALIDATIONS: "validations",
 };

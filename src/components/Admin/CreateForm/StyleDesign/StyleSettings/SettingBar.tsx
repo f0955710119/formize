@@ -23,7 +23,7 @@ const SettingLayout = styled(Layout)`
   padding: 0;
   display: flex;
   flex-direction: column;
-  width: 40%;
+  width: 18%;
 `;
 
 const Header = styled.header`
@@ -37,36 +37,21 @@ const Header = styled.header`
 const BackGroundContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 4rem;
+  padding: 0 1rem 0 2rem;
   width: 100%;
-  height: calc(100% - 17rem);
+  height: calc(100% - 18rem);
 `;
 
 const BackGroundCardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 5rem;
   width: 100%;
   height: 25rem;
-`;
-
-const BackGroundContainerTitle = styled.span`
-  display: inline-block;
-  width: 7rem;
-  margin-bottom: 2rem;
-  padding-bottom: 0.5rem;
-  font-size: 1.4rem;
-  color: #a46302;
-  border-bottom: 2px solid #a46302;
-`;
-
-const CardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 0 4rem 0 4rem;
-  width: 100%;
-  height: calc(100% - 17rem);
   overflow-y: scroll;
+  padding-right: 1rem;
+
   &::-webkit-scrollbar-track {
     background-color: #ccc;
   }
@@ -78,7 +63,7 @@ const CardContainer = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #f90;
+    background-color: #b4bcb7;
     background-image: -webkit-linear-gradient(
       45deg,
       rgba(255, 255, 255, 0.2) 25%,
@@ -92,12 +77,73 @@ const CardContainer = styled.div`
   }
 `;
 
-const ButtonWrapper = styled.div`
+const BackGroundContainerTitle = styled.span`
+  display: inline-block;
+  width: 7rem;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.4rem;
+  color: #6e917b;
+  border-bottom: 2px solid #6e917b;
+`;
+
+const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 0 0 0 2rem;
   width: 100%;
-  height: 10rem;
+  height: calc(100% - 20rem);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar-track {
+    background-color: #ccc;
+  }
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 1rem;
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #b4bcb7;
+    background-image: -webkit-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.2) 75%,
+      transparent 75%,
+      transparent
+    );
+  }
+`;
+
+const ButtonWrapper = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1rem 3rem;
+  width: 88%;
+  height: 4rem;
+  background-color: #c8c8c8;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #6e917bd6;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+`;
+
+const ButtonText = styled.span`
+  font-size: 1.4rem;
 `;
 
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
@@ -183,16 +229,11 @@ const SettingBar: FC = () => {
           <BackGroundCardContainer></BackGroundCardContainer>
         </BackGroundContainer>
       )}
-      <ButtonWrapper>
-        <Button
-          buttonType="button"
-          clickHandler={() => clickToSendForm(sendingFormData)}
-        >
-          點我發佈問卷
-        </Button>
-        <Button buttonType="button" clickHandler={() => switchStepHanlder(2)}>
-          返回題型設計
-        </Button>
+      <ButtonWrapper onClick={() => clickToSendForm(sendingFormData)}>
+        <ButtonText>點我發佈問卷</ButtonText>
+      </ButtonWrapper>
+      <ButtonWrapper onClick={() => switchStepHanlder(2)}>
+        <ButtonText>返回題型設計</ButtonText>
       </ButtonWrapper>
     </SettingLayout>
   );

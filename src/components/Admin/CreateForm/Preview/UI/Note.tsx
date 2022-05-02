@@ -18,25 +18,54 @@ const CustomTextField = styled(TextField)`
     line-break: strict;
   }
 
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root,
-  & .Mui-focused {
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
+    border-bottom: 2px solid ${(props) => props.theme.note};
+  }
+
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root {
     background-color: transparent;
   }
 
-  /* & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:hover {
-    background-color: none;
-  } */
-
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
-    border-bottom: 2px solid ${(props) => props.theme.note};
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:hover {
+    background-color: transparent;
+  }
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root.Mui-focused {
+    background-color: transparent;
+  }
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root::after {
+    border-bottom: 2px solid ${(props) => props.theme.title};
   }
 `;
 
 const NoteText = styled.div`
+  display: inline-block;
   color: #aaa;
   font-size: 1.6rem;
   margin-bottom: 2rem;
   color: ${(props) => props.theme.note}; ;
+`;
+
+const EditingButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: end;
+  width: 15rem;
+  height: 3rem;
+  margin-top: 1rem;
+  border-radius: 5px;
+  color: #777;
+  background-color: #ccc;
+
+  &:hover {
+    color: #fff;
+    background-color: #333;
+  }
+`;
+
+const EditingButtonText = styled.span`
+  font-size: 1.2rem;
+  color: inherit;
 `;
 
 interface NoteProps {
@@ -58,7 +87,7 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
         onChange={(event) => setEditingNote(event.target.value)}
       />
 
-      <button
+      <EditingButton
         onClick={() => {
           setHasClickedNote(false);
           dispatch(
@@ -70,9 +99,11 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
           );
         }}
       >
-        完成編輯
-      </button>
-      <button onClick={() => setHasClickedNote(false)}>取消編輯</button>
+        <EditingButtonText>完成編輯</EditingButtonText>
+      </EditingButton>
+      <EditingButton onClick={() => setHasClickedNote(false)}>
+        <EditingButtonText>取消編輯</EditingButtonText>
+      </EditingButton>
     </>
   ) : (
     <NoteText onClick={() => setHasClickedNote(true)}>{note}</NoteText>

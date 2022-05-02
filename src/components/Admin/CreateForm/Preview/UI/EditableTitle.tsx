@@ -8,6 +8,7 @@ import { questionActions } from "../../../../../store/slice/questionSlice";
 const TitleInputWrapper = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
 `;
@@ -15,6 +16,7 @@ const TitleInputWrapper = styled.div`
 const CustomTextField = styled(TextField)`
   width: 100%;
   color: ${(props) => props.theme.title};
+  transform: translateY(-2.8rem);
 
   & .MuiFilledInput-root {
     background-color: transparent;
@@ -30,14 +32,44 @@ const CustomTextField = styled(TextField)`
     line-break: strict;
     /* margin-bottom: 1rem; */
   }
-
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:hover {
+    background-color: transparent;
+  }
+  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root.Mui-focused {
+    background-color: transparent;
+  }
   & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root::after {
     border-bottom: 2px solid ${(props) => props.theme.title};
   }
 `;
 
+const EditingButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: end;
+  width: 15rem;
+  height: 3rem;
+  margin-top: 1rem;
+  border-radius: 5px;
+  color: #777;
+  background-color: #ccc;
+  transform: translateY(-2.8rem);
+
+  &:hover {
+    color: #fff;
+    background-color: #333;
+  }
+`;
+
+const EditingButtonText = styled.span`
+  font-size: 1.4rem;
+  color: inherit;
+`;
+
 const Heading = styled.div`
-  width: 100%;
+  /* width: 100%; */
+  display: inline-block;
   font-size: 2rem;
   line-break: strict;
   color: ${(props) => props.theme.title};
@@ -67,8 +99,7 @@ const EditableTitle: FC<EditableTitleProps> = ({
         value={editingTitle}
         onChange={(event) => setEditingTitle(event.target.value)}
       />
-      <button
-        style={{ width: "8rem" }}
+      <EditingButton
         onClick={() => {
           setHasClickedTitle(false);
           dispatch(
@@ -80,14 +111,11 @@ const EditableTitle: FC<EditableTitleProps> = ({
           );
         }}
       >
-        完成編輯
-      </button>
-      <button
-        style={{ width: "8rem" }}
-        onClick={() => setHasClickedTitle(false)}
-      >
-        取消編輯
-      </button>
+        <EditingButtonText>完成編輯</EditingButtonText>
+      </EditingButton>
+      <EditingButton onClick={() => setHasClickedTitle(false)}>
+        <EditingButtonText>取消編輯</EditingButtonText>
+      </EditingButton>
     </TitleInputWrapper>
   ) : (
     <Heading

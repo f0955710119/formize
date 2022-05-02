@@ -10,7 +10,7 @@ import MultipleLineText from "./Questions/MultipleLineText";
 import Introduction from "./Questions/Introdction";
 import OneChoice from "./Questions/OneChoice";
 import MultiChoice from "./Questions/MultipleChoice";
-import Martix from "./Questions/Maritx";
+import Matrix from "./Questions/Maritx";
 import Slider from "./Questions/Slider";
 import Sort from "./Questions/Sort";
 import Date from "./Questions/Date";
@@ -222,12 +222,12 @@ const generateResponsedUserFormQuestion = (
       }
     }
 
-    case questionConfig.MARTIX: {
-      if (question.options && question.martixs) {
+    case questionConfig.matrix: {
+      if (question.options && question.matrixs) {
         return (
-          <Martix
+          <Matrix
             options={question.options}
-            martixs={question.martixs}
+            matrixs={question.matrixs}
             questionId={question.id}
           />
         );

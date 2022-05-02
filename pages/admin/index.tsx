@@ -9,7 +9,6 @@ import { adminContext } from "../../src/store/context/adminContext";
 
 const Admin: NextPage = () => {
   const context = useContext(adminContext);
-  console.log(context);
   return (
     <>
       <Head>
@@ -21,7 +20,6 @@ const Admin: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
-      {/* <Header /> */}
       <Main>
         <GroupSideBar />
         <Dashboard />

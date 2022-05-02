@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styled from "styled-components";
-
 import HeaderItem from "./HeaderItem";
+import breakpointConfig from "../../../configs/breakpointConfig";
 
 const defaultTitles = ["設定資訊", "題目設計", "外觀樣式", "發布問卷"];
 
@@ -12,6 +12,10 @@ const Header = styled.header`
 
   width: 100%;
   height: 6rem;
+
+  @media ${breakpointConfig.tabletS} {
+    display: none;
+  }
 `;
 
 interface StepHeaderProps {

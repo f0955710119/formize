@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styled from "styled-components";
 import useSwitchCurrentStep from "../../../hooks/useSwitchCurrentStep";
+import breakpointConfig from "../../../configs/breakpointConfig";
 
 interface ItemWrapperProps {
   number: number;
@@ -31,22 +32,45 @@ const NumberIconWrapper = styled.div`
   height: 3rem;
   font-size: 1.2rem;
   border: 0.8px solid #c8c8c8;
+  border-radius: 3px;
   cursor: pointer;
 `;
 const NumberIcon = styled.span`
   font-size: 1.4rem;
 `;
 
-const TitleText = styled.span`
+interface TitleTextProps {
+  number: number;
+  currentStep: number;
+}
+
+const TitleText = styled.span<TitleTextProps>`
   font-size: 1.4rem;
   cursor: pointer;
+
+  @media ${breakpointConfig.laptopS} {
+    display: ${(props: TitleTextProps) =>
+      props.currentStep === props.number ? "inline-block" : "none"};
+  }
 `;
-const IntervalLineWrapper = styled.div`
+
+interface IntervalLineWrapperProps {
+  number: number;
+  currentStep: number;
+}
+
+const IntervalLineWrapper = styled.div<IntervalLineWrapperProps>`
   display: flex;
   align-items: center;
   margin: 0 1rem;
   width: 8rem;
   height: 100%;
+
+  @media ${breakpointConfig.laptopS} {
+    display: ${(props: IntervalLineWrapperProps) =>
+      props.currentStep === props.number ? "flex" : "none"};
+    width: 2rem;
+  }
 `;
 
 const IntervalLine = styled.span`
@@ -75,11 +99,13 @@ const HeaderItem: FC<HeaderItemProps> = ({
         <NumberIconWrapper>
           <NumberIcon>{number}</NumberIcon>
         </NumberIconWrapper>
-        <TitleText>{title}</TitleText>
+        <TitleText number={number} currentStep={currentStep}>
+          {title}
+        </TitleText>
       </OptionWrapper>
 
       {!isLastItem && (
-        <IntervalLineWrapper>
+        <IntervalLineWrapper number={number} currentStep={currentStep}>
           <IntervalLine />
         </IntervalLineWrapper>
       )}

@@ -58,6 +58,7 @@ export default async function handler(
       questionDocId: questionDocRef.id,
       responseDocId: responseDocRef.id,
       groupId,
+      latestResponsedTime: null,
     };
     const newQuestionDocData = {
       questions: newHandledQuestions,

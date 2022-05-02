@@ -53,7 +53,7 @@ const questionDefaultList = [
   questionDefaultConfig.INTRODUCTION_DEFAULT,
   questionDefaultConfig.ONE_CHOICE_DEFAULT,
   questionDefaultConfig.MULTIPLE_CHOICE_DEFAULT,
-  questionDefaultConfig.MARTIX_DEFAULT,
+  questionDefaultConfig.MATRIX_DEFAULT,
   questionDefaultConfig.NUMBER_DEFAULT,
   questionDefaultConfig.SLIDER_DEFAULT,
   questionDefaultConfig.SORT_DEFAULT,
