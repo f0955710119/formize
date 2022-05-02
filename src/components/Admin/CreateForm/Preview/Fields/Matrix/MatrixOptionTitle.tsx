@@ -66,7 +66,7 @@ const MatrixOptionTitle: FC<MatrixOptionTitleProps> = ({
 
     // const checkExistedmatrixTitle = helper.checkExistedName(newmatrixObj);
     // if (checkExistedmatrixTitle) {
-    //   window.alert("不能存取重複的選項名稱，請修改後再儲存!");
+    //  alert("不能存取重複的選項名稱，請修改後再儲存!");
     //   return;
     // }
     const updateMatrixOptionTitle = helper.generateUpdateNames(newmatrixObj);

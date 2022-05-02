@@ -43,7 +43,6 @@ interface MatrixProps {
 }
 
 const Matrix: FC<MatrixProps> = ({ id, options, matrixs }: MatrixProps) => {
-  // 之後樣式用綁ref的方式去得到title的width值，來改變選項的位置 > window.getComputedStyle(document.querySelector('#mainbar')).width
   return (
     <MatrixWrapper>
       <OpenDefaultMatrixTitleButton>

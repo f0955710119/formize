@@ -75,7 +75,7 @@ const MatrixTitle: FC<matrixTitleProps> = ({
 
     // const checkExistedmatrixTitle = helper.checkExistedName(newmatrixObj);
     // if (checkExistedmatrixTitle) {
-    //   window.alert("不能存取重複的欄位名稱，請修改後再儲存!");
+    //   alert("不能存取重複的欄位名稱，請修改後再儲存!");
     //   return;
     // }
     const updateMatrixTitle = helper.generateUpdateNames(newMatrixObj);

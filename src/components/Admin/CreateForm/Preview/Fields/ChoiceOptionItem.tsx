@@ -124,7 +124,7 @@ const OptionItem: FC<OptionItemProps> = ({
     // const checkHasExistedTitle = helper.checkExistedName(checkNameUtilObj);
 
     // if (checkHasExistedTitle) {
-    //   window.alert("有重複的選項名稱存在，不可以重複儲存喲!");
+    //   alert("有重複的選項名稱存在，不可以重複儲存喲!");
     //   return;
     // }
 

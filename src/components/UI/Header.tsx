@@ -34,7 +34,7 @@ const Header: FC<HeaderProps> = ({ children }) => {
   const router = useRouter();
   const logoutHandler = (): void => {
     firebase.nativeSignOut();
-    window.alert("登出成功，將回首頁");
+    alert("登出成功，將回首頁");
     router.push("/");
   };
   return (
