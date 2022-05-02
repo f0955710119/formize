@@ -2,13 +2,13 @@ import { FC, useState, useRef } from "react";
 import styled from "styled-components";
 import AddOptionButton from "../UI/AddOptionButton";
 import { ButtonWrapper, ButtonText } from "../UI/Button";
-import AddMartixButton from "./Martix/AddMartixButton";
-import MartixTitle from "./Martix/MartixTitle";
-import MartixRadio from "./Martix/MartixRadio";
-import MartixOptionTitle from "./Martix/MartixOptionTitle";
+import AddMatrixButton from "./Matrix/AddMatrixButton";
+import MatrixTitle from "./Matrix/MatrixTitle";
+import MatrixRadio from "./Matrix/MatrixRadio";
+import MatrixOptionTitle from "./Matrix/MatrixOptionTitle";
 import helper from "../../../../../utils/helper";
 
-const MartixWrapper = styled.div`
+const MatrixWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -20,61 +20,61 @@ const FlexAlignCenter = styled.div`
   width: 100%;
 `;
 
-const MartixTitleWrapper = styled(FlexAlignCenter)`
+const MatrixTitleWrapper = styled(FlexAlignCenter)`
   justify-content: end;
   margin: 2rem 0;
   width: 100%;
 `;
 
-const MartixOptions = styled(FlexAlignCenter)`
+const MatrixOptions = styled(FlexAlignCenter)`
   justify-content: space-between;
   margin-bottom: 1rem;
 `;
 
-const OpenDefaultMartixTitleButton = styled(ButtonWrapper)`
+const OpenDefaultMatrixTitleButton = styled(ButtonWrapper)`
   background-color: ${(props) => props.theme.addOption};
   width: 20rem;
 `;
 
-interface MartixProps {
+interface MatrixProps {
   id: string;
   options: string[];
-  martixs: string[];
+  matrixs: string[];
 }
 
-const Martix: FC<MartixProps> = ({ id, options, martixs }: MartixProps) => {
+const Matrix: FC<MatrixProps> = ({ id, options, matrixs }: MatrixProps) => {
   // 之後樣式用綁ref的方式去得到title的width值，來改變選項的位置 > window.getComputedStyle(document.querySelector('#mainbar')).width
   return (
-    <MartixWrapper>
-      <OpenDefaultMartixTitleButton>
+    <MatrixWrapper>
+      <OpenDefaultMatrixTitleButton>
         <ButtonText>開啟預設欄位清單</ButtonText>
-      </OpenDefaultMartixTitleButton>
-      <AddMartixButton id={id} martixs={martixs} />
-      <MartixTitleWrapper>
-        {martixs.map((martix, i) => (
-          <MartixTitle
+      </OpenDefaultMatrixTitleButton>
+      <AddMatrixButton id={id} matrixs={matrixs} />
+      <MatrixTitleWrapper>
+        {matrixs.map((matrix, i) => (
+          <MatrixTitle
             key={helper.generateId(6)}
             id={id}
-            martix={martix}
+            matrix={matrix}
             index={i}
-            martixs={martixs}
+            matrixs={matrixs}
           />
         ))}
-      </MartixTitleWrapper>
+      </MatrixTitleWrapper>
       <AddOptionButton id={id} options={options} />
       {options.map((option, i) => (
-        <MartixOptions key={helper.generateId(6)}>
-          <MartixOptionTitle
+        <MatrixOptions key={helper.generateId(6)}>
+          <MatrixOptionTitle
             id={id}
             index={i}
             option={option}
             options={options}
           />
-          <MartixRadio id={id} martixs={martixs} />
-        </MartixOptions>
+          <MatrixRadio id={id} matrixs={matrixs} />
+        </MatrixOptions>
       ))}
-    </MartixWrapper>
+    </MatrixWrapper>
   );
 };
 
-export default Martix;
+export default Matrix;

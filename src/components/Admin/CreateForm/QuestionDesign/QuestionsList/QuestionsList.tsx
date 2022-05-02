@@ -10,13 +10,14 @@ import helper from "../../../../../utils/helper";
 import MultiPage from "./MultiPage";
 import SinglePage from "./SinglePage";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import scrollBar from "../../UI/scrollBar";
 
 interface ListLayoutProps {
   isMultiplePage: boolean;
 }
 
 const ListLayout = styled(Layout)<ListLayoutProps>`
-  width: 18%;
+  width: 20%;
   @media ${breakpointConfig.laptopM} {
     width: 100%;
     height: ${(props: ListLayoutProps) =>
@@ -42,28 +43,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   flex-direction: column;
 
   overflow-y: scroll;
-  &::-webkit-scrollbar-track {
-    background-color: #ccc;
-  }
-
-  &::-webkit-scrollbar {
-    width: 0.5rem;
-    background-color: #f5f5f5;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #b4bcb7;
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-    );
-  }
+  ${scrollBar}
 
   @media ${breakpointConfig.laptopM} {
     margin-bottom: 0;
@@ -71,7 +51,6 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
     padding-bottom: 1.5rem;
     width: 100%;
     height: 100%;
-    /* max-height: 10rem; */
 
     ${(props: QuestionWrapperProps) =>
       props.isMultiplePage
@@ -99,31 +78,25 @@ const Heading = styled.div`
   } ;
 `;
 
-// const T = styled.span`
-//   width: 100%;
-//   height: 100%;
-//   min-height: 10rem;
-//   min-width: 10rem;
-//   line-height: 10rem;
-//   background-color: #eee;
-// `;
-
 const NoQuestionsReminder = styled.div`
-  position: relative;
   width: 100%;
-  height: 8rem;
   text-align: center;
-  line-height: 9.5rem;
-  background-color: #e8e8e8;
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -1.5rem;
-    left: 0;
-    width: 100%;
-    height: 1.5rem;
+  line-height: 50rem;
+  @media ${breakpointConfig.laptopM} {
+    position: relative;
+    height: 8rem;
+    line-height: 9.5rem;
     background-color: #e8e8e8;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1.5rem;
+      left: 0;
+      width: 100%;
+      height: 1.5rem;
+      background-color: #e8e8e8;
+    }
   }
 `;
 

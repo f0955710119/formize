@@ -8,16 +8,15 @@ import { TextField } from "@mui/material";
 import helper from "../../../../../utils/helper";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import icons from "../../UI/icons";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
   width: 100%;
 
   @media ${breakpointConfig.laptopS} {
-    flex-wrap: nowrap;
-    flex-direction: column;
   }
 `;
 
@@ -27,13 +26,18 @@ const OptionItemWrapper = styled.div`
   margin-right: 1rem;
   margin-bottom: 1rem;
   padding: 0.4rem;
-  width: 30%;
+  width: 100%;
   height: 6rem;
   border: 2px solid ${(props) => props.theme.optionText};
 
-  @media ${breakpointConfig.laptopS} {
-    width: 100%;
-  }
+  /* @media ${breakpointConfig.laptopS} {
+  } */
+`;
+
+const EditingOptionItemWrapper = styled(OptionItemWrapper)`
+  flex-direction: column;
+  height: auto;
+  padding: 1rem;
 `;
 
 const OptionItemText = styled.div`
@@ -41,23 +45,16 @@ const OptionItemText = styled.div`
   font-size: 1.8rem;
   color: ${(props) => props.theme.optionText};
 `;
-const OptionDeleteButtonWrapper = styled.div`
-  margin-right: 10%;
-  width: 18%;
-  height: 100%;
-`;
 
-const CustomDeleteIcon = styled(DeleteSharpIcon)`
-  width: 100%;
-  height: 100%;
-  border-radius: 30px;
-  cursor: pointer;
+const DeleteButton = styled(icons.delete)`
+  width: 2.4rem;
+  height: 2.4rem;
   fill: ${(props) => props.theme.optionText};
+  margin-right: 1rem;
 `;
 
 const CustomTextField = styled(TextField)`
-  margin-right: 5%;
-  width: 60%;
+  width: 100%;
   height: 100%;
 
   & .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
@@ -74,10 +71,19 @@ const CustomTextField = styled(TextField)`
   }
 `;
 
-const ButtonWrapper = styled.div`
-  width: 35%;
-  display: flex;
-  flex-direction: column;
+const EditingButton = styled.button`
+  align-self: end;
+  margin-top: 1rem;
+  width: 50%;
+  height: 3rem;
+  text-align: center;
+  line-height: 3rem;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 1.4rem;
+  color: #333;
+  background-color: "#777";
+  cursor: pointer;
 `;
 
 interface OptionItemProps {
@@ -115,12 +121,12 @@ const OptionItem: FC<OptionItemProps> = ({
       index,
       editingText: editingOptionText,
     };
-    const checkHasExistedTitle = helper.checkExistedName(checkNameUtilObj);
+    // const checkHasExistedTitle = helper.checkExistedName(checkNameUtilObj);
 
-    if (checkHasExistedTitle) {
-      window.alert("有重複的選項名稱存在，不可以重複儲存喲!");
-      return;
-    }
+    // if (checkHasExistedTitle) {
+    //   window.alert("有重複的選項名稱存在，不可以重複儲存喲!");
+    //   return;
+    // }
 
     const updateOptions = helper.generateUpdateNames(checkNameUtilObj);
 
@@ -135,28 +141,28 @@ const OptionItem: FC<OptionItemProps> = ({
   };
 
   return hasClickedOptionText ? (
-    <OptionItemWrapper>
+    <EditingOptionItemWrapper>
       <CustomTextField
         value={editingOptionText}
         placeholder=""
         label=""
         onChange={(event) => setEditingOptionText(event.target.value)}
       />
-      <ButtonWrapper>
-        <button
-          style={{ marginBottom: "1rem" }}
-          onClick={saveEditedTextHandler}
-        >
-          儲存
-        </button>
-        <button onClick={() => setHasClickedOptionText(false)}>取消</button>
-      </ButtonWrapper>
-    </OptionItemWrapper>
+
+      <EditingButton
+        style={{ marginBottom: "1rem" }}
+        onClick={saveEditedTextHandler}
+      >
+        儲存
+      </EditingButton>
+      <EditingButton onClick={() => setHasClickedOptionText(false)}>
+        取消
+      </EditingButton>
+    </EditingOptionItemWrapper>
   ) : (
     <OptionItemWrapper>
-      <OptionDeleteButtonWrapper onClick={() => deleteOptionHandler(index)}>
-        <CustomDeleteIcon />
-      </OptionDeleteButtonWrapper>
+      <DeleteButton onClick={() => deleteOptionHandler(index)} />
+
       <OptionItemText
         onClick={() => {
           setHasClickedOptionText(true);

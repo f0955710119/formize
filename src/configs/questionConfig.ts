@@ -8,7 +8,7 @@ const questionConfig: QuestionConfig = {
   INTRODUCTION: "2",
   ONE_CHOICE: "3",
   MULTIPLE_CHOICE: "4",
-  MARTIX: "5",
+  MATRIX: "5",
   NUMBER: "6",
   SLIDER: "7",
   SORT: "8",

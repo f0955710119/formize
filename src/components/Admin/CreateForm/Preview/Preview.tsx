@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useAppSelector } from "../../../../hooks/useAppSelector";
 
 import styled from "styled-components";
@@ -35,30 +35,31 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
 
   display: flex;
   justify-content: center;
-  width: 64%;
+  width: 62%;
   height: 100%;
   padding: 0rem;
   background-color: #f8f8f8;
 
   @media ${breakpointConfig.laptopM} {
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 6rem);
     order: 1;
     background-color: #fff;
   }
 `;
 
-const formWidth = Math.round((window.innerHeight / 4) * 3);
+// const formWidth = Math.round((window.innerHeight / 4) * 3);
 interface QuestionWrapperProps {
   hasQuestion: boolean;
   backgroundImageURL: string;
+  width: string;
 }
 
 const QuestionWrapper = styled.div<QuestionWrapperProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: ${formWidth}px;
+  width: ${(props: QuestionWrapperProps) => props.width};
   height: 100%;
   padding: 2rem 4rem;
   ${(props: QuestionWrapperProps) => `background-image: linear-gradient(
@@ -137,6 +138,10 @@ const SwitchEditingFormPageButton = styled.div<SwitchEditingFormPageButtonProps>
 
 const Preview: FC = () => {
   const dispatch = useAppDispatch();
+  const [width, setWidth] = useState<string>("");
+  const [reminderText, setReminderText] = useState<string>(
+    "尚無題目，點擊右欄題目的新增符號來創建題型吧!"
+  );
   const { questions, editingFormPage } = useAppSelector(
     (state) => state.question
   );
@@ -148,6 +153,14 @@ const Preview: FC = () => {
     pageQuantity,
     questions
   );
+
+  useEffect(() => {
+    const widthFromWindow = Math.round((window.innerHeight / 4) * 3);
+    setWidth(`${widthFromWindow}px`);
+
+    if (window.innerWidth > 1240) return;
+    setReminderText("尚無題目!下滑至題目欄，點擊新增符號來創建題型吧!");
+  }, []);
 
   // const switchEditingPageHandler = (page: number) => {
   //   dispatch(questionActions.switchEditingFormPage(page));
@@ -207,14 +220,13 @@ const Preview: FC = () => {
       <QuestionWrapper
         backgroundImageURL={backgroundImages[0]}
         hasQuestion={hasQuestions}
+        width={width}
       >
         {hasQuestions ? (
           renderQuestions
         ) : (
           <NoQuestionReminder>
-            <NoQuestionReminderText>
-              尚無題目，下滑點擊題目的新增符號來創建題型吧!
-            </NoQuestionReminderText>
+            <NoQuestionReminderText>{reminderText}</NoQuestionReminderText>
           </NoQuestionReminder>
         )}
       </QuestionWrapper>

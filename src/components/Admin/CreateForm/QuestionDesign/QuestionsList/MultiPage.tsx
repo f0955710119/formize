@@ -8,6 +8,9 @@ import CreatedQuestion from "./CreatedQuestion";
 
 import helper from "../../../../../utils/helper";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+
+import icons from "../../UI/icons";
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
@@ -22,6 +25,18 @@ const DeleteButtonWrapper = styled.div`
   align-items: center;
   width: 5rem;
   height: 100%;
+
+  /* @media ${breakpointConfig.laptopM} {
+    display: none;
+  } */
+`;
+
+const DeleteButton = styled(icons.delete)`
+  width: 2.4rem;
+  height: 2.4rem;
+  fill: #aaa;
+  margin-right: 1rem;
+  /* @media ${breakpointConfig.laptopM} */
 `;
 
 interface MultiPageProps {
@@ -53,20 +68,12 @@ const MultiPage: FC<MultiPageProps> = ({
         >
           {filteredQuestions.map((question, i) => (
             <CreatedQuestionWrapper key={question.id}>
-              <DeleteButtonWrapper>
-                <DeleteSharpIcon
-                  id={question.id}
-                  onClick={() => {
-                    deleteQuestionHandler(question.id);
-                  }}
-                  sx={{
-                    width: "50%",
-                    height: "2.4rem",
-                    fill: "#c8c8c8",
-                    cursor: "pointer",
-                  }}
-                />
-              </DeleteButtonWrapper>
+              <DeleteButton
+                id={question.id}
+                onClick={() => {
+                  deleteQuestionHandler(question.id);
+                }}
+              />
               <CreatedQuestion
                 title={
                   question.type === "2"

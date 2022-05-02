@@ -8,7 +8,7 @@ export interface Question {
   placeholder?: string;
   type: string;
   options?: string[];
-  martixs?: string[];
+  matrixs?: string[];
   validations: Validation;
   image?: string | File | null;
 }

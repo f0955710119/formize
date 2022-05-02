@@ -7,13 +7,13 @@ import { TextField } from "@mui/material";
 import BackspaceSharpIcon from "@mui/icons-material/BackspaceSharp";
 import helper from "../../../../../../utils/helper";
 
-const MartixOptionTitleWrapper = styled.div`
+const MatrixOptionTitleWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 50%;
 `;
 
-const MartixOptionTitleText = styled.span`
+const MatrixOptionTitleText = styled.span`
   font-size: 1.6rem;
   margin-right: 1rem;
 `;
@@ -29,24 +29,24 @@ const CustomBackspace = styled(BackspaceSharpIcon)`
   }
 `;
 
-interface MartixOptionTitleProps {
+interface MatrixOptionTitleProps {
   id: string;
   index: number;
   option: string;
   options: string[];
 }
 
-const MartixOptionTitle: FC<MartixOptionTitleProps> = ({
+const MatrixOptionTitle: FC<MatrixOptionTitleProps> = ({
   id,
   index,
   option,
   options,
-}: MartixOptionTitleProps) => {
+}: MatrixOptionTitleProps) => {
   const [hasClickedOption, setHasClickOption] = useState<boolean>(false);
   const [editingOptionText, setEditingOptionText] = useState<string>(option);
   const dispatch = useAppDispatch();
 
-  const deleteMartixOptionTitleHandler = () => {
+  const deleteMatrixOptionTitleHandler = () => {
     const updateOptions = options.filter((_, i) => i !== index);
     dispatch(
       questionActions.updateSiglePropOfQuestion({
@@ -57,48 +57,48 @@ const MartixOptionTitle: FC<MartixOptionTitleProps> = ({
     );
   };
 
-  const saveMartixOptionTitleHandler = () => {
-    const newMartixObj = {
+  const saveMatrixOptionTitleHandler = () => {
+    const newmatrixObj = {
       stringArr: options,
       index,
       editingText: editingOptionText,
     };
 
-    const checkExistedMartixTitle = helper.checkExistedName(newMartixObj);
-    if (checkExistedMartixTitle) {
-      window.alert("不能存取重複的選項名稱，請修改後再儲存!");
-      return;
-    }
-    const updateMartixOptionTitle = helper.generateUpdateNames(newMartixObj);
+    // const checkExistedmatrixTitle = helper.checkExistedName(newmatrixObj);
+    // if (checkExistedmatrixTitle) {
+    //   window.alert("不能存取重複的選項名稱，請修改後再儲存!");
+    //   return;
+    // }
+    const updateMatrixOptionTitle = helper.generateUpdateNames(newmatrixObj);
     dispatch(
       questionActions.updateSiglePropOfQuestion({
         id,
         actionType: questionActionType.OPTIONS,
-        stringArr: updateMartixOptionTitle,
+        stringArr: updateMatrixOptionTitle,
       })
     );
     setHasClickOption(false);
   };
 
   return hasClickedOption ? (
-    <MartixOptionTitleWrapper>
+    <MatrixOptionTitleWrapper>
       <TextField
         label=""
         variant="standard"
         value={editingOptionText}
         onChange={(event) => setEditingOptionText(event.target.value)}
       />
-      <button onClick={saveMartixOptionTitleHandler}>儲存</button>
+      <button onClick={saveMatrixOptionTitleHandler}>儲存</button>
       <button onClick={() => setHasClickOption(false)}>取消</button>
-    </MartixOptionTitleWrapper>
+    </MatrixOptionTitleWrapper>
   ) : (
-    <MartixOptionTitleWrapper>
-      <MartixOptionTitleText onClick={() => setHasClickOption(true)}>
+    <MatrixOptionTitleWrapper>
+      <MatrixOptionTitleText onClick={() => setHasClickOption(true)}>
         {option}
-      </MartixOptionTitleText>
-      <CustomBackspace onClick={deleteMartixOptionTitleHandler} />
-    </MartixOptionTitleWrapper>
+      </MatrixOptionTitleText>
+      <CustomBackspace onClick={deleteMatrixOptionTitleHandler} />
+    </MatrixOptionTitleWrapper>
   );
 };
 
-export default MartixOptionTitle;
+export default MatrixOptionTitle;

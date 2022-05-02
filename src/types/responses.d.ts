@@ -8,7 +8,7 @@ export interface Table {
   title: string;
   id: string;
   type: string;
-  martixs?: string[];
+  matrixs?: string[];
   options?: string[];
 }
 

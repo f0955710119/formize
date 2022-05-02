@@ -15,7 +15,7 @@ interface TableInfoItem {
   id: string;
   title: string;
   options?: string[];
-  martixs?: string[];
+  matrixs?: string[];
 }
 
 export default async function handler(
@@ -107,7 +107,7 @@ export default async function handler(
             return counts;
           }
           case "5": {
-            if (!table.martixs) {
+            if (!table.matrixs) {
               throw new Error("問卷題型有誤，矩陣題不得沒有欄位指標");
             }
             const counts: { [key: string]: number } = {};
@@ -116,20 +116,20 @@ export default async function handler(
               if (d === "") return;
               counts[d] = (counts[d] || 0) + 1;
             });
-            const martixCounts = table.martixs.map((martix) => {
-              if (!counts[martix])
+            const matrixCounts = table.matrixs.map((matrix) => {
+              if (!counts[matrix])
                 return {
-                  rowTitle: martix,
+                  rowTitle: matrix,
                   value: 0,
                 };
 
               return {
-                rowTitle: martix,
-                value: counts[martix],
+                rowTitle: matrix,
+                value: counts[matrix],
               };
             });
 
-            return martixCounts;
+            return matrixCounts;
           }
 
           case "6":

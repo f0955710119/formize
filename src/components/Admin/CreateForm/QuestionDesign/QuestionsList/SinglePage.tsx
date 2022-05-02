@@ -4,6 +4,7 @@ import styled from "styled-components";
 import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 import CreatedQuestion from "./CreatedQuestion";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import icons from "../../UI/icons";
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
@@ -25,9 +26,15 @@ const DeleteButtonWrapper = styled.div`
   width: 5rem;
   height: 100%;
 
-  @media ${breakpointConfig.laptopM} {
+  /* @media ${breakpointConfig.laptopM} {
     display: none;
-  }
+  } */
+`;
+
+const DeleteButton = styled(icons.delete)`
+  width: 2.4rem;
+  height: 2.4rem;
+  fill: #aaa;
 `;
 
 interface SingplePageProps {
@@ -48,14 +55,7 @@ const SinglePage: FC<SingplePageProps> = ({
   return (
     <CreatedQuestionWrapper>
       <DeleteButtonWrapper onClick={() => deleteQuestionHandler(id)}>
-        <DeleteSharpIcon
-          sx={{
-            width: "100%",
-            height: "2rem",
-            fill: "#c8c8c8",
-            cursor: "pointer",
-          }}
-        />
+        <DeleteButton />
       </DeleteButtonWrapper>
       <CreatedQuestion
         title={type === "2" ? "引言" : title}

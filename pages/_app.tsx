@@ -66,6 +66,7 @@ const GlobalStyle = createGlobalStyle`
   button {
     transition: background-color 0.3s;
     border: none;
+    font-family: inherit;
   }
 
   input:focus {

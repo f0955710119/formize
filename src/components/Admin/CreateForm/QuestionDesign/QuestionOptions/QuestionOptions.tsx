@@ -9,20 +9,12 @@ import { Question } from "../../../../../types/question";
 
 import OptionItem from "./OptionItem";
 import { Heading } from "../../UI/SectionHeading";
+import TextLimitation from "./OptionLimitation/TextLimitation";
 import ChoiceLimitation from "./OptionLimitation/ChoiceLimitation";
 import NumberLimitation from "./OptionLimitation/NumberLimitation";
 import DateLimitation from "./OptionLimitation/DateLimitation";
+import QuestionIcon from "../QuestionIcon";
 
-import TextLimitation from "./OptionLimitation/TextLimitation";
-import TextFormatSharpIcon from "@mui/icons-material/TextFormatSharp";
-import TextIncreaseSharpIcon from "@mui/icons-material/TextIncreaseSharp";
-import FormatQuoteSharpIcon from "@mui/icons-material/FormatQuoteSharp";
-import AdjustSharpIcon from "@mui/icons-material/AdjustSharp";
-import FormatListNumberedSharpIcon from "@mui/icons-material/FormatListNumberedSharp";
-import LooksOneSharpIcon from "@mui/icons-material/LooksOneSharp";
-import TuneSharpIcon from "@mui/icons-material/TuneSharp";
-import LayersSharpIcon from "@mui/icons-material/LayersSharp";
-import QueryBuilderSharpIcon from "@mui/icons-material/QueryBuilderSharp";
 import NewPageModal from "../QuestionsList/NewPageModal";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
@@ -123,57 +115,17 @@ const NavigatorButton = styled(ButtonWrapper)`
   background-color: #c8c8c8;
 `;
 
-const questionList: OptionItem[] = [
-  {
-    title: "單行文字",
-    questionType: questionConfig.ONE_LINE_TEXT,
-    iconComponent: <TextFormatSharpIcon />,
-  },
-  {
-    title: "多行文字",
-    questionType: questionConfig.MULTIPLE_LINE_TEXT,
-    iconComponent: <TextIncreaseSharpIcon />,
-  },
-  {
-    title: "引言",
-    questionType: questionConfig.INTRODUCTION,
-    iconComponent: <FormatQuoteSharpIcon />,
-  },
-  {
-    title: "單選",
-    questionType: questionConfig.ONE_CHOICE,
-    iconComponent: <AdjustSharpIcon />,
-  },
-  {
-    title: "多選",
-    questionType: questionConfig.MULTIPLE_CHOICE,
-    iconComponent: <FormatListNumberedSharpIcon />,
-  },
-  {
-    title: "矩陣",
-    questionType: questionConfig.MARTIX,
-    iconComponent: <FormatQuoteSharpIcon />,
-  },
-  {
-    title: "數值",
-    questionType: questionConfig.NUMBER,
-    iconComponent: <LooksOneSharpIcon />,
-  },
-  {
-    title: "滑桿",
-    questionType: questionConfig.SLIDER,
-    iconComponent: <TuneSharpIcon />,
-  },
-  {
-    title: "排序",
-    questionType: questionConfig.SORT,
-    iconComponent: <LayersSharpIcon />,
-  },
-  {
-    title: "日期",
-    questionType: questionConfig.DATE,
-    iconComponent: <QueryBuilderSharpIcon />,
-  },
+const questionList = [
+  "單行文字",
+  "多行文字",
+  "引言",
+  "單選",
+  "多選",
+  "矩陣",
+  "數值",
+  "滑桿",
+  "排序",
+  "日期",
 ];
 
 const generateLimitation = (question: Question) => {
@@ -254,13 +206,12 @@ const QuestionOptions: FC = () => {
       <OptionsLayout>
         <OptionHeading>題型</OptionHeading>
         <OptionList>
-          {questionList.map((item) => (
-            <OptionItem
-              title={item.title}
-              questionType={item.questionType}
-              key={item.title}
-            >
-              {item.iconComponent}
+          {questionList.map((title, i) => (
+            <OptionItem title={title} questionType={`${i}`} key={title}>
+              <QuestionIcon
+                questionType={`${i}`}
+                style="transform: translateY(-0.6rem);"
+              />
             </OptionItem>
           ))}
         </OptionList>

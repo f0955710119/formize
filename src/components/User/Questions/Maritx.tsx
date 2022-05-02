@@ -8,7 +8,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { userActions } from "../../../store/slice/userSlice";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 
-const MartixWrapper = styled.div`
+const MatrixWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -20,28 +20,28 @@ const FlexAlignCenter = styled.div`
   width: 100%;
 `;
 
-const MartixTitleWrapper = styled(FlexAlignCenter)`
+const MatrixTitleWrapper = styled(FlexAlignCenter)`
   justify-content: end;
   margin: 2rem 0;
   width: 100%;
 `;
 
-const MartixOptions = styled(FlexAlignCenter)`
+const MatrixOptions = styled(FlexAlignCenter)`
   justify-content: space-between;
   margin-bottom: 1rem;
 `;
 
-interface MartixRadioProps {
+interface MatrixRadioProps {
   optionIndex: number;
-  martixs: string[];
+  matrixs: string[];
   questionId: string;
 }
 
-const MartixRadio: FC<MartixRadioProps> = ({
+const MatrixRadio: FC<MatrixRadioProps> = ({
   optionIndex,
-  martixs,
+  matrixs,
   questionId,
-}: MartixRadioProps) => {
+}: MatrixRadioProps) => {
   const dispatch = useAppDispatch();
   const questionIdIndex = useGetQuestionIdIndex(`${questionId}_${optionIndex}`);
   return (
@@ -55,12 +55,12 @@ const MartixRadio: FC<MartixRadioProps> = ({
           dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
         }}
       >
-        {martixs.map((martix) => (
+        {matrixs.map((matrix) => (
           <Radio
-            key={martix}
-            value={martix}
+            key={matrix}
+            value={matrix}
             name="question-radio-buttons"
-            inputProps={{ "aria-label": `value-${martix}` }}
+            inputProps={{ "aria-label": `value-${matrix}` }}
           />
         ))}
       </RadioGroup>
@@ -68,36 +68,36 @@ const MartixRadio: FC<MartixRadioProps> = ({
   );
 };
 
-interface MartixProps {
+interface MatrixProps {
   options: string[];
-  martixs: string[];
+  matrixs: string[];
   questionId: string;
 }
 
-const Martix: FC<MartixProps> = ({
+const matrix: FC<MatrixProps> = ({
   options,
-  martixs,
+  matrixs,
   questionId,
-}: MartixProps) => {
+}: MatrixProps) => {
   return (
-    <MartixWrapper>
-      <MartixTitleWrapper>
-        {martixs.map((martix, i) => (
-          <span key={i}>{martix}</span>
+    <MatrixWrapper>
+      <MatrixTitleWrapper>
+        {matrixs.map((matrix, i) => (
+          <span key={i}>{matrix}</span>
         ))}
-      </MartixTitleWrapper>
+      </MatrixTitleWrapper>
       {options.map((option, i) => (
-        <MartixOptions key={i}>
+        <MatrixOptions key={i}>
           <span key={i}>{option}</span>
-          <MartixRadio
+          <MatrixRadio
             optionIndex={i}
-            martixs={martixs}
+            matrixs={matrixs}
             questionId={questionId}
           />
-        </MartixOptions>
+        </MatrixOptions>
       ))}
-    </MartixWrapper>
+    </MatrixWrapper>
   );
 };
 
-export default Martix;
+export default matrix;
