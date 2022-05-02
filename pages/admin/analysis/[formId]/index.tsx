@@ -20,6 +20,7 @@ const Analysis: NextPage = () => {
   const getStaticsAnalysisData = async (formId: string) => {
     const response = await fetch(`/api/admin/analysis/statis/${formId}`);
     const data = await response.json();
+    console.log(data);
     const { tableStatis } = data.data;
     console.log(tableStatis);
     setStatisDate(tableStatis);
