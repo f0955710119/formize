@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormOptionList from "./FormOptionList";
 import FormItemExpand from "./FormItemExpand/FormItemExpand";
+import helper from "../../../../../utils/helper";
 
 interface ItemContainerProps {
   isExpand: boolean;
@@ -59,7 +60,7 @@ const ExpandMore = styled.span`
 
 interface FormItemProps {
   title: string;
-  responseNumber: number;
+  responsedTimes: number;
   dateCreated: Date;
   dateResponsed: Date | null;
   formId: string;
@@ -67,7 +68,7 @@ interface FormItemProps {
 
 const FormItem: FC<FormItemProps> = ({
   title,
-  responseNumber,
+  responsedTimes,
   dateCreated,
   dateResponsed,
   formId,
@@ -77,21 +78,13 @@ const FormItem: FC<FormItemProps> = ({
     <ItemContainer isExpand={hasClickExpand}>
       <ItemWrapper>
         <Title>{title}</Title>
-        <ResponsedQuantity>{responseNumber}</ResponsedQuantity>
+        <ResponsedQuantity>{responsedTimes}</ResponsedQuantity>
         <CreatedTime>
-          {dateCreated.toLocaleString("zh-tw", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
+          {helper.convertDateToLocaleString(dateCreated)}
         </CreatedTime>
         <ResponsedTime>
           {dateResponsed
-            ? dateResponsed.toLocaleString("zh-tw", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })
+            ? helper.convertDateToLocaleString(dateResponsed)
             : "尚無回應"}
         </ResponsedTime>
         <ExpandMore

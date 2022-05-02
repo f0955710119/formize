@@ -395,4 +395,15 @@ export default {
     };
     return typeObj[type];
   },
+  convertFirebaseTimeToDate(timeObj: Date) {
+    const timeValueArr = Object.values(timeObj);
+    return new Date(timeValueArr[0] * 1000 + timeValueArr[1] / 1000000);
+  },
+  convertDateToLocaleString(time: Date) {
+    return time.toLocaleString("zh-tw", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  },
 };

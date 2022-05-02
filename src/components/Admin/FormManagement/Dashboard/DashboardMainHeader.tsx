@@ -2,6 +2,8 @@ import { FC, useContext } from "react";
 import styled from "styled-components";
 import { adminContext } from "../../../../store/context/adminContext";
 import adminActionType from "../../../../store/actionType/adminActionType";
+import Logo from "../../../UI/Logo";
+import breakpointConfig from "../../../../configs/breakpointConfig";
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -32,8 +34,24 @@ const DashboardMainHeader: FC = () => {
   const context = useContext(adminContext);
   const groupList = [{ name: "總表", id: "0" }, ...context.groups];
 
+  const logoMedia = `
+  display: "none";
+
+  @media ${breakpointConfig.laptopS}{
+    display:inline-block;
+    margin-right: 1rem;
+  }`;
+
+  const logoTextMedia = `
+  display: none;
+  @media ${breakpointConfig.laptopS}{
+    display:block;
+    font-size: 2.8rem
+  }`;
+
   return (
     <HeaderWrapper>
+      <Logo mediaSetting={logoMedia} textMediaSetting={logoTextMedia} />
       <EditingGroupTagWrapper>
         <EditingGroupTag
           value={context.editingGroupId}

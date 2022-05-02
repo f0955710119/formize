@@ -1,8 +1,6 @@
-import { FC, useContext } from "react";
+import { FC } from "react";
 import styled from "styled-components";
-import useRoutePush from "../../../../../../hooks/useRoutePush";
-import adminActionType from "../../../../../../store/actionType/adminActionType";
-import { adminContext } from "../../../../../../store/context/adminContext";
+import usePushToAnalysisPage from "../../../../../../hooks/usePushToAnalysisPage";
 import FeatureButton from "./FeatureButton";
 
 interface FormItemExpandContainerProps {
@@ -32,8 +30,7 @@ interface FormItemExpandProps {
 }
 
 const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
-  const context = useContext(adminContext);
-  const pushRouterHandler = useRoutePush();
+  const goToAnalysisPageHandler = usePushToAnalysisPage();
   return (
     <FormItemExpandContainer isExpand={isExpand}>
       <FormItemExpandFeatureList>
@@ -45,29 +42,17 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
         <FeatureButton text="移動" />
         <FeatureButton
           text="統計分析"
-          clickHandler={() => {
-            context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 0);
-            context.setField(adminActionType.EDITING_FORM_ID, formId);
-            pushRouterHandler(`/admin/analysis/${formId}`);
-          }}
+          clickHandler={() => goToAnalysisPageHandler(0, formId)}
         />
         <FeatureButton
           text="明細匯出"
-          clickHandler={() => {
-            context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 1);
-            context.setField(adminActionType.EDITING_FORM_ID, formId);
-            pushRouterHandler(`/admin/analysis/${formId}`);
-          }}
+          clickHandler={() => goToAnalysisPageHandler(1, formId)}
         />
         <FeatureButton
           text="訪問紀錄"
-          clickHandler={() => {
-            context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 2);
-            context.setField(adminActionType.EDITING_FORM_ID, formId);
-            pushRouterHandler(`/admin/analysis/${formId}`);
-          }}
+          clickHandler={() => goToAnalysisPageHandler(2, formId)}
         />
-        <FeatureButton text="建立子問卷" />
+        {/* <FeatureButton text="建立子問卷" /> */}
       </FormItemExpandFeatureList>
     </FormItemExpandContainer>
   );

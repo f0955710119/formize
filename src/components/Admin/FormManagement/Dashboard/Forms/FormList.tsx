@@ -1,16 +1,25 @@
 import { FC, useContext } from "react";
 import styled from "styled-components";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
 import { adminContext } from "../../../../../store/context/adminContext";
 import { Forms } from "../../../../../types/form";
+import helper from "../../../../../utils/helper";
+import FormCard from "./FormCard";
 import FormItem from "./FormItem";
 
-const ListContainer = styled.div`
+const FormsContainer = styled.div`
   width: 100%;
+  font-size: 1.4rem;
 
   &:not(:last-child) {
     margin-bottom: 6rem;
   }
-  font-size: 1.4rem;
+`;
+
+const ListContainer = styled(FormsContainer)`
+  @media ${breakpointConfig.tablet} {
+    display: none;
+  } ;
 `;
 
 const ListColumnTitleContainer = styled.div`
@@ -51,7 +60,7 @@ const ExpandMore = styled.span`
   text-align: center;
 `;
 
-const ListWrapper = styled.ul`
+const FormWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -60,6 +69,8 @@ const ListWrapper = styled.ul`
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 `;
+
+// const ListWrapper = styled(FormWrapper)``;
 
 const EmptyListContainer = styled.div`
   display: flex;
@@ -75,6 +86,13 @@ const EmptyListContainer = styled.div`
 const EmptyListContainerText = styled.span`
   font-size: 1.4rem;
   color: #777;
+`;
+
+const CardContainer = styled(FormsContainer)`
+  display: none;
+  @media ${breakpointConfig.tablet} {
+    display: block;
+  } ;
 `;
 
 const FormList: FC = () => {
@@ -105,13 +123,12 @@ const FormList: FC = () => {
               <GroupTagWrapper>
                 <GroupTag>{group.name}</GroupTag>
               </GroupTagWrapper>
-
               <ResponsedQuantity>回應數量</ResponsedQuantity>
-              <CreatedTime>創建時間</CreatedTime>
-              <ResponsedTime>最新回應時間</ResponsedTime>
+              <CreatedTime>創建日期</CreatedTime>
+              <ResponsedTime>最新回應日期</ResponsedTime>
               <ExpandMore>更多</ExpandMore>
             </ListColumnTitleContainer>
-            <ListWrapper>
+            <FormWrapper>
               {groupForms.map((form, i) => {
                 if (form === "1" || typeof form === "string") {
                   return (
@@ -122,33 +139,70 @@ const FormList: FC = () => {
                     </EmptyListContainer>
                   );
                 }
-
-                const dateCreatedArray = Object.values(
+                const dateCreated = helper.convertFirebaseTimeToDate(
                   (form as Forms).createdTime
                 );
-                const dateResponsedArray =
-                  form.latestResponsedTime !== null
-                    ? Object.values(form.latestResponsedTime)
-                    : null;
-                const dateCreated = new Date(dateCreatedArray[0] * 1000);
                 const dateResponsed =
-                  dateResponsedArray !== null
-                    ? new Date(dateResponsedArray[0] * 1000)
+                  form.latestResponsedTime !== null
+                    ? helper.convertFirebaseTimeToDate(form.latestResponsedTime)
                     : null;
-
                 return (
                   <FormItem
                     formId={form.id}
                     title={form.title}
-                    responseNumber={form.responsedTimes}
+                    responsedTimes={form.responsedTimes}
                     dateCreated={dateCreated}
                     dateResponsed={dateResponsed}
                     key={form.id}
                   />
                 );
               })}
-            </ListWrapper>
+            </FormWrapper>
           </ListContainer>
+        );
+      })}
+      {groupListArray.map((group) => {
+        const hasForms = context.forms.length > 0;
+        const hasResponsedForms = hasForms
+          ? context.forms.filter((form) => form.groupId === group.id)
+          : [];
+        const groupForms =
+          hasResponsedForms.length > 0 ? hasResponsedForms : ["1"];
+
+        return (
+          <CardContainer key={group.id}>
+            <GroupTag>{group.name}</GroupTag>
+            <FormWrapper>
+              {groupForms.map((form, i) => {
+                if (form === "1" || typeof form === "string") {
+                  return (
+                    <EmptyListContainer key={i}>
+                      <EmptyListContainerText>
+                        此群組還沒有問卷唷!
+                      </EmptyListContainerText>
+                    </EmptyListContainer>
+                  );
+                }
+                const dateCreated = helper.convertFirebaseTimeToDate(
+                  (form as Forms).createdTime
+                );
+                const dateResponsed =
+                  form.latestResponsedTime !== null
+                    ? helper.convertFirebaseTimeToDate(form.latestResponsedTime)
+                    : null;
+                return (
+                  <FormCard
+                    formId={form.id}
+                    title={form.title}
+                    responsedTimes={form.responsedTimes}
+                    dateCreated={dateCreated}
+                    dateResponsed={dateResponsed}
+                    key={form.id}
+                  />
+                );
+              })}
+            </FormWrapper>
+          </CardContainer>
         );
       })}
     </>

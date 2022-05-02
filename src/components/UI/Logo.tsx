@@ -2,15 +2,22 @@ import { FC } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 
-const LogoWrapper = styled.div`
+interface LogoWrapper {
+  mediaSetting?: string;
+}
+
+const LogoWrapper = styled.div<LogoWrapper>`
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  ${(props: LogoWrapper) => props.mediaSetting}
 `;
 
 interface LogoTextProps {
   fontSize: string;
+  textMediaSetting?: string;
 }
 
 const LogoText = styled.span<LogoTextProps>`
@@ -18,22 +25,34 @@ const LogoText = styled.span<LogoTextProps>`
   font-size: ${(props: LogoTextProps) => props.fontSize};
   color: #333;
   font-family: jfOpenhuninn !important;
+
+  ${(props: LogoTextProps) => props.textMediaSetting};
 `;
 
 interface LogoProps {
   fontSize?: string;
   style?: {
-    margin?: string;
-    justifyContent?: string;
-    alignItems?: string;
+    [key: string]: string;
   };
+  mediaSetting?: string;
+  textMediaSetting?: string;
 }
 
-const Logo: FC<LogoProps> = ({ fontSize, style }: LogoProps) => {
+const Logo: FC<LogoProps> = ({
+  fontSize,
+  style,
+  mediaSetting,
+  textMediaSetting,
+}: LogoProps) => {
   return (
     <Link href="/admin">
-      <LogoWrapper style={style}>
-        <LogoText fontSize={fontSize ? fontSize : "2.6rem"}>FORMiZE</LogoText>
+      <LogoWrapper style={{ ...style }} mediaSetting={mediaSetting}>
+        <LogoText
+          fontSize={fontSize ? fontSize : "2.6rem"}
+          textMediaSetting={textMediaSetting}
+        >
+          FORMiZE
+        </LogoText>
       </LogoWrapper>
     </Link>
   );
