@@ -8,6 +8,7 @@ import SectionNormal from "./SectionNormal";
 import SectionMedia from "./SectionMedia";
 import SectionBanner from "./SectionBanner";
 import Button from "../UI/Button";
+import breakpointConfig from "../../../../configs/breakpointConfig";
 
 const Wrapper = styled.main`
   display: flex;
@@ -55,6 +56,11 @@ const Form = styled.form`
       transparent 75%,
       transparent
     );
+  }
+
+  @media ${breakpointConfig.laptopS} {
+    width: 90%;
+    transform: translateX(0);
   }
 `;
 
