@@ -124,6 +124,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
         <StatisHeaderForNonDesktop>
           {analysisFeatureList.map((item, i) => (
             <StatisHeaderItemForNonDesktop
+              key={i}
               onClick={() =>
                 context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)
               }
