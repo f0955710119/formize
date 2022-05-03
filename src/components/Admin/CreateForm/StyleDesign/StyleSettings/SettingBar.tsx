@@ -1,5 +1,4 @@
 import { FC, useContext, useState } from "react";
-import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
 import useCheckUid from "../../../../../hooks/useCheckUid";
 import useStyleHandler from "../../../../../hooks/useStyleHandler";
@@ -9,14 +8,16 @@ import styled from "styled-components";
 import Layout from "../../UI/Layout";
 import Card from "./UI/Card";
 import HeaderItem from "./HeaderItem";
-import Button from "../../UI/Button";
+import scrollBar from "../../UI/scrollBar";
 
 import helper from "../../../../../utils/helper";
 import useFormData from "../../../../../hooks/useFormData";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 import backgroundConfig from "../../../../../configs/backgroundConfig";
-import { Settings, Styles } from "../../../../../types/form";
-import { Question } from "../../../../../types/question";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+
+import type { Styles } from "../../../../../types/form";
+import type { Question } from "../../../../../types/question";
 import { adminContext } from "../../../../../store/context/adminContext";
 
 const SettingLayout = styled(Layout)`
@@ -24,6 +25,18 @@ const SettingLayout = styled(Layout)`
   display: flex;
   flex-direction: column;
   width: 18%;
+
+  @media ${breakpointConfig.laptopM} {
+    width: 100%;
+    order: 2;
+
+    padding: 2rem 12rem 0 12rem;
+    border-right: none;
+  }
+
+  @media ${breakpointConfig.tablet} {
+    padding: 2rem 6rem 0 6rem;
+  } ;
 `;
 
 const Header = styled.header`
@@ -52,28 +65,19 @@ const BackGroundCardContainer = styled.div`
   overflow-y: scroll;
   padding-right: 1rem;
 
-  &::-webkit-scrollbar-track {
-    background-color: #ccc;
-  }
+  ${scrollBar}
 
-  &::-webkit-scrollbar {
-    width: 0.5rem;
-    height: 1rem;
-    background-color: #f5f5f5;
-  }
+  @media ${breakpointConfig.laptopM} {
+    flex-direction: row;
+    padding-right: 0;
+    height: 15rem;
+    overflow-y: hidden;
+    overflow-x: auto;
 
-  &::-webkit-scrollbar-thumb {
-    background-color: #b4bcb7;
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-    );
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+      height: 0.5rem;
+    }
   }
 `;
 
@@ -96,29 +100,18 @@ const CardContainer = styled.div`
   width: 100%;
   height: calc(100% - 20rem);
   overflow-y: scroll;
+  ${scrollBar}
 
-  &::-webkit-scrollbar-track {
-    background-color: #ccc;
-  }
+  @media ${breakpointConfig.laptopM} {
+    flex-direction: row;
+    padding: 0;
+    overflow-y: hidden;
+    overflow-x: auto;
 
-  &::-webkit-scrollbar {
-    width: 0.5rem;
-    height: 1rem;
-    background-color: #f5f5f5;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #b4bcb7;
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-    );
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+      height: 0.5rem;
+    }
   }
 `;
 
@@ -139,6 +132,10 @@ const ButtonWrapper = styled.button`
 
   &:not(:last-child) {
     margin-bottom: 1rem;
+  }
+
+  @media ${breakpointConfig.laptopM} {
+    margin: 0 auto 2rem auto;
   }
 `;
 

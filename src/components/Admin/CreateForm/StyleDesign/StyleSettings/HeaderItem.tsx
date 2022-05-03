@@ -1,6 +1,8 @@
 import { FC } from "react";
 import styled from "styled-components";
 
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+
 interface HeaderItemWrapperProps {
   isActive: boolean;
 }
@@ -15,6 +17,10 @@ const HeaderItemWrapper = styled.div<HeaderItemWrapperProps>`
     props.isActive ? "bold" : "inherit"};
   border-right: 1px solid #c8c8c8;
   transition: color 0.3s;
+
+  @media ${breakpointConfig.laptopM} {
+    border-right: none;
+  } ;
 `;
 
 const ItemText = styled.span`
