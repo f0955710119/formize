@@ -2,10 +2,15 @@ import { FC, useContext } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import FilterComboBox from "./FilterComboBox";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
 import DisplayButtonGroup from "./DisplayButtonGroup";
 
 import useInitNewForm from "../../../../hooks/useInitNewForm";
 import { adminContext } from "../../../../store/context/adminContext";
+import breakpointConfig from "../../../../configs/breakpointConfig";
 
 const defalutStatusOptions = ["公開", "待上線", "保護", "額滿", "關閉"];
 const defalutDateOptions = ["最新創建", "最舊創建", "最新回覆", "最舊創建"];
@@ -24,6 +29,8 @@ const FilterWrapper = styled.div`
   align-items: center;
   width: calc(100% - 12rem);
   border-radius: 5px;
+
+  transform: translateY(-1rem);
 `;
 
 const ButtonWrapper = styled.button`
@@ -44,6 +51,10 @@ const ButtonWrapper = styled.button`
     /* background-color: #8e9aa2; */
     background-color: #646665;
   }
+
+  /* @media ${breakpointConfig.tabletS} {
+    width: 8rem;
+  } ; */
 `;
 
 const ButtonText = styled.span`
@@ -66,6 +77,25 @@ const DeleteButtonText = styled(ButtonText)`
   font-weight: normal;
 `;
 
+const CustomFormHelperText = styled(FormHelperText)`
+  font-family: inherit;
+  transform: translateX(-1rem);
+`;
+
+const CustomSelect = styled.select`
+  height: 3rem;
+  width: 12rem;
+  margin-right: 1rem;
+  font-family: inherit;
+  padding: 0.4rem;
+  color: #777;
+  border-radius: 3px;
+
+  @media ${breakpointConfig.tabletS} {
+    width: 10rem;
+  }
+`;
+
 const DashboardSubHeader: FC = () => {
   const router = useRouter();
   const initHandler = useInitNewForm();
@@ -79,22 +109,28 @@ const DashboardSubHeader: FC = () => {
   return (
     <HeaderWrapper>
       <FilterWrapper>
-        <FilterComboBox
-          fieldLabel="問卷狀態"
-          options={defalutStatusOptions}
-          id="form-status"
-          style={{
-            width: "15rem",
-            radius: 0,
-            mr: "2.4rem",
-          }}
-        />
-        <FilterComboBox
-          fieldLabel="日期"
-          options={defalutDateOptions}
-          id="form-date"
-          style={{ width: "15rem", radius: 0, mr: "2.4rem" }}
-        />
+        <FormControl>
+          <CustomFormHelperText>選擇問卷狀態</CustomFormHelperText>
+          <CustomSelect>
+            {defalutStatusOptions.map((status, i) => (
+              <option value={status} key={i}>
+                {status}
+              </option>
+            ))}
+          </CustomSelect>
+        </FormControl>
+
+        <FormControl>
+          <CustomFormHelperText>選擇問卷日期</CustomFormHelperText>
+          <CustomSelect>
+            {defalutDateOptions.map((date, i) => (
+              <option value={date} key={i}>
+                {date}
+              </option>
+            ))}
+          </CustomSelect>
+        </FormControl>
+
         {/* <DisplayButtonGroup /> */}
       </FilterWrapper>
       {context.editingGroupId !== "0" && (

@@ -25,6 +25,7 @@ const EditingGroupTag = styled.select`
   border: 1px solid #c8c8c8;
   padding: 0.4rem;
   border-radius: 3px;
+  font-family: inherit;
   &:focus {
     outline: none;
   }
