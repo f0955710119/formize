@@ -1,12 +1,13 @@
 import { FC, useContext } from "react";
 import styled from "styled-components";
 import { adminContext } from "../../../store/context/adminContext";
-import NonTextTableContent from "./StatisTable/NonTextContent";
-import Table from "./StatisTable/Table";
-import TextTableContent from "./StatisTable/TextContent";
+import Logo from "../../UI/Logo";
 
 import type { StatisResponse } from "../../../types/statis";
 import StatisResponseItem from "./StatisResponseItem";
+import scrollBar from "../CreateForm/UI/scrollBar";
+import breakpointConfig from "../../../configs/breakpointConfig";
+import adminActionType from "../../../store/actionType/adminActionType";
 
 const StatisSectionContainer = styled.section`
   padding: 2rem 2.5rem 0 3.5rem;
@@ -22,31 +23,12 @@ const StatisSectionContainer = styled.section`
   background-size: cover;
 
   overflow-y: scroll;
-
-  &::-webkit-scrollbar-track {
-    background-color: #ccc;
-    border-radius: 3px;
+  ${scrollBar}
+  @media ${breakpointConfig.tablet} {
+    width: 100%;
   }
-
-  &::-webkit-scrollbar {
-    width: 1rem;
-    background-color: #f5f5f5;
-    border-radius: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background-color: #8e9aa2;
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-    );
+  @media ${breakpointConfig.mobileL} {
+    padding: 2rem 1rem 0 1rem;
   }
 `;
 
@@ -62,8 +44,8 @@ const StatisSectionHeadingPesudoElement = `
 const StatisSectionHeading = styled.div`
   position: relative;
   display: inline-block;
-  margin-bottom: 2rem;
-  font-size: 2.6rem;
+  margin-bottom: 2.8rem;
+  font-size: 2.2rem;
   z-index: 1;
 
   &::after {
@@ -77,7 +59,50 @@ const StatisSectionHeading = styled.div`
     bottom: -0.6rem;
     left: -0.4rem;
   }
+
+  @media ${breakpointConfig.tablet} {
+    display: none;
+  }
 `;
+
+const StatisHeaderForNonDesktop = styled.div`
+  display: none;
+  @media ${breakpointConfig.tablet} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+    margin-bottom: 1.6rem;
+  }
+`;
+
+const StatisSectionHeadingForNonDesktop = styled(StatisSectionHeading)`
+  @media ${breakpointConfig.tablet} {
+    display: inline-block;
+    margin-bottom: 0rem;
+  }
+`;
+
+interface StatisHeaderItemForNonDesktopProps {
+  isActive: boolean;
+}
+
+const StatisHeaderItemForNonDesktop = styled.div<StatisHeaderItemForNonDesktopProps>`
+  width: 31%;
+  text-align: center;
+  font-size: 1.6rem;
+  padding: 1rem 0;
+
+  color: ${(props: StatisHeaderItemForNonDesktopProps) =>
+    props.isActive ? "#333" : "#aaa"};
+
+  background-color: ${(props: StatisHeaderItemForNonDesktopProps) =>
+    props.isActive ? "#b4bcb7" : "#fff"};
+  border-radius: 5px;
+`;
+
+const analysisFeatureList = ["統計分析", "明細匯出", "訪問紀錄"];
 
 interface StatisSectionProps {
   statisData?: StatisResponse[];
@@ -85,15 +110,49 @@ interface StatisSectionProps {
 
 const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
   const context = useContext(adminContext);
+
   const formData = context.forms.find(
     (form) => form.id === context.editingFormId
   );
 
   return statisData ? (
-    <StatisSectionContainer>
-      <StatisSectionHeading>問卷標題: {formData?.title}</StatisSectionHeading>
-      {statisData.map((data) => {
-        if (data.numericData) {
+    <>
+      <StatisSectionContainer>
+        <StatisHeaderForNonDesktop>
+          <Logo />
+        </StatisHeaderForNonDesktop>
+        <StatisHeaderForNonDesktop>
+          {analysisFeatureList.map((item, i) => (
+            <StatisHeaderItemForNonDesktop
+              key={i}
+              onClick={() =>
+                context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)
+              }
+              isActive={i === context.currentAnalysisPage}
+            >
+              {item}
+            </StatisHeaderItemForNonDesktop>
+          ))}
+        </StatisHeaderForNonDesktop>
+        <StatisHeaderForNonDesktop>
+          <StatisSectionHeadingForNonDesktop>
+            問卷標題: {formData?.title}
+          </StatisSectionHeadingForNonDesktop>
+        </StatisHeaderForNonDesktop>
+        <StatisSectionHeading>問卷標題: {formData?.title}</StatisSectionHeading>
+        {statisData.map((data) => {
+          if (data.numericData) {
+            return (
+              <StatisResponseItem
+                key={data.id}
+                id={data.id}
+                title={data.title}
+                type={data.type}
+                count={data.count}
+                numericData={data.numericData}
+              />
+            );
+          }
           return (
             <StatisResponseItem
               key={data.id}
@@ -101,21 +160,11 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
               title={data.title}
               type={data.type}
               count={data.count}
-              numericData={data.numericData}
             />
           );
-        }
-        return (
-          <StatisResponseItem
-            key={data.id}
-            id={data.id}
-            title={data.title}
-            type={data.type}
-            count={data.count}
-          />
-        );
-      })}
-    </StatisSectionContainer>
+        })}
+      </StatisSectionContainer>
+    </>
   ) : (
     <></>
   );

@@ -6,7 +6,11 @@ const ButtonText = styled.span`
   color: inherit;
 `;
 
-const ButtonWrapper = styled.button`
+interface ButtonWrapperProps {
+  styleText?: string;
+}
+
+const ButtonWrapper = styled.button<ButtonWrapperProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,6 +29,8 @@ const ButtonWrapper = styled.button`
   &:hover > ${ButtonText} {
     color: #fff;
   }
+
+  ${(props: ButtonWrapperProps) => props.styleText}
 `;
 
 interface FeatureButtonProps {
@@ -32,6 +38,7 @@ interface FeatureButtonProps {
   style?: {
     [key: string]: string;
   };
+  styleText?: string;
   clickHandler?: () => void;
 }
 
@@ -39,9 +46,14 @@ const FeatureButton: FC<FeatureButtonProps> = ({
   text,
   style,
   clickHandler,
+  styleText,
 }) => {
   return (
-    <ButtonWrapper onClick={clickHandler} style={{ ...style }}>
+    <ButtonWrapper
+      onClick={clickHandler}
+      style={{ ...style }}
+      styleText={styleText}
+    >
       <ButtonText>{text}</ButtonText>
     </ButtonWrapper>
   );

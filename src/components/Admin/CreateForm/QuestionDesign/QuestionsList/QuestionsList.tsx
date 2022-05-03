@@ -27,6 +27,7 @@ const ListLayout = styled(Layout)<ListLayoutProps>`
   }
   @media ${breakpointConfig.tablet} {
     padding: 2rem 6rem 0 6rem;
+    margin-bottom: 1rem;
   } ;
 `;
 

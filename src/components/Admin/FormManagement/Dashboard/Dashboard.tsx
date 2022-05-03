@@ -8,6 +8,7 @@ import { adminContext } from "../../../../store/context/adminContext";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import DashboardAddGroupBar from "./DashboardAddGroupBar";
+import scrollBar from "../../CreateForm/UI/scrollBar";
 
 const DashboardWrapper = styled.div`
   display: flex;
@@ -34,28 +35,13 @@ const DashboarMain = styled.main`
   width: 100%;
   height: calc(100% - 6rem);
   overflow-y: scroll;
+  ${scrollBar}
 
-  &::-webkit-scrollbar-track {
-    background-color: #ccc;
-  }
-
-  &::-webkit-scrollbar {
-    width: 1rem;
-    background-color: #f5f5f5;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #8e9aa2;
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-    );
+  @media ${breakpointConfig.mobileL} {
+    padding: 0;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 

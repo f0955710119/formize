@@ -1,5 +1,6 @@
 import { FC, ReactNode } from "react";
 import styled from "styled-components";
+import breakpointConfig from "../../../../configs/breakpointConfig";
 
 interface TableWrapperProps {
   isTextContent: boolean;
@@ -16,6 +17,16 @@ const TableWrapper = styled.div<TableWrapperProps>`
   border-radius: 7px;
 
   background-color: rgba(255, 255, 255, 0.7);
+
+  @media ${breakpointConfig.laptopL} {
+    max-width: 46rem;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    max-width: 36rem;
+  }
 `;
 
 const TableTitle = styled.div`

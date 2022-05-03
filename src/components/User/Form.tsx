@@ -19,6 +19,8 @@ import StartPageSection from "./StartPageSection";
 import EndPageSection from "./EndPageSection";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useRouter } from "next/router";
+import useWindow from "../../hooks/useWindow";
+import breakpointConfig from "../../configs/breakpointConfig";
 
 type FormProps = UserForm;
 interface MainProps {
@@ -27,8 +29,10 @@ interface MainProps {
 }
 
 const SinglePageMain = styled.main<MainProps>`
+  max-width: 90rem;
   width: 100%;
   height: 100vh;
+  margin: 0 auto;
 
   font-family: ${(props: MainProps) => {
     const fontKey = styleConfig[`${props.font}_KEYFONT`];
@@ -46,8 +50,10 @@ const SinglePageMain = styled.main<MainProps>`
 `;
 
 const MultiPageMain = styled.main<MainProps>`
+  max-width: 90rem;
   width: 100%;
   height: 100vh;
+  margin: 0 auto;
 
   font-family: ${(props: MainProps) => {
     const fontKey = styleConfig[`${props.font}_KEYFONT`];
@@ -80,7 +86,9 @@ const SinglePageFormSection = styled.section`
 const SinglePageFormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 96rem;
+  max-width: 90rem;
+  width: 100%;
+  height: 100vh;
 `;
 
 const MultiPageFormSection = styled.section`
@@ -88,8 +96,14 @@ const MultiPageFormSection = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 90rem;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+
+  background-image: url("/images/main-bg.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 const MultiPageFormQuestionButtonText = styled.span`
@@ -111,6 +125,7 @@ const MultiPageFormQuestionButton = styled.button<MultiPageFormQuestionButtonPro
   align-items: center;
   width: 16rem;
   height: 4rem;
+  border-radius: 5px;
   background-color: ${(props) => props.theme.title};
   cursor: pointer;
 
@@ -121,13 +136,22 @@ const MultiPageFormQuestionButton = styled.button<MultiPageFormQuestionButtonPro
   &:hover > ${MultiPageFormQuestionButtonText} {
     color: #333;
   }
+
+  @media ${breakpointConfig.tabletS} {
+    width: 80%;
+    ${(props: MultiPageFormQuestionButtonProps) =>
+      props.isLastPage
+        ? "left: 0; bottom: 9rem;"
+        : "right: 0;left:0; bottom: 4rem;"};
+  }
 `;
 
 const FormContainer = styled.div`
-  width: 96rem;
+  width: 100%;
   height: 70%;
   padding: 4rem;
   overflow: scroll;
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -304,7 +328,7 @@ const Form: FC<FormProps> = ({
   const router = useRouter();
   const { formId } = router.query;
   const { answers } = useAppSelector((state) => state.user);
-
+  const windowObj = useWindow();
   const [navigatePage, setNavigatePage] = useState<number>(0);
   const [questionPage, setQuestionPage] = useState<number>(0);
   const indexArr = helper.generateQuestionIndexArr(questions);
@@ -316,6 +340,10 @@ const Form: FC<FormProps> = ({
     settings.pageQuantity,
     questions
   );
+  const hasWindowObj = windowObj !== undefined && windowObj !== null;
+  const mainWidth = hasWindowObj
+    ? `${(windowObj.innerHeight / 4) * 3}px`
+    : "100%";
 
   const sendResponses = async () => {
     try {

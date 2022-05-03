@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
 import usePushToAnalysisPage from "../../../../../hooks/usePushToAnalysisPage";
 import helper from "../../../../../utils/helper";
 import FeatureButton from "./FormItemExpand/FeatureButton";
@@ -45,6 +46,10 @@ const FeatureColumnTitle = styled(CardColumnTitle)`
     width: 0.3rem;
     background-color: #828382;
   }
+
+  @media ${breakpointConfig.mobileL} {
+    display: none;
+  }
 `;
 
 const CardColumnValue = styled.span`
@@ -61,22 +66,43 @@ interface FormCardProps {
   formId: string;
 }
 
-const CardFeatureButtonStyle = {
-  padding: "0rem 3%",
-  backgroundColor: "#497c5c",
-  color: "#fff",
-  marginRight: "0.5rem",
-};
+const featureButtonStyleText = `
+  color: #fff;
+  margin-right: 0.5rem;
+`;
 
-const CardDeleteFeatureButtonStyle = {
-  ...CardFeatureButtonStyle,
-  backgroundColor: "#b9b9b9",
-};
+const featureButtonStyleTextGeneral = `
+  background-color: #649777;
+  padding: 0rem 3%;
+  ${featureButtonStyleText}
+  @media ${breakpointConfig.mobileL} {
+    padding: 0rem 8%;
+  }
+`;
 
-const CardAnalysisFeatureButtonStyle = {
-  ...CardFeatureButtonStyle,
-  padding: "0rem 2.5%",
-};
+const featureButtonStyleTextDelete = `
+background-color: #b9b9b9;
+  padding: 0rem 3%;
+  ${featureButtonStyleText}
+
+  &:hover {
+    color: #a04640;
+    background-color: #555;
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    padding: 0rem 8%;
+  }
+`;
+
+const featureButtonStyleTextAnalysis = `
+  background-color: #649777;
+  padding: 0rem 2%;
+  ${featureButtonStyleText}
+  @media ${breakpointConfig.mobileL} {
+    padding: 0rem 4.2%;
+  }
+`;
 
 const FormCard: FC<FormCardProps> = ({
   title,
@@ -109,31 +135,31 @@ const FormCard: FC<FormCardProps> = ({
       </CardField>
       <CardField>
         <FeatureColumnTitle>基本設定</FeatureColumnTitle>
-        <FeatureButton text="刪除" style={CardDeleteFeatureButtonStyle} />
-        <FeatureButton text="開啟" style={CardFeatureButtonStyle} />
-        <FeatureButton text="預覽" style={CardFeatureButtonStyle} />
+        <FeatureButton text="刪除" styleText={featureButtonStyleTextDelete} />
+        <FeatureButton text="開啟" styleText={featureButtonStyleTextGeneral} />
+        <FeatureButton text="預覽" styleText={featureButtonStyleTextGeneral} />
       </CardField>
       <CardField>
         <FeatureColumnTitle>修改問卷</FeatureColumnTitle>
-        <FeatureButton text="編輯" style={CardFeatureButtonStyle} />
-        <FeatureButton text="複製" style={CardFeatureButtonStyle} />
-        <FeatureButton text="移動" style={CardFeatureButtonStyle} />
+        <FeatureButton text="編輯" styleText={featureButtonStyleTextGeneral} />
+        <FeatureButton text="複製" styleText={featureButtonStyleTextGeneral} />
+        <FeatureButton text="移動" styleText={featureButtonStyleTextGeneral} />
       </CardField>
       <CardField>
         <FeatureColumnTitle>數據查看</FeatureColumnTitle>
         <FeatureButton
           text="統計分析"
-          style={CardAnalysisFeatureButtonStyle}
+          styleText={featureButtonStyleTextAnalysis}
           clickHandler={() => goToAnalysisPageHandler(0, formId)}
         />
         <FeatureButton
           text="明細匯出"
-          style={CardAnalysisFeatureButtonStyle}
+          styleText={featureButtonStyleTextAnalysis}
           clickHandler={() => goToAnalysisPageHandler(1, formId)}
         />
         <FeatureButton
           text="訪問紀錄"
-          style={CardAnalysisFeatureButtonStyle}
+          styleText={featureButtonStyleTextAnalysis}
           clickHandler={() => goToAnalysisPageHandler(2, formId)}
         />
       </CardField>

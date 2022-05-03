@@ -1,4 +1,4 @@
-import { FC, useRef, ChangeEvent, useState } from "react";
+import { FC, useRef, ChangeEvent, useState, useEffect } from "react";
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { settingActions } from "../../../../store/slice/settingSlice";
 import settingActionType from "../../../../store/actionType/settingActionType";
@@ -17,6 +17,7 @@ import helper from "../../../../utils/helper";
 import settingConfig from "../../../../configs/settingConfig";
 import { useAppSelector } from "../../../../hooks/useAppSelector";
 import { questionActions } from "../../../../store/slice/questionSlice";
+import breakpointConfig from "../../../../configs/breakpointConfig";
 
 const { DEFAULT_STATUS_LIST, DEFAULT_MODE_LIST, DEFAULT_UNIT_LIST } =
   settingConfig;
@@ -37,9 +38,17 @@ const SectionNormal: FC = () => {
   const [selectedMode, setSelectedMode] = useState<string>(setting.mode);
   const [switchModeComfirmModal, setSwitchModeComfirmModal] =
     useState<boolean>(false);
-
+  const [windowWidth, setWindowWidth] = useState<number>(0);
   const timeUnit = useRef<number>(1);
   const limitTime = useRef<number>(1);
+
+  const isNotBeyond584px =
+    windowWidth > Number.parseInt(breakpointConfig.tabletS);
+
+  useEffect(() => {
+    const width = window.innerWidth;
+    setWindowWidth(width);
+  }, [windowWidth]);
 
   console.log(setting);
 
@@ -138,9 +147,13 @@ const SectionNormal: FC = () => {
           <Label>填答時間限制</Label>
           <NormalTextInput
             value={setting.limitedAnswerTime}
-            style={{ width: "50%" }}
+            style={{
+              width: `${isNotBeyond584px ? "50%" : "40%"}`,
+            }}
             type="number"
-            placeholder="請填寫數值，並選擇單位"
+            placeholder={
+              isNotBeyond584px ? "請填寫數值，並選擇單位" : "請填寫數值"
+            }
             changeHandler={(event: ChangeEvent<HTMLInputElement>) => {
               const { value } = event.target;
               limitTime.current = +value;
@@ -150,7 +163,13 @@ const SectionNormal: FC = () => {
               );
             }}
           />
-          <CustomedFormControl style={{ width: "calc(50% - 12rem)" }}>
+          <CustomedFormControl
+            style={{
+              width: `${
+                isNotBeyond584px ? "calc(50% - 12rem)" : "calc(60% - 12rem)"
+              }`,
+            }}
+          >
             <Select
               defaultValue="0"
               onChange={(event) => {

@@ -37,7 +37,8 @@ const OptionsLayout = styled(Layout)`
   }
 
   @media ${breakpointConfig.tablet} {
-    padding: 2rem 6rem 0 6rem;
+    padding: 0 6rem 0 6rem;
+    margin-top: 2rem;
   } ;
 `;
 

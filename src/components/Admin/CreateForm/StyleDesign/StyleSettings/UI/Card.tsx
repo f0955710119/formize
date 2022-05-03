@@ -1,11 +1,18 @@
 import { FC } from "react";
 import styled from "styled-components";
+import breakpointConfig from "../../../../../../configs/breakpointConfig";
 
 const CardWrapper = styled.div`
   display: inline-block;
   align-items: center;
   width: 15rem;
   margin-bottom: 2rem;
+
+  @media ${breakpointConfig.laptopM} {
+    min-width: 15rem;
+    min-height: 13rem;
+    margin-right: 1rem;
+  } ;
 `;
 
 const CardItem = styled.div`

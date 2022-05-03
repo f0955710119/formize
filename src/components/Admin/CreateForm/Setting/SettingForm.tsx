@@ -9,19 +9,13 @@ import SectionMedia from "./SectionMedia";
 import SectionBanner from "./SectionBanner";
 import Button from "../UI/Button";
 import breakpointConfig from "../../../../configs/breakpointConfig";
+import scrollBar from "../UI/scrollBar";
 
 const Wrapper = styled.main`
   display: flex;
   align-items: center;
   width: 100%;
   height: calc(100vh - 6rem);
-  /* background-image: linear-gradient(
-      rgba(255, 255, 255, 0.7),
-      rgba(255, 255, 255, 0.7)
-    ),
-    url("/images/setting-bg.svg");
-  background-repeat: no-repeat;
-  background-size: cover; */
 `;
 
 const Form = styled.form`
@@ -34,28 +28,13 @@ const Form = styled.form`
   transform: translateX(1.5rem);
 
   overflow-y: scroll;
+  ${scrollBar}
 
-  &::-webkit-scrollbar-track {
-    background-color: #ccc;
-  }
-
-  &::-webkit-scrollbar {
-    width: 0.7rem;
-    background-color: #f5f5f5;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #87a792;
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-    );
+  @media ${breakpointConfig.tabletS} {
+    padding: 0;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   @media ${breakpointConfig.laptopS} {
@@ -69,6 +48,11 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
+
+  @media ${breakpointConfig.tabletS} {
+    justify-content: center;
+    flex-direction: column;
+  }
 `;
 
 const ButtonWrapper = styled.button`
@@ -84,6 +68,23 @@ const ButtonWrapper = styled.button`
 
   &:hover {
     background-color: #6e917bd6;
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+  }
+`;
+
+const BackToFormManagemenetButton = styled(ButtonWrapper)`
+  @media ${breakpointConfig.tabletS} {
+    order: 2;
+  }
+`;
+
+const GoToQuestionDesignButton = styled(ButtonWrapper)`
+  @media ${breakpointConfig.tabletS} {
+    order: 1;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -105,16 +106,12 @@ const SettingForm: FC = () => {
         {/* <SectionMedia /> */}
         <SectionBanner />
         <ButtonContainer>
-          <ButtonWrapper onClick={() => backToAdminIndexPage()}>
+          <BackToFormManagemenetButton onClick={() => backToAdminIndexPage()}>
             <ButtonText>回到管理頁面</ButtonText>
-          </ButtonWrapper>
-          <ButtonWrapper
-            onClick={() => {
-              switchStepHandler(2);
-            }}
-          >
+          </BackToFormManagemenetButton>
+          <GoToQuestionDesignButton onClick={() => switchStepHandler(2)}>
             <ButtonText>前往題目設計</ButtonText>
-          </ButtonWrapper>
+          </GoToQuestionDesignButton>
         </ButtonContainer>
       </Form>
     </Wrapper>

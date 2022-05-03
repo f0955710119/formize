@@ -1,5 +1,6 @@
 import { FC } from "react";
 import WordCloud from "react-d3-cloud";
+import useWindow from "../../../../hooks/useWindow";
 import { NonTextCount } from "../../../../types/statis";
 
 const COLORS = [
@@ -16,6 +17,7 @@ interface StatisWordCloudProps {
 }
 
 const StatisWordCloud: FC<StatisWordCloudProps> = ({ count }) => {
+  const windowObj = useWindow();
   const sum = count.reduce((acc, cur) => (acc += +cur.value), 0);
   const data = count.map((c) => {
     return {
@@ -31,7 +33,13 @@ const StatisWordCloud: FC<StatisWordCloudProps> = ({ count }) => {
   return (
     <WordCloud
       font="jfOpenhuninn"
-      width={400}
+      width={
+        windowObj === undefined || windowObj === null
+          ? 400
+          : windowObj.innerWidth > 425
+          ? 400
+          : 350
+      }
       height={300}
       data={data}
       fontSize={fontSize}
