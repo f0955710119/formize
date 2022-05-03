@@ -13,6 +13,7 @@ import type {
 import StatisPie from "./StatisChart/StatisPie";
 import StatisBar from "./StatisChart/StatisBar";
 import StatisWordCloud from "./StatisChart/StatisWordCloud";
+import breakpointConfig from "../../../configs/breakpointConfig";
 
 const ItemContainer = styled.div`
   display: flex;
@@ -25,25 +26,39 @@ const ItemContainer = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid rgba(180, 188, 183, 0.298);
   }
+
+  @media ${breakpointConfig.laptopL} {
+    flex-direction: column;
+  }
 `;
 
 const ChartWrapper = styled.div`
   display: inline-block;
   width: 46rem;
   height: 36rem;
+  @media ${breakpointConfig.mobileL} {
+    width: 36rem;
+  }
 `;
 
 const PieWrapper = styled(ChartWrapper)``;
 
 const BarWrapper = styled(ChartWrapper)`
-  /* transform: translateY(2.5rem); */
   height: 36rem;
+  @media ${breakpointConfig.mobileL} {
+    transform: translateX(-2rem);
+  }
 `;
 
 const WordCloudWrapper = styled(ChartWrapper)`
   height: 32.2rem;
   border: 3px solid rgba(180, 188, 183, 0.298);
   border-radius: 7px;
+
+  @media ${breakpointConfig.mobileL} {
+    max-width: 36rem;
+    width: 100%;
+  }
 `;
 
 const MultipleTextReminder = styled.div`
@@ -52,6 +67,15 @@ const MultipleTextReminder = styled.div`
   align-items: center;
   width: calc(100% - 64rem);
   height: 100%;
+
+  @media ${breakpointConfig.laptopM} {
+    width: 100%;
+    max-width: 46rem;
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    max-width: 36rem;
+  }
 `;
 
 const MultipleTextReminderText = styled.span`

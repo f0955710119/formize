@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { FC, useContext, useState } from "react";
 import styled from "styled-components";
+import breakpointConfig from "../../../configs/breakpointConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
 import { adminContext } from "../../../store/context/adminContext";
 import Logo from "../../UI/Logo";
@@ -16,6 +17,10 @@ const SideBar = styled.div`
   background-image: url("/images/side-bar-pic.svg");
   background-repeat: no-repeat;
   background-position: 0 100%;
+
+  @media ${breakpointConfig.tablet} {
+    display: none;
+  }
 `;
 
 const analysisFeatureList = ["統計分析", "明細匯出", "訪問紀錄"];
