@@ -38,15 +38,6 @@ const Note = styled.div`
   font-size: 1.4rem;
   color: #aaa;
 `;
-
-const iconStyle = {
-  width: "1.8rem",
-  height: "1.8rem",
-  fill: "#aaa",
-  transform: "translateY(-0.2rem)",
-  marginRight: "0.3rem",
-};
-
 interface CreatedQuestionProps {
   title: string;
   note: string;

@@ -19,14 +19,11 @@ import NewPageModal from "../QuestionsList/NewPageModal";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import scrollBar from "../../UI/scrollBar";
 
 const OptionsLayout = styled(Layout)`
   width: 18%;
   overflow: scroll;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 
   @media ${breakpointConfig.laptopM} {
     width: 100%;
@@ -38,7 +35,6 @@ const OptionsLayout = styled(Layout)`
 
   @media ${breakpointConfig.tablet} {
     padding: 0 6rem 0 6rem;
-    margin-top: 2rem;
   } ;
 `;
 
@@ -56,29 +52,7 @@ const OptionList = styled.div`
   width: 100%;
   height: 35vh;
   overflow-y: scroll;
-
-  &::-webkit-scrollbar-track {
-    background-color: #ccc;
-  }
-
-  &::-webkit-scrollbar {
-    width: 0.5rem;
-    background-color: #f5f5f5;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #b4bcb7;
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-    );
-  }
+  ${scrollBar}
 `;
 
 const ButtonWrapper = styled.button`

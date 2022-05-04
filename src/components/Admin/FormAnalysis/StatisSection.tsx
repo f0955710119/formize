@@ -30,11 +30,14 @@ const hasNoDataBackgroundStyle = `
   filter: grayscale(100%);
 
   &::after {
-    content:'因為該問卷尚無回應，所以還看不到統計資料唷!';
+    content:'因為該問卷尚無回應，所以\\a還看不到統計資料唷!';
     position: absolute;
     top:70%;
     left:50%;
+    width:100%;
     font-size:1.8rem;
+    text-align:center;
+    white-space: pre-line;
     color:#777;
     transform:translate(-50%,0);
   }
@@ -49,7 +52,7 @@ const hasNoDataBackgroundStyle = `
     background-image:url("/images/main-bg.svg");
     background-repeat: no-repeat;
     background-size: cover;
-    opacity:0.3;
+    opacity:0.2;
   }
 
   @media ${breakpointConfig.laptopL} {

@@ -97,11 +97,7 @@ const CardContainer = styled(FormsContainer)`
 
 const FormList: FC = () => {
   const context = useContext(adminContext);
-  const [isWiderThanTablet, setIsWiderThanTablet] = useState<boolean>(
-    window.innerWidth > 768
-  );
-
-  console.log(context);
+  const [isWiderThanTablet, setIsWiderThanTablet] = useState<boolean>(false);
 
   useEffect(() => {
     window.addEventListener("resize", () => {

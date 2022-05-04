@@ -53,9 +53,16 @@ const BackGroundContainer = styled.div`
   padding: 0 1rem 0 2rem;
   width: 100%;
   height: calc(100% - 18rem);
+
+  @media ${breakpointConfig.laptopM} {
+    height: calc(100% - 20rem);
+    margin-bottom: 3rem;
+    flex-direction: row;
+    padding: 0;
+  } ;
 `;
 
-const BackGroundCardContainer = styled.div`
+const BackgroundCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,9 +77,13 @@ const BackGroundCardContainer = styled.div`
   @media ${breakpointConfig.laptopM} {
     flex-direction: row;
     padding-right: 0;
-    height: 15rem;
+    height: 18rem;
     overflow-y: hidden;
-    overflow-x: auto;
+    overflow-x: scroll;
+    margin-bottom: 0;
+    &:not(:last-child) {
+      margin-right: 2rem;
+    }
 
     &::-webkit-scrollbar {
       width: 0.5rem;
@@ -81,7 +92,7 @@ const BackGroundCardContainer = styled.div`
   }
 `;
 
-const BackGroundContainerTitle = styled.span`
+const BackgroundContainerTitle = styled.span`
   display: inline-block;
   width: 7rem;
   margin-bottom: 2rem;
@@ -89,6 +100,14 @@ const BackGroundContainerTitle = styled.span`
   font-size: 1.4rem;
   color: #6e917b;
   border-bottom: 2px solid #6e917b;
+
+  @media ${breakpointConfig.laptopM} {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    margin-right: 1rem;
+    height: 100%;
+  }
 `;
 
 const CardContainer = styled.div`
@@ -106,7 +125,7 @@ const CardContainer = styled.div`
     flex-direction: row;
     padding: 0;
     overflow-y: hidden;
-    overflow-x: auto;
+    overflow-x: scroll;
 
     &::-webkit-scrollbar {
       width: 0.5rem;
@@ -160,8 +179,6 @@ const SettingBar: FC = () => {
   const sendFormDataHandler = useDeployForm();
   const sendingFormData = useFormData();
 
-  console.log(sendingFormData);
-
   const clickToSendForm = async (sendingFormData: {
     uid: string;
     groupId: string;
@@ -210,8 +227,8 @@ const SettingBar: FC = () => {
       )}
       {stylingOption === 2 && (
         <BackGroundContainer>
-          <BackGroundContainerTitle>預設圖檔</BackGroundContainerTitle>
-          <BackGroundCardContainer>
+          <BackgroundContainerTitle>預設圖檔</BackgroundContainerTitle>
+          <BackgroundCardContainer>
             {defaultBackgroundList.map((Background, i) => {
               return (
                 <Card
@@ -221,9 +238,9 @@ const SettingBar: FC = () => {
                 />
               );
             })}
-          </BackGroundCardContainer>
-          <BackGroundContainerTitle>上傳自訂</BackGroundContainerTitle>
-          <BackGroundCardContainer></BackGroundCardContainer>
+          </BackgroundCardContainer>
+          <BackgroundContainerTitle>上傳自訂</BackgroundContainerTitle>
+          <BackgroundCardContainer></BackgroundCardContainer>
         </BackGroundContainer>
       )}
       <ButtonWrapper onClick={() => clickToSendForm(sendingFormData)}>

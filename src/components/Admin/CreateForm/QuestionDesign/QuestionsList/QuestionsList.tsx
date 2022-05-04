@@ -56,7 +56,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
     ${(props: QuestionWrapperProps) =>
       props.isMultiplePage
         ? " overflow-y: auto;overflow-x: hidden; max-height: 50rem;"
-        : "overflow-y: hidden;overflow-x: auto; max-height: 10rem; flex-direction: row;"}
+        : "overflow-y: hidden; overflow-x: scroll; max-height: 10rem; flex-direction: row;"}
 
     display: flex;
 

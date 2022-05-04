@@ -85,12 +85,14 @@ export default async function handler(
 
   if (req.method === "POST") {
     try {
-      const uid = req.headers.authorization;
-      if (!uid) throw new Error("使用者必須登入才能新增群組");
+      const uidRaw = req.headers.authorization;
+      console.log(uidRaw);
+      if (!uidRaw) throw new Error("使用者必須登入才能新增群組");
       const { newGroupName } = req.body;
-
       if (!newGroupName)
         throw new Error("fail to add a group, need new group name");
+
+      const uid = uidRaw.split(" ")[1];
 
       const groupDoc = firebase.generateDocRef("groups");
       const createdTime = new Date();
@@ -101,6 +103,7 @@ export default async function handler(
         forms: [],
         createdTime,
       };
+
       // BUG:用泛型判斷時，用|還是沒辦法自動去知道它可能屬於哪一種
       const createNewGroupAjaxList = [
         firebase.updateUserGroupsIdArray(uid, groupDoc.id, true).catch(() => {

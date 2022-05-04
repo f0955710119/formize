@@ -1,10 +1,10 @@
-import { FC, useContext } from "react";
+import { FC } from "react";
 import styled from "styled-components";
-import { adminContext } from "../../../../store/context/adminContext";
-import adminActionType from "../../../../store/actionType/adminActionType";
+
 import Logo from "../../../UI/Logo";
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import LogoutButton from "../../../UI/LogoutButton";
+import ChangeEditingGroupSelect from "./ChangeEditingGroupSelect";
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -16,33 +16,19 @@ const HeaderContainer = styled.header`
 `;
 
 const HeaderWrapper = styled.div`
-  /* display: inline-block; */
   display: flex;
   align-items: center;
 `;
 
-const EditingGroupTagWrapper = styled.div`
-  width: 18rem;
-  height: 3.2rem;
-  border-radius: 3px;
-`;
-
-const EditingGroupTag = styled.select`
-  width: 100%;
-  height: 100%;
-  border: 1px solid #c8c8c8;
-  padding: 0.4rem;
-  border-radius: 3px;
-  font-family: inherit;
-  &:focus {
-    outline: none;
+const ChangeEditingGroupSelectForBiggerDevice = styled(
+  ChangeEditingGroupSelect
+)`
+  @media ${breakpointConfig.tabletS} {
+    display: none;
   }
 `;
 
 const DashboardMainHeader: FC = () => {
-  const context = useContext(adminContext);
-  const groupList = [{ name: "總表", id: "0" }, ...context.groups];
-
   const logoMedia = `
   display: "none";
 
@@ -62,21 +48,7 @@ const DashboardMainHeader: FC = () => {
     <HeaderContainer>
       <HeaderWrapper>
         <Logo mediaSetting={logoMedia} textMediaSetting={logoTextMedia} />
-        <EditingGroupTagWrapper>
-          <EditingGroupTag
-            value={context.editingGroupId}
-            onChange={(event) => {
-              const value = event.target.value as string;
-              context.setField(adminActionType.EDITING_GROUP, value);
-            }}
-          >
-            {groupList.map((group) => (
-              <option key={group.id} value={group.id} id={group.id}>
-                {group.name}
-              </option>
-            ))}
-          </EditingGroupTag>
-        </EditingGroupTagWrapper>
+        <ChangeEditingGroupSelectForBiggerDevice />
       </HeaderWrapper>
       <LogoutButton />
     </HeaderContainer>

@@ -15,7 +15,7 @@ const useCreateGroup = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: context.uid,
+        Authorization: `Basic ${context.uid}`,
       },
       body: JSON.stringify({ newGroupName }),
     });

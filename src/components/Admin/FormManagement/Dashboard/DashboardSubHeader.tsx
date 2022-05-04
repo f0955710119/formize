@@ -23,6 +23,12 @@ const HeaderWrapper = styled.header`
   padding-bottom: 2rem;
   width: 100%;
   height: 6rem;
+
+  @media ${breakpointConfig.tabletS} {
+    flex-direction: column;
+    height: auto;
+    align-items: start;
+  }
 `;
 
 const FilterWrapper = styled.div`
@@ -32,6 +38,9 @@ const FilterWrapper = styled.div`
   border-radius: 5px;
 
   transform: translateY(-1rem);
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+  }
 `;
 
 const ButtonWrapper = styled.button`
@@ -49,13 +58,15 @@ const ButtonWrapper = styled.button`
   border-radius: 3px;
 
   &:hover {
-    /* background-color: #8e9aa2; */
     background-color: #646665;
   }
 
-  /* @media ${breakpointConfig.tabletS} {
-    width: 8rem;
-  } ; */
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
 `;
 
 const ButtonText = styled.span`
@@ -93,7 +104,11 @@ const CustomSelect = styled.select`
   border-radius: 3px;
 
   @media ${breakpointConfig.tabletS} {
-    width: 10rem;
+    width: 18rem;
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    max-width: 12rem;
   }
 `;
 
