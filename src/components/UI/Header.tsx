@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import Logo from "./Logo";
 import firebase from "../../utils/firebase";
+import LogoutButton from "./LogoutButton";
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -41,9 +42,7 @@ const Header: FC<HeaderProps> = ({ children }) => {
     <HeaderWrapper>
       <Logo />
       {children}
-      <Button type="button" onClick={logoutHandler}>
-        登出
-      </Button>
+      <LogoutButton />
     </HeaderWrapper>
   );
 };

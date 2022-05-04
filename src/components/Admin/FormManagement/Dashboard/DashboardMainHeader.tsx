@@ -4,13 +4,21 @@ import { adminContext } from "../../../../store/context/adminContext";
 import adminActionType from "../../../../store/actionType/adminActionType";
 import Logo from "../../../UI/Logo";
 import breakpointConfig from "../../../../configs/breakpointConfig";
+import LogoutButton from "../../../UI/LogoutButton";
 
-const HeaderWrapper = styled.header`
+const HeaderContainer = styled.header`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding-bottom: 1rem;
   width: 100%;
   height: 5rem;
+`;
+
+const HeaderWrapper = styled.div`
+  /* display: inline-block; */
+  display: flex;
+  align-items: center;
 `;
 
 const EditingGroupTagWrapper = styled.div`
@@ -51,24 +59,27 @@ const DashboardMainHeader: FC = () => {
   }`;
 
   return (
-    <HeaderWrapper>
-      <Logo mediaSetting={logoMedia} textMediaSetting={logoTextMedia} />
-      <EditingGroupTagWrapper>
-        <EditingGroupTag
-          value={context.editingGroupId}
-          onChange={(event) => {
-            const value = event.target.value as string;
-            context.setField(adminActionType.EDITING_GROUP, value);
-          }}
-        >
-          {groupList.map((group) => (
-            <option key={group.id} value={group.id} id={group.id}>
-              {group.name}
-            </option>
-          ))}
-        </EditingGroupTag>
-      </EditingGroupTagWrapper>
-    </HeaderWrapper>
+    <HeaderContainer>
+      <HeaderWrapper>
+        <Logo mediaSetting={logoMedia} textMediaSetting={logoTextMedia} />
+        <EditingGroupTagWrapper>
+          <EditingGroupTag
+            value={context.editingGroupId}
+            onChange={(event) => {
+              const value = event.target.value as string;
+              context.setField(adminActionType.EDITING_GROUP, value);
+            }}
+          >
+            {groupList.map((group) => (
+              <option key={group.id} value={group.id} id={group.id}>
+                {group.name}
+              </option>
+            ))}
+          </EditingGroupTag>
+        </EditingGroupTagWrapper>
+      </HeaderWrapper>
+      <LogoutButton />
+    </HeaderContainer>
   );
 };
 

@@ -77,8 +77,8 @@ export default {
         email,
         password
       );
-      this.createUser(userCredential.user.uid);
-      // 拿去做store的user資料結構處理 signupHandler(userCredential.user.uid);
+      const id = this.createUser(userCredential.user.uid);
+      return id;
     } catch (error: any) {
       const { message } = error;
       const errorMessage = checkSignupErrorCase(message);
@@ -125,17 +125,14 @@ export default {
   // FOR_USER
   async createUser(uid: string) {
     const newUserRef = doc(db, "users", uid);
+    const { id } = newUserRef;
     const defalutUsers: Users = {
-      id: newUserRef.id,
-      groups: [
-        {
-          name: "預設群組",
-          forms: [""],
-        },
-      ],
+      id,
+      groupId: [],
     };
 
     await setDoc(newUserRef, defalutUsers);
+    return id;
   },
   async getUser(uid: string) {
     const userDocRef = doc(db, "users", uid);

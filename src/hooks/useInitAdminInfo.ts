@@ -10,7 +10,7 @@ const useInitAdminInfo = () => {
   const initAdminHandler = async (
     uid: string,
     isReset: boolean = false,
-    isDeleteGroup: boolean = false
+    isDeleteGroup: boolean = true
   ) => {
     const response = await fetch("/api/admin/group", {
       method: "GET",
@@ -30,6 +30,7 @@ const useInitAdminInfo = () => {
     if (!adminInfo.data) {
       context.setField(adminActionType.GROUPS, []);
       context.setField(adminActionType.FORMS, []);
+      context.setField(adminActionType.EDITING_GROUP, "0");
       return;
     }
 
@@ -43,7 +44,7 @@ const useInitAdminInfo = () => {
     context.setField(adminActionType.GROUPS, groups);
     context.setField(adminActionType.FORMS, adminInfo.data.forms);
 
-    if (!isReset || !isDeleteGroup) return;
+    if (!isDeleteGroup) return;
     context.setField(adminActionType.EDITING_GROUP, "0");
   };
 

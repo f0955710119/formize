@@ -118,8 +118,7 @@ const LoginForm: FC = () => {
       const adminInfo = await firebase.nativeLogin({ email, password });
 
       if (!adminInfo) return;
-      const uid = adminInfo.id as string;
-      // console.log(uid);
+      const uid = "" + adminInfo.id;
       await initAdminHandler(uid);
       alert("登入成功，將前往問卷管理頁面!");
       router.push("/admin");
@@ -131,7 +130,8 @@ const LoginForm: FC = () => {
   const signupHandler: SignFunctionType = async (email, password) => {
     try {
       //BUG: 之後要寫type gurad + validation
-      await firebase.createNativeUser({ email, password });
+      const uid = await firebase.createNativeUser({ email, password });
+      await initAdminHandler(uid);
       router.push("/admin");
       alert("註冊成功，將前往問卷管理頁面!");
     } catch (error: any) {

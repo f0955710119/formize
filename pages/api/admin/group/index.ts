@@ -141,27 +141,28 @@ export default async function handler(
 
       const uid = uidRaw.split(" ")[1];
 
-      const promiseList = [
-        firebase
-          .updateFieldArrayValue(
-            {
-              docPath: `${firestoreCollectionConfig.USERS}/${uid}`,
-              fieldKey: "groupId",
-              updateData: groupId,
-            },
-            false
-          )
-          .catch(() => {
-            throw new Error("刪除使用者資料失敗");
-          }),
-      ];
-
       const groupData = await firebase.getDocData(
         firestoreCollectionConfig.GROUPS,
         groupId
       );
 
       if (groupData.forms.length === 0) {
+        const promiseList = [
+          firebase
+            .updateFieldArrayValue(
+              {
+                docPath: `${firestoreCollectionConfig.USERS}/${uid}`,
+                fieldKey: "groupId",
+                updateData: groupId,
+              },
+              false
+            )
+            .catch(() => {
+              throw new Error("刪除使用者資料失敗");
+            }),
+          firebase.deleteDocDate(firestoreCollectionConfig.GROUPS, groupId),
+        ];
+        await Promise.all(promiseList);
         res.status(200).json({
           status: "fail",
           status_code: 200,
@@ -169,51 +170,73 @@ export default async function handler(
         });
         return;
       }
+
       const formList = await Promise.all(
         groupData.forms.map((form: string) =>
           firebase.getDocData(firestoreCollectionConfig.FORMS, form)
         )
       );
 
-      formList.forEach((form, i) => {
-        promiseList.push(
-          firebase
-            .deleteDocDate(firestoreCollectionConfig.FORMS, form.id)
-            .catch(() => {
-              throw new Error("刪除問卷資料失敗");
-            })
-        );
-        promiseList.push(
-          firebase
-            .deleteDocDate(
-              firestoreCollectionConfig.QUESTIONS,
-              form.questionDocId
-            )
-            .catch(() => {
-              throw new Error("刪除題型資料失敗");
-            })
-        );
-        promiseList.push(
-          firebase
-            .deleteDocDate(
-              firestoreCollectionConfig.RESPONSES,
-              form.responseDocId
-            )
-            .catch(() => {
-              throw new Error("刪除回應資料失敗");
-            })
-        );
-
-        if (i === formList.length - 1) {
+      const generateFirebasePromise = () => {
+        const promiseList = [];
+        formList.forEach((form, i) => {
           promiseList.push(
             firebase
-              .deleteDocDate(firestoreCollectionConfig.GROUPS, groupId)
+              .deleteDocDate(firestoreCollectionConfig.FORMS, form.id)
               .catch(() => {
-                throw new Error("刪除群組資料失敗");
+                throw new Error("刪除問卷資料失敗");
               })
           );
-        }
-      });
+          promiseList.push(
+            firebase
+              .deleteDocDate(
+                firestoreCollectionConfig.QUESTIONS,
+                form.questionDocId
+              )
+              .catch(() => {
+                throw new Error("刪除題型資料失敗");
+              })
+          );
+          promiseList.push(
+            firebase
+              .deleteDocDate(
+                firestoreCollectionConfig.RESPONSES,
+                form.responseDocId
+              )
+              .catch(() => {
+                throw new Error("刪除回應資料失敗");
+              })
+          );
+
+          if (i === formList.length - 1) {
+            promiseList.push(
+              firebase
+                .deleteDocDate(firestoreCollectionConfig.GROUPS, groupId)
+                .catch(() => {
+                  throw new Error("刪除群組資料失敗");
+                })
+            );
+          }
+        });
+
+        promiseList.push(
+          firebase
+            .updateFieldArrayValue(
+              {
+                docPath: `${firestoreCollectionConfig.USERS}/${uid}`,
+                fieldKey: "groupId",
+                updateData: groupId,
+              },
+              false
+            )
+            .catch(() => {
+              throw new Error("刪除使用者資料失敗");
+            })
+        );
+        return promiseList;
+      };
+
+      const promiseList = generateFirebasePromise();
 
       await Promise.all(promiseList).catch(() => {
         throw new Error("刪除群組內部所有資料時發生錯誤");

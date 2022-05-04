@@ -18,7 +18,7 @@ const useDeleteForm = () => {
 
       const data = await resposne.json();
       if (data.status !== "success") throw new Error(data.message);
-      await initAdminHandler(context.uid, true, true);
+      await initAdminHandler(context.uid, true, false);
       alert("成功刪除問卷!");
     } catch (error: any) {
       console.error(error.message);
