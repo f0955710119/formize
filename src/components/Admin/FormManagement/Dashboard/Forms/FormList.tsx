@@ -97,17 +97,6 @@ const CardContainer = styled(FormsContainer)`
 
 const FormList: FC = () => {
   const context = useContext(adminContext);
-  const [isWiderThanTablet, setIsWiderThanTablet] = useState<boolean>(false);
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 768) {
-        setIsWiderThanTablet(true);
-        return;
-      }
-      setIsWiderThanTablet(false);
-    });
-  }, [isWiderThanTablet]);
 
   const isShowAllForm = context.editingGroupId === "0";
   const showSingleGroup = () => {
@@ -119,7 +108,7 @@ const FormList: FC = () => {
   };
   const groupListArray = isShowAllForm ? context.groups : [showSingleGroup()];
 
-  return context.groups.length !== 0 ? (
+  return (
     <>
       {groupListArray.map((group) => {
         const hasForms = context.forms && context.forms?.length > 0;
@@ -129,7 +118,7 @@ const FormList: FC = () => {
         const groupForms =
           hasResponsedForms.length > 0 ? hasResponsedForms : ["1"];
 
-        return isWiderThanTablet ? (
+        return (
           <ListContainer key={group.id}>
             <ListColumnTitleContainer>
               <GroupTagWrapper>
@@ -171,7 +160,17 @@ const FormList: FC = () => {
               })}
             </FormWrapper>
           </ListContainer>
-        ) : (
+        );
+      })}
+      {groupListArray.map((group) => {
+        const hasForms = context.forms && context.forms?.length > 0;
+        const hasResponsedForms = hasForms
+          ? context.forms.filter((form) => form.groupId === group.id)
+          : [];
+        const groupForms =
+          hasResponsedForms.length > 0 ? hasResponsedForms : ["1"];
+
+        return (
           <CardContainer key={group.id}>
             <GroupTag>{group.name}</GroupTag>
             <FormWrapper>
@@ -208,8 +207,6 @@ const FormList: FC = () => {
         );
       })}
     </>
-  ) : (
-    <></>
   );
 };
 

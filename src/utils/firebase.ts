@@ -117,7 +117,7 @@ export default {
           resolve(user.uid);
           return;
         }
-        reject("未登入狀態");
+        resolve("未登入狀態");
       });
       unsubscribe();
     });

@@ -7,6 +7,7 @@ import { ChangeHandler } from "../../types/common";
 import { adminContext } from "../../store/context/adminContext";
 import loginConfig from "../../configs/loginConfig";
 import useInitAdminInfo from "../../hooks/useInitAdminInfo";
+import adminActionType from "../../store/actionType/adminActionType";
 
 const DefaultLandingTitle = styled.h1`
   display: block;
@@ -76,6 +77,7 @@ const Button = styled.button`
 
 const LoginForm: FC = () => {
   const router = useRouter();
+  const context = useContext(adminContext);
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     email: "",
     password: "",
@@ -101,25 +103,32 @@ const LoginForm: FC = () => {
     });
   };
 
-  const signinHandler: SignFunctionType = async (email, password) => {
+  const checkSignInput = (email: string, password: string) => {
     const emailRegex = loginConfig.EMAIL_REG;
     const passwordRegex = loginConfig.PASSWORD_REG;
     const invalidEmail = !emailRegex.test(email);
     const invalidPassword = !passwordRegex.test(password);
 
+    if (invalidEmail) return "請輸入正確的Email格式";
+    if (invalidPassword)
+      return "密碼請輸入至少6個字元的英文字母或數字，且不得包含特殊符號";
+
+    return null;
+  };
+
+  const signinHandler: SignFunctionType = async (email, password) => {
     // BUG: 顯示給使用者跟開發的人的錯誤訊息不一樣，之後要優化
     try {
-      if (invalidEmail) throw new Error("請輸入正確的Email格式");
-      if (invalidPassword)
-        throw new Error(
-          "密碼請輸入至少6個字元的英文字母或數字，且不得包含特殊符號"
-        );
+      const errorMessage = checkSignInput(email, password);
+      if (errorMessage) throw new Error(errorMessage);
 
       const adminInfo = await firebase.nativeLogin({ email, password });
 
       if (!adminInfo) return;
       const uid = "" + adminInfo.id;
-      await initAdminHandler(uid);
+
+      context.setField(adminActionType.UID, uid);
+      // await initAdminHandler(uid);
       alert("登入成功，將前往問卷管理頁面!");
       router.push("/admin");
     } catch (error: any) {
@@ -129,9 +138,12 @@ const LoginForm: FC = () => {
 
   const signupHandler: SignFunctionType = async (email, password) => {
     try {
+      const errorMessage = checkSignInput(email, password);
+      if (errorMessage) throw new Error(errorMessage);
       //BUG: 之後要寫type gurad + validation
       const uid = await firebase.createNativeUser({ email, password });
-      await initAdminHandler(uid);
+      context.setField(adminActionType.UID, uid);
+      // await initAdminHandler(uid);
       router.push("/admin");
       alert("註冊成功，將前往問卷管理頁面!");
     } catch (error: any) {

@@ -1,26 +1,29 @@
-import { useContext, useEffect } from "react";
-import { useAppDispatch } from "./useAppDispatch";
-import { adminActions } from "../store/slice/adminSlice";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import firebase from "../utils/firebase";
-import { adminContext } from "../store/context/adminContext";
 import useInitAdminInfo from "./useInitAdminInfo";
 
-const useCheckUid = (uid: string) => {
+const useCheckUid = () => {
+  const router = useRouter();
   const initAdminHandler = useInitAdminInfo();
-  // const dispatch = useAppDispatch();
-  // const context = useContext(adminContext);
-  const checkUidInOtherPage = async (uid: string) => {
-    if (uid !== "") return;
-    const checkUid = await firebase.checkAuthState();
-    if (typeof checkUid !== "string") return;
-    // console.log(checkUid);
-    initAdminHandler(checkUid);
-    // dispatch(adminActions.updateLoginState(checkUid));
+  const checkUidInOtherPageHandler = async () => {
+    try {
+      const checkUid = await firebase.checkAuthState();
+      if (typeof checkUid !== "string")
+        throw new Error("確認登入狀況時，發生未預期的型態錯誤");
+      if (checkUid === "未登入狀態") {
+        return checkUid;
+      }
+      await initAdminHandler(checkUid);
+      return null;
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
-
-  useEffect(() => {
-    checkUidInOtherPage(uid);
-  }, []);
+  return checkUidInOtherPageHandler;
+  // useEffect(() => {
+  //   checkUidInOtherPage();
+  // }, []);
 };
 
 export default useCheckUid;
