@@ -45,9 +45,9 @@ interface MatrixProps {
 const Matrix: FC<MatrixProps> = ({ id, options, matrixs }: MatrixProps) => {
   return (
     <MatrixWrapper>
-      <OpenDefaultMatrixTitleButton>
+      {/* <OpenDefaultMatrixTitleButton>
         <ButtonText>開啟預設欄位清單</ButtonText>
-      </OpenDefaultMatrixTitleButton>
+      </OpenDefaultMatrixTitleButton> */}
       <AddMatrixButton id={id} matrixs={matrixs} />
       <MatrixTitleWrapper>
         {matrixs.map((matrix, i) => (

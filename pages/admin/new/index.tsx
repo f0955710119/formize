@@ -16,6 +16,7 @@ import helper from "../../../src/utils/helper";
 import themes from "../../../src/store/theme/theme";
 import { useAppSelector } from "../../../src/hooks/useAppSelector";
 import breakpointConfig from "../../../src/configs/breakpointConfig";
+import scrollBar from "../../../src/components/Admin/CreateForm/UI/scrollBar";
 
 const CreateNewPageContainer = styled.div`
   width: 100vw;
@@ -23,28 +24,7 @@ const CreateNewPageContainer = styled.div`
   @media ${breakpointConfig.laptopM} {
     overflow-x: hidden;
     overflow-y: scroll;
-    &::-webkit-scrollbar-track {
-      background-color: #ccc;
-    }
-
-    &::-webkit-scrollbar {
-      width: 0.5rem;
-      background-color: #f5f5f5;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #b4bcb7;
-      background-image: -webkit-linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.2) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.2) 50%,
-        rgba(255, 255, 255, 0.2) 75%,
-        transparent 75%,
-        transparent
-      );
-    }
+    ${scrollBar}
   }
 `;
 
