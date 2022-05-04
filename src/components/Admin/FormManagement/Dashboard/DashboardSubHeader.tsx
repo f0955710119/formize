@@ -11,6 +11,7 @@ import DisplayButtonGroup from "./DisplayButtonGroup";
 import useInitNewForm from "../../../../hooks/useInitNewForm";
 import { adminContext } from "../../../../store/context/adminContext";
 import breakpointConfig from "../../../../configs/breakpointConfig";
+import useInitAdminInfo from "../../../../hooks/useInitAdminInfo";
 
 const defalutStatusOptions = ["公開", "待上線", "保護", "額滿", "關閉"];
 const defalutDateOptions = ["最新創建", "最舊創建", "最新回覆", "最舊創建"];
@@ -99,11 +100,30 @@ const CustomSelect = styled.select`
 const DashboardSubHeader: FC = () => {
   const router = useRouter();
   const initHandler = useInitNewForm();
+  const initAdminHandler = useInitAdminInfo();
   const context = useContext(adminContext);
 
   const goAddNewFormHandler = (): void => {
     initHandler();
     router.push("/admin/new");
+  };
+
+  const deleteExistingGroup = async () => {
+    try {
+      const response = await fetch("/api/admin/group", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Basic ${context.uid}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ groupId: context.editingGroupId }),
+      });
+      const data = await response.json();
+      await initAdminHandler(context.uid, true);
+      alert("刪除成功!");
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -135,23 +155,7 @@ const DashboardSubHeader: FC = () => {
       </FilterWrapper>
       {context.editingGroupId !== "0" && (
         <>
-          <DeleteButtonWrapper
-            onClick={() => {
-              const test = async () => {
-                const response = await fetch("/api/admin/group", {
-                  method: "DELETE",
-                  headers: {
-                    Authorization: `Basic ${context.uid}`,
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ groupId: context.editingGroupId }),
-                });
-                const data = await response.json();
-                console.log(data);
-              };
-              test();
-            }}
-          >
+          <DeleteButtonWrapper onClick={() => deleteExistingGroup()}>
             <DeleteButtonText>刪除群組</DeleteButtonText>
           </DeleteButtonWrapper>
           <ButtonWrapper onClick={goAddNewFormHandler}>

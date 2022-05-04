@@ -32,8 +32,6 @@ export default async function handler(
           throw new Error("取得群組資料失敗");
         });
 
-      // console.log(groupData);
-
       if (groupData.length === 0) {
         res.status(200).json({
           status: "success",
@@ -154,7 +152,7 @@ export default async function handler(
             false
           )
           .catch(() => {
-            throw new Error("刪除使用者上的群組資料失敗");
+            throw new Error("刪除使用者資料失敗");
           }),
       ];
 
@@ -162,36 +160,70 @@ export default async function handler(
         firestoreCollectionConfig.GROUPS,
         groupId
       );
-      console.log(groupData);
 
-      // const formList = await Promise.all(
-      //   groupData.forms.map((form: string) =>
-      //     firebase.getDocData(firestoreCollectionConfig.FORMS, form)
-      //   )
-      // );
+      if (groupData.forms.length === 0) {
+        res.status(200).json({
+          status: "fail",
+          status_code: 200,
+          message: "成功刪除問卷的資料!",
+        });
+        return;
+      }
+      const formList = await Promise.all(
+        groupData.forms.map((form: string) =>
+          firebase.getDocData(firestoreCollectionConfig.FORMS, form)
+        )
+      );
 
-      // const formDeleteList = formList.map((form) =>
-      //   firebase.deleteDocDate(firestoreCollectionConfig.FORMS, form.id)
-      // );
+      formList.forEach((form, i) => {
+        promiseList.push(
+          firebase
+            .deleteDocDate(firestoreCollectionConfig.FORMS, form.id)
+            .catch(() => {
+              throw new Error("刪除問卷資料失敗");
+            })
+        );
+        promiseList.push(
+          firebase
+            .deleteDocDate(
+              firestoreCollectionConfig.QUESTIONS,
+              form.questionDocId
+            )
+            .catch(() => {
+              throw new Error("刪除題型資料失敗");
+            })
+        );
+        promiseList.push(
+          firebase
+            .deleteDocDate(
+              firestoreCollectionConfig.RESPONSES,
+              form.responseDocId
+            )
+            .catch(() => {
+              throw new Error("刪除回應資料失敗");
+            })
+        );
 
-      // const questionDeleteList = formList.map((form) => {
-      //   console.log(form.questionDocId);
-      //   return firebase.deleteDocDate(
-      //     firestoreCollectionConfig.QUESTIONS,
-      //     form.questionDocId
-      //   );
-      // });
+        if (i === formList.length - 1) {
+          promiseList.push(
+            firebase
+              .deleteDocDate(firestoreCollectionConfig.GROUPS, groupId)
+              .catch(() => {
+                throw new Error("刪除群組資料失敗");
+              })
+          );
+        }
+      });
 
-      // const responseDeleteList = formList.map((form) =>
-      //   firebase.deleteDocDate(
-      //     firestoreCollectionConfig.RESPONSES,
-      //     form.responseDocId
-      //   )
-      // );
+      await Promise.all(promiseList).catch(() => {
+        throw new Error("刪除群組內部所有資料時發生錯誤");
+      });
 
-      // console.log(formDeleteList);
-      // console.log(questionDeleteList);
-      // console.log(responseDeleteList);
+      res.status(200).json({
+        status: "fail",
+        status_code: 200,
+        message: "成功刪除問卷的所有資料!",
+      });
     } catch (error: any) {
       const { message } = error;
       res.status(400).json({

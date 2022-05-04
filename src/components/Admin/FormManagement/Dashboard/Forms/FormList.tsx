@@ -101,6 +101,8 @@ const FormList: FC = () => {
     window.innerWidth > 768
   );
 
+  console.log(context);
+
   useEffect(() => {
     window.addEventListener("resize", () => {
       if (window.innerWidth > 768) {
@@ -121,7 +123,7 @@ const FormList: FC = () => {
   };
   const groupListArray = isShowAllForm ? context.groups : [showSingleGroup()];
 
-  return (
+  return context.groups.length !== 0 ? (
     <>
       {groupListArray.map((group) => {
         const hasForms = context.forms && context.forms?.length > 0;
@@ -210,6 +212,8 @@ const FormList: FC = () => {
         );
       })}
     </>
+  ) : (
+    <></>
   );
 };
 

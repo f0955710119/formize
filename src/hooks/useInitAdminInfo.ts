@@ -7,7 +7,7 @@ import helper from "../utils/helper";
 const useInitAdminInfo = () => {
   const context = useContext(adminContext);
 
-  const initAdminHandler = async (uid: string) => {
+  const initAdminHandler = async (uid: string, isReset: boolean = false) => {
     const response = await fetch("/api/admin/group", {
       method: "GET",
       headers: {
@@ -22,7 +22,12 @@ const useInitAdminInfo = () => {
     }
 
     context.setField(adminActionType.UID, uid);
-    if (!adminInfo.data) return;
+
+    if (!adminInfo.data) {
+      context.setField(adminActionType.GROUPS, []);
+      context.setField(adminActionType.FORMS, []);
+      return;
+    }
 
     const groups = (adminInfo.data.groups as Group[]).sort((a, b) => {
       const timeA = helper.convertFirebaseTimeToDate(a.createdTime).getTime();
@@ -30,8 +35,12 @@ const useInitAdminInfo = () => {
       if (timeA > timeB) return 1;
       return -1;
     });
+
     context.setField(adminActionType.GROUPS, groups);
     context.setField(adminActionType.FORMS, adminInfo.data.forms);
+
+    if (!isReset) return;
+    context.setField(adminActionType.EDITING_GROUP, "0");
   };
 
   return initAdminHandler;
