@@ -119,7 +119,7 @@ const LoginForm: FC = () => {
 
       if (!adminInfo) return;
       const uid = adminInfo.id as string;
-
+      // console.log(uid);
       await initAdminHandler(uid);
       alert("登入成功，將前往問卷管理頁面!");
       router.push("/admin");

@@ -1,4 +1,4 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import { adminContext } from "../../../../../store/context/adminContext";
@@ -97,6 +97,20 @@ const CardContainer = styled(FormsContainer)`
 
 const FormList: FC = () => {
   const context = useContext(adminContext);
+  const [isWiderThanTablet, setIsWiderThanTablet] = useState<boolean>(
+    window.innerWidth > 768
+  );
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 768) {
+        setIsWiderThanTablet(true);
+        return;
+      }
+      setIsWiderThanTablet(false);
+    });
+  }, [isWiderThanTablet]);
+
   const isShowAllForm = context.editingGroupId === "0";
   const showSingleGroup = () => {
     const hasResponsedGroup = context.groups.find(
@@ -110,14 +124,14 @@ const FormList: FC = () => {
   return (
     <>
       {groupListArray.map((group) => {
-        const hasForms = context.forms.length > 0;
+        const hasForms = context.forms && context.forms?.length > 0;
         const hasResponsedForms = hasForms
           ? context.forms.filter((form) => form.groupId === group.id)
           : [];
         const groupForms =
           hasResponsedForms.length > 0 ? hasResponsedForms : ["1"];
 
-        return (
+        return isWiderThanTablet ? (
           <ListContainer key={group.id}>
             <ListColumnTitleContainer>
               <GroupTagWrapper>
@@ -159,17 +173,7 @@ const FormList: FC = () => {
               })}
             </FormWrapper>
           </ListContainer>
-        );
-      })}
-      {groupListArray.map((group) => {
-        const hasForms = context.forms.length > 0;
-        const hasResponsedForms = hasForms
-          ? context.forms.filter((form) => form.groupId === group.id)
-          : [];
-        const groupForms =
-          hasResponsedForms.length > 0 ? hasResponsedForms : ["1"];
-
-        return (
+        ) : (
           <CardContainer key={group.id}>
             <GroupTag>{group.name}</GroupTag>
             <FormWrapper>

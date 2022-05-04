@@ -11,11 +11,15 @@ const useInitAdminInfo = () => {
     const response = await fetch("/api/admin/group", {
       method: "GET",
       headers: {
-        Authorization: uid,
+        Authorization: `Basic ${uid}`,
       },
     });
 
     const adminInfo = await response.json();
+    if (adminInfo.status === "fail") {
+      console.log(adminInfo.message);
+      return;
+    }
 
     context.setField(adminActionType.UID, uid);
     if (!adminInfo.data) return;
@@ -26,7 +30,6 @@ const useInitAdminInfo = () => {
       if (timeA > timeB) return 1;
       return -1;
     });
-
     context.setField(adminActionType.GROUPS, groups);
     context.setField(adminActionType.FORMS, adminInfo.data.forms);
   };

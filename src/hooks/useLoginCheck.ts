@@ -11,6 +11,7 @@ const useLoginCheck = () => {
       try {
         const uid = await firebase.checkAuthState();
         if (typeof uid !== "string") return;
+        console.log(uid);
         await initAdminHandler(uid);
         router.push("/admin");
       } catch (error: any) {

@@ -135,7 +135,23 @@ const DashboardSubHeader: FC = () => {
       </FilterWrapper>
       {context.editingGroupId !== "0" && (
         <>
-          <DeleteButtonWrapper>
+          <DeleteButtonWrapper
+            onClick={() => {
+              const test = async () => {
+                const response = await fetch("/api/admin/group", {
+                  method: "DELETE",
+                  headers: {
+                    Authorization: `Basic ${context.uid}`,
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ groupId: context.editingGroupId }),
+                });
+                const data = await response.json();
+                console.log(data);
+              };
+              test();
+            }}
+          >
             <DeleteButtonText>刪除群組</DeleteButtonText>
           </DeleteButtonWrapper>
           <ButtonWrapper onClick={goAddNewFormHandler}>

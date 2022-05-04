@@ -13,6 +13,7 @@ const useCheckUid = (uid: string) => {
     if (uid !== "") return;
     const checkUid = await firebase.checkAuthState();
     if (typeof checkUid !== "string") return;
+    // console.log(checkUid);
     initAdminHandler(checkUid);
     // dispatch(adminActions.updateLoginState(checkUid));
   };

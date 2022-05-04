@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import firestoreCollectionConfig from "../../../../src/configs/firestoreCollectionConfig";
 import firebase from "../../../../src/utils/firebase";
 import type { DocumentData } from "firebase/firestore";
+import { Forms } from "../../../../src/types/form";
 
 interface Data {
   status: string;
@@ -21,14 +22,17 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      const uid = req.headers.authorization;
-      if (!uid) throw new Error("need admin's id to get group data back");
+      const uidRaw = req.headers.authorization;
+      if (!uidRaw) throw new Error("need admin's id to get group data back");
+      const uid = uidRaw.split(" ")[1];
 
-      const groupData = await firebase.getAllEqualDoc(
-        firestoreCollectionConfig.GROUPS,
-        "adminId",
-        uid
-      );
+      const groupData = await firebase
+        .getAllEqualDoc(firestoreCollectionConfig.GROUPS, "adminId", uid)
+        .catch(() => {
+          throw new Error("取得群組資料失敗");
+        });
+
+      // console.log(groupData);
 
       if (groupData.length === 0) {
         res.status(200).json({
@@ -44,6 +48,18 @@ export default async function handler(
       groupData.forEach((d) => {
         formsList.push(...d.forms);
       });
+
+      if (formsList[0] === "") {
+        res.status(200).json({
+          status: "success",
+          status_code: 200,
+          message: "get admin's group and form data back!",
+          data: {
+            groups: groupData,
+          },
+        });
+        return;
+      }
 
       const fetchFormsList = formsList.map((formId) =>
         firebase.getDocData(firestoreCollectionConfig.FORMS, formId)
@@ -72,7 +88,7 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const uid = req.headers.authorization;
-      if (!uid) throw new Error("need admin's id to create new group data");
+      if (!uid) throw new Error("使用者必須登入才能新增群組");
       const { newGroupName } = req.body;
 
       if (!newGroupName)
@@ -108,6 +124,74 @@ export default async function handler(
           createdTime,
         },
       });
+    } catch (error: any) {
+      const { message } = error;
+      res.status(400).json({
+        status: "fail",
+        status_code: 400,
+        message,
+      });
+    }
+  }
+
+  if (req.method === "DELETE") {
+    try {
+      const uidRaw = req.headers.authorization;
+      if (!uidRaw) throw new Error("使用者必須登入才能刪除群組");
+      const { groupId } = req.body;
+      if (!groupId) throw new Error("缺乏群組資料");
+
+      const uid = uidRaw.split(" ")[1];
+
+      const promiseList = [
+        firebase
+          .updateFieldArrayValue(
+            {
+              docPath: `${firestoreCollectionConfig.USERS}/${uid}`,
+              fieldKey: "groupId",
+              updateData: groupId,
+            },
+            false
+          )
+          .catch(() => {
+            throw new Error("刪除使用者上的群組資料失敗");
+          }),
+      ];
+
+      const groupData = await firebase.getDocData(
+        firestoreCollectionConfig.GROUPS,
+        groupId
+      );
+      console.log(groupData);
+
+      // const formList = await Promise.all(
+      //   groupData.forms.map((form: string) =>
+      //     firebase.getDocData(firestoreCollectionConfig.FORMS, form)
+      //   )
+      // );
+
+      // const formDeleteList = formList.map((form) =>
+      //   firebase.deleteDocDate(firestoreCollectionConfig.FORMS, form.id)
+      // );
+
+      // const questionDeleteList = formList.map((form) => {
+      //   console.log(form.questionDocId);
+      //   return firebase.deleteDocDate(
+      //     firestoreCollectionConfig.QUESTIONS,
+      //     form.questionDocId
+      //   );
+      // });
+
+      // const responseDeleteList = formList.map((form) =>
+      //   firebase.deleteDocDate(
+      //     firestoreCollectionConfig.RESPONSES,
+      //     form.responseDocId
+      //   )
+      // );
+
+      // console.log(formDeleteList);
+      // console.log(questionDeleteList);
+      // console.log(responseDeleteList);
     } catch (error: any) {
       const { message } = error;
       res.status(400).json({
