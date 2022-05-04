@@ -7,7 +7,11 @@ import helper from "../utils/helper";
 const useInitAdminInfo = () => {
   const context = useContext(adminContext);
 
-  const initAdminHandler = async (uid: string, isReset: boolean = false) => {
+  const initAdminHandler = async (
+    uid: string,
+    isReset: boolean = false,
+    isDeleteGroup: boolean = false
+  ) => {
     const response = await fetch("/api/admin/group", {
       method: "GET",
       headers: {
@@ -39,7 +43,7 @@ const useInitAdminInfo = () => {
     context.setField(adminActionType.GROUPS, groups);
     context.setField(adminActionType.FORMS, adminInfo.data.forms);
 
-    if (!isReset) return;
+    if (!isReset || !isDeleteGroup) return;
     context.setField(adminActionType.EDITING_GROUP, "0");
   };
 

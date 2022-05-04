@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+import useDeleteForm from "../../../../../../hooks/useDeleteForm";
 import usePushToAnalysisPage from "../../../../../../hooks/usePushToAnalysisPage";
 import FeatureButton from "./FeatureButton";
 
@@ -31,10 +32,15 @@ interface FormItemExpandProps {
 
 const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
   const goToAnalysisPageHandler = usePushToAnalysisPage();
+  const deleteFormHandler = useDeleteForm();
+
   return (
     <FormItemExpandContainer isExpand={isExpand}>
       <FormItemExpandFeatureList>
-        <FeatureButton text="刪除" />
+        <FeatureButton
+          text="刪除"
+          clickHandler={() => deleteFormHandler(formId)}
+        />
         <FeatureButton text="開啟" />
         <FeatureButton text="預覽" />
         {/* <FeatureButton text="編輯" />

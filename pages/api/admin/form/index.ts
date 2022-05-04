@@ -103,7 +103,67 @@ export default async function handler(
   }
 
   if (req.method === "DELETE") {
-    const formId = req.body.formId as string;
-    if (!formId) throw new Error("查無此問卷");
+    try {
+      const uidRaw = req.headers.authorization;
+      if (!uidRaw) throw new Error("只有管理員才能刪除問卷");
+      const { formId } = req.body;
+      if (!formId) throw new Error("查無此問卷");
+
+      const formData = await firebase.getDocData(
+        firestoreCollectionCongfig.FORMS,
+        formId
+      );
+      if (!formData) throw new Error("查無此問卷的資料");
+      const promiseList = [
+        firebase
+          .updateFieldArrayValue(
+            {
+              docPath: `${firestoreCollectionCongfig.GROUPS}/${formData.groupId}`,
+              fieldKey: "forms",
+              updateData: formId,
+            },
+            false
+          )
+          .catch(() => {
+            throw new Error("刪除群組資料失敗");
+          }),
+        firebase
+          .deleteDocDate(firestoreCollectionCongfig.FORMS, formId)
+          .catch(() => {
+            throw new Error("刪除問卷資料失敗");
+          }),
+        firebase
+          .deleteDocDate(
+            firestoreCollectionCongfig.QUESTIONS,
+            formData.questionDocId
+          )
+          .catch(() => {
+            throw new Error("刪除題型資料失敗");
+          }),
+        firebase
+          .deleteDocDate(
+            firestoreCollectionCongfig.RESPONSES,
+            formData.responseDocId
+          )
+          .catch(() => {
+            throw new Error("刪除回應資料失敗");
+          }),
+      ];
+
+      await Promise.all(promiseList);
+
+      res.status(200).json({
+        status: "success",
+        status_code: 200,
+        message: "成功刪除問卷!",
+      });
+    } catch (error: any) {
+      const { message } = error;
+      res.status(400).json({
+        status: "fail",
+        status_code: 400,
+        message,
+      });
+    }
   }
 }
