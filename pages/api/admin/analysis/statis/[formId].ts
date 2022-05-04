@@ -40,7 +40,8 @@ export default async function handler(
       const tableCounts = response.tableInfo.map((table: TableInfoItem) => {
         const rawData = response[table.id];
         const data = rawData.map((d: { [key: string]: string }) => {
-          return Object.values(d).join("");
+          const flattedValue = Object.values(d).join("");
+          return flattedValue;
         });
 
         switch (table.type) {
@@ -50,6 +51,7 @@ export default async function handler(
               if (d === "") return;
               counts[`${i + 1}`] = d;
             });
+
             return counts;
           }
           case "0":
@@ -59,6 +61,7 @@ export default async function handler(
               if (d === "") return;
               counts[d] = (counts[d] || 0) + 1;
             });
+
             return counts;
           }
 
@@ -68,6 +71,7 @@ export default async function handler(
             }
             const counts = table.options.map((option) => {
               const countObj: { [key: string]: number | string } = {};
+
               countObj.rowTitle = option;
               countObj.value = 0;
               return countObj;
@@ -116,6 +120,7 @@ export default async function handler(
               if (d === "") return;
               counts[d] = (counts[d] || 0) + 1;
             });
+
             const matrixCounts = table.matrixs.map((matrix) => {
               if (!counts[matrix])
                 return {
@@ -181,6 +186,7 @@ export default async function handler(
               const dNumber = +d;
               counts[dNumber - 1].value = (+counts[dNumber - 1].value || 0) + 1;
             });
+            console.log(counts);
             return counts;
           }
           default: {
@@ -245,7 +251,7 @@ export default async function handler(
             : tableStatisObj;
         }
       );
-
+      console.log(tableStatis);
       res.status(200).json({
         status: "success",
         status_code: 200,
@@ -255,6 +261,7 @@ export default async function handler(
         },
       });
     } catch (error: any) {
+      console.log(error.message);
       res.status(400).json({
         status: "fail",
         status_code: 400,

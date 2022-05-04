@@ -139,12 +139,12 @@ const FormCard: FC<FormCardProps> = ({
         <FeatureButton text="開啟" styleText={featureButtonStyleTextGeneral} />
         <FeatureButton text="預覽" styleText={featureButtonStyleTextGeneral} />
       </CardField>
-      <CardField>
+      {/* <CardField>
         <FeatureColumnTitle>修改問卷</FeatureColumnTitle>
         <FeatureButton text="編輯" styleText={featureButtonStyleTextGeneral} />
         <FeatureButton text="複製" styleText={featureButtonStyleTextGeneral} />
         <FeatureButton text="移動" styleText={featureButtonStyleTextGeneral} />
-      </CardField>
+      </CardField> */}
       <CardField>
         <FeatureColumnTitle>數據查看</FeatureColumnTitle>
         <FeatureButton

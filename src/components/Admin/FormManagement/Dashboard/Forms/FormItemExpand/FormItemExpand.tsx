@@ -37,9 +37,9 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
         <FeatureButton text="刪除" />
         <FeatureButton text="開啟" />
         <FeatureButton text="預覽" />
-        <FeatureButton text="編輯" />
+        {/* <FeatureButton text="編輯" />
         <FeatureButton text="複製" />
-        <FeatureButton text="移動" />
+        <FeatureButton text="移動" /> */}
         <FeatureButton
           text="統計分析"
           clickHandler={() => goToAnalysisPageHandler(0, formId)}
