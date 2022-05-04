@@ -36,6 +36,12 @@ const ChartWrapper = styled.div`
   display: inline-block;
   width: 46rem;
   height: 36rem;
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+    max-width: 42rem;
+  }
+
   @media ${breakpointConfig.mobileL} {
     width: 36rem;
   }
@@ -45,6 +51,9 @@ const PieWrapper = styled(ChartWrapper)``;
 
 const BarWrapper = styled(ChartWrapper)`
   height: 36rem;
+  @media ${breakpointConfig.laptopL} {
+    transform: translateX(-13px);
+  }
   @media ${breakpointConfig.mobileL} {
     transform: translateX(-2rem);
   }

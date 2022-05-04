@@ -24,6 +24,10 @@ const TableWrapper = styled.div<TableWrapperProps>`
     margin-bottom: 1rem;
   }
 
+  @media ${breakpointConfig.tabletS} {
+    max-width: 42rem;
+  }
+
   @media ${breakpointConfig.mobileL} {
     max-width: 36rem;
   }

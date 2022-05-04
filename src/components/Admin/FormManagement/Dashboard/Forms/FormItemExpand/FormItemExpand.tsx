@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FC } from "react";
 import styled from "styled-components";
 import useDeleteForm from "../../../../../../hooks/useDeleteForm";
@@ -41,7 +42,9 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
           text="刪除"
           clickHandler={() => deleteFormHandler(formId)}
         />
-        <FeatureButton text="開啟" />
+        <a href={`/s/${formId}`} target="_blank">
+          <FeatureButton text="開啟" />
+        </a>
         <FeatureButton text="預覽" />
         {/* <FeatureButton text="編輯" />
         <FeatureButton text="複製" />
