@@ -16,7 +16,7 @@ import helper from "../../../src/utils/helper";
 import themes from "../../../src/store/theme/theme";
 import { useAppSelector } from "../../../src/hooks/useAppSelector";
 import breakpointConfig from "../../../src/configs/breakpointConfig";
-import scrollBar from "../../../src/components/Admin/CreateForm/UI/scrollBar";
+import scrollBar from "../../../src/components/UI/scrollBar";
 
 const CreateNewPageContainer = styled.div`
   width: 100vw;

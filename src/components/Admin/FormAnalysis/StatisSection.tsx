@@ -5,7 +5,7 @@ import Logo from "../../UI/Logo";
 
 import type { StatisResponse } from "../../../types/statis";
 import StatisResponseItem from "./StatisResponseItem";
-import scrollBar from "../CreateForm/UI/scrollBar";
+import scrollBar from "../../UI/scrollBar";
 import breakpointConfig from "../../../configs/breakpointConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
 

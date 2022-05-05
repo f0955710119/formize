@@ -6,7 +6,7 @@ import { questionActions } from "../../../../../store/slice/questionSlice";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import scrollBar from "../../UI/scrollBar";
+import scrollBar from "../../../../UI/scrollBar";
 
 interface PageWrapperProps {
   isActive: boolean;

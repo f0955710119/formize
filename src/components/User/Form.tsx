@@ -15,61 +15,75 @@ import Slider from "./Questions/Slider";
 import Sort from "./Questions/Sort";
 import Date from "./Questions/Date";
 import styleConfig from "../../configs/styleConfig";
-import StartPageSection from "./StartPageSection";
-import EndPageSection from "./EndPageSection";
+import PageSection from "./PageSection";
+
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useRouter } from "next/router";
-import useWindow from "../../hooks/useWindow";
 import breakpointConfig from "../../configs/breakpointConfig";
+import scrollBar from "../UI/scrollBar";
 
 type FormProps = UserForm;
+
+const UserFormBodyContainerForMultiPage = styled.div`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #e8e8e8;
+`;
+
 interface MainProps {
   font: string;
   backgroundImage: string;
+  hasImage: boolean;
 }
 
 const SinglePageMain = styled.main<MainProps>`
-  max-width: 90rem;
+  max-width: 80rem;
   width: 100%;
-  height: 100vh;
-  margin: 0 auto;
+  height: 95vh;
+  margin: 2.5vh auto 0 auto;
+  border-radius: 9px;
 
-  font-family: ${(props: MainProps) => {
+  font-family: ${(props) => {
     const fontKey = styleConfig[`${props.font}_KEYFONT`];
     return `${styleConfig[fontKey]}`;
   }};
 
-  background-image: ${(props: MainProps) => `url(${props.backgroundImage})`};
+  background-image: ${(props) => `url(${props.backgroundImage})`};
   background-size: cover;
 
   overflow-y: scroll;
+  ${scrollBar}
+
+  &::-webkit-scrollbar-track {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
 
   &::-webkit-scrollbar {
-    display: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    width: 0.8rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: ${(props) => (props.hasImage ? props.theme.note : "")};
   }
 `;
 
 const MultiPageMain = styled.main<MainProps>`
-  max-width: 90rem;
+  max-width: 80rem;
   width: 100%;
-  height: 100vh;
-  margin: 0 auto;
+  height: 95vh;
+  margin: 2.5vh auto 0 auto;
+  border-radius: 9px;
 
-  font-family: ${(props: MainProps) => {
+  font-family: ${(props) => {
     const fontKey = styleConfig[`${props.font}_KEYFONT`];
     return `${styleConfig[fontKey]}`;
   }};
-
-  /* background-image: ${(props: MainProps) =>
-    `url(${props.backgroundImage})`}; */
-  /* background-image: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.7),
-      rgba(255, 255, 255, 0.7)
-    ),
-    url("https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1167&q=80"); */
-
-  background-size: cover;
 
   overflow: hidden;
 `;
@@ -81,6 +95,10 @@ const SinglePageFormSection = styled.section`
   align-items: center;
   width: 100%;
   height: 100%;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const SinglePageFormContainer = styled.div`
@@ -88,7 +106,7 @@ const SinglePageFormContainer = styled.div`
   flex-direction: column;
   max-width: 90rem;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
 `;
 
 const MultiPageFormSection = styled.section`
@@ -102,7 +120,6 @@ const MultiPageFormSection = styled.section`
 
   background-image: url("/images/main-bg.svg");
   background-size: cover;
-  background-position: center;
   background-repeat: no-repeat;
 `;
 
@@ -328,7 +345,6 @@ const Form: FC<FormProps> = ({
   const router = useRouter();
   const { formId } = router.query;
   const { answers } = useAppSelector((state) => state.user);
-  const windowObj = useWindow();
   const [navigatePage, setNavigatePage] = useState<number>(0);
   const [questionPage, setQuestionPage] = useState<number>(0);
   const indexArr = helper.generateQuestionIndexArr(questions);
@@ -340,10 +356,8 @@ const Form: FC<FormProps> = ({
     settings.pageQuantity,
     questions
   );
-  const hasWindowObj = windowObj !== undefined && windowObj !== null;
-  const mainWidth = hasWindowObj
-    ? `${(windowObj.innerHeight / 4) * 3}px`
-    : "100%";
+
+  const clickStartPageButtonHandler = () => setNavigatePage(1);
 
   const sendResponses = async () => {
     try {
@@ -370,134 +384,147 @@ const Form: FC<FormProps> = ({
   return (
     <>
       {settings.mode === "0" && (
-        <SinglePageMain
-          font={styles.font}
-          backgroundImage={styles.backgroundImages[0]}
-        >
-          <StartPageSection
-            title={settings.title}
-            imageUrl={settings.startPageImageFile}
-            startPageParagraph={settings.startPageParagraph}
-            mode={settings.mode}
-          />
-          <SinglePageFormSection>
-            <SinglePageFormContainer>
-              {questions.map((question, i) => {
-                return (
-                  <QuestionContainer key={i}>
-                    {question.type !== "2" && (
-                      <>
-                        <Heading>
-                          {helper.generateUserFormQuestionTitle(
-                            indexArr[i],
-                            question.title
-                          )}
-                        </Heading>
-                        <NoteText>{question.note}</NoteText>
-                      </>
-                    )}
-                    {generateResponsedUserFormQuestion(question.type, question)}
-                  </QuestionContainer>
-                );
-              })}
-            </SinglePageFormContainer>
-          </SinglePageFormSection>
-          <EndPageSection
-            endPageParagraph={settings.endPageParagraph}
-            imageUrl={settings.endPageImageFile}
-          />
-        </SinglePageMain>
-      )}
-      {settings.mode === "1" && (
-        <MultiPageMain
-          font={styles.font}
-          backgroundImage={styles.backgroundImages[0]}
-        >
-          {navigatePage === 0 && (
-            <StartPageSection
+        <UserFormBodyContainerForMultiPage>
+          <SinglePageMain
+            hasImage={settings.startPageImageFile}
+            font={styles.font}
+            backgroundImage={styles.backgroundImages[0]}
+          >
+            <PageSection
+              isStartPage
               title={settings.title}
               imageUrl={settings.startPageImageFile}
-              startPageParagraph={settings.startPageParagraph}
+              paragraph={settings.startPageParagraph}
               mode={settings.mode}
-              setNavigatePage={setNavigatePage}
             />
-          )}
-
-          {navigatePage === 1 && (
-            <MultiPageFormSection>
-              <FormContainer>
-                <MultiPageFormQuestionButton
-                  isLastPage
-                  onClick={() => {
-                    if (questionPage === 0) {
-                      setNavigatePage(0);
-                      return;
-                    }
-                    setQuestionPage((prevState) => prevState - 1);
-                  }}
-                >
-                  <MultiPageFormQuestionButtonText>
-                    {questionPage === 0 ? "回到歡迎頁" : "上一頁"}
-                  </MultiPageFormQuestionButtonText>
-                </MultiPageFormQuestionButton>
-                <MultiPageFormQuestionButton
-                  isLastPage={false}
-                  onClick={() => {
-                    if (
-                      questionPage ===
-                      questionsInDiffernetPageArr.length - 1
-                    ) {
-                      sendResponses();
-                      return;
-                    }
-                    setQuestionPage((prevState) => prevState + 1);
-                  }}
-                >
-                  <MultiPageFormQuestionButtonText>
-                    {questionPage === questionsInDiffernetPageArr.length - 1
-                      ? "送出問卷回覆"
-                      : "下一頁"}
-                  </MultiPageFormQuestionButtonText>
-                </MultiPageFormQuestionButton>
-                {questions
-                  .filter((question) => question.page === questionPage + 1)
-                  .map((question, i) => {
-                    return (
-                      <QuestionContainer key={i}>
-                        {question.type !== "2" && (
-                          <>
-                            <Heading>
-                              {helper.generateUserFormQuestionTitle(
-                                indexInDifferentPageArr[questionPage][i],
-                                question.title
-                              )}
-                            </Heading>
-                            {question.validations.required && (
-                              <RequireQuestionTag>必填</RequireQuestionTag>
+            <SinglePageFormSection>
+              <SinglePageFormContainer>
+                {questions.map((question, i) => {
+                  return (
+                    <QuestionContainer key={i}>
+                      {question.type !== "2" && (
+                        <>
+                          <Heading>
+                            {helper.generateUserFormQuestionTitle(
+                              indexArr[i],
+                              question.title
                             )}
-                            {question.note !== "" && (
-                              <NoteText>{question.note}</NoteText>
-                            )}
-                          </>
-                        )}
-                        {generateResponsedUserFormQuestion(
-                          question.type,
-                          question
-                        )}
-                      </QuestionContainer>
-                    );
-                  })}
-              </FormContainer>
-            </MultiPageFormSection>
-          )}
-
-          {navigatePage === 2 && (
-            <EndPageSection
-              endPageParagraph={settings.endPageParagraph}
+                          </Heading>
+                          <NoteText>{question.note}</NoteText>
+                        </>
+                      )}
+                      {generateResponsedUserFormQuestion(
+                        question.type,
+                        question
+                      )}
+                    </QuestionContainer>
+                  );
+                })}
+              </SinglePageFormContainer>
+            </SinglePageFormSection>
+            <PageSection
+              isStartPage={false}
+              paragraph={settings.endPageParagraph}
               imageUrl={settings.endPageImageFile}
             />
-          )}
-        </MultiPageMain>
+          </SinglePageMain>
+        </UserFormBodyContainerForMultiPage>
+      )}
+      {settings.mode === "1" && (
+        <UserFormBodyContainerForMultiPage>
+          <MultiPageMain
+            hasImage={settings.startPageImageFile}
+            font={styles.font}
+            backgroundImage={styles.backgroundImages[0]}
+          >
+            {navigatePage === 0 && (
+              <PageSection
+                isStartPage
+                title={settings.title}
+                imageUrl={settings.startPageImageFile}
+                paragraph={settings.startPageParagraph}
+                mode={settings.mode}
+                clickHandler={clickStartPageButtonHandler}
+              />
+            )}
+
+            {navigatePage === 1 && (
+              <MultiPageFormSection>
+                <FormContainer>
+                  <MultiPageFormQuestionButton
+                    isLastPage
+                    onClick={() => {
+                      if (questionPage === 0) {
+                        setNavigatePage(0);
+                        return;
+                      }
+                      setQuestionPage((prevState) => prevState - 1);
+                    }}
+                  >
+                    <MultiPageFormQuestionButtonText>
+                      {questionPage === 0 ? "回到歡迎頁" : "上一頁"}
+                    </MultiPageFormQuestionButtonText>
+                  </MultiPageFormQuestionButton>
+                  <MultiPageFormQuestionButton
+                    isLastPage={false}
+                    onClick={() => {
+                      if (
+                        questionPage ===
+                        questionsInDiffernetPageArr.length - 1
+                      ) {
+                        sendResponses();
+                        return;
+                      }
+                      setQuestionPage((prevState) => prevState + 1);
+                    }}
+                  >
+                    <MultiPageFormQuestionButtonText>
+                      {questionPage === questionsInDiffernetPageArr.length - 1
+                        ? "送出問卷回覆"
+                        : "下一頁"}
+                    </MultiPageFormQuestionButtonText>
+                  </MultiPageFormQuestionButton>
+                  {questions
+                    .filter((question) => question.page === questionPage + 1)
+                    .map((question, i) => {
+                      return (
+                        <QuestionContainer key={i}>
+                          {question.type !== "2" && (
+                            <>
+                              <Heading>
+                                {helper.generateUserFormQuestionTitle(
+                                  indexInDifferentPageArr[questionPage][i],
+                                  question.title
+                                )}
+                              </Heading>
+                              {question.validations.required && (
+                                <RequireQuestionTag>必填</RequireQuestionTag>
+                              )}
+                              {question.note !== "" && (
+                                <NoteText>{question.note}</NoteText>
+                              )}
+                            </>
+                          )}
+                          {generateResponsedUserFormQuestion(
+                            question.type,
+                            question
+                          )}
+                        </QuestionContainer>
+                      );
+                    })}
+                </FormContainer>
+              </MultiPageFormSection>
+            )}
+
+            {navigatePage === 2 && (
+              <PageSection
+                isStartPage={false}
+                paragraph={settings.endPageParagraph}
+                imageUrl={settings.endPageImageFile}
+              />
+            )}
+          </MultiPageMain>
+        </UserFormBodyContainerForMultiPage>
       )}
     </>
   );

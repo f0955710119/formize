@@ -8,7 +8,7 @@ import styled from "styled-components";
 import Layout from "../../UI/Layout";
 import Card from "./UI/Card";
 import HeaderItem from "./HeaderItem";
-import scrollBar from "../../UI/scrollBar";
+import scrollBar from "../../../../UI/scrollBar";
 
 import helper from "../../../../../utils/helper";
 import useFormData from "../../../../../hooks/useFormData";

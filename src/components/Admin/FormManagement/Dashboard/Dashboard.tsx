@@ -9,7 +9,7 @@ import { adminContext } from "../../../../store/context/adminContext";
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import DashboardAddGroupBar from "./DashboardAddGroupBar";
 import ChangeEditingGroupSelect from "./ChangeEditingGroupSelect";
-import scrollBar from "../../CreateForm/UI/scrollBar";
+import scrollBar from "../../../UI/scrollBar";
 
 const DashboardWrapper = styled.div`
   display: flex;

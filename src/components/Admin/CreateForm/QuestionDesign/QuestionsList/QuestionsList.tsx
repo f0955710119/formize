@@ -10,7 +10,7 @@ import helper from "../../../../../utils/helper";
 import MultiPage from "./MultiPage";
 import SinglePage from "./SinglePage";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import scrollBar from "../../UI/scrollBar";
+import scrollBar from "../../../../UI/scrollBar";
 
 interface ListLayoutProps {
   isMultiplePage: boolean;

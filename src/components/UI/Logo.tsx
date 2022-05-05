@@ -23,7 +23,7 @@ interface LogoTextProps {
 const LogoText = styled.span<LogoTextProps>`
   display: block;
   font-size: ${(props: LogoTextProps) => props.fontSize};
-  color: #333;
+  color: inherit;
   font-family: jfOpenhuninn !important;
 
   ${(props: LogoTextProps) => props.textMediaSetting};
@@ -36,6 +36,7 @@ interface LogoProps {
   };
   mediaSetting?: string;
   textMediaSetting?: string;
+  className?: string;
 }
 
 const Logo: FC<LogoProps> = ({
@@ -43,10 +44,15 @@ const Logo: FC<LogoProps> = ({
   style,
   mediaSetting,
   textMediaSetting,
+  className,
 }: LogoProps) => {
   return (
     <Link href="/admin">
-      <LogoWrapper style={{ ...style }} mediaSetting={mediaSetting}>
+      <LogoWrapper
+        style={{ ...style }}
+        mediaSetting={mediaSetting}
+        className={className}
+      >
         <LogoText
           fontSize={fontSize ? fontSize : "2.6rem"}
           textMediaSetting={textMediaSetting}

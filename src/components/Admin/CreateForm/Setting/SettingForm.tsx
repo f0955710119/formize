@@ -9,7 +9,7 @@ import SectionMedia from "./SectionMedia";
 import SectionBanner from "./SectionBanner";
 import Button from "../UI/Button";
 import breakpointConfig from "../../../../configs/breakpointConfig";
-import scrollBar from "../UI/scrollBar";
+import scrollBar from "../../../UI/scrollBar";
 
 const Wrapper = styled.main`
   display: flex;
@@ -23,7 +23,7 @@ const Form = styled.form`
   flex-direction: column;
   margin: 2rem auto 4rem auto;
   padding: 0 3.2rem 0 0;
-  width: 68.4rem;
+  width: 68rem;
   height: calc(100% - 6rem);
   transform: translateX(1.5rem);
 

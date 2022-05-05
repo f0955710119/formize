@@ -19,11 +19,11 @@ import NewPageModal from "../QuestionsList/NewPageModal";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import scrollBar from "../../UI/scrollBar";
+import scrollBar from "../../../../UI/scrollBar";
 
 const OptionsLayout = styled(Layout)`
   width: 18%;
-  overflow: scroll;
+  overflow: hidden;
 
   @media ${breakpointConfig.laptopM} {
     width: 100%;
