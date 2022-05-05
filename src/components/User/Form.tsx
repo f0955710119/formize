@@ -5,15 +5,6 @@ import type { UserForm } from "../../types/userForm";
 import helper from "../../utils/helper";
 import questionConfig from "../../configs/questionConfig";
 
-import OneLineText from "./Questions/OneLineText";
-import MultipleLineText from "./Questions/MultipleLineText";
-import Introduction from "./Questions/Introdction";
-import OneChoice from "./Questions/OneChoice";
-import MultiChoice from "./Questions/MultipleChoice";
-import Matrix from "./Questions/Matrix";
-import Slider from "./Questions/Slider";
-import Sort from "./Questions/Sort";
-import Date from "./Questions/Date";
 import styleConfig from "../../configs/styleConfig";
 import PageSection from "./PageSection";
 
@@ -21,6 +12,9 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { useRouter } from "next/router";
 import breakpointConfig from "../../configs/breakpointConfig";
 import scrollBar from "../UI/scrollBar";
+import MultiplePageSection from "./MultiplePageSection";
+import QuestionList from "./QuestionList";
+import SinglePageSection from "./SinglePageSection";
 
 type FormProps = UserForm;
 
@@ -214,128 +208,6 @@ const RequireQuestionTag = styled.div`
   color: ${(props) => props.theme.optionText};
 `;
 
-const generateResponsedUserFormQuestion = (
-  questionType: string,
-  question: Question
-) => {
-  switch (questionType) {
-    case questionConfig.ONE_LINE_TEXT: {
-      if (!question.validations.length) return;
-      return (
-        <OneLineText
-          textType="text"
-          length={question.validations.length}
-          questionId={question.id}
-        />
-      );
-    }
-
-    case questionConfig.MULTIPLE_LINE_TEXT: {
-      return (
-        <MultipleLineText
-          maxLength={question.validations.length}
-          questionId={question.id}
-        />
-      );
-    }
-
-    case questionConfig.INTRODUCTION: {
-      return <Introduction textContent={question.title} />;
-    }
-
-    case questionConfig.ONE_CHOICE: {
-      if (question.options) {
-        return (
-          <OneChoice options={question.options} questionId={question.id} />
-        );
-      }
-    }
-
-    case questionConfig.MULTIPLE_CHOICE: {
-      if (question.options && question.validations.maxSelected) {
-        return (
-          <MultiChoice
-            options={question.options}
-            maxSelected={question.validations.maxSelected}
-            questionId={question.id}
-          />
-        );
-      }
-    }
-
-    case questionConfig.MATRIX: {
-      if (question.options && question.matrixs) {
-        return (
-          <Matrix
-            options={question.options}
-            matrixs={question.matrixs}
-            questionId={question.id}
-          />
-        );
-      }
-    }
-
-    case questionConfig.NUMBER: {
-      return (
-        <OneLineText
-          textType="number"
-          questionId={question.id}
-          max={question.validations.max}
-          min={question.validations.min}
-          decimal={question.validations.decimal}
-        />
-      );
-    }
-
-    case questionConfig.SLIDER: {
-      return (
-        <Slider
-          questionId={question.id}
-          max={question.validations.max && question.validations.max}
-          min={question.validations.min && question.validations.min}
-          unit={question.validations.unit && question.validations.unit}
-          interval={
-            question.validations.interval && question.validations.interval
-          }
-        />
-      );
-    }
-
-    case questionConfig.SORT: {
-      if (question.options && question.validations.maxSelected) {
-        return (
-          <Sort
-            options={question.options}
-            maxSelected={question.validations.maxSelected}
-            questionId={question.id}
-          />
-        );
-      }
-      return;
-    }
-    case questionConfig.DATE: {
-      if (!question.validations.startDate || !question.validations.endDate) {
-        return (
-          <Date
-            questionId={question.id}
-            isMultipleDate={question.validations.multipleDate}
-            hasRange={question.validations.hasRange}
-          />
-        );
-      }
-      return (
-        <Date
-          questionId={question.id}
-          isMultipleDate={question.validations.multipleDate}
-          hasRange={question.validations.hasRange}
-          startDate={question.validations.startDate}
-          endDate={question.validations.endDate}
-        />
-      );
-    }
-  }
-};
-
 const Form: FC<FormProps> = ({
   responseDocId,
   questions,
@@ -379,14 +251,13 @@ const Form: FC<FormProps> = ({
       console.error(error);
     }
   };
-  console.log(answers);
 
   return (
     <>
       {settings.mode === "0" && (
         <UserFormBodyContainerForMultiPage>
           <SinglePageMain
-            hasImage={settings.startPageImageFile}
+            hasImage={settings.startPageImageFile ? true : false}
             font={styles.font}
             backgroundImage={styles.backgroundImages[0]}
           >
@@ -397,31 +268,19 @@ const Form: FC<FormProps> = ({
               paragraph={settings.startPageParagraph}
               mode={settings.mode}
             />
-            <SinglePageFormSection>
+            {/* <SinglePageFormSection>
               <SinglePageFormContainer>
                 {questions.map((question, i) => {
                   return (
-                    <QuestionContainer key={i}>
-                      {question.type !== "2" && (
-                        <>
-                          <Heading>
-                            {helper.generateUserFormQuestionTitle(
-                              indexArr[i],
-                              question.title
-                            )}
-                          </Heading>
-                          <NoteText>{question.note}</NoteText>
-                        </>
-                      )}
-                      {generateResponsedUserFormQuestion(
-                        question.type,
-                        question
-                      )}
-                    </QuestionContainer>
+                    <QuestionList
+                      titleIndex={indexArr[i]}
+                      question={question}
+                    />
                   );
                 })}
               </SinglePageFormContainer>
-            </SinglePageFormSection>
+            </SinglePageFormSection> */}
+            <SinglePageSection questions={questions} />
             <PageSection
               isStartPage={false}
               paragraph={settings.endPageParagraph}
@@ -433,7 +292,7 @@ const Form: FC<FormProps> = ({
       {settings.mode === "1" && (
         <UserFormBodyContainerForMultiPage>
           <MultiPageMain
-            hasImage={settings.startPageImageFile}
+            hasImage={settings.startPageImageFile ? true : false}
             font={styles.font}
             backgroundImage={styles.backgroundImages[0]}
           >
@@ -449,71 +308,12 @@ const Form: FC<FormProps> = ({
             )}
 
             {navigatePage === 1 && (
-              <MultiPageFormSection>
-                <FormContainer>
-                  <MultiPageFormQuestionButton
-                    isLastPage
-                    onClick={() => {
-                      if (questionPage === 0) {
-                        setNavigatePage(0);
-                        return;
-                      }
-                      setQuestionPage((prevState) => prevState - 1);
-                    }}
-                  >
-                    <MultiPageFormQuestionButtonText>
-                      {questionPage === 0 ? "回到歡迎頁" : "上一頁"}
-                    </MultiPageFormQuestionButtonText>
-                  </MultiPageFormQuestionButton>
-                  <MultiPageFormQuestionButton
-                    isLastPage={false}
-                    onClick={() => {
-                      if (
-                        questionPage ===
-                        questionsInDiffernetPageArr.length - 1
-                      ) {
-                        sendResponses();
-                        return;
-                      }
-                      setQuestionPage((prevState) => prevState + 1);
-                    }}
-                  >
-                    <MultiPageFormQuestionButtonText>
-                      {questionPage === questionsInDiffernetPageArr.length - 1
-                        ? "送出問卷回覆"
-                        : "下一頁"}
-                    </MultiPageFormQuestionButtonText>
-                  </MultiPageFormQuestionButton>
-                  {questions
-                    .filter((question) => question.page === questionPage + 1)
-                    .map((question, i) => {
-                      return (
-                        <QuestionContainer key={i}>
-                          {question.type !== "2" && (
-                            <>
-                              <Heading>
-                                {helper.generateUserFormQuestionTitle(
-                                  indexInDifferentPageArr[questionPage][i],
-                                  question.title
-                                )}
-                              </Heading>
-                              {question.validations.required && (
-                                <RequireQuestionTag>必填</RequireQuestionTag>
-                              )}
-                              {question.note !== "" && (
-                                <NoteText>{question.note}</NoteText>
-                              )}
-                            </>
-                          )}
-                          {generateResponsedUserFormQuestion(
-                            question.type,
-                            question
-                          )}
-                        </QuestionContainer>
-                      );
-                    })}
-                </FormContainer>
-              </MultiPageFormSection>
+              <MultiplePageSection
+                setNavigatePage={setNavigatePage}
+                settings={settings}
+                questions={questions}
+                sendResponses={sendResponses}
+              />
             )}
 
             {navigatePage === 2 && (

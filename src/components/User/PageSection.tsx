@@ -70,7 +70,7 @@ interface PageSectionProps {
   clickHandler?: () => void;
   mode?: string;
   title?: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
   paragraph?: string;
 }
 
