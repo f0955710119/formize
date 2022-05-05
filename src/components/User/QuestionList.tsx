@@ -55,6 +55,8 @@ const RequireQuestionTag = styled.div`
   color: ${(props) => props.theme.optionText};
 `;
 
+const QuestionTag = styled.div``;
+
 const generateResponsedUserFormQuestion = (
   questionType: string,
   question: Question

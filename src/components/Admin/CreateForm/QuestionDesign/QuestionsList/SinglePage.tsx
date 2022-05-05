@@ -40,6 +40,7 @@ const DeleteButton = styled(icons.delete)`
 interface SingplePageProps {
   id: string;
   type: string;
+  index: string;
   title: string;
   note: string;
   deleteQuestionHandler: (questionId: string) => void;
@@ -48,6 +49,7 @@ interface SingplePageProps {
 const SinglePage: FC<SingplePageProps> = ({
   id,
   type,
+  index,
   title,
   note,
   deleteQuestionHandler,
@@ -61,6 +63,7 @@ const SinglePage: FC<SingplePageProps> = ({
         title={type === "2" ? "引言" : title}
         note={note}
         questionType={type}
+        index={index}
       />
     </CreatedQuestionWrapper>
   );

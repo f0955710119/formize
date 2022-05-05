@@ -75,11 +75,8 @@ const MultiPage: FC<MultiPageProps> = ({
                 }}
               />
               <CreatedQuestion
-                title={
-                  question.type === "2"
-                    ? "引言"
-                    : `${titleIndexArr[i]} ${question.title}`
-                }
+                title={question.type === "2" ? "引言" : `${question.title}`}
+                index={`${titleIndexArr[i]}`}
                 note={question.note}
                 questionType={question.type}
               />
@@ -95,25 +92,15 @@ const MultiPage: FC<MultiPageProps> = ({
         >
           {filteredQuestions.map((question, i) => (
             <CreatedQuestionWrapper key={question.id}>
-              <DeleteButtonWrapper>
-                <DeleteSharpIcon
-                  onClick={() => {
-                    deleteQuestionHandler(question.id);
-                  }}
-                  sx={{
-                    width: "100%",
-                    height: "2.4rem",
-                    fill: "#c8c8c8",
-                    cursor: "pointer",
-                  }}
-                />
-              </DeleteButtonWrapper>
+              <DeleteButton
+                id={question.id}
+                onClick={() => {
+                  deleteQuestionHandler(question.id);
+                }}
+              />
               <CreatedQuestion
-                title={
-                  question.type === "2"
-                    ? "引言"
-                    : `${titleIndexArr[i]} ${question.title}`
-                }
+                title={question.type === "2" ? "引言" : `${question.title}`}
+                index={`${titleIndexArr[i]}`}
                 note={question.note}
                 questionType={question.type}
               />

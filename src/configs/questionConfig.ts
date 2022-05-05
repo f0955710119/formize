@@ -23,5 +23,15 @@ const questionConfig: QuestionConfig = {
   DECIMAL: "decimal",
   START_DATE: "startDate",
   END_DATE: "endDate",
+  "0": "單行文字",
+  "1": "多行文字",
+  "2": "引言",
+  "3": "單選",
+  "4": "多選",
+  "5": "矩陣",
+  "6": "數值",
+  "7": "滑桿",
+  "8": "排序",
+  "9": "日期",
 };
 export default questionConfig;

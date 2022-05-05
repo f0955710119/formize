@@ -8,8 +8,8 @@ const QuestionWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding: 0.4rem 1rem;
-  width: 80%;
+  padding: 1rem 0.7rem 1rem 1rem;
+  width: 81%;
   border: 1px solid #c8c8c8;
 
   @media ${breakpointConfig.laptopM} {
@@ -28,9 +28,15 @@ const QuestionWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 1.6rem;
-  width: 90%;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
+  letter-spacing: 0.3px;
+`;
+
+const TitleIndex = styled.span`
+  font-size: 1.5rem;
+  margin-right: 0.3rem;
+  transform: translateY(-3.5px);
 `;
 
 const Note = styled.div`
@@ -38,25 +44,32 @@ const Note = styled.div`
   font-size: 1.4rem;
   color: #aaa;
 `;
+
 interface CreatedQuestionProps {
   title: string;
   note: string;
   questionType: string;
+  index: string;
 }
 
 const CreatedQuestion: FC<CreatedQuestionProps> = ({
   title,
   note,
   questionType,
+  index,
 }: CreatedQuestionProps) => {
   const noteText = questionType === "2" ? "引言沒有註解" : note;
   return (
     <QuestionWrapper>
-      <Title>
-        <QuestionIcon questionType={questionType} />
-        {title}
-      </Title>
-      <Note>{noteText}</Note>
+      <QuestionIcon
+        questionType={questionType}
+        style=" transform: translateY(-2.5px); width:1.6rem; height:1.6rem; margin-right:0.8rem;"
+      />
+      <TitleIndex>{index}</TitleIndex>
+      <Title>{title.length > 12 ? `${title.slice(0, 13)}...` : title}</Title>
+      <Note>
+        {noteText.length > 14 ? `${noteText.slice(0, 15)}...` : noteText}
+      </Note>
     </QuestionWrapper>
   );
 };

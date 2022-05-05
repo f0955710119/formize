@@ -1,9 +1,10 @@
 import { Delete } from "@styled-icons/material/Delete";
 import { Text } from "@styled-icons/fluentui-system-filled/Text";
-import { SlideText } from "@styled-icons/fluentui-system-filled/SlideText";
+import { CardText } from "@styled-icons/bootstrap/CardText";
 import { TooltipQuote } from "@styled-icons/fluentui-system-filled/TooltipQuote";
-import { DotCircle } from "@styled-icons/fa-regular/DotCircle";
-import { TaskListSquareLtr } from "@styled-icons/fluentui-system-filled/TaskListSquareLtr";
+import { Check2Circle } from "@styled-icons/bootstrap/Check2Circle";
+// import { TaskListSquareLtr } from "@styled-icons/fluentui-system-filled/TaskListSquareLtr";
+import { CardChecklist } from "@styled-icons/bootstrap/CardChecklist";
 import { TableFreezeColumnAndRow } from "@styled-icons/fluentui-system-filled/TableFreezeColumnAndRow";
 import { NumberRow } from "@styled-icons/fluentui-system-regular/NumberRow";
 import { SliderAlt } from "@styled-icons/boxicons-regular/SliderAlt";
@@ -13,10 +14,10 @@ import { DateRange } from "@styled-icons/material/DateRange";
 const icons: { [key: string]: any } = {
   delete: Delete,
   oneLineText: Text,
-  multipleLineText: SlideText,
+  multipleLineText: CardText,
   introduction: TooltipQuote,
-  oneChoice: DotCircle,
-  multipleChoice: TaskListSquareLtr,
+  oneChoice: Check2Circle,
+  multipleChoice: CardChecklist,
   matrix: TableFreezeColumnAndRow,
   number: NumberRow,
   slider: SliderAlt,

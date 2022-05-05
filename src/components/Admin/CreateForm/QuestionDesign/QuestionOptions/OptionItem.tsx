@@ -12,7 +12,7 @@ const OptionWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 1.45rem 1rem;
   width: 100%;
   border: 1px solid #c8c8c8;
 `;

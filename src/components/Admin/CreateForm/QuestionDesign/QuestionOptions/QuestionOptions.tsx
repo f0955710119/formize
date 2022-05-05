@@ -90,18 +90,9 @@ const NavigatorButton = styled(ButtonWrapper)`
   background-color: #c8c8c8;
 `;
 
-const questionList = [
-  "單行文字",
-  "多行文字",
-  "引言",
-  "單選",
-  "多選",
-  "矩陣",
-  "數值",
-  "滑桿",
-  "排序",
-  "日期",
-];
+const questionList = Array(10)
+  .fill(null)
+  .map((_, i) => questionConfig[i]);
 
 const generateLimitation = (question: Question) => {
   switch (question.type) {

@@ -133,12 +133,13 @@ const QuestionsList: FC = () => {
     <>
       {questions.map((question, i) => {
         const { id, type, note, title } = question;
-        const handledTitle = type === "2" ? "引言" : `${indexArr[i]} ${title}`;
+        const handledTitle = type === "2" ? "引言" : `${title}`;
         return (
           <SinglePage
             key={id}
             id={id}
             type={type}
+            index={`${indexArr[i]}`}
             title={handledTitle}
             note={note}
             deleteQuestionHandler={deleteQuestionHandler}

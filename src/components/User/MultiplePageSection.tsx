@@ -8,7 +8,7 @@ import QuestionList from "./QuestionList";
 
 const FormContainer = styled.div`
   width: 100%;
-  height: 70%;
+  height: 100%;
   padding: 4rem;
   overflow: scroll;
 
