@@ -1,19 +1,15 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
-import { Question } from "../../types/question";
 import type { UserForm } from "../../types/userForm";
-import helper from "../../utils/helper";
-import questionConfig from "../../configs/questionConfig";
 
 import styleConfig from "../../configs/styleConfig";
 import PageSection from "./PageSection";
 
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useRouter } from "next/router";
-import breakpointConfig from "../../configs/breakpointConfig";
+
 import scrollBar from "../UI/scrollBar";
 import MultiplePageSection from "./MultiplePageSection";
-import QuestionList from "./QuestionList";
 import SinglePageSection from "./SinglePageSection";
 
 type FormProps = UserForm;
@@ -82,132 +78,6 @@ const MultiPageMain = styled.main<MainProps>`
   overflow: hidden;
 `;
 
-const SinglePageFormSection = styled.section`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const SinglePageFormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 90rem;
-  width: 100%;
-  /* height: 100vh; */
-`;
-
-const MultiPageFormSection = styled.section`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 90rem;
-  width: 100%;
-  height: 100vh;
-
-  background-image: url("/images/main-bg.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-`;
-
-const MultiPageFormQuestionButtonText = styled.span`
-  font-size: 1.4rem;
-  color: #fff;
-`;
-
-interface MultiPageFormQuestionButtonProps {
-  isLastPage: boolean;
-}
-
-const MultiPageFormQuestionButton = styled.button<MultiPageFormQuestionButtonProps>`
-  position: absolute;
-  ${(props: MultiPageFormQuestionButtonProps) =>
-    props.isLastPage ? "left: 30%" : "right: 30%"};
-  bottom: 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 16rem;
-  height: 4rem;
-  border-radius: 5px;
-  background-color: ${(props) => props.theme.title};
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${(props) => props.theme.note};
-  }
-
-  &:hover > ${MultiPageFormQuestionButtonText} {
-    color: #333;
-  }
-
-  @media ${breakpointConfig.tabletS} {
-    width: 80%;
-    ${(props: MultiPageFormQuestionButtonProps) =>
-      props.isLastPage
-        ? "left: 0; bottom: 9rem;"
-        : "right: 0;left:0; bottom: 4rem;"};
-  }
-`;
-
-const FormContainer = styled.div`
-  width: 100%;
-  height: 70%;
-  padding: 4rem;
-  overflow: scroll;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const QuestionContainer = styled.div`
-  width: 100%;
-  &:not(:last-child) {
-    margin-bottom: 4rem;
-  }
-`;
-
-const Heading = styled.div`
-  display: inline-block;
-  font-size: 2rem;
-  line-break: strict;
-  color: ${(props) => {
-    return props.theme.title;
-  }};
-
-  &:not(:last-child) {
-    margin-bottom: 3rem;
-  }
-`;
-
-const NoteText = styled.div`
-  width: 100%;
-  color: #aaa;
-  font-size: 1.6rem;
-  margin-bottom: 2rem;
-  color: ${(props) => props.theme.note}; ;
-`;
-
-const RequireQuestionTag = styled.div`
-  display: inline-block;
-  margin-left: 1rem;
-  width: 5rem;
-  height: 2.4rem;
-  border-radius: 30px;
-  background-color: ${(props) => props.theme.option};
-  text-align: center;
-  line-height: 24px;
-  color: ${(props) => props.theme.optionText};
-`;
-
 const Form: FC<FormProps> = ({
   responseDocId,
   questions,
@@ -218,19 +88,9 @@ const Form: FC<FormProps> = ({
   const { formId } = router.query;
   const { answers } = useAppSelector((state) => state.user);
   const [navigatePage, setNavigatePage] = useState<number>(0);
-  const [questionPage, setQuestionPage] = useState<number>(0);
-  const indexArr = helper.generateQuestionIndexArr(questions);
-  const indexInDifferentPageArr = helper.generateQuestionMultiPageIndexArr(
-    settings.pageQuantity,
-    questions
-  );
-  const questionsInDiffernetPageArr = helper.generateDifferentPageQuestionsArr(
-    settings.pageQuantity,
-    questions
-  );
+  // const [questionPage, setQuestionPage] = useState<number>(0);
 
   const clickStartPageButtonHandler = () => setNavigatePage(1);
-
   const sendResponses = async () => {
     try {
       const response = await fetch("/api/user/response", {
@@ -261,31 +121,28 @@ const Form: FC<FormProps> = ({
             font={styles.font}
             backgroundImage={styles.backgroundImages[0]}
           >
-            <PageSection
-              isStartPage
-              title={settings.title}
-              imageUrl={settings.startPageImageFile}
-              paragraph={settings.startPageParagraph}
-              mode={settings.mode}
-            />
-            {/* <SinglePageFormSection>
-              <SinglePageFormContainer>
-                {questions.map((question, i) => {
-                  return (
-                    <QuestionList
-                      titleIndex={indexArr[i]}
-                      question={question}
-                    />
-                  );
-                })}
-              </SinglePageFormContainer>
-            </SinglePageFormSection> */}
-            <SinglePageSection questions={questions} />
-            <PageSection
-              isStartPage={false}
-              paragraph={settings.endPageParagraph}
-              imageUrl={settings.endPageImageFile}
-            />
+            {navigatePage === 0 ? (
+              <>
+                {" "}
+                <PageSection
+                  isStartPage
+                  title={settings.title}
+                  imageUrl={settings.startPageImageFile}
+                  paragraph={settings.startPageParagraph}
+                  mode={settings.mode}
+                />
+                <SinglePageSection
+                  questions={questions}
+                  sendResponses={sendResponses}
+                />
+              </>
+            ) : (
+              <PageSection
+                isStartPage={false}
+                paragraph={settings.endPageParagraph}
+                imageUrl={settings.endPageImageFile}
+              />
+            )}
           </SinglePageMain>
         </UserFormBodyContainerForMultiPage>
       )}

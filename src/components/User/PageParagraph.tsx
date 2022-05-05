@@ -7,7 +7,7 @@ const PageParagraphWrapper = styled.textarea`
   font-size: 1.8rem;
   line-height: 1.38;
   white-space: pre-line;
-  margin: 2rem auto 4rem 0;
+  margin: 2rem auto 0 0;
   border: none;
   overflow: hidden;
   resize: none;
@@ -28,7 +28,7 @@ const PageParagraph: FC<PageParagraphProps> = ({ paragraph, className }) => {
   return (
     <PageParagraphWrapper
       className={className}
-      rows={10}
+      rows={6}
       readOnly
       disabled
       cols={1}

@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { Question } from "../../types/question";
 
 import QuestionList from "./QuestionList";
+import PageCTAButton from "./PageCTAButton";
 
 import helper from "../../utils/helper";
 
-const SinglePageFormSection = styled.section`
+const SinglePageContainer = styled.section`
   position: relative;
   display: flex;
   justify-content: center;
@@ -27,20 +28,37 @@ const SinglePageFormContainer = styled.div`
   /* height: 100vh; */
 `;
 
+const SinglePageSubmitButton = styled(PageCTAButton)`
+  background-color: ${(props) => props.theme.title};
+  width: 18rem;
+  bottom: 4rem;
+  right: 50%;
+  transform: translateX(50%);
+`;
+
 interface SinglePageSectionProps {
   questions: Question[];
+  sendResponses: () => Promise<void>;
 }
 
-const SinglePageSection: FC<SinglePageSectionProps> = ({ questions }) => {
+const SinglePageSection: FC<SinglePageSectionProps> = ({
+  questions,
+  sendResponses,
+}) => {
   const indexArr = helper.generateQuestionIndexArr(questions);
+
   return (
-    <SinglePageFormSection>
+    <SinglePageContainer>
       <SinglePageFormContainer>
         {questions.map((question, i) => {
           return <QuestionList titleIndex={indexArr[i]} question={question} />;
         })}
+        <SinglePageSubmitButton
+          text="送出填答回覆"
+          clickHandler={sendResponses}
+        />
       </SinglePageFormContainer>
-    </SinglePageFormSection>
+    </SinglePageContainer>
   );
 };
 

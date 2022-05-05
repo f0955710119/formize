@@ -1,18 +1,10 @@
 import { FC, Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 
-import styleConfig from "../../configs/styleConfig";
-import breakpointConfig from "../../configs/backgroundConfig";
 import helper from "../../utils/helper";
 import { Settings } from "../../types/form";
 import { Question } from "../../types/question";
 import QuestionList from "./QuestionList";
-
-interface MainProps {
-  font: string;
-  backgroundImage: string;
-  hasImage: boolean;
-}
 
 const FormContainer = styled.div`
   width: 100%;
@@ -37,11 +29,19 @@ const MultiPageFormContainer = styled.section`
   background-image: url("/images/main-bg.svg");
   background-size: cover;
   background-repeat: no-repeat;
-`;
 
-const MultiPageFormQuestionButtonText = styled.span`
-  font-size: 1.4rem;
-  color: #fff;
+  animation: moveInRight 0.3s ease-in-out;
+
+  @keyframes moveInRight {
+    0% {
+      opacity: 0.3;
+      transform: translateX(6rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 `;
 
 interface MultiPageFormQuestionButtonProps {
@@ -50,32 +50,22 @@ interface MultiPageFormQuestionButtonProps {
 
 const MultiPageFormQuestionButton = styled.button<MultiPageFormQuestionButtonProps>`
   position: absolute;
-  ${(props) => (props.isLastPage ? "left: 30%" : "right: 30%")};
-  bottom: 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${(props) => (props.isLastPage ? "right: 22rem" : "right: 4rem")};
+  bottom: 7rem;
+  text-align: center;
+  line-height: 3.4rem;
+
   width: 16rem;
-  height: 4rem;
+  height: 3.4rem;
   border-radius: 5px;
   background-color: ${(props) => props.theme.title};
   cursor: pointer;
+  color: #fff;
 
   &:hover {
+    color: #333;
     background-color: ${(props) => props.theme.note};
   }
-
-  &:hover > ${MultiPageFormQuestionButtonText} {
-    color: #333;
-  }
-  /* 
-  @media ${breakpointConfig.tabletS} {
-    width: 80%;
-    ${(props) =>
-    props.isLastPage
-      ? "left: 0; bottom: 9rem;"
-      : "right: 0;left:0; bottom: 4rem;"}
-  } */
 `;
 
 interface MultiplePageSectionProps {
@@ -113,9 +103,10 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
             setQuestionPage((prevState) => prevState - 1);
           }}
         >
-          <MultiPageFormQuestionButtonText>
-            {questionPage === 0 ? "回到歡迎頁" : "上一頁"}
-          </MultiPageFormQuestionButtonText>
+          {/* <MultiPageFormQuestionButtonText>
+            
+          </MultiPageFormQuestionButtonText> */}
+          {questionPage === 0 ? "回到歡迎頁" : "上一頁"}
         </MultiPageFormQuestionButton>
         <MultiPageFormQuestionButton
           isLastPage={false}
@@ -127,11 +118,12 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
             setQuestionPage((prevState) => prevState + 1);
           }}
         >
-          <MultiPageFormQuestionButtonText>
-            {questionPage === questionsInDiffernetPageArr.length - 1
-              ? "送出問卷回覆"
-              : "下一頁"}
-          </MultiPageFormQuestionButtonText>
+          {/* <MultiPageFormQuestionButtonText>
+            
+          </MultiPageFormQuestionButtonText> */}
+          {questionPage === questionsInDiffernetPageArr.length - 1
+            ? "送出問卷回覆"
+            : "下一頁"}
         </MultiPageFormQuestionButton>
         {questions
           .filter((question) => question.page === questionPage + 1)

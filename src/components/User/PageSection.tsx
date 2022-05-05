@@ -1,5 +1,4 @@
-import { StringLike } from "@firebase/util";
-import { FC } from "react";
+import { FC, useRef, useEffect } from "react";
 import styled from "styled-components";
 import breakpointConfig from "../../configs/breakpointConfig";
 
@@ -7,13 +6,36 @@ import Logo from "../UI/Logo";
 import PageCTAButton from "./PageCTAButton";
 import PageParagraph from "./PageParagraph";
 
-const PageContainer = styled.section`
+interface PageContainerProps {
+  isStartPage: boolean;
+  isMultiplePage: boolean;
+  isLoad: boolean;
+}
+
+const PageContainer = styled.section<PageContainerProps>`
   position: relative;
   display: flex;
   width: 100%;
   height: 100vh;
   flex-direction: column;
   background-color: #fff;
+
+  ${(props) =>
+    !props.isLoad &&
+    props.isMultiplePage &&
+    "animation: moveIn 0.3s ease-in-out;"}
+  @keyframes moveIn {
+    0% {
+      opacity: 0.3;
+      transform: translateX(
+        ${(props) => (props.isStartPage ? "-6rem" : "6rem")}
+      );
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 `;
 
 interface PageImageWrapperProps {
@@ -60,7 +82,9 @@ const PageLogo = styled(Logo)`
   color: #fff;
 `;
 
-const defaultStartPageParagraph =
+const defaultSinglePageStartPageParagraph =
+  "我們很歡迎來到本畫面，希望您有最舒適的中文問卷填答體驗。期待收到您的回覆!往下滑動開始你的填答吧!";
+const defaultMultiPageStartPageParagraph =
   "我們很歡迎來到本畫面，希望您有最舒適的中文問卷填答體驗。期待收到您的回覆!按下開始鈕進行填答吧!";
 const defaultEndPageTitle = "您已完成本問卷的填答!";
 const defaultEndPageParagraph = "感謝你的填答，我們會好好保存您的回覆!";
@@ -82,8 +106,23 @@ const PageSection: FC<PageSectionProps> = ({
   imageUrl,
   paragraph,
 }) => {
+  const isLoaded = useRef<boolean>(false);
+  const startDefaultParagraph =
+    mode === "0"
+      ? defaultSinglePageStartPageParagraph
+      : defaultMultiPageStartPageParagraph;
+
+  useEffect(() => {
+    isLoaded.current = true;
+  }, []);
+
   return (
-    <PageContainer>
+    <PageContainer
+      isStartPage={isStartPage}
+      isMultiplePage={mode === "1"}
+      isLoad={isLoaded.current}
+    >
+      {/* <PageLogo /> */}
       {isStartPage && (
         <PageImageWrapper
           img={imageUrl ? imageUrl : "/images/start-page-default.svg"}
@@ -98,7 +137,7 @@ const PageSection: FC<PageSectionProps> = ({
         <FormTitle>{isStartPage ? title : defaultEndPageTitle}</FormTitle>
         {isStartPage && (
           <PageParagraph
-            paragraph={paragraph ? paragraph : defaultStartPageParagraph}
+            paragraph={paragraph ? paragraph : startDefaultParagraph}
           />
         )}
         {!isStartPage && (
