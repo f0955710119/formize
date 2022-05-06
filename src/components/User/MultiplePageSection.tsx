@@ -1,21 +1,17 @@
-import { FC, Dispatch, SetStateAction, useState } from "react";
+import {
+  FC,
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import styled from "styled-components";
 
 import helper from "../../utils/helper";
 import { Settings } from "../../types/form";
 import { Question } from "../../types/question";
 import QuestionList from "./QuestionList";
-
-const FormContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 4rem;
-  overflow: scroll;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
 
 const moveInRightAnimation = `
   animation: moveInRight 0.3s ease-in-out;
@@ -47,10 +43,6 @@ const moveInLeftAnimation = `
   }
 `;
 
-interface MultiPageFormContainerProps {
-  isEnterFromLeft: boolean;
-}
-
 const MultiPageFormContainer = styled.section`
   position: relative;
   display: flex;
@@ -63,6 +55,23 @@ const MultiPageFormContainer = styled.section`
   background-image: url("/images/main-bg.svg");
   background-size: cover;
   background-repeat: no-repeat;
+`;
+
+interface QuestionContainerProps {
+  moveInAnimation: string;
+}
+
+const QuestionContainer = styled.div<QuestionContainerProps>`
+  padding: 0 4rem;
+  width: 100%;
+  height: 70%;
+  overflow: scroll;
+
+  ${(props) => props.moveInAnimation}
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 interface MultiPageFormQuestionButtonProps {
@@ -103,6 +112,27 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
   sendResponses,
 }) => {
   const [questionPage, setQuestionPage] = useState<number>(0);
+  const [moveInAnimation, setMoveInAnimation] =
+    useState<string>(moveInRightAnimation);
+  const isUpdateMoveAnimation = useRef<boolean>(false);
+  const animationTimer = useRef<any>();
+
+  useEffect(() => {
+    setTimeout(() => {
+      isUpdateMoveAnimation.current = false;
+      setMoveInAnimation("");
+    }, 300);
+  }, []);
+
+  useEffect(() => {
+    if (!isUpdateMoveAnimation.current) return;
+
+    animationTimer.current = setTimeout(() => {
+      isUpdateMoveAnimation.current = false;
+      setMoveInAnimation("");
+    }, 300);
+  }, [moveInAnimation]);
+
   const indexInDifferentPageArr = helper.generateQuestionMultiPageIndexArr(
     settings.pageQuantity,
     questions
@@ -113,50 +143,51 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
   );
   return (
     <MultiPageFormContainer>
-      <FormContainer>
-        <MultiPageFormQuestionButton
-          isLastPage
-          onClick={() => {
-            if (questionPage === 0) {
-              setNavigatePage(0);
-              return;
-            }
-            setQuestionPage((prevState) => prevState - 1);
-          }}
-        >
-          {/* <MultiPageFormQuestionButtonText>
-            
-          </MultiPageFormQuestionButtonText> */}
-          {questionPage === 0 ? "回到歡迎頁" : "上一頁"}
-        </MultiPageFormQuestionButton>
-        <MultiPageFormQuestionButton
-          isLastPage={false}
-          onClick={() => {
-            if (questionPage === questionsInDiffernetPageArr.length - 1) {
-              sendResponses();
-              return;
-            }
-            setQuestionPage((prevState) => prevState + 1);
-          }}
-        >
-          {/* <MultiPageFormQuestionButtonText>
-            
-          </MultiPageFormQuestionButtonText> */}
-          {questionPage === questionsInDiffernetPageArr.length - 1
-            ? "送出問卷回覆"
-            : "下一頁"}
-        </MultiPageFormQuestionButton>
+      <MultiPageFormQuestionButton
+        isLastPage
+        onClick={() => {
+          if (questionPage === 0) {
+            setNavigatePage(0);
+            return;
+          }
+          setQuestionPage((prevState) => prevState - 1);
+          clearTimeout(animationTimer.current);
+          isUpdateMoveAnimation.current = true;
+          setMoveInAnimation(moveInLeftAnimation);
+        }}
+      >
+        {questionPage === 0 ? "回到歡迎頁" : "上一頁"}
+      </MultiPageFormQuestionButton>
+      <MultiPageFormQuestionButton
+        isLastPage={false}
+        onClick={() => {
+          if (questionPage === questionsInDiffernetPageArr.length - 1) {
+            sendResponses();
+            return;
+          }
+          setQuestionPage((prevState) => prevState + 1);
+          clearTimeout(animationTimer.current);
+          isUpdateMoveAnimation.current = true;
+          setMoveInAnimation(moveInRightAnimation);
+        }}
+      >
+        {questionPage === questionsInDiffernetPageArr.length - 1
+          ? "送出問卷回覆"
+          : "下一頁"}
+      </MultiPageFormQuestionButton>
+      <QuestionContainer moveInAnimation={moveInAnimation}>
         {questions
           .filter((question) => question.page === questionPage + 1)
           .map((question, i) => {
             return (
               <QuestionList
+                key={question.id}
                 titleIndex={indexInDifferentPageArr[questionPage][i]}
                 question={question}
               />
             );
           })}
-      </FormContainer>
+      </QuestionContainer>
     </MultiPageFormContainer>
   );
 };

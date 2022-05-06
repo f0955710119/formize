@@ -67,6 +67,8 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
+export const user = auth.currentUser;
+
 export default {
   async createNativeUser(userInfo: UserInfoType) {
     try {

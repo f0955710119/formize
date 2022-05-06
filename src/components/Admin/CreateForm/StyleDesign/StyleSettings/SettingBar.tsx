@@ -146,7 +146,7 @@ const ButtonWrapper = styled.button`
   border-radius: 5px;
 
   &:hover {
-    background-color: #6e917bd6;
+    background-color: rgba(110, 145, 123, 0.839);
   }
 
   &:not(:last-child) {
@@ -242,7 +242,10 @@ const SettingBar: FC = () => {
           <BackgroundCardContainer></BackgroundCardContainer>
         </BackGroundContainer>
       )}
-      <ButtonWrapper onClick={() => clickToSendForm(sendingFormData)}>
+      <ButtonWrapper
+        onClick={() => clickToSendForm(sendingFormData)}
+        style={{ backgroundColor: "#6e917b" }}
+      >
         <ButtonText>點我發佈問卷</ButtonText>
       </ButtonWrapper>
       <ButtonWrapper onClick={() => switchStepHanlder(2)}>

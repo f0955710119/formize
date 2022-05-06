@@ -23,7 +23,11 @@ import scrollBar from "../../../../UI/scrollBar";
 
 const OptionsLayout = styled(Layout)`
   width: 18%;
-  overflow: hidden;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media ${breakpointConfig.laptopM} {
     width: 100%;

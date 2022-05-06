@@ -7,6 +7,8 @@ import Radio from "@mui/material/Radio";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { userActions } from "../../../store/slice/userSlice";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
+import helper from "../../../utils/helper";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 
 const MatrixWrapper = styled.div`
   display: flex;
@@ -43,7 +45,9 @@ const MatrixRadio: FC<MatrixRadioProps> = ({
   questionId,
 }: MatrixRadioProps) => {
   const dispatch = useAppDispatch();
+  const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(`${questionId}_${optionIndex}`);
+
   return (
     <FormControl>
       <RadioGroup
@@ -57,10 +61,11 @@ const MatrixRadio: FC<MatrixRadioProps> = ({
       >
         {matrixs.map((matrix) => (
           <Radio
-            key={matrix}
+            key={helper.generateId(8)}
             value={matrix}
             name="question-radio-buttons"
             inputProps={{ "aria-label": `value-${matrix}` }}
+            checked={answers[questionIdIndex].input === matrix}
           />
         ))}
       </RadioGroup>

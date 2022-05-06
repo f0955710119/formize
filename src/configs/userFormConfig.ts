@@ -19,6 +19,7 @@ const userFormConfig: UserFormConfig = {
     startPageParagraph: "",
     endPageImageFile: null,
     endPageParagraph: "",
+    pageQuantity: 0,
   },
   initStyles: {
     theme: "",

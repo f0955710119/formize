@@ -32,9 +32,8 @@ const PageParagraph: FC<PageParagraphProps> = ({ paragraph, className }) => {
       readOnly
       disabled
       cols={1}
-    >
-      {paragraph}
-    </PageParagraphWrapper>
+      value={paragraph}
+    />
   );
 };
 

@@ -51,7 +51,13 @@ const SinglePageSection: FC<SinglePageSectionProps> = ({
     <SinglePageContainer>
       <SinglePageFormContainer>
         {questions.map((question, i) => {
-          return <QuestionList titleIndex={indexArr[i]} question={question} />;
+          return (
+            <QuestionList
+              titleIndex={indexArr[i]}
+              question={question}
+              key={question.id}
+            />
+          );
         })}
         <SinglePageSubmitButton
           text="送出填答回覆"

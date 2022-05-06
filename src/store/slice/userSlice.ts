@@ -3,7 +3,7 @@ import reducers from "../reducer/userReducer";
 
 export interface Answer {
   questionId: string;
-  input: string;
+  input: string | null;
   type: string;
 }
 

@@ -11,6 +11,7 @@ import { adminContext } from "../../src/store/context/adminContext";
 import { useRouter } from "next/router";
 import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
 import useCheckUid from "../../src/hooks/useCheckUid";
+import { user } from "../../src/utils/firebase";
 
 const TestLoading = styled.div`
   display: inline-block;

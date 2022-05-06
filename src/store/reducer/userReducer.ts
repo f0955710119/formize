@@ -24,7 +24,7 @@ const setUpQuestionInitList: CaseReducer<
   const initAnswers = keysArr.map((key) => {
     return {
       questionId: key,
-      input: "",
+      input: null,
       type: questionObject[1][key],
     };
   });
@@ -34,7 +34,7 @@ const setUpQuestionInitList: CaseReducer<
 
 const updateFormAnswer: CaseReducer<
   UserState,
-  PayloadAction<{ questionIdIndex: number; input: string }>
+  PayloadAction<{ questionIdIndex: number; input: string | null }>
 > = (state, action) => {
   const answerIndex = action.payload.questionIdIndex;
   state.answers[answerIndex].input = action.payload.input;

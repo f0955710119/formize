@@ -14,8 +14,11 @@ import Date from "./Questions/Date";
 
 import helper from "../../utils/helper";
 import questionConfig from "../../configs/questionConfig";
+import useGetQuestionIdIndex from "../../hooks/useGetQuestionIdIndex";
+import useResetInputValue from "../../hooks/useResetInputValue";
 
-const QuestionContainer = styled.div`
+const QuestionWrapper = styled.div`
+  position: relative;
   width: 100%;
   &:not(:last-child) {
     margin-bottom: 4rem;
@@ -48,14 +51,29 @@ const RequireQuestionTag = styled.div`
   margin-left: 1rem;
   width: 5rem;
   height: 2.4rem;
+  font-size: 1.4rem;
   border-radius: 30px;
   background-color: ${(props) => props.theme.option};
   text-align: center;
-  line-height: 24px;
+  line-height: 2.4rem;
   color: ${(props) => props.theme.optionText};
 `;
 
-const QuestionTag = styled.div``;
+const ResetAnswerButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 10rem;
+  height: 2.4rem;
+  font-size: 1.4rem;
+  text-align: center;
+  line-height: 2rem;
+  border-radius: 30px;
+  background-color: ${(props) => props.theme.title};
+  color: #fff;
+  cursor: pointer;
+`;
 
 const generateResponsedUserFormQuestion = (
   questionType: string,
@@ -185,8 +203,10 @@ interface QuestionListProps {
 }
 
 const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
+  // const resetInputHandler = useResetInputValue();
+  // const questionIdIndex = useGetQuestionIdIndex(question.id);
   return (
-    <QuestionContainer>
+    <QuestionWrapper>
       {question.type !== "2" && (
         <>
           <Heading>
@@ -198,8 +218,17 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
           {question.note && <NoteText>{question.note}</NoteText>}
         </>
       )}
+      {/* BUG: 不同題型的Reset弄起來比較麻煩，先不處理非純文字類的題型 */}
+      {/* {question.type !== "0" &&
+        question.type !== "1" &&
+        question.type !== "2" &&
+        question.type !== "6" && (
+          <ResetAnswerButton onClick={() => resetInputHandler(questionIdIndex)}>
+            重置填答
+          </ResetAnswerButton>
+        )} */}
       {generateResponsedUserFormQuestion(question.type, question)}
-    </QuestionContainer>
+    </QuestionWrapper>
   );
 };
 
