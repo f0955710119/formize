@@ -141,6 +141,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
       hasRange: false,
       startDate: null,
       endDate: null,
+      maxSelectedDateQuantity: null,
     },
   },
 };

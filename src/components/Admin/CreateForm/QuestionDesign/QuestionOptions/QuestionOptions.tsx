@@ -19,6 +19,7 @@ import NewPageModal from "../QuestionsList/NewPageModal";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import scrollBar from "../../../../UI/scrollBar";
 
 const OptionsLayout = styled(Layout)`
   width: 18%;
@@ -38,7 +39,6 @@ const OptionsLayout = styled(Layout)`
 
   @media ${breakpointConfig.tablet} {
     padding: 0 6rem 0 6rem;
-    margin-top: 2rem;
   } ;
 `;
 
@@ -56,28 +56,10 @@ const OptionList = styled.div`
   width: 100%;
   height: 35vh;
   overflow-y: scroll;
+  ${scrollBar}
 
-  &::-webkit-scrollbar-track {
-    background-color: #ccc;
-  }
-
-  &::-webkit-scrollbar {
-    width: 0.5rem;
-    background-color: #f5f5f5;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #b4bcb7;
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
-    );
+  @media ${breakpointConfig.laptopM} {
+    height: 15vh;
   }
 `;
 
@@ -116,18 +98,9 @@ const NavigatorButton = styled(ButtonWrapper)`
   background-color: #c8c8c8;
 `;
 
-const questionList = [
-  "單行文字",
-  "多行文字",
-  "引言",
-  "單選",
-  "多選",
-  "矩陣",
-  "數值",
-  "滑桿",
-  "排序",
-  "日期",
-];
+const questionList = Array(10)
+  .fill(null)
+  .map((_, i) => questionConfig[i]);
 
 const generateLimitation = (question: Question) => {
   switch (question.type) {

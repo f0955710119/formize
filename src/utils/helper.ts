@@ -173,7 +173,7 @@ export default {
       }
     }
   },
-  generateNewDate(date?: string) {
+  generateNewDate(date?: string | number) {
     if (date) return new Date(date);
     return new Date();
   },

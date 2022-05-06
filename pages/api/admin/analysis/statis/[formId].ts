@@ -37,12 +37,26 @@ export default async function handler(
 
       if (!response) throw new Error("問卷已不存在");
 
+      // const test = response.tableInfo.map((table: TableInfoItem, i: number) => {
+      //   const rawData = response[table.id];
+      //   const data = rawData.map((d: { [key: string]: string }) => {
+      //     const flattedValue = Object.values(d).join("");
+      //     return flattedValue;
+      //   });
+      //   console.log("第" + i + "個");
+      //   console.log(data);
+      // });
+
       const tableCounts = response.tableInfo.map((table: TableInfoItem) => {
         const rawData = response[table.id];
         const data = rawData.map((d: { [key: string]: string }) => {
           const flattedValue = Object.values(d).join("");
           return flattedValue;
         });
+
+        if (data.length === 0) {
+          return "no-data";
+        }
 
         switch (table.type) {
           case "1": {
@@ -71,7 +85,6 @@ export default async function handler(
             }
             const counts = table.options.map((option) => {
               const countObj: { [key: string]: number | string } = {};
-
               countObj.rowTitle = option;
               countObj.value = 0;
               return countObj;
@@ -81,7 +94,7 @@ export default async function handler(
               if (d === "") return;
               const splitedInput = d.split(".");
               const optionIndex = splitedInput[0];
-              counts[+optionIndex].value =
+              counts[+optionIndex - 1].value =
                 (+counts[+optionIndex - 1].value || 0) + 1;
             });
 
@@ -194,6 +207,21 @@ export default async function handler(
           }
         }
       });
+      const hasNoResponse = tableCounts.find(
+        (count: TableInfoItem | string) => count === "no-data"
+      );
+
+      if (hasNoResponse) {
+        res.status(200).json({
+          status: "success",
+          status_code: 200,
+          message: "成功讀取問卷的回應",
+          data: {
+            tableStatis: null,
+          },
+        });
+        return;
+      }
 
       const tableCountsForNumericData = response.tableInfo.filter(
         (table: TableInfoItem) => table.type === "6" || table.type === "7"
@@ -251,7 +279,7 @@ export default async function handler(
             : tableStatisObj;
         }
       );
-      console.log(tableStatis);
+
       res.status(200).json({
         status: "success",
         status_code: 200,

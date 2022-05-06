@@ -8,7 +8,8 @@ import { adminContext } from "../../../../store/context/adminContext";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import DashboardAddGroupBar from "./DashboardAddGroupBar";
-import scrollBar from "../../CreateForm/UI/scrollBar";
+import ChangeEditingGroupSelect from "./ChangeEditingGroupSelect";
+import scrollBar from "../../../UI/scrollBar";
 
 const DashboardWrapper = styled.div`
   display: flex;
@@ -45,6 +46,17 @@ const DashboarMain = styled.main`
   }
 `;
 
+const ChangeEditingGroupSelectForSmallDevice = styled(ChangeEditingGroupSelect)`
+  display: none;
+
+  @media ${breakpointConfig.tabletS} {
+    display: block;
+    width: 100%;
+    margin-bottom: 2rem;
+    height: 6rem;
+  }
+`;
+
 const Dashboard: FC = () => {
   const context = useContext(adminContext);
   const isShowAllGroup = context.editingGroupId === "0";
@@ -52,6 +64,7 @@ const Dashboard: FC = () => {
     <DashboardWrapper>
       <DashboardMainHeader />
       <DashboardAddGroupBar />
+      <ChangeEditingGroupSelectForSmallDevice />
       <DashboardSubHeader />
       <DashboarMain>
         <FormList />

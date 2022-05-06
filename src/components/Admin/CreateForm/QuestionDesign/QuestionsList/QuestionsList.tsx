@@ -10,7 +10,7 @@ import helper from "../../../../../utils/helper";
 import MultiPage from "./MultiPage";
 import SinglePage from "./SinglePage";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import scrollBar from "../../UI/scrollBar";
+import scrollBar from "../../../../UI/scrollBar";
 
 interface ListLayoutProps {
   isMultiplePage: boolean;
@@ -56,7 +56,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
     ${(props: QuestionWrapperProps) =>
       props.isMultiplePage
         ? " overflow-y: auto;overflow-x: hidden; max-height: 50rem;"
-        : "overflow-y: hidden;overflow-x: auto; max-height: 10rem; flex-direction: row;"}
+        : "overflow-y: hidden; overflow-x: scroll; max-height: 10rem; flex-direction: row;"}
 
     display: flex;
 
@@ -133,12 +133,13 @@ const QuestionsList: FC = () => {
     <>
       {questions.map((question, i) => {
         const { id, type, note, title } = question;
-        const handledTitle = type === "2" ? "引言" : `${indexArr[i]} ${title}`;
+        const handledTitle = type === "2" ? "引言" : `${title}`;
         return (
           <SinglePage
             key={id}
             id={id}
             type={type}
+            index={`${indexArr[i]}`}
             title={handledTitle}
             note={note}
             deleteQuestionHandler={deleteQuestionHandler}

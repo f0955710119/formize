@@ -13,16 +13,14 @@ const Analysis: NextPage = () => {
   const router = useRouter();
   const context = useContext(adminContext);
   const { currentAnalysisPage } = context;
-  const [statisData, setStatisDate] = useState<any>();
+  const [statisData, setStatisDate] = useState<StatisResponse[] | null>(null);
   // const statisDateRef = useRef<StatisResponse[]>();
   const formId = router.query.formId as string;
 
   const getStaticsAnalysisData = async (formId: string) => {
     const response = await fetch(`/api/admin/analysis/statis/${formId}`);
     const data = await response.json();
-    console.log(data);
     const { tableStatis } = data.data;
-    console.log(tableStatis);
     setStatisDate(tableStatis);
   };
 

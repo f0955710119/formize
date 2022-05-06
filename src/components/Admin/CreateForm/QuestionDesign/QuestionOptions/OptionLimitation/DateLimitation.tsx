@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
 import useGetQuestion from "../../../../../../hooks/useQuestion";
 import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
@@ -28,8 +28,15 @@ const DateLimitation: FC<DateLimitationProps> = ({
   const dispatch = useAppDispatch();
   const startDate = questionConfig.START_DATE;
   const endDate = questionConfig.END_DATE;
+  const maxSelectedDateQuantity = questionConfig.MAX_SELECTED_DATE_QUANTITY;
+
+  const didUpdateRange = useRef<boolean>(false);
+  const didUpdateMultipleDate = useRef<boolean>(false);
+
+  console.log(question.validations);
 
   const startDateValidationHandler = (value: string) => {
+    console.log(question.validations.endDate);
     if (question.validations.endDate === undefined) return null;
     const startDateReplace = helper.generateParseNumberTime(value);
     if (!question.validations.endDate) return null;
@@ -48,10 +55,67 @@ const DateLimitation: FC<DateLimitationProps> = ({
     if (startDateReplace < endDateReplace) return null;
     return "終點日期不可以小於起始日期(但可同日)，請再選擇一次來修正";
   };
+
+  const maxSelectedDateQuantityValidationHandler = (value: string) => {
+    if (question.validations.maxSelectedDateQuantity === undefined) return null;
+    if (+value >= 2) return null;
+    return "請填入至少為2的數值";
+  };
   // prettier-ignore
   const startDateHandler = useGenerateValidationHandler(id, startDate, false, question,startDateValidationHandler);
   // prettier-ignore
   const endDateHandler = useGenerateValidationHandler(id, endDate, false, question,endDateValidationHandler);
+  // prettier-ignore
+  const maxSelectedDateQuantityHandler = useGenerateValidationHandler(id,maxSelectedDateQuantity,true,question,maxSelectedDateQuantityValidationHandler)
+
+  useEffect(() => {
+    if (!didUpdateRange.current) return;
+    didUpdateRange.current = false;
+
+    if (question.validations.hasRange) {
+      const currentDate = helper.generateNewDate();
+      const tomorrowDate = helper.generateNewDate(
+        helper.generateNewDate().getTime() + 1000 * 60 * 60 * 24
+      );
+      const initStartDate = helper.generateDateFormatString(currentDate);
+      const initEndDate = helper.generateDateFormatString(tomorrowDate);
+      dispatch(
+        questionActions.initRangeDateOfDateQuestion({
+          id: question.id,
+          startDate: initStartDate,
+          endDate: initEndDate,
+        })
+      );
+      return;
+    }
+
+    dispatch(
+      questionActions.initRangeDateOfDateQuestion({
+        id: question.id,
+        startDate: null,
+        endDate: null,
+      })
+    );
+  }, [question.validations.hasRange]);
+
+  useEffect(() => {
+    if (!didUpdateMultipleDate.current) return;
+    didUpdateMultipleDate.current = false;
+    const initMaxSelectedDateQuantity = question.validations.multipleDate
+      ? 2
+      : null;
+
+    dispatch(
+      questionActions.updateSiglePropOfQuestion({
+        id: question.id,
+        actionType: questionActionType.VALIDATIONS,
+        validations: {
+          ...question.validations,
+          maxSelectedDateQuantity: initMaxSelectedDateQuantity,
+        },
+      })
+    );
+  }, [question.validations.multipleDate]);
 
   return (
     <LimitationWrapper>
@@ -62,6 +126,7 @@ const DateLimitation: FC<DateLimitationProps> = ({
           checked={question.validations.multipleDate}
           onChange={(event) => {
             const { checked } = event.target;
+            didUpdateMultipleDate.current = true;
             dispatch(
               questionActions.updateSiglePropOfQuestion({
                 id: question.id,
@@ -75,12 +140,25 @@ const DateLimitation: FC<DateLimitationProps> = ({
           }}
         />
       </Field>
+      {question.validations.multipleDate && (
+        <Field>
+          <Label>天數上限</Label>
+          <TextInput
+            id={id}
+            inputType="number"
+            validationType={questionConfig.DATE}
+            defaultValue="2"
+            dispatchHandler={maxSelectedDateQuantityHandler}
+          />
+        </Field>
+      )}
       <Field>
         <Label>設定範圍</Label>
         <Switch
           checked={question.validations.hasRange}
           onChange={(event) => {
             const { checked } = event.target;
+            didUpdateRange.current = true;
             dispatch(
               questionActions.updateSiglePropOfQuestion({
                 id: question.id,

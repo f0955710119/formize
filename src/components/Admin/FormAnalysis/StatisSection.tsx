@@ -5,22 +5,85 @@ import Logo from "../../UI/Logo";
 
 import type { StatisResponse } from "../../../types/statis";
 import StatisResponseItem from "./StatisResponseItem";
-import scrollBar from "../CreateForm/UI/scrollBar";
+import scrollBar from "../../UI/scrollBar";
 import breakpointConfig from "../../../configs/breakpointConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
 
-const StatisSectionContainer = styled.section`
+const hasDataBackgroundStyle = `
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.8)
+  ),
+  url("/images/main-bg.svg");
+  background-size: cover;
+`;
+
+const hasNoDataBackgroundStyle = `
+  position:relative;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.5)
+  ),url("/images/analysis-default.svg");
+  background-size: cover;
+  background-size: 35%;
+  background-position: 50% 40%;
+  filter: grayscale(100%);
+
+  &::after {
+    content:'因為該問卷尚無回應，所以\\a還看不到統計資料唷!';
+    position: absolute;
+    top:70%;
+    left:50%;
+    width:100%;
+    font-size:1.8rem;
+    text-align:center;
+    white-space: pre-line;
+    color:#777;
+    transform:translate(-50%,0);
+  }
+  
+  &::before {
+    content:'';
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-image:url("/images/main-bg.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity:0.2;
+  }
+
+  @media ${breakpointConfig.laptopL} {
+    background-size: 50%;
+  }
+
+  @media ${breakpointConfig.tablet} {
+    background-size: 60%;
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    background-size: 70%;
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    background-size: 80%;
+  }
+`;
+
+interface StatisSectionContainerProps {
+  hasData: boolean;
+}
+
+const StatisSectionContainer = styled.section<StatisSectionContainerProps>`
   padding: 2rem 2.5rem 0 3.5rem;
   width: calc(100% - 23rem);
   height: 100%;
-
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.8),
-      rgba(255, 255, 255, 0.8)
-    ),
-    url("/images/main-bg.svg");
   background-repeat: no-repeat;
-  background-size: cover;
+
+  ${(props: StatisSectionContainerProps) =>
+    props.hasData ? hasDataBackgroundStyle : hasNoDataBackgroundStyle}
 
   overflow-y: scroll;
   ${scrollBar}
@@ -105,7 +168,7 @@ const StatisHeaderItemForNonDesktop = styled.div<StatisHeaderItemForNonDesktopPr
 const analysisFeatureList = ["統計分析", "明細匯出", "訪問紀錄"];
 
 interface StatisSectionProps {
-  statisData?: StatisResponse[];
+  statisData?: StatisResponse[] | null;
 }
 
 const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
@@ -114,10 +177,10 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
   const formData = context.forms.find(
     (form) => form.id === context.editingFormId
   );
-
+  console.log(statisData);
   return statisData ? (
     <>
-      <StatisSectionContainer>
+      <StatisSectionContainer hasData>
         <StatisHeaderForNonDesktop>
           <Logo />
         </StatisHeaderForNonDesktop>
@@ -166,7 +229,24 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
       </StatisSectionContainer>
     </>
   ) : (
-    <></>
+    <StatisSectionContainer hasData={false}>
+      <StatisHeaderForNonDesktop>
+        <Logo />
+      </StatisHeaderForNonDesktop>
+      <StatisHeaderForNonDesktop>
+        {analysisFeatureList.map((item, i) => (
+          <StatisHeaderItemForNonDesktop
+            key={i}
+            onClick={() =>
+              context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)
+            }
+            isActive={i === context.currentAnalysisPage}
+          >
+            {item}
+          </StatisHeaderItemForNonDesktop>
+        ))}
+      </StatisHeaderForNonDesktop>
+    </StatisSectionContainer>
   );
 };
 

@@ -7,6 +7,7 @@ import { userActions } from "../../../store/slice/userSlice";
 import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import useCheckValidTimer from "../../../hooks/useCheckValidTimer";
+import useResetInputValue from "../../../hooks/useResetInputValue";
 
 const CustomedTextField = styled(TextField)`
   width: 100%;
@@ -43,9 +44,9 @@ const OneLineText: FC<OneLineTextProps> = ({
     setIsInvalid,
     showInvalidHandler,
   } = useCheckAnswerValid();
-
   const checkValidTimerHandler = useCheckValidTimer();
   const questionIdIndex = useGetQuestionIdIndex(questionId);
+  const resetInputHandler = useResetInputValue();
 
   const textChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     checkValidTimerHandler(() => {
@@ -53,6 +54,12 @@ const OneLineText: FC<OneLineTextProps> = ({
       setInvalidMessage("");
       const input = event.target.value;
       const hasLengthInvalid = length && input.length > length;
+
+      if (input === "") {
+        resetInputHandler(questionIdIndex);
+        return;
+      }
+
       if (!hasLengthInvalid) {
         dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
         return;
@@ -72,6 +79,11 @@ const OneLineText: FC<OneLineTextProps> = ({
         typeof decimal === "number" &&
         input.includes(".") &&
         input.split(".")[1].length > decimal;
+
+      if (input === "") {
+        resetInputHandler(questionIdIndex);
+        return;
+      }
 
       if (hasMaxInvalid) {
         showInvalidHandler(`數值不能大於${max}`);

@@ -8,6 +8,7 @@ export interface Settings {
   startPageParagraph: string;
   endPageImageFile: string | null;
   endPageParagraph: string;
+  pageQuantity: number;
 }
 export interface Styles {
   theme: string;

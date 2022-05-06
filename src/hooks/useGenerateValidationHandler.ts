@@ -12,8 +12,23 @@ const useGenerateValidationHandler = (
 ) => {
   const dispatch = useAppDispatch();
 
-  const dispatchHandler = (value: string) => {
+  const dispatchHandler = (value: string | null) => {
     try {
+      if (question === undefined) return;
+      if (value === null) {
+        dispatch(
+          questionActions.updateSiglePropOfQuestion({
+            id,
+            actionType: questionActionType.VALIDATIONS,
+            validations: {
+              ...question.validations,
+              [`${key}`]: value,
+            },
+          })
+        );
+        return;
+      }
+
       if (valiationHandler) {
         const inValidErrorMessage = valiationHandler(value);
         if (inValidErrorMessage) {
@@ -22,7 +37,6 @@ const useGenerateValidationHandler = (
         }
       }
 
-      if (question === undefined) return;
       dispatch(
         questionActions.updateSiglePropOfQuestion({
           id,

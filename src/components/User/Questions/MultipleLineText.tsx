@@ -1,16 +1,12 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
-// import { TextareaAutosize } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 import useCheckValidTimer from "../../../hooks/useCheckValidTimer";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { userActions } from "../../../store/slice/userSlice";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
-
-interface CustomTextareaAutosizeProps {
-  isValid: boolean;
-}
+import useResetInputValue from "../../../hooks/useResetInputValue";
 
 // prettier-ignore
 const CustomTextareaAutosize = styled(TextField)`
@@ -46,6 +42,7 @@ const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
   const validTimerHandler = useCheckValidTimer();
   const dispatch = useAppDispatch();
   const questionIdIndex = useGetQuestionIdIndex(questionId);
+  const resetInputHandler = useResetInputValue();
 
   return (
     <CustomTextareaAutosize
@@ -61,6 +58,12 @@ const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
           setInvalidMessage("");
           const hasMaxLengthInvalid =
             maxLength && event.target.value.length > maxLength;
+
+          if (input === "") {
+            resetInputHandler(questionIdIndex);
+            return;
+          }
+
           if (!hasMaxLengthInvalid) {
             dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
             return;

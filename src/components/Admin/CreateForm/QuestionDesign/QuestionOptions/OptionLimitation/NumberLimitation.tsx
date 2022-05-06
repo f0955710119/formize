@@ -28,10 +28,10 @@ const checkInt = ({
   min: number;
   value: string;
 }) => {
-  const isInt = Number.isInteger((+max - +min + 1) / +value);
+  const isInt = Number.isInteger((+max - +min) / +value);
   console.log(+value);
   if (isInt) return null;
-  return "每次能移動的數值區間必須符合設定的最大值和最小值，得符合「最大值 - 最小值 + 1」!";
+  return "每次能移動的數值區間必須符合設定的最大值和最小值，得符合「最大值 - 最小值」 / 「區間」能整除!";
 };
 
 const NumberLimitation: FC<NumberLimitationProps> = ({

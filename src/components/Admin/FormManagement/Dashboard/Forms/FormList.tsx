@@ -1,4 +1,4 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import { adminContext } from "../../../../../store/context/adminContext";
@@ -97,6 +97,7 @@ const CardContainer = styled(FormsContainer)`
 
 const FormList: FC = () => {
   const context = useContext(adminContext);
+
   const isShowAllForm = context.editingGroupId === "0";
   const showSingleGroup = () => {
     const hasResponsedGroup = context.groups.find(
@@ -110,7 +111,7 @@ const FormList: FC = () => {
   return (
     <>
       {groupListArray.map((group) => {
-        const hasForms = context.forms.length > 0;
+        const hasForms = context.forms && context.forms?.length > 0;
         const hasResponsedForms = hasForms
           ? context.forms.filter((form) => form.groupId === group.id)
           : [];
@@ -162,7 +163,7 @@ const FormList: FC = () => {
         );
       })}
       {groupListArray.map((group) => {
-        const hasForms = context.forms.length > 0;
+        const hasForms = context.forms && context.forms?.length > 0;
         const hasResponsedForms = hasForms
           ? context.forms.filter((form) => form.groupId === group.id)
           : [];

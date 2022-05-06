@@ -16,7 +16,7 @@ export interface Admin {
 
 const initialState: Admin = {
   uid: "",
-  editingGroupId: "d4HICCM6",
+  editingGroupId: "",
   newFormId: "",
 };
 

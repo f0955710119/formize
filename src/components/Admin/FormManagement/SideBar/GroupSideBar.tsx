@@ -109,7 +109,7 @@ const GroupSideBar: FC = () => {
       </ButtonWrapper>
       <GroupHeading>群組分類</GroupHeading>
       <SideBarButton
-        buttonText="總表"
+        buttonText="總表 (切換群組來新增問卷)"
         active={context.editingGroupId === "0"}
         clickHandler={() => {
           switchEditingGroupHandler("0");

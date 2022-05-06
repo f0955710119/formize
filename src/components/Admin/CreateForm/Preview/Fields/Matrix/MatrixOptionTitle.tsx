@@ -10,7 +10,7 @@ import helper from "../../../../../../utils/helper";
 const MatrixOptionTitleWrapper = styled.div`
   display: flex;
   align-items: center;
-  width: 50%;
+  width: 45%;
 `;
 
 const MatrixOptionTitleText = styled.span`

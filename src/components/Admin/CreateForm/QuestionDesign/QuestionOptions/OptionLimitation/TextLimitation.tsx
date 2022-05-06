@@ -39,12 +39,12 @@ const TextLimitation: FC<TextLimitationProps> = ({
   return (
     <LimitationWrapper>
       <RequiredSwitch id={id} />
-      {type !== "2" && (
+      {/* {type !== "2" && (
         <Field>
           <Label>驗證</Label>
           {textType && <ComboBox options={["文字", "信箱", "手機"]} />}
         </Field>
-      )}
+      )} */}
 
       <Field>
         <Label>字數上限</Label>

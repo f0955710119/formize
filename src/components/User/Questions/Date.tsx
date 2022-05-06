@@ -98,7 +98,6 @@ const Date: FC<DateProps> = ({
       <CustomedRangeCalendar
         locale={zhTW}
         date={helper.generateNewDate()}
-        editableDateInputs={true}
         onChange={(item) => {
           // BUG: 等待新創問卷加上限制的日期，就能帶入這個數值(範圍-1)，
           // const incomingStartDate = item.selection.startDate;

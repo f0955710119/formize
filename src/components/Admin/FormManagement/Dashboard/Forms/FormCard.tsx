@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styled from "styled-components";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import useDeleteForm from "../../../../../hooks/useDeleteForm";
 import usePushToAnalysisPage from "../../../../../hooks/usePushToAnalysisPage";
 import helper from "../../../../../utils/helper";
 import FeatureButton from "./FormItemExpand/FeatureButton";
@@ -73,8 +74,8 @@ const featureButtonStyleText = `
 
 const featureButtonStyleTextGeneral = `
   background-color: #649777;
-  padding: 0rem 3%;
   ${featureButtonStyleText}
+  padding: 0rem 3%;
   @media ${breakpointConfig.mobileL} {
     padding: 0rem 8%;
   }
@@ -82,9 +83,8 @@ const featureButtonStyleTextGeneral = `
 
 const featureButtonStyleTextDelete = `
 background-color: #b9b9b9;
+${featureButtonStyleText}
   padding: 0rem 3%;
-  ${featureButtonStyleText}
-
   &:hover {
     color: #a04640;
     background-color: #555;
@@ -104,6 +104,19 @@ const featureButtonStyleTextAnalysis = `
   }
 `;
 
+const FeatureLink = styled.a`
+  display: inline-block;
+  text-align: center;
+  border-radius: 5px;
+  ${featureButtonStyleTextGeneral}
+
+  & button {
+    margin-right: 0;
+    padding: 0;
+    color: #fff;
+  }
+`;
+
 const FormCard: FC<FormCardProps> = ({
   title,
   responsedTimes,
@@ -112,6 +125,7 @@ const FormCard: FC<FormCardProps> = ({
   formId,
 }) => {
   const goToAnalysisPageHandler = usePushToAnalysisPage();
+  const deleteFormHandler = useDeleteForm();
   return (
     <CardContainer id={formId}>
       <FormTitle>{title}</FormTitle>
@@ -135,8 +149,17 @@ const FormCard: FC<FormCardProps> = ({
       </CardField>
       <CardField>
         <FeatureColumnTitle>基本設定</FeatureColumnTitle>
-        <FeatureButton text="刪除" styleText={featureButtonStyleTextDelete} />
-        <FeatureButton text="開啟" styleText={featureButtonStyleTextGeneral} />
+        <FeatureButton
+          text="刪除"
+          styleText={featureButtonStyleTextDelete}
+          clickHandler={() => deleteFormHandler(formId)}
+        />
+        <FeatureLink href={`/s/${formId}`} target="_blank" rel="noreferrer">
+          <FeatureButton
+            text="開啟"
+            // styleText={featureButtonStyleTextGeneral}
+          />
+        </FeatureLink>
         <FeatureButton text="預覽" styleText={featureButtonStyleTextGeneral} />
       </CardField>
       {/* <CardField>

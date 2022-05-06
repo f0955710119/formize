@@ -131,6 +131,27 @@ const updateSiglePropOfQuestion: CaseReducer<
   }
 };
 
+const initRangeDateOfDateQuestion: CaseReducer<
+  QuestionState,
+  PayloadAction<{
+    id: string;
+    startDate: string | null;
+    endDate: string | null;
+  }>
+> = (state, action) => {
+  state.questions = state.questions.map((question) => {
+    if (question.id !== action.payload.id) return question;
+    return {
+      ...question,
+      validations: {
+        ...question.validations,
+        startDate: action.payload.startDate,
+        endDate: action.payload.endDate,
+      },
+    };
+  });
+};
+
 const switchEditingQuestion: CaseReducer<
   QuestionState,
   PayloadAction<Question | null>
@@ -211,6 +232,7 @@ export default {
   addNewQuestion,
   deleteExistedQuestion,
   updateSiglePropOfQuestion,
+  initRangeDateOfDateQuestion,
   switchEditingQuestion,
   willChangeLimitationValue,
   switchCreatingFormStep,
