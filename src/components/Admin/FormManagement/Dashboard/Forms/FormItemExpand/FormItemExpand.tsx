@@ -42,7 +42,7 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
           text="刪除"
           clickHandler={() => deleteFormHandler(formId)}
         />
-        <a href={`/s/${formId}`} target="_blank">
+        <a href={`/s/${formId}`} target="_blank" rel="noreferrer">
           <FeatureButton text="開啟" />
         </a>
         <FeatureButton text="預覽" />

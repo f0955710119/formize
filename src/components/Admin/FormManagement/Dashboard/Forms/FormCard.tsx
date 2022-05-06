@@ -154,7 +154,7 @@ const FormCard: FC<FormCardProps> = ({
           styleText={featureButtonStyleTextDelete}
           clickHandler={() => deleteFormHandler(formId)}
         />
-        <FeatureLink href={`/s/${formId}`} target="_blank">
+        <FeatureLink href={`/s/${formId}`} target="_blank" rel="noreferrer">
           <FeatureButton
             text="開啟"
             // styleText={featureButtonStyleTextGeneral}
