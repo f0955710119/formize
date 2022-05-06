@@ -17,19 +17,7 @@ const FormContainer = styled.div`
   }
 `;
 
-const MultiPageFormContainer = styled.section`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 90rem;
-  width: 100%;
-  height: 100vh;
-
-  background-image: url("/images/main-bg.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-
+const moveInRightAnimation = `
   animation: moveInRight 0.3s ease-in-out;
 
   @keyframes moveInRight {
@@ -42,6 +30,39 @@ const MultiPageFormContainer = styled.section`
       transform: translateX(0);
     }
   }
+`;
+
+const moveInLeftAnimation = `
+  animation: moveInLeft 0.3s ease-in-out;
+
+  @keyframes moveInLeft {
+    0% {
+      opacity: 0.3;
+      transform: translateX(-6rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+`;
+
+interface MultiPageFormContainerProps {
+  isEnterFromLeft: boolean;
+}
+
+const MultiPageFormContainer = styled.section`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 90rem;
+  width: 100%;
+  height: 100vh;
+
+  background-image: url("/images/main-bg.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
 `;
 
 interface MultiPageFormQuestionButtonProps {
