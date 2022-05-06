@@ -50,7 +50,9 @@ interface DateProps {
 const Date: FC<DateProps> = ({ id }: DateProps) => {
   const question = useGetQuestion(id);
 
-  const currentDate = helper.generateNewDate();
+  const currentDate = question?.validations.startDate
+    ? helper.generateNewDate(question?.validations.startDate)
+    : helper.generateNewDate();
   const initRangeState: Range = {
     startDate: currentDate,
     endDate: addDays(currentDate, 7),
@@ -58,6 +60,9 @@ const Date: FC<DateProps> = ({ id }: DateProps) => {
   };
 
   const hasRangeValidation = question?.validations.hasRange ? true : false;
+  const maxSelectedDateQuantity = question?.validations.maxSelectedDateQuantity
+    ? question?.validations.maxSelectedDateQuantity
+    : 2;
 
   const [timeRange, setTimeRange] = useState<Range[]>([initRangeState]);
 
@@ -88,8 +93,23 @@ const Date: FC<DateProps> = ({ id }: DateProps) => {
       <CustomedRangeCalendar
         locale={zhTW}
         date={currentDate}
-        editableDateInputs={true}
-        onChange={(item) => setTimeRange([item.selection])}
+        onChange={(item) => {
+          const incomingStartDate = item.selection.startDate;
+          const incomingEndDate = item.selection.endDate;
+          if (incomingStartDate && incomingEndDate) {
+            const maxRangeNumber =
+              1000 * 60 * 60 * 24 * (maxSelectedDateQuantity - 1);
+            const isInvalidSelectedDateRange =
+              incomingEndDate.getTime() - incomingStartDate.getTime() >
+              maxRangeNumber;
+
+            if (isInvalidSelectedDateRange) {
+              alert(`不能選擇超過${maxSelectedDateQuantity}天的範圍`);
+              return;
+            }
+          }
+          setTimeRange([item.selection]);
+        }}
         moveRangeOnFirstSelection={false}
         ranges={timeRange}
         minDate={

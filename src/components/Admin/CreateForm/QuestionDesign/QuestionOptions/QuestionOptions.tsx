@@ -57,6 +57,10 @@ const OptionList = styled.div`
   height: 35vh;
   overflow-y: scroll;
   ${scrollBar}
+
+  @media ${breakpointConfig.laptopM} {
+    height: 15vh;
+  }
 `;
 
 const ButtonWrapper = styled.button`

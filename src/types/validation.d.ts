@@ -13,4 +13,5 @@ export interface Validation {
   hasRange?: boolean;
   startDate?: string | null;
   endDate?: string | null;
+  maxSelectedDateQuantity?: number | null;
 }

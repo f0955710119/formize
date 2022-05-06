@@ -18,6 +18,10 @@ const CustomTextInput = styled(TextField)`
     height: 100%;
   }
 
+  & label {
+    font-size: 1.4rem;
+  }
+
   & .MuiInputBase-input::placeholder {
     color: #aaa;
     opacity: 1;
@@ -114,7 +118,7 @@ const TextInput: FC<TextInputProps> = ({
         delayChecking.current = setTimeout(() => {
           dispatchHandler(event.target.value);
           event.target.blur();
-        }, 500);
+        }, 600);
       }}
     />
   );

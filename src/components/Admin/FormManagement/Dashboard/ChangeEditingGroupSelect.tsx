@@ -4,7 +4,7 @@ import adminActionType from "../../../../store/actionType/adminActionType";
 import { adminContext } from "../../../../store/context/adminContext";
 
 const EditingGroupTagWrapper = styled.div`
-  width: 18rem;
+  width: 20rem;
   height: 3.2rem;
   border-radius: 3px;
 `;
@@ -29,7 +29,10 @@ const ChangeEditingGroupSelect: FC<ChangeEditingGroupSelect> = ({
   className,
 }) => {
   const context = useContext(adminContext);
-  const groupList = [{ name: "總表", id: "0" }, ...context.groups];
+  const groupList = [
+    { name: "總表 (切換群組來新增問卷)", id: "0" },
+    ...context.groups,
+  ];
 
   return (
     <EditingGroupTagWrapper className={className}>

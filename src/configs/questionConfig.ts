@@ -23,6 +23,7 @@ const questionConfig: QuestionConfig = {
   DECIMAL: "decimal",
   START_DATE: "startDate",
   END_DATE: "endDate",
+  MAX_SELECTED_DATE_QUANTITY: "maxSelectedDateQuantity",
   "0": "單行文字",
   "1": "多行文字",
   "2": "引言",
