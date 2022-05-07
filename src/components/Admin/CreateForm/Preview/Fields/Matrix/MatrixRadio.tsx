@@ -4,9 +4,6 @@ import { FormControl, RadioGroup, Radio } from "@mui/material";
 import breakpointConfig from "../../../../../../configs/breakpointConfig";
 
 const CustomedFormControl = styled(FormControl)`
-  /* display: flex;
-  justify-content: end;
-  width: 100%; */
   @media ${breakpointConfig.tabletS} {
     display: none;
   }

@@ -124,6 +124,12 @@ const AddMatrixButton: FC<AddMatrixButtonProps> = ({
       alert("不能新增空的欄位");
       return;
     }
+
+    if (willUpdatedMatrixList.includes(value)) {
+      alert("不能新增重複名稱的欄位");
+      return;
+    }
+
     setWillUpdatedMatrixList((prevState) => {
       return [...prevState, value];
     });

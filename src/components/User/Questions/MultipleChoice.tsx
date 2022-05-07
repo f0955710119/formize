@@ -50,6 +50,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const questionIdIndex = useGetQuestionIdIndex(questionId);
+  // BUG: 這個寫法存不了state，要額外加一些判斷
   const [isValid, setIsValid] = useState(() => {
     const existedOption: {
       [key: string]: boolean;

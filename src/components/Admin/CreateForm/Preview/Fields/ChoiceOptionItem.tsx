@@ -121,12 +121,12 @@ const OptionItem: FC<OptionItemProps> = ({
       index,
       editingText: editingOptionText,
     };
-    // const checkHasExistedTitle = helper.checkExistedName(checkNameUtilObj);
+    const checkHasExistedTitle = helper.checkExistedName(checkNameUtilObj);
 
-    // if (checkHasExistedTitle) {
-    //   alert("有重複的選項名稱存在，不可以重複儲存喲!");
-    //   return;
-    // }
+    if (checkHasExistedTitle) {
+      alert("有重複的選項名稱存在，不可以重複儲存喲!");
+      return;
+    }
 
     const updateOptions = helper.generateUpdateNames(checkNameUtilObj);
 

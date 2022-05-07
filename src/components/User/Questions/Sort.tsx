@@ -1,13 +1,15 @@
 import { FC, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
+
   align-items: center;
+  flex-direction: column;
   width: 100%;
 `;
 
@@ -16,16 +18,41 @@ const OptionItemWrapper = styled.div`
   align-items: center;
   margin-right: 1rem;
   margin-bottom: 1rem;
-  padding: 0.4rem;
-  width: 30%;
+  padding: 0.4rem 1rem;
+  width: 60%;
   height: 6rem;
   border: 2px solid ${(props) => props.theme.optionText};
+  border-radius: 5px;
 `;
 
 const OptionItemText = styled.div`
-  width: 70%;
   font-size: 1.8rem;
   color: ${(props) => props.theme.optionText};
+  width: calc(100% - 2.4rem);
+`;
+const OptionSortedIndex = styled(OptionItemText)`
+  margin-right: 1rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  text-align: center;
+  line-height: 2.4rem;
+  font-size: 1.5rem;
+  background-color: ${(props) => props.theme.optionText};
+  color: #fff;
+  border-radius: 50%;
+
+  animation: moveInLeft 0.3s ease-in-out;
+
+  @keyframes moveInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-1rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 `;
 
 interface SortProps {
@@ -36,10 +63,24 @@ interface SortProps {
 
 const Sort: FC<SortProps> = ({ options, maxSelected, questionId }) => {
   const dispatch = useAppDispatch();
-  const [selectedOptionArr, setSelectedOptionArr] = useState<string[]>([]);
+  const { answers } = useAppSelector((state) => state.user);
+  const [selectedOptionArr, setSelectedOptionArr] = useState<string[]>(() => {
+    const sortedArray: string[] = [];
+    options.forEach((option, i) => {
+      const responsedIdAnswer = answers.find(
+        (answer) => answer.questionId === `${questionId}_${i}`
+      );
+      if (!responsedIdAnswer) return;
+      if (responsedIdAnswer?.input === null || responsedIdAnswer?.input === "0")
+        return;
+      sortedArray[+responsedIdAnswer.input - 1] = option;
+    });
+    return sortedArray;
+  });
   const questionIndexForFirstOption = useGetQuestionIdIndex(
     `${questionId}_${0}`
   );
+
   const questionIdIndexList = Array(options.length)
     .fill(null)
     .map((_, i) => questionIndexForFirstOption + i);
@@ -83,11 +124,13 @@ const Sort: FC<SortProps> = ({ options, maxSelected, questionId }) => {
             });
           }}
         >
-          <OptionItemText>
-            {selectedOptionArr.find((oldOption) => oldOption === option)
-              ? `${selectedOptionArr.indexOf(option) + 1} ${option}`
-              : option}
-          </OptionItemText>
+          {selectedOptionArr.find((oldOption) => oldOption === option) && (
+            <OptionSortedIndex>
+              {`${selectedOptionArr.indexOf(option) + 1}`}
+            </OptionSortedIndex>
+          )}
+
+          <OptionItemText>{option}</OptionItemText>
         </OptionItemWrapper>
       ))}
     </ChoiceWrapper>
