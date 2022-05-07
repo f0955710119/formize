@@ -1,4 +1,5 @@
 import { FC, useState, useEffect, useRef, ChangeEvent } from "react";
+import styled from "styled-components";
 
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
@@ -8,6 +9,28 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";
+
+import {
+  CustomIcon,
+  CustomCheckedIcon,
+  CustomFormLabel,
+} from "./ChoiceIcon/icon";
+
+const CustomFormControl = styled(FormControl)`
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+
+  & .css-ahj2mt-MuiTypography-root {
+    margin-left: 1rem;
+    font-family: inherit;
+    font-size: 1.8rem;
+  }
+`;
+
+const CustomFormGroup = styled(FormGroup)`
+  align-items: end;
+`;
 
 interface MultipleChoiceProps {
   options: string[];
@@ -75,20 +98,20 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
     );
   }, [selectedOptions]);
 
+  console.log(optionValue);
+
   return (
-    <FormControl
-      required
-      error={error}
-      component="fieldset"
-      sx={{ m: 3 }}
-      variant="standard"
-    >
-      <FormGroup>
+    <CustomFormControl required error={error} variant="standard">
+      <CustomFormGroup>
         {options.map((option, i) => (
-          <FormControlLabel
+          <CustomFormLabel
+            isActive={optionValue[i]}
             key={i}
             control={
               <Checkbox
+                disableRipple
+                icon={<CustomIcon />}
+                checkedIcon={<CustomCheckedIcon />}
                 checked={optionValue[i]}
                 onChange={checkSelectedOptionNumberHandler}
                 name={option}
@@ -98,11 +121,11 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
             label={option}
           />
         ))}
-      </FormGroup>
+      </CustomFormGroup>
       {error && (
         <FormHelperText>最多只能選擇{maxSelected}個選項!</FormHelperText>
       )}
-    </FormControl>
+    </CustomFormControl>
   );
 };
 
