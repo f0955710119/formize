@@ -116,6 +116,7 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
     useState<string>(moveInRightAnimation);
   const isUpdateMoveAnimation = useRef<boolean>(false);
   const animationTimer = useRef<any>();
+  const questionContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -132,6 +133,11 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
       setMoveInAnimation("");
     }, 300);
   }, [moveInAnimation]);
+
+  useEffect(() => {
+    if (questionContainerRef.current === null) return;
+    questionContainerRef.current.scrollTop = 0;
+  }, [questionPage]);
 
   const indexInDifferentPageArr = helper.generateQuestionMultiPageIndexArr(
     settings.pageQuantity,
@@ -175,7 +181,10 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
           ? "送出問卷回覆"
           : "下一頁"}
       </MultiPageFormQuestionButton>
-      <QuestionContainer moveInAnimation={moveInAnimation}>
+      <QuestionContainer
+        moveInAnimation={moveInAnimation}
+        ref={questionContainerRef}
+      >
         {questions
           .filter((question) => question.page === questionPage + 1)
           .map((question, i) => {

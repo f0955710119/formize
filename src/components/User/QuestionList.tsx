@@ -46,7 +46,7 @@ const NoteText = styled.div`
   color: ${(props) => props.theme.note}; ;
 `;
 
-const RequireQuestionTag = styled.div`
+const LimitationQuestionTag = styled.div`
   display: inline-block;
   margin-left: 1rem;
   width: 5rem;
@@ -57,6 +57,26 @@ const RequireQuestionTag = styled.div`
   text-align: center;
   line-height: 2.4rem;
   color: ${(props) => props.theme.optionText};
+`;
+
+const ErrorReminder = styled.p`
+  height: 3rem;
+  line-height: 3rem;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  animation: moveInTop 0.3s ease-in-out 0.3s;
+
+  @keyframes moveInTop {
+    0% {
+      opacity: 0;
+      transform: translateY(-1rem);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0rem);
+    }
+  }
 `;
 
 const ResetAnswerButton = styled.button`
@@ -206,29 +226,33 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
   // const resetInputHandler = useResetInputValue();
   // const questionIdIndex = useGetQuestionIdIndex(question.id);
   return (
-    <QuestionWrapper>
-      {question.type !== "2" && (
-        <>
-          <Heading>
-            {helper.generateUserFormQuestionTitle(titleIndex, question.title)}
-          </Heading>
-          {question.validations.required && (
-            <RequireQuestionTag>必填</RequireQuestionTag>
-          )}
-          {question.note && <NoteText>{question.note}</NoteText>}
-        </>
-      )}
-      {/* BUG: 不同題型的Reset弄起來比較麻煩，先不處理非純文字類的題型 */}
-      {/* {question.type !== "0" &&
+    <>
+      <QuestionWrapper>
+        {question.type !== "2" && (
+          <>
+            <Heading>
+              {helper.generateUserFormQuestionTitle(titleIndex, question.title)}
+            </Heading>
+            {question.validations.required && (
+              <LimitationQuestionTag>必填</LimitationQuestionTag>
+            )}
+            {/* {question.note && <NoteText>{question.note}</NoteText>} */}
+            {<NoteText>這是測試的註解文字</NoteText>}
+            <ErrorReminder>錯誤訊息的提醒</ErrorReminder>
+          </>
+        )}
+        {/* BUG: 不同題型的Reset弄起來比較麻煩，先不處理非純文字類的題型 */}
+        {/* {question.type !== "0" &&
         question.type !== "1" &&
         question.type !== "2" &&
         question.type !== "6" && (
           <ResetAnswerButton onClick={() => resetInputHandler(questionIdIndex)}>
-            重置填答
+          重置填答
           </ResetAnswerButton>
         )} */}
-      {generateResponsedUserFormQuestion(question.type, question)}
-    </QuestionWrapper>
+        {generateResponsedUserFormQuestion(question.type, question)}
+      </QuestionWrapper>
+    </>
   );
 };
 
