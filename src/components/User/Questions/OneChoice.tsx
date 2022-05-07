@@ -60,7 +60,11 @@ const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
       >
         {options.map((option, i) => (
           <CustomFormLabel
-            isActive={answers[questionIdIndex].input === `${i + 1}.${option}`}
+            active={
+              answers[questionIdIndex].input === `${i + 1}.${option}`
+                ? "true"
+                : "false"
+            }
             value={`${i + 1}.${option}`}
             control={
               <CustomRadio

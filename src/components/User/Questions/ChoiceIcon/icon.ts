@@ -36,7 +36,7 @@ export const CustomCheckedIcon = styled(CustomIcon)`
 `;
 
 interface CustomFormLabel {
-  isActive: boolean;
+  active: string;
 }
 // prettier-ignore
 export const CustomFormLabel = styled(FormControlLabel)<CustomFormLabel>`
@@ -46,10 +46,10 @@ export const CustomFormLabel = styled(FormControlLabel)<CustomFormLabel>`
   font-family: inherit;
   border: 
     ${(props) =>
-      props.isActive ? `2px solid ${props.theme.title}` : `2px solid ${props.theme.title}4d;`};
+      props.active === 'true' ? `2px solid ${props.theme.title}` : `2px solid ${props.theme.title}4d;`};
   border-radius: 5px;
   transition: border 0.2s;
-  color: ${props=>props.isActive ? props.theme.title : `${props.theme.title}cc`};
+  color: ${props=>props.active === 'true' ? props.theme.title : `${props.theme.title}cc`};
   & .css-ahj2mt-MuiTypography-root {
     font-size: 1.8rem;
     font-family: inherit;

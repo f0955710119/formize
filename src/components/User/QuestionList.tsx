@@ -195,15 +195,6 @@ const generateResponsedUserFormQuestion = (
       return;
     }
     case questionConfig.DATE: {
-      if (!question.validations.startDate || !question.validations.endDate) {
-        return (
-          <Date
-            questionId={question.id}
-            isMultipleDate={question.validations.multipleDate}
-            hasRange={question.validations.hasRange}
-          />
-        );
-      }
       return (
         <Date
           questionId={question.id}
@@ -211,6 +202,7 @@ const generateResponsedUserFormQuestion = (
           hasRange={question.validations.hasRange}
           startDate={question.validations.startDate}
           endDate={question.validations.endDate}
+          maxSelectedDateQuantity={question.validations.maxSelectedDateQuantity}
         />
       );
     }

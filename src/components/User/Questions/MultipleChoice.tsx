@@ -15,6 +15,7 @@ import {
   CustomCheckedIcon,
   CustomFormLabel,
 } from "./ChoiceIcon/icon";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 
 const CustomFormControl = styled(FormControl)`
   margin: 0;
@@ -49,21 +50,46 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
   questionId,
 }) => {
   const dispatch = useAppDispatch();
+  const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
-  // BUG: 這個寫法存不了state，要額外加一些判斷
+
   const [isValid, setIsValid] = useState(() => {
     const existedOption: {
       [key: string]: boolean;
     } = {};
+    const existingInput = answers[questionIdIndex].input;
 
-    options.forEach((option) => {
+    options.forEach((option, i) => {
+      if (!existingInput) {
+        existedOption[option] = false;
+        return;
+      }
+      if (existingInput.includes(`${i + 1}.`)) {
+        existedOption[option] = true;
+        return;
+      }
       existedOption[option] = false;
     });
     return existedOption;
   });
-  const [selectedOptions, setSelectedOptions] = useState<string[]>(
-    Array(options.length).fill("")
-  );
+
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(() => {
+    const selectedArray: string[] = [];
+    const existingInput = answers[questionIdIndex].input;
+    if (!existingInput) {
+      return Array(options.length).fill("");
+    }
+    options.forEach((option, i) => {
+      const existingOptionValue = `${i + 1}.${option}\n`;
+      if (existingInput.includes(existingOptionValue)) {
+        selectedArray[i] = existingOptionValue;
+        return;
+      }
+      selectedArray[i] = "";
+    });
+
+    return selectedArray;
+  });
 
   const isDidMount = useRef<boolean>(true);
   const optionValue = Object.values(isValid);
@@ -96,22 +122,22 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
     }
 
     if (error) return;
+    const input =
+      selectedOptions.join("") === "" ? null : selectedOptions.join("");
     dispatch(
       userActions.updateFormAnswer({
         questionIdIndex,
-        input: selectedOptions.join(""),
+        input,
       })
     );
   }, [selectedOptions]);
-
-  console.log(optionValue);
 
   return (
     <CustomFormControl required error={error} variant="standard">
       <CustomFormGroup>
         {options.map((option, i) => (
           <CustomFormLabel
-            isActive={optionValue[i]}
+            active={optionValue[i] ? "true" : "false"}
             key={i}
             control={
               <Checkbox

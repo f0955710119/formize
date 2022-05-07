@@ -1,4 +1,4 @@
-import { FC, ChangeEventHandler } from "react";
+import { FC, ChangeEventHandler, useState } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
@@ -37,6 +37,7 @@ const OneLineText: FC<OneLineTextProps> = ({
   decimal,
 }: OneLineTextProps) => {
   const dispatch = useAppDispatch();
+  const { answers } = useAppSelector((state) => state.user);
   const {
     invalidMessage,
     setInvalidMessage,
@@ -47,8 +48,14 @@ const OneLineText: FC<OneLineTextProps> = ({
   const checkValidTimerHandler = useCheckValidTimer();
   const questionIdIndex = useGetQuestionIdIndex(questionId);
   const resetInputHandler = useResetInputValue();
+  const [inputDispaly, setInputDisplay] = useState<string | null>(
+    answers[questionIdIndex].input === null
+      ? ""
+      : answers[questionIdIndex].input
+  );
 
   const textChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setInputDisplay(event.target.value);
     checkValidTimerHandler(() => {
       setIsInvalid(false);
       setInvalidMessage("");
@@ -69,6 +76,7 @@ const OneLineText: FC<OneLineTextProps> = ({
   };
 
   const numberChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setInputDisplay(event.target.value);
     checkValidTimerHandler(() => {
       setIsInvalid(false);
       setInvalidMessage("");
@@ -107,6 +115,7 @@ const OneLineText: FC<OneLineTextProps> = ({
   };
   return (
     <CustomedTextField
+      value={inputDispaly}
       error={isInvalid}
       variant="standard"
       type={textType}

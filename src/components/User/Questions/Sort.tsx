@@ -30,7 +30,12 @@ const OptionItemText = styled.div`
   color: ${(props) => props.theme.optionText};
   width: calc(100% - 2.4rem);
 `;
-const OptionSortedIndex = styled(OptionItemText)`
+
+interface OptionSortedIndexProps {
+  isLoading: boolean;
+}
+
+const OptionSortedIndex = styled(OptionItemText)<OptionSortedIndexProps>`
   margin-right: 1rem;
   width: 2.4rem;
   height: 2.4rem;
@@ -40,19 +45,6 @@ const OptionSortedIndex = styled(OptionItemText)`
   background-color: ${(props) => props.theme.optionText};
   color: #fff;
   border-radius: 50%;
-
-  animation: moveInLeft 0.3s ease-in-out -0.3s;
-
-  @keyframes moveInLeft {
-    0% {
-      opacity: 0;
-      transform: translateX(-1rem);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
 `;
 
 interface SortProps {
@@ -125,7 +117,7 @@ const Sort: FC<SortProps> = ({ options, maxSelected, questionId }) => {
           }}
         >
           {selectedOptionArr.find((oldOption) => oldOption === option) && (
-            <OptionSortedIndex>
+            <OptionSortedIndex isLoading={didMount.current}>
               {`${selectedOptionArr.indexOf(option) + 1}`}
             </OptionSortedIndex>
           )}
