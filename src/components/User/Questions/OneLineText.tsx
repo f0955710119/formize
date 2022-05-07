@@ -48,11 +48,12 @@ const OneLineText: FC<OneLineTextProps> = ({
   const checkValidTimerHandler = useCheckValidTimer();
   const questionIdIndex = useGetQuestionIdIndex(questionId);
   const resetInputHandler = useResetInputValue();
-  const [inputDispaly, setInputDisplay] = useState<string | null>(
-    answers[questionIdIndex].input === null
-      ? ""
-      : answers[questionIdIndex].input
-  );
+  const [inputDispaly, setInputDisplay] = useState<string>(() => {
+    if (!answers[questionIdIndex]) return "";
+    const { input } = answers[questionIdIndex];
+    if (input === null) return "";
+    return input;
+  });
 
   const textChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputDisplay(event.target.value);

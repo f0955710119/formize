@@ -49,6 +49,7 @@ const Slider: FC<SliderProps> = ({
   const hasMin = min ? min : 1;
 
   const [inputDispaly, setInputDisplay] = useState<number>(() => {
+    if (!answers[questionIdIndex]) return hasMin;
     const { input } = answers[questionIdIndex];
     if (input === null) return hasMin;
     return +input;
@@ -66,7 +67,9 @@ const Slider: FC<SliderProps> = ({
 
   return (
     <SliderWrapper>
-      <span>{unit ? hasMin + unit : hasMin}</span>
+      <span style={{ marginRight: "2rem" }}>
+        {unit ? hasMin + unit : hasMin}
+      </span>
       <CustomSlider
         value={inputDispaly}
         step={interval ? interval : 1}
@@ -75,7 +78,9 @@ const Slider: FC<SliderProps> = ({
         valueLabelDisplay="auto"
         onChange={changeSliderHandler}
       />
-      <span>{unit ? hasMax + unit : hasMax}</span>
+      <span style={{ marginLeft: "2rem" }}>
+        {unit ? hasMax + unit : hasMax}
+      </span>
     </SliderWrapper>
   );
 };

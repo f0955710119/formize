@@ -48,6 +48,9 @@ const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
+  const existingInput = answers[questionIdIndex]
+    ? answers[questionIdIndex].input
+    : "";
   return (
     <CustomFormControl>
       <CustomRadioGroup
@@ -60,19 +63,13 @@ const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
       >
         {options.map((option, i) => (
           <CustomFormLabel
-            active={
-              answers[questionIdIndex].input === `${i + 1}.${option}`
-                ? "true"
-                : "false"
-            }
+            active={existingInput === `${i + 1}.${option}` ? "true" : "false"}
             value={`${i + 1}.${option}`}
             control={
               <CustomRadio
                 disableRipple
                 disableTouchRipple
-                checked={
-                  answers[questionIdIndex].input === `${i + 1}.${option}`
-                }
+                checked={existingInput === `${i + 1}.${option}`}
                 icon={<CustomIcon />}
                 checkedIcon={<CustomCheckedIcon />}
                 size="medium"

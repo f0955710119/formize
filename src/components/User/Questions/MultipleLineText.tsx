@@ -46,11 +46,12 @@ const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
   const questionIdIndex = useGetQuestionIdIndex(questionId);
   const resetInputHandler = useResetInputValue();
 
-  const [inputDispaly, setInputDisplay] = useState<string | null>(
-    answers[questionIdIndex].input === null
-      ? ""
-      : answers[questionIdIndex].input
-  );
+  const [inputDispaly, setInputDisplay] = useState<string>(() => {
+    if (!answers[questionIdIndex]) return "";
+    const { input } = answers[questionIdIndex];
+    if (input === null) return "";
+    return input;
+  });
 
   return (
     <CustomTextareaAutosize

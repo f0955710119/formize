@@ -52,12 +52,14 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
+  const existingInput = answers[questionIdIndex]
+    ? answers[questionIdIndex].input
+    : "";
 
   const [isValid, setIsValid] = useState(() => {
     const existedOption: {
       [key: string]: boolean;
     } = {};
-    const existingInput = answers[questionIdIndex].input;
 
     options.forEach((option, i) => {
       if (!existingInput) {
@@ -75,7 +77,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>(() => {
     const selectedArray: string[] = [];
-    const existingInput = answers[questionIdIndex].input;
+
     if (!existingInput) {
       return Array(options.length).fill("");
     }

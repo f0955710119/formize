@@ -78,6 +78,9 @@ const MatrixRadio: FC<MatrixRadioProps> = ({
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(`${questionId}_${optionIndex}`);
+  const existingInput = answers[questionIdIndex]
+    ? answers[questionIdIndex].input
+    : "";
 
   return (
     <FormControl>
@@ -99,7 +102,7 @@ const MatrixRadio: FC<MatrixRadioProps> = ({
             value={matrix}
             name="question-radio-buttons"
             inputProps={{ "aria-label": `value-${matrix}` }}
-            checked={answers[questionIdIndex].input === matrix}
+            checked={existingInput === matrix}
           />
         ))}
       </RadioGroup>
