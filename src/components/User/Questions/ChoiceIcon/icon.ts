@@ -10,7 +10,7 @@ export const CustomIcon = styled.span`
   background-image: radial-gradient(#fff, #fff 28%, transparent 32%);
 
   input:hover ~ & {
-    background-color: "#30404d";
+    background-color: ${(props) => props.theme.title};
   }
 
   input:checked ~ & {

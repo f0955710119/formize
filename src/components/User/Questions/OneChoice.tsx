@@ -20,34 +20,20 @@ import {
 const CustomFormControl = styled(FormControl)`
   width: 100%;
   display: block;
+
+  & .css-j204z7-MuiFormControlLabel-root {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  & .css-1snu36k-MuiButtonBase-root-MuiRadio-root:hover {
+    background-color: transparent;
+  }
 `;
 
 const CustomRadioGroup = styled(RadioGroup)`
   align-items: end;
 `;
-
-interface CustomFormControlLabelProps {
-  isActive: boolean;
-}
-
-// // prettier-ignore
-// const CustomFormControlLabel = styled(FormControlLabel)<CustomFormControlLabelProps>`
-//   margin-bottom: 1rem;
-//   padding: 0.8rem 0;
-//   width: 97.96%;
-//   font-family: inherit;
-//   border: 2px solid ${(props) =>
-//     props.isActive ? props.theme.title : `${props.theme.title}60`
-//   };
-//   border-radius: 5px;
-//   transition: border 0.3s;
-//   & .css-ahj2mt-MuiTypography-root {
-//     font-size: 1.8rem;
-//     font-family: inherit;
-//     margin-left: 1rem;
-//     transform: translateY(0.1rem);
-//   }
-// `;
 
 const CustomRadio = styled(Radio)`
   /* font-size: 2rem; */
@@ -78,6 +64,8 @@ const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
             value={`${i + 1}.${option}`}
             control={
               <CustomRadio
+                disableRipple
+                disableTouchRipple
                 checked={
                   answers[questionIdIndex].input === `${i + 1}.${option}`
                 }

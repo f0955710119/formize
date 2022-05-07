@@ -26,6 +26,11 @@ const CustomFormControl = styled(FormControl)`
     font-family: inherit;
     font-size: 1.8rem;
   }
+
+  & .css-j204z7-MuiFormControlLabel-root {
+    margin-right: 0;
+    width: 100%;
+  }
 `;
 
 const CustomFormGroup = styled(FormGroup)`
