@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import {
   FormControl,
@@ -42,9 +42,14 @@ const CustomRadio = styled(Radio)`
 interface OneChoiceProps {
   options: string[];
   questionId: string;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
-const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
+const OneChoice: FC<OneChoiceProps> = ({
+  options,
+  questionId,
+  setErrorMessage,
+}) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(questionId);

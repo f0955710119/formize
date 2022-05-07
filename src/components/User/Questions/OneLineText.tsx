@@ -1,4 +1,11 @@
-import { FC, ChangeEventHandler, useState } from "react";
+import {
+  FC,
+  ChangeEventHandler,
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+} from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
@@ -21,6 +28,7 @@ const CustomedTextField = styled(TextField)`
 interface OneLineTextProps {
   textType: string;
   questionId: string;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
   length?: number;
   min?: number;
   max?: number;
@@ -35,6 +43,7 @@ const OneLineText: FC<OneLineTextProps> = ({
   max,
   min,
   decimal,
+  setErrorMessage,
 }: OneLineTextProps) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
@@ -117,7 +126,6 @@ const OneLineText: FC<OneLineTextProps> = ({
   return (
     <CustomedTextField
       value={inputDispaly}
-      error={isInvalid}
       variant="standard"
       type={textType}
       autoComplete="off"

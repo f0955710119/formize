@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import { Question } from "../../types/question";
 
@@ -13,9 +13,6 @@ import Sort from "./Questions/Sort";
 import Date from "./Questions/Date";
 
 import helper from "../../utils/helper";
-import questionConfig from "../../configs/questionConfig";
-import useGetQuestionIdIndex from "../../hooks/useGetQuestionIdIndex";
-import useResetInputValue from "../../hooks/useResetInputValue";
 
 const QuestionWrapper = styled.div`
   position: relative;
@@ -60,10 +57,10 @@ const LimitationQuestionTag = styled.div`
 `;
 
 const ErrorReminder = styled.p`
-  height: 3rem;
-  line-height: 3rem;
+  margin: 2rem 0;
+  height: 2rem;
+  line-height: 2rem;
   font-size: 1.5rem;
-  margin-bottom: 2rem;
   animation: moveInTop 0.3s ease-in-out 0.3s;
 
   @keyframes moveInTop {
@@ -95,128 +92,13 @@ const ResetAnswerButton = styled.button`
   cursor: pointer;
 `;
 
-const generateResponsedUserFormQuestion = (
-  questionType: string,
-  question: Question
-) => {
-  switch (questionType) {
-    case questionConfig.ONE_LINE_TEXT: {
-      if (!question.validations.length) return;
-      return (
-        <OneLineText
-          textType="text"
-          length={question.validations.length}
-          questionId={question.id}
-        />
-      );
-    }
-
-    case questionConfig.MULTIPLE_LINE_TEXT: {
-      return (
-        <MultipleLineText
-          maxLength={question.validations.length}
-          questionId={question.id}
-        />
-      );
-    }
-
-    case questionConfig.INTRODUCTION: {
-      return <Introduction textContent={question.title} />;
-    }
-
-    case questionConfig.ONE_CHOICE: {
-      if (question.options) {
-        return (
-          <OneChoice options={question.options} questionId={question.id} />
-        );
-      }
-    }
-
-    case questionConfig.MULTIPLE_CHOICE: {
-      if (question.options && question.validations.maxSelected) {
-        return (
-          <MultiChoice
-            options={question.options}
-            maxSelected={question.validations.maxSelected}
-            questionId={question.id}
-          />
-        );
-      }
-    }
-
-    case questionConfig.MATRIX: {
-      if (question.options && question.matrixs) {
-        return (
-          <Matrix
-            options={question.options}
-            matrixs={question.matrixs}
-            questionId={question.id}
-          />
-        );
-      }
-    }
-
-    case questionConfig.NUMBER: {
-      return (
-        <OneLineText
-          textType="number"
-          questionId={question.id}
-          max={question.validations.max}
-          min={question.validations.min}
-          decimal={question.validations.decimal}
-        />
-      );
-    }
-
-    case questionConfig.SLIDER: {
-      return (
-        <Slider
-          questionId={question.id}
-          max={question.validations.max && question.validations.max}
-          min={question.validations.min && question.validations.min}
-          unit={question.validations.unit && question.validations.unit}
-          interval={
-            question.validations.interval && question.validations.interval
-          }
-        />
-      );
-    }
-
-    case questionConfig.SORT: {
-      if (question.options && question.validations.maxSelected) {
-        return (
-          <Sort
-            options={question.options}
-            maxSelected={question.validations.maxSelected}
-            questionId={question.id}
-          />
-        );
-      }
-      return;
-    }
-    case questionConfig.DATE: {
-      return (
-        <Date
-          questionId={question.id}
-          isMultipleDate={question.validations.multipleDate}
-          hasRange={question.validations.hasRange}
-          startDate={question.validations.startDate}
-          endDate={question.validations.endDate}
-          maxSelectedDateQuantity={question.validations.maxSelectedDateQuantity}
-        />
-      );
-    }
-  }
-};
-
 interface QuestionListProps {
   titleIndex: string;
   question: Question;
 }
 
 const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
-  // const resetInputHandler = useResetInputValue();
-  // const questionIdIndex = useGetQuestionIdIndex(question.id);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   return (
     <>
       <QuestionWrapper>
@@ -228,21 +110,106 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
             {question.validations.required && (
               <LimitationQuestionTag>必填</LimitationQuestionTag>
             )}
-            {/* {question.note && <NoteText>{question.note}</NoteText>} */}
-            {<NoteText>這是測試的註解文字</NoteText>}
-            <ErrorReminder>錯誤訊息的提醒</ErrorReminder>
+            {question.note && <NoteText>{question.note}</NoteText>}
           </>
         )}
-        {/* BUG: 不同題型的Reset弄起來比較麻煩，先不處理非純文字類的題型 */}
-        {/* {question.type !== "0" &&
-        question.type !== "1" &&
-        question.type !== "2" &&
-        question.type !== "6" && (
-          <ResetAnswerButton onClick={() => resetInputHandler(questionIdIndex)}>
-          重置填答
-          </ResetAnswerButton>
-        )} */}
-        {generateResponsedUserFormQuestion(question.type, question)}
+        {question.type === "0" && (
+          <OneLineText
+            textType="text"
+            length={question.validations.length}
+            questionId={question.id}
+            setErrorMessage={setErrorMessage}
+          />
+        )}
+
+        {question.type === "1" && (
+          <MultipleLineText
+            maxLength={question.validations.length}
+            questionId={question.id}
+            setErrorMessage={setErrorMessage}
+          />
+        )}
+
+        {question.type === "2" && <Introduction textContent={question.title} />}
+        {question.type === "3" && (
+          <OneChoice
+            options={question.options ? question.options : []}
+            questionId={question.id}
+            setErrorMessage={setErrorMessage}
+          />
+        )}
+        {question.type === "4" && (
+          <MultiChoice
+            options={question.options ? question.options : []}
+            maxSelected={
+              question.validations.maxSelected
+                ? question.validations.maxSelected
+                : 1
+            }
+            questionId={question.id}
+            setErrorMessage={setErrorMessage}
+          />
+        )}
+        {question.type === "5" && (
+          <Matrix
+            options={question.options ? question.options : []}
+            matrixs={question.matrixs ? question.matrixs : []}
+            questionId={question.id}
+            setErrorMessage={setErrorMessage}
+          />
+        )}
+        {question.type === "6" && (
+          <OneLineText
+            textType="number"
+            questionId={question.id}
+            max={question.validations.max}
+            min={question.validations.min}
+            decimal={question.validations.decimal}
+            setErrorMessage={setErrorMessage}
+          />
+        )}
+
+        {question.type === "7" && (
+          <Slider
+            questionId={question.id}
+            max={question.validations.max && question.validations.max}
+            min={question.validations.min && question.validations.min}
+            unit={question.validations.unit && question.validations.unit}
+            interval={
+              question.validations.interval && question.validations.interval
+            }
+            setErrorMessage={setErrorMessage}
+          />
+        )}
+
+        {question.type === "8" && (
+          <Sort
+            options={question.options ? question.options : []}
+            maxSelected={
+              question.validations.maxSelected
+                ? question.validations.maxSelected
+                : 1
+            }
+            questionId={question.id}
+            setErrorMessage={setErrorMessage}
+          />
+        )}
+
+        {question.type === "9" && (
+          <Date
+            questionId={question.id}
+            isMultipleDate={question.validations.multipleDate}
+            hasRange={question.validations.hasRange}
+            startDate={question.validations.startDate}
+            endDate={question.validations.endDate}
+            maxSelectedDateQuantity={
+              question.validations.maxSelectedDateQuantity
+            }
+            setErrorMessage={setErrorMessage}
+          />
+        )}
+
+        {question.type !== "2" && <ErrorReminder>{errorMessage}</ErrorReminder>}
       </QuestionWrapper>
     </>
   );

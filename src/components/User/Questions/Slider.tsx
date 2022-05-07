@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import UISlider from "@mui/material/Slider";
 import useCheckValidTimer from "../../../hooks/useCheckValidTimer";
@@ -26,6 +26,7 @@ const CustomSlider = styled(UISlider)`
 
 interface SliderProps {
   questionId: string;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
   min?: number;
   max?: number;
   unit?: string;
@@ -39,6 +40,7 @@ const Slider: FC<SliderProps> = ({
   max,
   unit,
   interval,
+  setErrorMessage,
 }: SliderProps) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);

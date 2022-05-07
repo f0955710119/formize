@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 
 import FormControl from "@mui/material/FormControl";
@@ -114,12 +114,14 @@ interface MatrixProps {
   options: string[];
   matrixs: string[];
   questionId: string;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
 const matrix: FC<MatrixProps> = ({
   options,
   matrixs,
   questionId,
+  setErrorMessage,
 }: MatrixProps) => {
   return (
     <MatrixWrapper>

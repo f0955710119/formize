@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 
@@ -71,6 +71,7 @@ const CustomedRangeCalendar = styled(DateRange)`
 
 interface DateProps {
   questionId: string;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
   isMultipleDate?: boolean;
   hasRange?: boolean;
   startDate?: string | null;
@@ -85,6 +86,7 @@ const Date: FC<DateProps> = ({
   startDate,
   endDate,
   maxSelectedDateQuantity,
+  setErrorMessage,
 }: DateProps) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);

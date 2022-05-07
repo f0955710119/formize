@@ -1,4 +1,11 @@
-import { FC, useState, useRef, useEffect } from "react";
+import {
+  FC,
+  Dispatch,
+  SetStateAction,
+  useState,
+  useRef,
+  useEffect,
+} from "react";
 import styled from "styled-components";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
@@ -51,9 +58,15 @@ interface SortProps {
   options: string[];
   maxSelected: number;
   questionId: string;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
-const Sort: FC<SortProps> = ({ options, maxSelected, questionId }) => {
+const Sort: FC<SortProps> = ({
+  options,
+  maxSelected,
+  questionId,
+  setErrorMessage,
+}) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const [selectedOptionArr, setSelectedOptionArr] = useState<string[]>(() => {

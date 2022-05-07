@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
@@ -29,9 +29,14 @@ const CustomTextareaAutosize = styled(TextField)`
 interface MultiLineTextProps {
   questionId: string;
   maxLength?: number;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
-const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
+const MultiLineText: FC<MultiLineTextProps> = ({
+  questionId,
+  maxLength,
+  setErrorMessage,
+}) => {
   const { answers } = useAppSelector((state) => state.user);
   const {
     invalidMessage,
