@@ -20,6 +20,44 @@ const CalendarWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+
+  & .rdrCalendarWrapper {
+    border-radius: 7px;
+    overflow: hidden;
+    font-family: inherit;
+
+    & * {
+      font-family: inherit;
+    }
+  }
+
+  & .rdrDayToday .rdrDayNumber span:after {
+    background: ${(props) => props.theme.title};
+  }
+
+  & button {
+    color: ${(props) => props.theme.title} !important;
+    & .rdrSelected,
+    & .rdrStartEdge,
+    & .rdrEndEdge,
+    & .rdrInRange {
+      background-color: ${(props) => props.theme.title} !important;
+    }
+  }
+
+  & .rdrDateDisplayItemActive {
+    border: transparent;
+  }
+
+  & .rdrMonthAndYearWrapper {
+    padding-top: 0;
+  }
+
+  & .rdrMonthAndYearWrapper,
+  & .rdrDateDisplayWrapper,
+  & .rdrMonthsVertical {
+    background-color: ${(props) => `${props.theme.option}33`};
+  }
 `;
 
 const CustomedCalendar = styled(Calendar)`
@@ -83,7 +121,7 @@ const Date: FC<DateProps> = ({
   const endInterval = helper.generateDateInterval(endDateObject, currentDate);
   return isMultipleDate ? (
     <CalendarWrapper>
-      <CustomedDateTextInput
+      {/* <CustomedDateTextInput
         type="text"
         variant="standard"
         value={startDateText}
@@ -94,7 +132,7 @@ const Date: FC<DateProps> = ({
         variant="standard"
         value={endDateText}
         placeholder={`結束日期，如: ${helper.generateDate(false)}`}
-      />
+      /> */}
       <CustomedRangeCalendar
         locale={zhTW}
         date={helper.generateNewDate()}
@@ -156,12 +194,12 @@ const Date: FC<DateProps> = ({
     </CalendarWrapper>
   ) : (
     <CalendarWrapper>
-      <CustomedDateTextInput
+      {/* <CustomedDateTextInput
         type="text"
         variant="standard"
         placeholder={`如: ${helper.generateDate()}`}
         value={selectedOneDateText}
-      />
+      /> */}
       <CustomedCalendar
         onChange={(date: Date) => {
           const incomingDate = helper.generateDateFormatString(date);

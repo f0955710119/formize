@@ -41,7 +41,7 @@ const OptionSortedIndex = styled(OptionItemText)`
   color: #fff;
   border-radius: 50%;
 
-  animation: moveInLeft 0.3s ease-in-out;
+  animation: moveInLeft 0.3s ease-in-out -0.3s;
 
   @keyframes moveInLeft {
     0% {
