@@ -58,15 +58,9 @@ interface SortProps {
   options: string[];
   maxSelected: number;
   questionId: string;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
-const Sort: FC<SortProps> = ({
-  options,
-  maxSelected,
-  questionId,
-  setErrorMessage,
-}) => {
+const Sort: FC<SortProps> = ({ options, maxSelected, questionId }) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const [selectedOptionArr, setSelectedOptionArr] = useState<string[]>(() => {

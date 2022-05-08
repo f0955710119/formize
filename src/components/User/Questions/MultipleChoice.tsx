@@ -50,14 +50,12 @@ interface MultipleChoiceProps {
   options: string[];
   maxSelected: number;
   questionId: string;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
 const MultipleChoice: FC<MultipleChoiceProps> = ({
   options,
   maxSelected,
   questionId,
-  setErrorMessage,
 }) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);

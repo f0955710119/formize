@@ -261,7 +261,7 @@ export default {
     return differentQuestionsArr;
   },
   generateQuestionsKeysForResponses(questions: Question[]) {
-    const questionKeysConfig: { [key: string]: string } = {};
+    const questionKeysConfig: { [key: string]: number } = {};
     const questionKeysType: { [key: string]: string } = {};
 
     let keyIndex = 0;
@@ -272,7 +272,7 @@ export default {
         question.type !== "8" &&
         question.type !== "9"
       ) {
-        questionKeysConfig[question.id] = `${keyIndex}`;
+        questionKeysConfig[question.id] = keyIndex;
         questionKeysType[question.id] = question.type;
         keyIndex++;
         return;
@@ -283,7 +283,7 @@ export default {
           .forEach((_, indexTime) => {
             const dateId =
               indexTime === 0 ? `${question.id}_start` : `${question.id}_end`;
-            questionKeysConfig[dateId] = `${keyIndex}`;
+            questionKeysConfig[dateId] = keyIndex;
             questionKeysType[dateId] = question.type;
             keyIndex++;
           });
@@ -294,7 +294,7 @@ export default {
         .fill(null)
         .forEach((_, indexOption) => {
           const optionId = `${question.id}_${indexOption}`;
-          questionKeysConfig[optionId] = `${keyIndex}`;
+          questionKeysConfig[optionId] = keyIndex;
           questionKeysType[optionId] = question.type;
           keyIndex++;
         });
@@ -302,7 +302,6 @@ export default {
 
     return [questionKeysConfig, questionKeysType];
   },
-
   generateResponseTableInfoArr(questions: Question[]) {
     const questionsObject = this.generateQuestionsKeysForResponses(questions);
     const ids = Object.keys(questionsObject[1]);

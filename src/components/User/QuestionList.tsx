@@ -13,13 +13,29 @@ import Sort from "./Questions/Sort";
 import Date from "./Questions/Date";
 
 import helper from "../../utils/helper";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
-const QuestionWrapper = styled.div`
+interface QuestionWrapperProps {
+  hasErrorMessage: boolean;
+}
+
+const QuestionWrapper = styled.div<QuestionWrapperProps>`
+  padding: 2rem 2rem 0 2rem;
   position: relative;
   width: 100%;
   &:not(:last-child) {
     margin-bottom: 4rem;
   }
+  border: 3px solid transparent;
+  transition: border 0.3s ease-in-out;
+
+  ${(props) =>
+    !props.hasErrorMessage
+      ? ""
+      : `
+    border: 3px solid ${props.theme.titleContrast};
+    border-radius: 7px;
+  `}
 `;
 
 const Heading = styled.div`
@@ -61,7 +77,8 @@ const ErrorReminder = styled.p`
   height: 2rem;
   line-height: 2rem;
   font-size: 1.5rem;
-  animation: moveInTop 0.3s ease-in-out 0.3s;
+  color: ${(props) => props.theme.titleContrast};
+  animation: moveInTop 0.3s ease-in-out;
 
   @keyframes moveInTop {
     0% {
@@ -74,6 +91,11 @@ const ErrorReminder = styled.p`
       transform: translateY(0rem);
     }
   }
+`;
+
+const EmptyErrorMessage = styled.div`
+  margin: 2rem 0;
+  height: 2rem;
 `;
 
 const ResetAnswerButton = styled.button`
@@ -98,10 +120,14 @@ interface QuestionListProps {
 }
 
 const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const { errorMessages, errorMessagesIdKeys } = useAppSelector(
+    (state) => state.user
+  );
+  const errorMessage = errorMessages[errorMessagesIdKeys[question.id]];
+  const hasErrorMessage = errorMessage !== "";
   return (
     <>
-      <QuestionWrapper>
+      <QuestionWrapper hasErrorMessage={hasErrorMessage}>
         {question.type !== "2" && (
           <>
             <Heading>
@@ -118,7 +144,6 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
             textType="text"
             length={question.validations.length}
             questionId={question.id}
-            setErrorMessage={setErrorMessage}
           />
         )}
 
@@ -126,7 +151,6 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
           <MultipleLineText
             maxLength={question.validations.length}
             questionId={question.id}
-            setErrorMessage={setErrorMessage}
           />
         )}
 
@@ -135,7 +159,6 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
           <OneChoice
             options={question.options ? question.options : []}
             questionId={question.id}
-            setErrorMessage={setErrorMessage}
           />
         )}
         {question.type === "4" && (
@@ -147,7 +170,6 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
                 : 1
             }
             questionId={question.id}
-            setErrorMessage={setErrorMessage}
           />
         )}
         {question.type === "5" && (
@@ -155,7 +177,6 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
             options={question.options ? question.options : []}
             matrixs={question.matrixs ? question.matrixs : []}
             questionId={question.id}
-            setErrorMessage={setErrorMessage}
           />
         )}
         {question.type === "6" && (
@@ -165,7 +186,6 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
             max={question.validations.max}
             min={question.validations.min}
             decimal={question.validations.decimal}
-            setErrorMessage={setErrorMessage}
           />
         )}
 
@@ -178,7 +198,6 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
             interval={
               question.validations.interval && question.validations.interval
             }
-            setErrorMessage={setErrorMessage}
           />
         )}
 
@@ -191,7 +210,6 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
                 : 1
             }
             questionId={question.id}
-            setErrorMessage={setErrorMessage}
           />
         )}
 
@@ -205,11 +223,14 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
             maxSelectedDateQuantity={
               question.validations.maxSelectedDateQuantity
             }
-            setErrorMessage={setErrorMessage}
           />
         )}
 
-        {question.type !== "2" && <ErrorReminder>{errorMessage}</ErrorReminder>}
+        {question.type !== "2" && errorMessage !== "" ? (
+          <ErrorReminder>{errorMessage}</ErrorReminder>
+        ) : (
+          <EmptyErrorMessage />
+        )}
       </QuestionWrapper>
     </>
   );

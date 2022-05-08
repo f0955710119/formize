@@ -12,6 +12,7 @@ import helper from "../../utils/helper";
 import { Settings } from "../../types/form";
 import { Question } from "../../types/question";
 import QuestionList from "./QuestionList";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const moveInRightAnimation = `
   animation: moveInRight 0.3s ease-in-out;
@@ -62,7 +63,7 @@ interface QuestionContainerProps {
 }
 
 const QuestionContainer = styled.div<QuestionContainerProps>`
-  padding: 0 4rem;
+  padding: 0 2rem;
   width: 100%;
   height: 70%;
   overflow: scroll;

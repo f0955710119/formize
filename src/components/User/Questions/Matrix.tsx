@@ -114,14 +114,12 @@ interface MatrixProps {
   options: string[];
   matrixs: string[];
   questionId: string;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
 const matrix: FC<MatrixProps> = ({
   options,
   matrixs,
   questionId,
-  setErrorMessage,
 }: MatrixProps) => {
   return (
     <MatrixWrapper>

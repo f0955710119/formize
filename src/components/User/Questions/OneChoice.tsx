@@ -1,11 +1,6 @@
 import { FC, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
-import {
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from "@mui/material";
+import { FormControl, RadioGroup, Radio } from "@mui/material";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import { userActions } from "../../../store/slice/userSlice";
@@ -42,14 +37,9 @@ const CustomRadio = styled(Radio)`
 interface OneChoiceProps {
   options: string[];
   questionId: string;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
-const OneChoice: FC<OneChoiceProps> = ({
-  options,
-  questionId,
-  setErrorMessage,
-}) => {
+const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(questionId);

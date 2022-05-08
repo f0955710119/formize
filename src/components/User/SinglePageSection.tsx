@@ -7,6 +7,7 @@ import PageCTAButton from "./PageCTAButton";
 
 import helper from "../../utils/helper";
 import scrollBar from "../UI/scrollBar";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const SinglePageContainer = styled.section`
   position: relative;

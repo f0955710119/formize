@@ -61,7 +61,6 @@ const FormId: NextPage = () => {
   const initForm = async () => {
     await getQuestion();
     dispatch(userActions.setUpQuestionInitList(initUserForm.current.questions));
-    dispatch(userActions.setUpQuestionIdKeys(initUserForm.current.questions));
   };
   const hasColorTheme = hasFetchedData && Object.keys(colorTheme).length === 0;
 

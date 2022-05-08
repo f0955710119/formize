@@ -18,6 +18,7 @@ const themes: Themes = {
     optionClicked: "#BA5624",
     addOption: "#FCDE9C",
     optionText: "#381D2A",
+    titleContrast: "#40160e",
   },
   yellow: {
     title: "#FF9900",
@@ -28,6 +29,7 @@ const themes: Themes = {
     optionClicked: "#F3D34A",
     addOption: "#ffcc80",
     optionText: "#ffa31a",
+    titleContrast: "#56a139",
   },
   green: {
     title: "#524632",
@@ -38,6 +40,7 @@ const themes: Themes = {
     optionClicked: "#D8FFDD",
     addOption: "#cfd0b1",
     optionText: "#75765f",
+    titleContrast: "#d58642",
   },
 };
 

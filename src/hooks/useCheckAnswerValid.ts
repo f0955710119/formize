@@ -1,21 +1,24 @@
-import { useState } from "react";
+import { userActions } from "../store/slice/userSlice";
+import { useAppDispatch } from "./useAppDispatch";
+import { useAppSelector } from "./useAppSelector";
 
-const useCheckAnswerValid = () => {
-  const [invalidMessage, setInvalidMessage] = useState<string>("");
-  const [isInvalid, setIsInvalid] = useState<boolean>(false);
-
+const useCheckAnswerValid = (questionId: string) => {
+  const { errorMessages, errorMessagesIdKeys } = useAppSelector(
+    (state) => state.user
+  );
+  const questionIdIndex = errorMessagesIdKeys[questionId];
+  const dispatch = useAppDispatch();
   const showInvalidHandler = (errorMessage: string) => {
-    setIsInvalid(true);
-    setInvalidMessage(errorMessage);
+    if (errorMessages[questionIdIndex] === errorMessage) return;
+    dispatch(
+      userActions.setErrorMessageOfInvalidAnswer({
+        questionIdIndex,
+        errorMessage,
+      })
+    );
   };
 
-  return {
-    invalidMessage,
-    setInvalidMessage,
-    isInvalid,
-    setIsInvalid,
-    showInvalidHandler,
-  };
+  return showInvalidHandler;
 };
 
 export default useCheckAnswerValid;

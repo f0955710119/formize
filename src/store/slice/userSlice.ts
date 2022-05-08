@@ -1,22 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import reducers from "../reducer/userReducer";
 
-export interface Answer {
-  questionId: string;
-  input: string | null;
-  type: string;
-}
+import type { UserAnswer, UserAnswerErrorMessage } from "../../types/userForm";
 
 export interface UserState {
-  answers: Answer[];
+  answers: UserAnswer[];
   questionIdKeys: {
-    [key: string]: string;
+    [key: string]: number | string;
+  };
+  errorMessages: UserAnswerErrorMessage[];
+  errorMessagesIdKeys: {
+    [key: string]: number;
   };
 }
 
 const initialState: UserState = {
   answers: [],
   questionIdKeys: {},
+  errorMessages: [],
+  errorMessagesIdKeys: {},
 };
 
 const userSlice = createSlice({

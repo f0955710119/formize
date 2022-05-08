@@ -26,7 +26,7 @@ const CustomSlider = styled(UISlider)`
 
 interface SliderProps {
   questionId: string;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
+
   min?: number;
   max?: number;
   unit?: string;
@@ -40,7 +40,6 @@ const Slider: FC<SliderProps> = ({
   max,
   unit,
   interval,
-  setErrorMessage,
 }: SliderProps) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);

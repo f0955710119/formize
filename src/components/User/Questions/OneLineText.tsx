@@ -5,6 +5,7 @@ import {
   SetStateAction,
   useState,
   useEffect,
+  useRef,
 } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
@@ -15,6 +16,7 @@ import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import useCheckValidTimer from "../../../hooks/useCheckValidTimer";
 import useResetInputValue from "../../../hooks/useResetInputValue";
+import helper from "../../../utils/helper";
 
 const CustomedTextField = styled(TextField)`
   width: 100%;
@@ -28,7 +30,6 @@ const CustomedTextField = styled(TextField)`
 interface OneLineTextProps {
   textType: string;
   questionId: string;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
   length?: number;
   min?: number;
   max?: number;
@@ -43,20 +44,15 @@ const OneLineText: FC<OneLineTextProps> = ({
   max,
   min,
   decimal,
-  setErrorMessage,
 }: OneLineTextProps) => {
   const dispatch = useAppDispatch();
+
   const { answers } = useAppSelector((state) => state.user);
-  const {
-    invalidMessage,
-    setInvalidMessage,
-    isInvalid,
-    setIsInvalid,
-    showInvalidHandler,
-  } = useCheckAnswerValid();
   const checkValidTimerHandler = useCheckValidTimer();
   const questionIdIndex = useGetQuestionIdIndex(questionId);
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const resetInputHandler = useResetInputValue();
+
   const [inputDispaly, setInputDisplay] = useState<string>(() => {
     if (!answers[questionIdIndex]) return "";
     const { input } = answers[questionIdIndex];
@@ -67,8 +63,6 @@ const OneLineText: FC<OneLineTextProps> = ({
   const textChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputDisplay(event.target.value);
     checkValidTimerHandler(() => {
-      setIsInvalid(false);
-      setInvalidMessage("");
       const input = event.target.value;
       const hasLengthInvalid = length && input.length > length;
 
@@ -77,19 +71,18 @@ const OneLineText: FC<OneLineTextProps> = ({
         return;
       }
 
-      if (!hasLengthInvalid) {
-        dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+      if (hasLengthInvalid) {
+        showInvalidHandler(`字數不能超過${length}字`);
         return;
       }
-      showInvalidHandler(`字數不能超過${length}字`);
+      showInvalidHandler("");
+      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
     }, 300);
   };
 
   const numberChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputDisplay(event.target.value);
     checkValidTimerHandler(() => {
-      setIsInvalid(false);
-      setInvalidMessage("");
       const input = event.target.value;
       const hasMaxInvalid = max && +input > max;
       const hasMinInvalid = min && +input < min;
@@ -119,7 +112,7 @@ const OneLineText: FC<OneLineTextProps> = ({
         showInvalidHandler(errorMessage);
         return;
       }
-
+      showInvalidHandler("");
       dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
     }, 300);
   };
@@ -130,7 +123,6 @@ const OneLineText: FC<OneLineTextProps> = ({
       type={textType}
       autoComplete="off"
       onChange={textType === "text" ? textChangeHandler : numberChangeHandler}
-      helperText={invalidMessage}
     />
   );
 };
