@@ -209,7 +209,9 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
               <StatisResponseItem
                 key={data.id}
                 id={data.id}
-                title={data.title}
+                title={
+                  data.title + " " + " " + `(${data.hasAnswerQuantityText})`
+                }
                 type={data.type}
                 count={data.count}
                 numericData={data.numericData}
@@ -220,7 +222,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
             <StatisResponseItem
               key={data.id}
               id={data.id}
-              title={data.title}
+              title={data.title + " " + " " + `(${data.hasAnswerQuantityText})`}
               type={data.type}
               count={data.count}
             />

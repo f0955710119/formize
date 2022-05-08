@@ -1,5 +1,6 @@
 import type { Question } from "../types/question";
 import styleConfig from "../configs/styleConfig";
+import questionConfig from "../configs/questionConfig";
 
 interface CheckStringName {
   stringArr: string[];
@@ -404,4 +405,210 @@ export default {
       day: "numeric",
     });
   },
+  generateQuestionLimitationTagText(question: Question) {
+    const hasRequired = question.validations.required ? "必填" : "";
+    switch (question.type) {
+      case questionConfig.ONE_LINE_TEXT:
+      case questionConfig.MULTIPLE_LINE_TEXT: {
+        const { length } = question.validations;
+        const hasLength = length
+          ? `${hasRequired} / 字數上限為${length}字`
+          : hasRequired;
+        return hasLength;
+      }
+
+      case questionConfig.MULTIPLE_CHOICE:
+      case questionConfig.SORT: {
+        const { maxSelected } = question.validations;
+        const hasMaxSelected = maxSelected
+          ? `${hasRequired} / 選擇上限為${maxSelected}個`
+          : hasRequired;
+        return hasMaxSelected;
+      }
+
+      case questionConfig.NUMBER:
+      case questionConfig.SLIDER: {
+        const { max, min, unit } = question.validations;
+        const hasMax = max ? `最大值為${max}` : "";
+        const hasMin = min ? `最小值為${min}` : "";
+        const hasUnit = unit ? `單位為${unit}` : "";
+        const rawDisplayTextList = [hasRequired, hasMin, hasMax, hasUnit];
+        const displayTextList = rawDisplayTextList.filter(
+          (text) => text !== ""
+        );
+        if (displayTextList.length === 0) return "";
+        if (displayTextList.length === 1) return displayTextList.join("");
+        return displayTextList.join("\t/\t");
+      }
+
+      case questionConfig.DATE: {
+        const { startDate, endDate, maxSelectedDateQuantity } =
+          question.validations;
+        const hasStartDate = startDate ? `範圍為${startDate}至` : "";
+        const hasEndDate = endDate ? endDate : "";
+        const dateRange = hasStartDate + hasEndDate;
+        const hasMaxSelectedDateQuantity = maxSelectedDateQuantity
+          ? `最多選擇${maxSelectedDateQuantity}日`
+          : "";
+        const rawDisplayTextList = [
+          hasRequired,
+          hasMaxSelectedDateQuantity,
+          dateRange,
+        ];
+        const displayTextList = rawDisplayTextList.filter(
+          (text) => text !== ""
+        );
+        if (displayTextList.length === 0) return "";
+        if (displayTextList.length === 1) return displayTextList.join("");
+        return displayTextList.join(" / ");
+      }
+
+      default: {
+        return hasRequired;
+      }
+    }
+  },
 };
+
+/*
+ONE_LINE_TEXT_DEFAULT: <Question>{
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
+    page: 1,
+    type: "0",
+    validations: {
+      required: false,
+      length: 50,
+      textType: "0",
+    },
+  },
+  MULTIPLE_LINE_TEXT_DEFAULT: <Question>{
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
+    page: 1,
+    type: "1",
+    validations: {
+      required: false,
+      length: 200,
+      textType: "0",
+    },
+  },
+  INTRODUCTION_DEFAULT: <Question>{
+    id: "",
+    title: "新增引言內容",
+    note: "",
+    placeholder: "",
+    page: 1,
+    type: "2",
+    validations: {
+      required: false,
+      length: 200,
+    },
+  },
+  ONE_CHOICE_DEFAULT: <Question>{
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "",
+    page: 1,
+    type: "3",
+    options: ["選項1", "選項2", "選項3"],
+    validations: {
+      required: false,
+      maxSelected: 1,
+    },
+  },
+  MULTIPLE_CHOICE_DEFAULT: <Question>{
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "",
+    page: 1,
+    type: "4",
+    options: ["選項1", "選項2", "選項3"],
+    validations: {
+      required: false,
+      maxSelected: 3,
+    },
+  },
+  MATRIX_DEFAULT: <Question>{
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "",
+    page: 1,
+    type: "5",
+    options: ["選項1"],
+    matrixs: ["欄位1", "欄位2", "欄位3"],
+    validations: {
+      required: false,
+      maxSelected: 3,
+    },
+  },
+  NUMBER_DEFAULT: <Question>{
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
+    page: 1,
+    type: "6",
+    validations: {
+      required: false,
+      max: 100,
+      min: 1,
+      decimal: 0,
+      unit: "",
+      interval: 1,
+    },
+  },
+  SLIDER_DEFAULT: <Question>{
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "",
+    page: 1,
+    type: "7",
+    validations: {
+      required: false,
+      min: 1,
+      max: 100,
+      decimal: 0,
+      unit: "",
+      interval: 1,
+    },
+  },
+  SORT_DEFAULT: <Question>{
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "",
+    page: 1,
+    type: "8",
+    options: ["選項1", "選項2", "選項3"],
+    validations: {
+      required: false,
+      maxSelected: 3,
+    },
+  },
+  DATE_DEFAULT: <Question>{
+    id: "",
+    title: "新增題目標題",
+    note: "新增備註文字，若不需要則留白",
+    placeholder: "",
+    page: 1,
+    type: "9",
+    validations: {
+      required: false,
+      multipleDate: false,
+      hasRange: false,
+      startDate: null,
+      endDate: null,
+      maxSelectedDateQuantity: null,
+    },
+  },
+
+*/

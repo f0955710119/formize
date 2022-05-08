@@ -17,7 +17,6 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const CalendarWrapper = styled.div`
-  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;

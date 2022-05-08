@@ -14,6 +14,7 @@ import Date from "./Questions/Date";
 
 import helper from "../../utils/helper";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import questionConfig from "../../configs/questionConfig";
 
 interface QuestionWrapperProps {
   hasErrorMessage: boolean;
@@ -23,6 +24,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   padding: 2rem 2rem 0 2rem;
   position: relative;
   width: 100%;
+
   &:not(:last-child) {
     margin-bottom: 4rem;
   }
@@ -59,17 +61,26 @@ const NoteText = styled.div`
   color: ${(props) => props.theme.note}; ;
 `;
 
-const LimitationQuestionTag = styled.div`
+const EmptySpace = styled.div`
+  height: 4rem;
+`;
+
+const QuestionTypeTag = styled.div`
   display: inline-block;
   margin-left: 1rem;
-  width: 5rem;
+  padding: 0 1.6rem;
   height: 2.4rem;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   border-radius: 30px;
   background-color: ${(props) => props.theme.option};
   text-align: center;
   line-height: 2.4rem;
-  color: ${(props) => props.theme.optionText};
+  color: #fff;
+  transform: translateY(-0.1rem);
+`;
+
+const LimitationQuestionTag = styled(QuestionTypeTag)`
+  background-color: ${(props) => props.theme.titleContrast};
 `;
 
 const ErrorReminder = styled.p`
@@ -125,21 +136,35 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
   );
   const errorMessage = errorMessages[errorMessagesIdKeys[question.id]];
   const hasErrorMessage = errorMessage !== "";
-
+  const limitationTagText = helper.generateQuestionLimitationTagText(question);
+  console.log(limitationTagText);
+  const isNotIntroduction =
+    errorMessage !== "" ? (
+      <ErrorReminder>{errorMessage}</ErrorReminder>
+    ) : (
+      <EmptyErrorMessage />
+    );
   return (
     <>
-      <QuestionWrapper hasErrorMessage={hasErrorMessage}>
+      <QuestionWrapper
+        hasErrorMessage={hasErrorMessage}
+        style={{ marginBottom: question.type === "2" ? "8rem" : "4rem" }}
+      >
         {question.type !== "2" && (
           <>
             <Heading>
               {helper.generateUserFormQuestionTitle(titleIndex, question.title)}
             </Heading>
+            <QuestionTypeTag>
+              {questionConfig[question.type] + "題"}
+            </QuestionTypeTag>
             {question.validations.required && (
-              <LimitationQuestionTag>必填</LimitationQuestionTag>
+              <LimitationQuestionTag>{limitationTagText}</LimitationQuestionTag>
             )}
             {question.note && <NoteText>{question.note}</NoteText>}
           </>
         )}
+
         {question.type === "0" && (
           <OneLineText
             textType="text"
@@ -227,11 +252,7 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
           />
         )}
 
-        {question.type !== "2" && errorMessage !== "" ? (
-          <ErrorReminder>{errorMessage}</ErrorReminder>
-        ) : (
-          <EmptyErrorMessage />
-        )}
+        {question.type !== "2" ? isNotIntroduction : <></>}
       </QuestionWrapper>
     </>
   );

@@ -7,5 +7,6 @@ export type StatisResponse = {
   title: string;
   type: string;
   count: Count;
+  hasAnswerQuantityText: string;
   numericData?: StringKeyObject;
 };

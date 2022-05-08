@@ -126,15 +126,6 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
     (question) => question.page === questionPage + 1
   );
 
-  const responsedQuestionObject =
-    helper.generateQuestionsKeysForResponses(questions);
-
-  const responsedQuestionConfigKeys = responsedQuestionObject[0];
-
-  // useEffect(() => {
-  //   useWholePageValidHandler(responsedPageQuestionsList, answers);
-  // }, []);
-
   useEffect(() => {
     setTimeout(() => {
       isUpdateMoveAnimation.current = false;

@@ -42,6 +42,7 @@ const setErrorMessageOfInvalidAnswer: CaseReducer<
   PayloadAction<{ questionIdIndex: number; errorMessage: string }>
 > = (state, action) => {
   const errorIndex = action.payload.questionIdIndex;
+  if (state.errorMessages.length === 0) return;
   state.errorMessages[errorIndex] = action.payload.errorMessage;
 };
 
