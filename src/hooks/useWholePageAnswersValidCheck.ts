@@ -51,7 +51,7 @@ const useWholePageAnswersValidCheck = () => {
 
     invalidAnswerWithItsResponseQuestionIndex.forEach(index=>{
         if (errorMessages[index] !== '') return;
-        dispatch(userActions.setErrorMessageOfInvalidAnswer({questionIdIndex:index,errorMessage:'此題必填，需填答才可做最後的問卷送出喲!'}))
+        dispatch(userActions.setErrorMessageOfInvalidAnswer({questionIdIndex:index,errorMessage:'此題必填，需完成填答才能進行換頁或送出答覆喲!'}))
     })
 
     return hasInvalidInput

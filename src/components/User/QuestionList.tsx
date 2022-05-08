@@ -26,6 +26,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   &:not(:last-child) {
     margin-bottom: 4rem;
   }
+  border-radius: 7px;
   border: 3px solid transparent;
   transition: border 0.3s ease-in-out;
 
@@ -34,7 +35,6 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
       ? ""
       : `
     border: 3px solid ${props.theme.titleContrast};
-    border-radius: 7px;
   `}
 `;
 
@@ -126,7 +126,6 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
   const errorMessage = errorMessages[errorMessagesIdKeys[question.id]];
   const hasErrorMessage = errorMessage !== "";
 
-  // console.log(question);
   return (
     <>
       <QuestionWrapper hasErrorMessage={hasErrorMessage}>

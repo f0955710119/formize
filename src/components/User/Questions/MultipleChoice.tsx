@@ -24,6 +24,7 @@ import {
   CustomFormLabel,
 } from "./ChoiceIcon/icon";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const CustomFormControl = styled(FormControl)`
   margin: 0;
@@ -59,6 +60,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
   const existingInput = answers[questionIdIndex]
     ? answers[questionIdIndex].input
@@ -130,8 +132,6 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
       isDidMount.current = false;
       return;
     }
-
-    if (error) return;
     const input =
       selectedOptions.join("") === "" ? null : selectedOptions.join("");
     dispatch(
@@ -140,6 +140,13 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
         input,
       })
     );
+
+    if (error) {
+      showInvalidHandler(`最多只能選擇${maxSelected}個選項!`);
+      return;
+    }
+
+    showInvalidHandler("");
   }, [selectedOptions]);
 
   return (
@@ -164,9 +171,6 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
           />
         ))}
       </CustomFormGroup>
-      {error && (
-        <FormHelperText>最多只能選擇{maxSelected}個選項!</FormHelperText>
-      )}
     </CustomFormControl>
   );
 };

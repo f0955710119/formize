@@ -9,6 +9,7 @@ import {
 import styled from "styled-components";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";
 
@@ -63,6 +64,7 @@ interface SortProps {
 const Sort: FC<SortProps> = ({ options, maxSelected, questionId }) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const [selectedOptionArr, setSelectedOptionArr] = useState<string[]>(() => {
     const sortedArray: string[] = [];
     options.forEach((option, i) => {
@@ -85,17 +87,25 @@ const Sort: FC<SortProps> = ({ options, maxSelected, questionId }) => {
     .map((_, i) => questionIndexForFirstOption + i);
 
   const didMount = useRef<boolean>(true);
-
   useEffect(() => {
     if (didMount.current) {
       didMount.current = false;
       return;
     }
 
+    const hasNotMatchSelected = selectedOptionArr.length !== maxSelected;
+
     questionIdIndexList.forEach((questionIdIndex, i) => {
       const input = `${selectedOptionArr.indexOf(options[i]) + 1}`;
       dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
     });
+
+    if (hasNotMatchSelected) {
+      showInvalidHandler(`必須排序${maxSelected}個選項，不能多也不能少`);
+      return;
+    }
+
+    showInvalidHandler("");
   }, [selectedOptionArr]);
 
   return (

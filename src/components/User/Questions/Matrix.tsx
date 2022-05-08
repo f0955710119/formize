@@ -12,6 +12,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { userActions } from "../../../store/slice/userSlice";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import helper from "../../../utils/helper";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const MatrixWrapper = styled.div`
   display: flex;
@@ -77,6 +78,7 @@ const MatrixRadio: FC<MatrixRadioProps> = ({
 }: MatrixRadioProps) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const questionIdIndex = useGetQuestionIdIndex(`${questionId}_${optionIndex}`);
   const existingInput = answers[questionIdIndex]
     ? answers[questionIdIndex].input
@@ -91,6 +93,7 @@ const MatrixRadio: FC<MatrixRadioProps> = ({
         onChange={(event) => {
           const input = event.target.value;
           dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+          showInvalidHandler("");
         }}
       >
         {matrixs.map((matrix) => (

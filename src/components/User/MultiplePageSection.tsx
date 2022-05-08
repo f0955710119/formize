@@ -190,8 +190,8 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
             responsedPageQuestionsList,
             answers
           );
+          if (hasInvalidInput) return;
           if (questionPage === questionsInDiffernetPageArr.length - 1) {
-            if (hasInvalidInput) return;
             sendResponses();
             return;
           }

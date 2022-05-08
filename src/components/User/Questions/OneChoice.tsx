@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 import { FormControl, RadioGroup, Radio } from "@mui/material";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
@@ -11,6 +11,7 @@ import {
   CustomCheckedIcon,
   CustomFormLabel,
 } from "./ChoiceIcon/icon";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const CustomFormControl = styled(FormControl)`
   width: 100%;
@@ -42,6 +43,7 @@ interface OneChoiceProps {
 const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
   const existingInput = answers[questionIdIndex]
     ? answers[questionIdIndex].input
@@ -54,6 +56,7 @@ const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
         onChange={(event) => {
           const input = event.target.value;
           dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+          showInvalidHandler("");
         }}
       >
         {options.map((option, i) => (

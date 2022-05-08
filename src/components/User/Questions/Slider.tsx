@@ -6,6 +6,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const SliderWrapper = styled.div`
   display: flex;
@@ -45,6 +46,7 @@ const Slider: FC<SliderProps> = ({
   const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
   const checkValidTimerHandler = useCheckValidTimer();
+  const showInvalidHandler = useCheckAnswerValid(questionId);
 
   const hasMax = max ? max : 100;
   const hasMin = min ? min : 1;
@@ -59,10 +61,12 @@ const Slider: FC<SliderProps> = ({
   const changeSliderHandler = (event: Event) => {
     const { value } = event.target as HTMLInputElement;
     setInputDisplay(+value);
+    const input = "" + value;
+    dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+
     checkValidTimerHandler(() => {
       if (!event.target) return;
-      const input = "" + value;
-      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+      showInvalidHandler("");
     }, 500);
   };
 

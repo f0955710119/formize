@@ -16,7 +16,6 @@ import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 import { useAppSelector } from "../../../hooks/useAppSelector";
 import useCheckValidTimer from "../../../hooks/useCheckValidTimer";
 import useResetInputValue from "../../../hooks/useResetInputValue";
-import helper from "../../../utils/helper";
 
 const CustomedTextField = styled(TextField)`
   width: 100%;
@@ -49,8 +48,8 @@ const OneLineText: FC<OneLineTextProps> = ({
 
   const { answers } = useAppSelector((state) => state.user);
   const checkValidTimerHandler = useCheckValidTimer();
-  const questionIdIndex = useGetQuestionIdIndex(questionId);
   const showInvalidHandler = useCheckAnswerValid(questionId);
+  const questionIdIndex = useGetQuestionIdIndex(questionId);
   const resetInputHandler = useResetInputValue();
 
   const [inputDispaly, setInputDisplay] = useState<string>(() => {

@@ -14,6 +14,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { userActions } from "../../../store/slice/userSlice";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const CalendarWrapper = styled.div`
   margin-top: 2rem;
@@ -89,10 +90,10 @@ const Date: FC<DateProps> = ({
 }: DateProps) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const questionIdIndexForMultipleDate = useGetQuestionIdIndex(
     `${questionId}_start`
   );
-
   const questionIdIndexForSignleDate = useGetQuestionIdIndex(`${questionId}_0`);
 
   const inputForMultipleDateStart = answers[questionIdIndexForMultipleDate]
@@ -145,22 +146,6 @@ const Date: FC<DateProps> = ({
         locale={zhTW}
         date={helper.generateNewDate()}
         onChange={(item) => {
-          const incomingStartDate = item.selection.startDate;
-          const incomingEndDate = item.selection.endDate;
-          if (incomingStartDate && incomingEndDate && maxSelectedDateQuantity) {
-            console.log(maxSelectedDateQuantity);
-            const maxRangeNumber =
-              1000 * 60 * 60 * 24 * (maxSelectedDateQuantity - 1);
-            const isInvalidSelectedDateRange =
-              incomingEndDate.getTime() - incomingStartDate.getTime() >
-              maxRangeNumber;
-
-            if (isInvalidSelectedDateRange) {
-              alert(`不能選擇超過${maxSelectedDateQuantity}天的範圍`);
-              return;
-            }
-          }
-
           setTimeRange([item.selection]);
           if (item.selection.startDate) {
             const startDate = helper.generateDateFormatString(
@@ -186,6 +171,24 @@ const Date: FC<DateProps> = ({
               })
             );
           }
+
+          const incomingStartDate = item.selection.startDate;
+          const incomingEndDate = item.selection.endDate;
+          if (incomingStartDate && incomingEndDate && maxSelectedDateQuantity) {
+            const maxRangeNumber =
+              1000 * 60 * 60 * 24 * (maxSelectedDateQuantity - 1);
+            const isInvalidSelectedDateRange =
+              incomingEndDate.getTime() - incomingStartDate.getTime() >
+              maxRangeNumber;
+
+            if (isInvalidSelectedDateRange) {
+              showInvalidHandler(
+                `不能選擇超過${maxSelectedDateQuantity}天的範圍`
+              );
+              return;
+            }
+            showInvalidHandler("");
+          }
         }}
         moveRangeOnFirstSelection={false}
         ranges={timeRange}
@@ -203,7 +206,7 @@ const Date: FC<DateProps> = ({
         onChange={(date: Date) => {
           const incomingDate = helper.generateDateFormatString(date);
           setSelectedDate(date);
-
+          showInvalidHandler("");
           dispatch(
             userActions.updateFormAnswer({
               questionIdIndex: questionIdIndexForSignleDate,
