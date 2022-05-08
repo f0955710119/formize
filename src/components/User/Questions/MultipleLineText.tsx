@@ -64,13 +64,13 @@ const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
             return;
           }
 
+          dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+
           if (hasMaxLengthInvalid) {
             showInvalidHandler(`不能超過${maxLength}字`);
             return;
           }
-
           showInvalidHandler("");
-          dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
         }, 300);
       }}
     />

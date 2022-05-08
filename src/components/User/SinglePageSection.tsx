@@ -8,6 +8,7 @@ import PageCTAButton from "./PageCTAButton";
 import helper from "../../utils/helper";
 import scrollBar from "../UI/scrollBar";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import useWholePageAnswersValidCheck from "../../hooks/useWholePageAnswersValidCheck";
 
 const SinglePageContainer = styled.section`
   position: relative;
@@ -60,6 +61,8 @@ const SinglePageSection: FC<SinglePageSectionProps> = ({
   questions,
   sendResponses,
 }) => {
+  const { answers } = useAppSelector((state) => state.user);
+  const wholePageValidHandler = useWholePageAnswersValidCheck();
   const indexArr = helper.generateQuestionIndexArr(questions);
   const singlePageFormContainerRef = useRef<HTMLDivElement | null>(null);
   const [containerHeight, setContainerHeight] = useState<number>(0);
@@ -86,7 +89,11 @@ const SinglePageSection: FC<SinglePageSectionProps> = ({
         })}
         <SinglePageSubmitButton
           text="送出填答回覆"
-          clickHandler={sendResponses}
+          clickHandler={() => {
+            const hasInvalidAnswer = wholePageValidHandler(questions, answers);
+            if (hasInvalidAnswer) return;
+            sendResponses();
+          }}
         />
       </SinglePageFormContainer>
     </SinglePageContainer>

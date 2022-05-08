@@ -125,6 +125,8 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
   );
   const errorMessage = errorMessages[errorMessagesIdKeys[question.id]];
   const hasErrorMessage = errorMessage !== "";
+
+  // console.log(question);
   return (
     <>
       <QuestionWrapper hasErrorMessage={hasErrorMessage}>

@@ -71,12 +71,13 @@ const OneLineText: FC<OneLineTextProps> = ({
         return;
       }
 
+      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+
       if (hasLengthInvalid) {
         showInvalidHandler(`字數不能超過${length}字`);
         return;
       }
       showInvalidHandler("");
-      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
     }, 300);
   };
 
@@ -96,6 +97,8 @@ const OneLineText: FC<OneLineTextProps> = ({
         return;
       }
 
+      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+
       if (hasMaxInvalid) {
         showInvalidHandler(`數值不能大於${max}`);
         return;
@@ -113,7 +116,6 @@ const OneLineText: FC<OneLineTextProps> = ({
         return;
       }
       showInvalidHandler("");
-      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
     }, 300);
   };
   return (
