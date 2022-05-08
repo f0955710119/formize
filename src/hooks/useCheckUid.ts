@@ -1,10 +1,7 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import firebase from "../utils/firebase";
 import useInitAdminInfo from "./useInitAdminInfo";
 
 const useCheckUid = () => {
-  const router = useRouter();
   const initAdminHandler = useInitAdminInfo();
   const checkUidInOtherPageHandler = async () => {
     try {
@@ -21,9 +18,6 @@ const useCheckUid = () => {
     }
   };
   return checkUidInOtherPageHandler;
-  // useEffect(() => {
-  //   checkUidInOtherPage();
-  // }, []);
 };
 
 export default useCheckUid;

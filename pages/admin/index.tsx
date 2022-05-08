@@ -1,44 +1,18 @@
-import styled from "styled-components";
-import Head from "next/head";
 import type { NextPage } from "next";
-import Header from "../../src/components/UI/Header";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
 
 import Main from "../../src/components/UI/Main";
 import GroupSideBar from "../../src/components/Admin/FormManagement/SideBar/GroupSideBar";
 import Dashboard from "../../src/components/Admin/FormManagement/Dashboard/Dashboard";
-import { useContext, useEffect, useState } from "react";
+import Loading from "../../src/components/UI/Loading";
+
 import { adminContext } from "../../src/store/context/adminContext";
-import { useRouter } from "next/router";
 import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
 import useCheckUid from "../../src/hooks/useCheckUid";
-import { user } from "../../src/utils/firebase";
-
-const TestLoading = styled.div`
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-  z-index: 2;
-
-  &::after {
-    content: " ";
-    display: block;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border-radius: 50%;
-    border: 6px solid #333;
-    border-color: #333 transparent #333 transparent;
-    animation: lds-dual-ring 1.2s linear infinite;
-  }
-  @keyframes lds-dual-ring {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
+import useRouterLoaded from "../../src/hooks/useRouterLoaded";
 
 const Admin: NextPage = () => {
   const context = useContext(adminContext);
@@ -61,10 +35,8 @@ const Admin: NextPage = () => {
   };
 
   const initAdminHandler = useInitAdminInfo();
-  useEffect(() => {
-    if (!router.isReady) return;
-    fetchAdminData(context.uid);
-  }, [router.isReady]);
+  useRouterLoaded(() => fetchAdminData(context.uid));
+
   return (
     <>
       <Head>
@@ -76,17 +48,16 @@ const Admin: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
-
-      <Main>
-        {!isFetchingAdminData ? (
-          <>
+      {isFetchingAdminData ? (
+        <Loading />
+      ) : (
+        <>
+          <Main>
             <GroupSideBar />
             <Dashboard />
-          </>
-        ) : (
-          <TestLoading />
-        )}
-      </Main>
+          </Main>
+        </>
+      )}
     </>
   );
 };

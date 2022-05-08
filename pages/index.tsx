@@ -8,12 +8,46 @@ import useLoginCheck from "../src/hooks/useLoginCheck";
 const DefalutMain = styled.main`
   width: 100vw;
   height: 100vh;
+  position: relative;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* background-image: url("images/main-bg.svg"); */
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.4)
+    ),
+    url("images/setting-bg.svg");
+  background-repeat: no-repeat;
+  /* background-position: 20% 30%; */
+  background-size: cover;
 `;
 
+const FirstPicture = styled.div`
+  position: absolute;
+  top: 15%;
+  left: 13%;
+  width: 40rem;
+  height: 50rem;
+  border-radius: 9px;
+  overflow: hidden;
+  background-image: url("images/landing-page.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
+const SecondPicture = styled.div`
+  position: absolute;
+  top: 22%;
+  left: 27%;
+  width: 48rem;
+  height: 60rem;
+
+  border-radius: 9px;
+  overflow: hidden;
+
+  background-image: url("images/landing-page-2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
 const Home: NextPage = () => {
   useLoginCheck();
 
@@ -29,6 +63,8 @@ const Home: NextPage = () => {
         ></link>
       </Head>
       <DefalutMain>
+        <FirstPicture />
+        <SecondPicture />
         <LoginForm />
       </DefalutMain>
     </div>

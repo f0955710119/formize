@@ -8,12 +8,14 @@ import Main from "../../../../src/components/UI/Main";
 import FormAnalysisSideBar from "../../../../src/components/Admin/FormAnalysis/FormAnalysisSideBar";
 import { adminContext } from "../../../../src/store/context/adminContext";
 import StatisSection from "../../../../src/components/Admin/FormAnalysis/StatisSection";
+import Loading from "../../../../src/components/UI/Loading";
 
 const Analysis: NextPage = () => {
   const router = useRouter();
   const context = useContext(adminContext);
   const { currentAnalysisPage } = context;
   const [statisData, setStatisDate] = useState<StatisResponse[] | null>(null);
+  const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);
   const formId = router.query.formId as string;
 
   const getStaticsAnalysisData = async (formId: string) => {
@@ -21,10 +23,16 @@ const Analysis: NextPage = () => {
     const data = await response.json();
     const { tableStatis } = data.data;
     setStatisDate(tableStatis);
+    setIsFetchingAdminData(false);
   };
 
   useEffect(() => {
-    router.isReady && getStaticsAnalysisData(formId);
+    if (context.uid === "") {
+      router.push("/admin");
+      return;
+    }
+    if (!router.isReady) return;
+    getStaticsAnalysisData(formId);
   }, [router.isReady]);
   return (
     <>
@@ -37,10 +45,22 @@ const Analysis: NextPage = () => {
           rel="stylesheet"
         />
       </Head>
-      <Main>
-        <FormAnalysisSideBar />
-        {currentAnalysisPage === 0 && <StatisSection statisData={statisData} />}
-      </Main>
+      {isFetchingAdminData ? (
+        <Loading
+          imageSrc={
+            process.env.NEXT_PUBLIC_ORIGIN + "/" + "images/loading-image.svg"
+          }
+        />
+      ) : (
+        <>
+          <Main>
+            <FormAnalysisSideBar />
+            {currentAnalysisPage === 0 && (
+              <StatisSection statisData={statisData} />
+            )}
+          </Main>
+        </>
+      )}
     </>
   );
 };

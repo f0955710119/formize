@@ -9,6 +9,16 @@ import loginConfig from "../../configs/loginConfig";
 import useInitAdminInfo from "../../hooks/useInitAdminInfo";
 import adminActionType from "../../store/actionType/adminActionType";
 
+const Form = styled.form`
+  position: absolute;
+  top: 30%;
+  right: 10%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  width: 40rem;
+`;
+
 const DefaultLandingTitle = styled.h1`
   display: block;
   font-size: 3.2rem;
@@ -28,13 +38,6 @@ const TraditionalText = styled.span`
 
 const EnglishText = styled.span`
   font-family: inherit;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  width: 40rem;
 `;
 
 const Field = styled.div`
