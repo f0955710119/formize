@@ -12,7 +12,7 @@ const HeaderItemWrapper = styled.div<HeaderItemWrapperProps>`
   display: flex;
   align-items: center;
   color: ${(props: HeaderItemWrapperProps) =>
-    props.isActive ? "#6e917bd6" : "inherit"};
+    props.isActive ? "#c9ab59" : "inherit"};
   font-weight: ${(props: HeaderItemWrapperProps) =>
     props.isActive ? "bold" : "inherit"};
   border-right: 1px solid #c8c8c8;

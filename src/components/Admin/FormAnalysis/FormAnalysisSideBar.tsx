@@ -13,7 +13,8 @@ const SideBar = styled.div`
 
   width: 23rem;
   height: 100%;
-  background-color: #ffec9a;
+  /* background-color: #ffec9a; */
+  background-color: #ffc652c2;
   background-image: url("/images/group.svg");
   background-repeat: no-repeat;
   background-position: 50% 97%;

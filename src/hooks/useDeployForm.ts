@@ -3,6 +3,7 @@ import { adminActions } from "../store/slice/adminSlice";
 import { Settings, Styles } from "../types/form";
 import { Question } from "../types/question";
 import firebase from "../utils/firebase";
+import { SettingContext } from "../store/context/settingContext";
 
 const useDeployForm = () => {
   const dispatch = useAppDispatch();
@@ -12,47 +13,47 @@ const useDeployForm = () => {
     settings: any;
     questions: Question[];
     styles: Styles;
+    settingContextData: SettingContext;
   }) => {
     try {
-      // handle picture
-      const hasUploadedStartPageImage =
-        sendingObj.settings.startPageImageFile &&
-        typeof sendingObj.settings.startPageImageFile !== "string";
-      const hasUploadedEndPageImage =
-        sendingObj.settings.endPageImageFile &&
-        typeof sendingObj.settings.endPageImageFile !== "string";
-      // const hasQuestionImagesArr = sendingObj.questions.map(
-      //   (question) => question.image
-      // );
-      // console.log(sendingObj.settings.endPageImageFile.type);
-      const imageArr = [];
+      let startPageImageFile = null;
+      let endPageImageFile = null;
 
-      if (hasUploadedStartPageImage) {
-        const startPageImageUrl = await firebase.generateImageUrl(
-          hasUploadedStartPageImage
+      if (sendingObj.settingContextData.startPageImageFile !== null) {
+        const startPageImageRef = firebase.getStorageRef(
+          sendingObj.settingContextData.startPageImageFile.name
         );
-        imageArr.push(startPageImageUrl);
+        await firebase.uploadImage(
+          startPageImageRef,
+          sendingObj.settingContextData.startPageImageFile
+        );
+
+        startPageImageFile = await firebase.getStoredImages(startPageImageRef);
       }
 
-      if (hasUploadedEndPageImage) {
-        const endPageImageUrl = await firebase.generateImageUrl(
-          hasUploadedEndPageImage
+      if (sendingObj.settingContextData.endPageImageFile !== null) {
+        const endPageImageRef = firebase.getStorageRef(
+          sendingObj.settingContextData.endPageImageFile.name
         );
-        imageArr.push(endPageImageUrl);
+        await firebase.uploadImage(
+          endPageImageRef,
+          sendingObj.settingContextData.endPageImageFile
+        );
+        endPageImageFile = await firebase.getStoredImages(endPageImageRef);
       }
 
-      console.log(imageArr);
+      console.log(startPageImageFile);
+      console.log(endPageImageFile);
 
       const newSendingObj = {
         ...sendingObj,
         settings: {
           ...sendingObj.settings,
-          startPageImageFile: null,
-          endPageImageFile: null,
+          startPageImageFile,
+          endPageImageFile,
         },
       };
 
-      // console.log(newSendingObj);
       // deploy
       const response = await fetch("/api/admin/form", {
         method: "POST",

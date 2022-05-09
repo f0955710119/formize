@@ -113,102 +113,112 @@ const FormList: FC = () => {
 
   return (
     <>
-      {groupListArray.map((group) => {
-        const hasForms = context.forms && context.forms?.length > 0;
-        const hasResponsedForms = hasForms
-          ? context.forms.filter((form) => form.groupId === group.id)
-          : [];
-        const groupForms =
-          hasResponsedForms.length > 0 ? hasResponsedForms : ["1"];
+      {groupListArray.length === 0 ? (
+        <></>
+      ) : (
+        <>
+          {groupListArray.map((group) => {
+            const hasForms = context.forms && context.forms?.length > 0;
+            const hasResponsedForms = hasForms
+              ? context.forms.filter((form) => form.groupId === group.id)
+              : [];
+            const groupForms =
+              hasResponsedForms.length > 0 ? hasResponsedForms : ["1"];
 
-        return (
-          <ListContainer key={group.id}>
-            <ListColumnTitleContainer>
-              <GroupTagWrapper>
+            return (
+              <ListContainer key={group.id}>
+                <ListColumnTitleContainer>
+                  <GroupTagWrapper>
+                    <GroupTag>{group.name}</GroupTag>
+                  </GroupTagWrapper>
+                  <ResponsedQuantity>回應數量</ResponsedQuantity>
+                  <CreatedTime>創建日期</CreatedTime>
+                  <ResponsedTime>最新回應日期</ResponsedTime>
+                  <ExpandMore>更多</ExpandMore>
+                </ListColumnTitleContainer>
+                <FormWrapper>
+                  {groupForms.map((form, i) => {
+                    if (form === "1" || typeof form === "string") {
+                      return (
+                        <EmptyListContainer key={i}>
+                          <EmptyListContainerText>
+                            此群組還沒有問卷唷!
+                          </EmptyListContainerText>
+                        </EmptyListContainer>
+                      );
+                    }
+                    const dateCreated = helper.convertFirebaseTimeToDate(
+                      (form as Forms).createdTime
+                    );
+                    const dateResponsed =
+                      form.latestResponsedTime !== null
+                        ? helper.convertFirebaseTimeToDate(
+                            form.latestResponsedTime
+                          )
+                        : null;
+                    return (
+                      <FormItem
+                        formId={form.id}
+                        title={form.title}
+                        responsedTimes={form.responsedTimes}
+                        dateCreated={dateCreated}
+                        dateResponsed={dateResponsed}
+                        key={form.id}
+                      />
+                    );
+                  })}
+                </FormWrapper>
+              </ListContainer>
+            );
+          })}
+          {groupListArray.map((group) => {
+            const hasForms = context.forms && context.forms?.length > 0;
+            const hasResponsedForms = hasForms
+              ? context.forms.filter((form) => form.groupId === group.id)
+              : [];
+            const groupForms =
+              hasResponsedForms.length > 0 ? hasResponsedForms : ["1"];
+
+            return (
+              <CardContainer key={group.id}>
                 <GroupTag>{group.name}</GroupTag>
-              </GroupTagWrapper>
-              <ResponsedQuantity>回應數量</ResponsedQuantity>
-              <CreatedTime>創建日期</CreatedTime>
-              <ResponsedTime>最新回應日期</ResponsedTime>
-              <ExpandMore>更多</ExpandMore>
-            </ListColumnTitleContainer>
-            <FormWrapper>
-              {groupForms.map((form, i) => {
-                if (form === "1" || typeof form === "string") {
-                  return (
-                    <EmptyListContainer key={i}>
-                      <EmptyListContainerText>
-                        此群組還沒有問卷唷!
-                      </EmptyListContainerText>
-                    </EmptyListContainer>
-                  );
-                }
-                const dateCreated = helper.convertFirebaseTimeToDate(
-                  (form as Forms).createdTime
-                );
-                const dateResponsed =
-                  form.latestResponsedTime !== null
-                    ? helper.convertFirebaseTimeToDate(form.latestResponsedTime)
-                    : null;
-                return (
-                  <FormItem
-                    formId={form.id}
-                    title={form.title}
-                    responsedTimes={form.responsedTimes}
-                    dateCreated={dateCreated}
-                    dateResponsed={dateResponsed}
-                    key={form.id}
-                  />
-                );
-              })}
-            </FormWrapper>
-          </ListContainer>
-        );
-      })}
-      {groupListArray.map((group) => {
-        const hasForms = context.forms && context.forms?.length > 0;
-        const hasResponsedForms = hasForms
-          ? context.forms.filter((form) => form.groupId === group.id)
-          : [];
-        const groupForms =
-          hasResponsedForms.length > 0 ? hasResponsedForms : ["1"];
-
-        return (
-          <CardContainer key={group.id}>
-            <GroupTag>{group.name}</GroupTag>
-            <FormWrapper>
-              {groupForms.map((form, i) => {
-                if (form === "1" || typeof form === "string") {
-                  return (
-                    <EmptyListContainer key={i}>
-                      <EmptyListContainerText>
-                        此群組還沒有問卷唷!
-                      </EmptyListContainerText>
-                    </EmptyListContainer>
-                  );
-                }
-                const dateCreated = helper.convertFirebaseTimeToDate(
-                  (form as Forms).createdTime
-                );
-                const dateResponsed =
-                  form.latestResponsedTime !== null
-                    ? helper.convertFirebaseTimeToDate(form.latestResponsedTime)
-                    : null;
-                return (
-                  <FormCard
-                    formId={form.id}
-                    title={form.title}
-                    responsedTimes={form.responsedTimes}
-                    dateCreated={dateCreated}
-                    dateResponsed={dateResponsed}
-                    key={form.id}
-                  />
-                );
-              })}
-            </FormWrapper>
-          </CardContainer>
-        );
-      })}
+                <FormWrapper>
+                  {groupForms.map((form, i) => {
+                    if (form === "1" || typeof form === "string") {
+                      return (
+                        <EmptyListContainer key={i}>
+                          <EmptyListContainerText>
+                            此群組還沒有問卷唷!
+                          </EmptyListContainerText>
+                        </EmptyListContainer>
+                      );
+                    }
+                    const dateCreated = helper.convertFirebaseTimeToDate(
+                      (form as Forms).createdTime
+                    );
+                    const dateResponsed =
+                      form.latestResponsedTime !== null
+                        ? helper.convertFirebaseTimeToDate(
+                            form.latestResponsedTime
+                          )
+                        : null;
+                    return (
+                      <FormCard
+                        formId={form.id}
+                        title={form.title}
+                        responsedTimes={form.responsedTimes}
+                        dateCreated={dateCreated}
+                        dateResponsed={dateResponsed}
+                        key={form.id}
+                      />
+                    );
+                  })}
+                </FormWrapper>
+              </CardContainer>
+            );
+          })}
+        </>
+      )}
     </>
   );
 };

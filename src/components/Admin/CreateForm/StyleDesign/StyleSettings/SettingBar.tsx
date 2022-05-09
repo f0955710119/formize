@@ -19,6 +19,7 @@ import breakpointConfig from "../../../../../configs/breakpointConfig";
 import type { Styles } from "../../../../../types/form";
 import type { Question } from "../../../../../types/question";
 import { adminContext } from "../../../../../store/context/adminContext";
+import { SettingContext } from "../../../../../store/context/settingContext";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -98,8 +99,8 @@ const BackgroundContainerTitle = styled.span`
   margin-bottom: 2rem;
   padding-bottom: 0.5rem;
   font-size: 1.4rem;
-  color: #6e917b;
-  border-bottom: 2px solid #6e917b;
+  color: #c9ab59;
+  border-bottom: 2px solid #c9ab59;
 
   @media ${breakpointConfig.laptopM} {
     border-bottom: none;
@@ -146,7 +147,7 @@ const ButtonWrapper = styled.button`
   border-radius: 5px;
 
   &:hover {
-    background-color: rgba(110, 145, 123, 0.839);
+    background-color: #ffc652c2;
   }
 
   &:not(:last-child) {
@@ -170,6 +171,7 @@ const defaultBackgroundList = Object.keys(backgroundConfig)
   .map((key) => backgroundConfig[key]);
 
 const SettingBar: FC = () => {
+  const context = useContext(adminContext);
   const [stylingOption, setStylingOption] = useState<number>(0);
 
   // useCheckUid();
@@ -184,10 +186,13 @@ const SettingBar: FC = () => {
     settings: any;
     questions: Question[];
     styles: Styles;
+    settingContextData: SettingContext;
   }) => {
     await sendFormDataHandler(sendingFormData);
     switchStepHanlder(4);
   };
+
+  console.log(context);
 
   return (
     <SettingLayout>
@@ -244,7 +249,7 @@ const SettingBar: FC = () => {
       )}
       <ButtonWrapper
         onClick={() => clickToSendForm(sendingFormData)}
-        style={{ backgroundColor: "#6e917b" }}
+        style={{ backgroundColor: "#ffc652c2" }}
       >
         <ButtonText>點我發佈問卷</ButtonText>
       </ButtonWrapper>

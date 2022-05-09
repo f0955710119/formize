@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import type { AppProps } from "next/app";
 import { store } from "../src/store";
 import { Provider } from "react-redux";
-import { adminContext, AdminProvider } from "../src/store/context/adminContext";
+import { AdminProvider } from "../src/store/context/adminContext";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 

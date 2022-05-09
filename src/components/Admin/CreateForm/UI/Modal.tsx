@@ -65,7 +65,9 @@ const Modal: FC<Modal> = ({
     <CustomedDialog open={hasOpenModal} onClose={closeHandler} fullWidth>
       {title && <DialogTitle sx={{ fontSize: "2rem" }}>{title}</DialogTitle>}
       <DialogContent>
-        <DialogContentText>{children}</DialogContentText>
+        <DialogContentText fontSize={17} color="#c9ab59">
+          {children}
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
         {undoButtonText && (

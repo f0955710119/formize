@@ -1,5 +1,4 @@
-import { ChangeEventHandler, FC, useEffect, useRef, useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
+import { FC, useContext } from "react";
 import styled from "styled-components";
 
 import SectionWrapper from "../UI/Section";
@@ -11,9 +10,10 @@ import { useAppSelector } from "../../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { settingActions } from "../../../../store/slice/settingSlice";
 import settingActionType from "../../../../store/actionType/settingActionType";
+import { settingContext } from "../../../../store/context/settingContext";
 
 const BannerField = styled(Field)`
-  height: 20rem;
+  height: 39rem;
   align-items: start;
   &:not(:last-child) {
     margin-bottom: 2rem;
@@ -42,49 +42,13 @@ const ImageInput = styled(Input)`
 const Image = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 const SectionBanner: FC = () => {
+  const settingContextData = useContext(settingContext);
   const dispatch = useAppDispatch();
-  const { setting } = useAppSelector((state) => state);
-  const [startPageImage, setStartPageImage] = useState<string | null>(() => {
-    if (!setting.startPageImageFile) return null;
-    if (typeof setting.startPageImageFile !== "string") {
-      const url = URL.createObjectURL(setting.startPageImageFile);
-      return url;
-    }
-    return setting.startPageImageFile;
-  });
-  const [endPageImage, setEndPageImage] = useState<string | null>(() => {
-    if (!setting.endPageImageFile) return null;
-    if (typeof setting.endPageImageFile !== "string") {
-      const url = URL.createObjectURL(setting.endPageImageFile);
-      return url;
-    }
-    return setting.endPageImageFile;
-  });
-
-  const changeUploadImageHandler = (
-    event: any,
-    typeKey: string,
-    setState: Dispatch<string | null>
-  ) => {
-    const file = event.target.files[0];
-    if (file.size > 5_000_000) {
-      alert("不可上傳超過5MB的圖片!");
-      return;
-    }
-
-    const url = URL.createObjectURL(file);
-    setState(url);
-    dispatch(
-      settingActions.updateSingleSettingInput({
-        actionType: typeKey,
-        value: file,
-      })
-    );
-  };
+  console.log(settingContextData);
 
   return (
     <SectionWrapper>
@@ -94,21 +58,37 @@ const SectionBanner: FC = () => {
           歡迎頁圖檔
           <br />
           <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
-            ( 上限為5MB的圖檔 )
+            上限5MB，比例建議4:3
           </span>
         </Label>
         <ImageLabel htmlFor="welcome-banner">
-          {startPageImage ? <Image src={startPageImage} /> : "點擊上傳"}
+          {settingContextData.startPageImageObjectUrl ? (
+            <Image src={settingContextData.startPageImageObjectUrl} />
+          ) : (
+            "點擊上傳"
+          )}
         </ImageLabel>
         <ImageInput
           type="file"
           accept="image/*"
           id="welcome-banner"
           onChange={(event) => {
-            changeUploadImageHandler(
-              event,
+            if (event.target.files === null) return;
+            const file = event.target.files[0];
+            if (file.size > 5_000_000) {
+              alert("不可上傳超過5MB的圖片!");
+              return;
+            }
+
+            const url = URL.createObjectURL(file);
+
+            settingContextData.setField(
+              settingActionType.START_PAGE_IMAGE_OBJECT_URL,
+              url
+            );
+            settingContextData.setField(
               settingActionType.START_PAGE_IMAGE_FILE,
-              setStartPageImage
+              file
             );
           }}
         />
@@ -117,9 +97,7 @@ const SectionBanner: FC = () => {
         <Label>
           歡迎頁文字
           <br />
-          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
-            ( 上限為250字 )
-          </span>
+          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>限250字</span>
         </Label>
         <TexteraInput
           type="text"
@@ -138,21 +116,37 @@ const SectionBanner: FC = () => {
           結束頁圖檔
           <br />
           <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
-            ( 上限為5MB的圖檔 )
+            上限5MB，比例建議4:3
           </span>
         </Label>
         <ImageLabel htmlFor="end-banner">
-          {endPageImage ? <Image src={endPageImage} /> : "點擊上傳"}
+          {settingContextData.endPageImageObjectUrl ? (
+            <Image src={settingContextData.endPageImageObjectUrl} />
+          ) : (
+            "點擊上傳"
+          )}
         </ImageLabel>
         <ImageInput
           type="file"
           accept="image/*"
           id="end-banner"
           onChange={(event) => {
-            changeUploadImageHandler(
-              event,
+            if (event.target.files === null) return;
+            const file = event.target.files[0];
+            if (file.size > 5_000_000) {
+              alert("不可上傳超過5MB的圖片!");
+              return;
+            }
+
+            const url = URL.createObjectURL(file);
+
+            settingContextData.setField(
+              settingActionType.END_PAGE_IMAGE_OBJECT_URL,
+              url
+            );
+            settingContextData.setField(
               settingActionType.END_PAGE_IMAGE_FILE,
-              setEndPageImage
+              file
             );
           }}
         />
@@ -161,9 +155,7 @@ const SectionBanner: FC = () => {
         <Label>
           結束頁文字
           <br />
-          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
-            ( 上限為250字 )
-          </span>
+          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>限250字</span>
         </Label>
         <TexteraInput
           type="text"

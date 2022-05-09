@@ -72,18 +72,23 @@ const CustomTextField = styled(TextField)`
 `;
 
 const EditingButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   align-self: end;
-  margin-top: 1rem;
-  width: 50%;
+  width: 15rem;
   height: 3rem;
+  margin-top: 1rem;
   text-align: center;
   line-height: 3rem;
-  border-radius: 3px;
-  font-family: inherit;
-  font-size: 1.4rem;
-  color: #333;
-  background-color: "#777";
-  cursor: pointer;
+  border-radius: 5px;
+  color: #777;
+  background-color: #ccc;
+
+  &:hover {
+    color: #fff;
+    background-color: #333;
+  }
 `;
 
 interface OptionItemProps {
@@ -149,12 +154,7 @@ const OptionItem: FC<OptionItemProps> = ({
         onChange={(event) => setEditingOptionText(event.target.value)}
       />
 
-      <EditingButton
-        style={{ marginBottom: "1rem" }}
-        onClick={saveEditedTextHandler}
-      >
-        儲存
-      </EditingButton>
+      <EditingButton onClick={saveEditedTextHandler}>儲存</EditingButton>
       <EditingButton onClick={() => setHasClickedOptionText(false)}>
         取消
       </EditingButton>

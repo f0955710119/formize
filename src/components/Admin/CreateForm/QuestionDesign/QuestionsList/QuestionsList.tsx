@@ -71,8 +71,8 @@ const Heading = styled.div`
   margin-bottom: 2rem;
   padding-bottom: 0.5rem;
   font-size: 1.6rem;
-  color: #7a807c;
-  border-bottom: 0.1px solid #7a807c;
+  color: #c9ab59;
+  border-bottom: 0.1px solid #c9ab59;
 
   @media ${breakpointConfig.laptopM} {
     margin-bottom: 0;

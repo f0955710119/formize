@@ -8,13 +8,11 @@ const AddGroupWrapper = styled.div`
   display: flex;
   margin: 1rem 0 1.5rem 0;
   align-items: center;
-  width: 100%;
+  width: 32.2%;
   height: 4rem;
-  /* 
   @media ${breakpointConfig.laptopS} {
-    display: flex;
-    margin: 1rem 0 1.5rem 0;
-  } */
+    width: 100%;
+  }
 `;
 
 const AddGroupButton = styled.button`
@@ -25,7 +23,6 @@ const AddGroupButton = styled.button`
   background-color: rgba(180, 188, 183, 1);
   cursor: pointer;
   font-size: 1.4rem;
-  /* font-weight: bold; */
 
   &:hover {
     color: #fff;

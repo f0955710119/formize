@@ -2,7 +2,6 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
 
 import Main from "../../src/components/UI/Main";
 import GroupSideBar from "../../src/components/Admin/FormManagement/SideBar/GroupSideBar";
@@ -20,7 +19,6 @@ const Admin: NextPage = () => {
   const checkUidInOtherPageHandler = useCheckUid();
   const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);
 
-  
   const fetchAdminData = async (uid: string) => {
     if (uid === "") {
       const isInvalid = await checkUidInOtherPageHandler();
@@ -34,11 +32,10 @@ const Admin: NextPage = () => {
     await initAdminHandler(uid);
     setIsFetchingAdminData(false);
   };
-  
+
   const initAdminHandler = useInitAdminInfo();
   useRouterLoaded(() => fetchAdminData(context.uid));
- 
-  
+
   return (
     <>
       <Head>

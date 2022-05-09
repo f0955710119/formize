@@ -94,7 +94,6 @@ interface AdminProviderProps {
 export const AdminProvider: FC<AdminProviderProps> = ({ children }) => {
   const [adminInfo, dispatch] = useReducer(adminReducer, initAdminReducerState);
   const setFieldHandler: SetFieldHandler = (fieldKey, value) => {
-    console.log(fieldKey, value);
     dispatch({ type: fieldKey, payload: value });
   };
   const adminDefaultContext = {

@@ -7,7 +7,6 @@ const useCheckValidTimer = () => {
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(callback, time);
   };
-
   return timerHandler;
 };
 

@@ -23,7 +23,7 @@ const Form = styled.form`
   flex-direction: column;
   margin: 2rem auto 4rem auto;
   padding: 0 3.2rem 0 0;
-  width: 68rem;
+  width: 70.8rem;
   height: calc(100% - 6rem);
   transform: translateX(1.5rem);
 
@@ -67,7 +67,7 @@ const ButtonWrapper = styled.button`
   border-radius: 5px;
 
   &:hover {
-    background-color: #6e917bd6;
+    background-color: #ffc652;
   }
 
   @media ${breakpointConfig.tabletS} {

@@ -44,8 +44,8 @@ const OptionsLayout = styled(Layout)`
 
 const OptionHeading = styled(Heading)`
   margin-bottom: 2rem;
-  color: #7a807c;
-  border-bottom: 1px solid #7a807c;
+  color: #c9ab59;
+  border-bottom: 1px solid #c9ab59;
 `;
 
 const OptionList = styled.div`
@@ -74,7 +74,7 @@ const ButtonWrapper = styled.button`
   border-radius: 5px;
 
   &:hover {
-    background-color: #6e917bd6;
+    background-color: #ffc652c2;
   }
 
   &:not(:last-child) {

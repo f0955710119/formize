@@ -10,7 +10,7 @@ interface ButtonWrapper {
 const ButtonWrapper = styled.button`
   display: flex;
   align-items: center;
-  padding-left: 1rem;
+  padding-left: 2rem;
   width: 100%;
   height: 3.2rem;
   color: ${({ active }: ButtonWrapper) => (active ? "#fff" : "#333")};

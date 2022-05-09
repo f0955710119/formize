@@ -4,6 +4,10 @@ import Head from "next/head";
 import type { NextPage } from "next";
 
 import styled from "styled-components";
+import {
+  createTheme,
+  ThemeProvider as MUIThemeProvider,
+} from "@mui/material/styles";
 
 import Header from "../../../src/components/UI/Header";
 import StepHeader from "../../../src/components/Admin/CreateForm/StepHeader";
@@ -25,6 +29,11 @@ import { adminContext } from "../../../src/store/context/adminContext";
 import useInitAdminInfo from "../../../src/hooks/useInitAdminInfo";
 import { useRouter } from "next/router";
 
+import {
+  SettingContextProvider,
+  settingContext,
+} from "../../../src/store/context/settingContext";
+
 const CreateNewPageContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -34,6 +43,14 @@ const CreateNewPageContainer = styled.div`
     ${scrollBar}
   }
 `;
+
+const muiTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#c9ab59",
+    },
+  },
+});
 
 const New: NextPage = () => {
   const router = useRouter();
@@ -45,17 +62,20 @@ const New: NextPage = () => {
   const colorTheme = themes[helper.generateResponseThemePalette(themeCode)];
 
   const fetchAdminData = async (uid: string) => {
-    if (uid === "") {
-      const isInvalid = await checkUidInOtherPageHandler();
-      if (isInvalid) {
-        alert("未登入狀態，將回首頁");
-        router.push("/");
-      }
+    if (uid !== "") {
       setIsFetchingAdminData(false);
       return;
     }
-    await initAdminHandler(uid);
-    setIsFetchingAdminData(false);
+    alert("此頁只能透過管理員頁面進入唷!");
+    router.push("/");
+    // const isInvalid = await checkUidInOtherPageHandler();
+    // if (isInvalid) {
+    // }
+    // setIsFetchingAdminData(false);
+    // return;
+
+    // await initAdminHandler(uid);
+    // setIsFetchingAdminData(false);
   };
 
   const initAdminHandler = useInitAdminInfo();
@@ -74,18 +94,21 @@ const New: NextPage = () => {
           }
         />
       ) : (
-        <CreateNewPageContainer>
-          <Header>
-            <StepHeader currentStep={currentStep} />
-          </Header>
-
-          {currentStep === 1 && <SettingForm />}
-          <ThemeProvider theme={colorTheme}>
-            {currentStep === 2 && <QuestionDesign />}
-            {currentStep === 3 && <StyleDesign />}
-          </ThemeProvider>
-          {currentStep === 4 && <DeployFormSection />}
-        </CreateNewPageContainer>
+        <MUIThemeProvider theme={muiTheme}>
+          <CreateNewPageContainer>
+            <Header>
+              <StepHeader currentStep={currentStep} />
+            </Header>
+            <SettingContextProvider>
+              {currentStep === 1 && <SettingForm />}
+              <ThemeProvider theme={colorTheme}>
+                {currentStep === 2 && <QuestionDesign />}
+                {currentStep === 3 && <StyleDesign />}
+              </ThemeProvider>
+              {currentStep === 4 && <DeployFormSection />}
+            </SettingContextProvider>
+          </CreateNewPageContainer>
+        </MUIThemeProvider>
       )}
     </>
   );

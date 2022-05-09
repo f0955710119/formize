@@ -12,7 +12,7 @@ const CardContainer = styled.div`
   padding: 1rem 0.5rem 1rem 1rem;
   width: 100%;
   border-bottom: 1px solid rgba(180, 188, 183, 0.15);
-  background-color: rgba(180, 188, 183, 0.2);
+  background-color: #fdd87238;
 `;
 
 const FormTitle = styled.div`
@@ -73,7 +73,7 @@ const featureButtonStyleText = `
 `;
 
 const featureButtonStyleTextGeneral = `
-  background-color: #649777;
+  background-color: #c9ab59;
   ${featureButtonStyleText}
   padding: 0rem 3%;
   @media ${breakpointConfig.mobileL} {
@@ -96,7 +96,7 @@ ${featureButtonStyleText}
 `;
 
 const featureButtonStyleTextAnalysis = `
-  background-color: #649777;
+  background-color: #c9ab59;
   padding: 0rem 2%;
   ${featureButtonStyleText}
   @media ${breakpointConfig.mobileL} {
@@ -109,11 +109,21 @@ const FeatureLink = styled.a`
   text-align: center;
   border-radius: 5px;
   ${featureButtonStyleTextGeneral}
+  transition: background-color 0.3s ease-in-out;
 
   & button {
     margin-right: 0;
     padding: 0;
     color: #fff;
+    background-color: transparent;
+  }
+
+  & button:hover {
+    background-color: transparent;
+  }
+
+  &:hover {
+    background-color: #555;
   }
 `;
 
@@ -175,7 +185,7 @@ const FormCard: FC<FormCardProps> = ({
           styleText={featureButtonStyleTextAnalysis}
           clickHandler={() => goToAnalysisPageHandler(0, formId)}
         />
-        <FeatureButton
+        {/* <FeatureButton
           text="明細匯出"
           styleText={featureButtonStyleTextAnalysis}
           clickHandler={() => goToAnalysisPageHandler(1, formId)}
@@ -184,7 +194,7 @@ const FormCard: FC<FormCardProps> = ({
           text="訪問紀錄"
           styleText={featureButtonStyleTextAnalysis}
           clickHandler={() => goToAnalysisPageHandler(2, formId)}
-        />
+        /> */}
       </CardField>
     </CardContainer>
   );

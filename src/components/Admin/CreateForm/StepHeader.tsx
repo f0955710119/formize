@@ -3,7 +3,7 @@ import styled from "styled-components";
 import HeaderItem from "./HeaderItem";
 import breakpointConfig from "../../../configs/breakpointConfig";
 
-const defaultTitles = ["設定資訊", "題目設計", "外觀樣式", "發布問卷"];
+const defaultTitles = ["設定資訊", "題目設計", "外觀樣式", "發佈問卷"];
 
 const Header = styled.header`
   display: flex;
