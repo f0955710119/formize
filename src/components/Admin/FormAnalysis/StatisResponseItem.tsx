@@ -163,7 +163,7 @@ const renderResponseItemContent = (
               </WordCloudWrapper>
               <BarWrapper>
                 <StatisBar count={countForChart} />
-                <ChartTitle>
+                <ChartTitle style={{ transform: "translateX(2rem)" }}>
                   圖{index + 1}-2、{title.split(" ")[0]}-長條圖統計
                 </ChartTitle>
               </BarWrapper>
@@ -211,7 +211,7 @@ const renderResponseItemContent = (
           </WordCloudWrapper>
           <BarWrapper>
             <StatisBar count={countForChart} />
-            <ChartTitle>
+            <ChartTitle style={{ transform: "translateX(2rem)" }}>
               圖{index + 1}-2、{title.split(" ")[0]}-長條圖統計
             </ChartTitle>
           </BarWrapper>
@@ -239,7 +239,7 @@ const renderResponseItemContent = (
           </PieWrapper>
           <BarWrapper>
             <StatisBar count={countForOptionType} />
-            <ChartTitle>
+            <ChartTitle style={{ transform: "translateX(2rem)" }}>
               圖{index + 1}-2、{title.split(" ")[0]}-長條圖統計
             </ChartTitle>
           </BarWrapper>

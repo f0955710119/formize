@@ -41,7 +41,7 @@ const LoadingText = styled.div`
   margin-bottom: 4rem;
   padding: 0 1rem;
   font-size: 3rem;
-  color: #074d43;
+  color: #b8973c;
   font-weight: bold;
   width: 100%;
   text-align: center;
@@ -57,7 +57,7 @@ const LoadingText = styled.div`
     height: 100%;
     transform: translateX(-50%);
     content: "正在載入...";
-    animation: contentText 2s linear infinite;
+    animation: contentText 1s linear infinite;
 
     @keyframes contentText {
       0% {
@@ -76,10 +76,10 @@ const LoadingText = styled.div`
 
   @keyframes fontColor {
     0% {
-      color: #aaa;
+      color: #d4c18a;
     }
     100% {
-      color: #074d43;
+      color: #b8973c;
     }
   }
 `;

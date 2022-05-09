@@ -12,10 +12,10 @@ const DefalutMain = styled.main`
 
   /* background-image: url("images/main-bg.svg"); */
   background-image: linear-gradient(
-      rgba(255, 255, 255, 0.4),
-      rgba(255, 255, 255, 0.4)
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.2)
     ),
-    url("images/setting-bg.svg");
+    url("images/blob-scene-haikei (1).svg");
   background-repeat: no-repeat;
   /* background-position: 20% 30%; */
   background-size: cover;
@@ -23,8 +23,8 @@ const DefalutMain = styled.main`
 
 const FirstPicture = styled.div`
   position: absolute;
-  top: 15%;
-  left: 13%;
+  top: 10%;
+  left: 10%;
   width: 40rem;
   height: 50rem;
   border-radius: 9px;
@@ -32,6 +32,7 @@ const FirstPicture = styled.div`
   background-image: url("images/landing-page.png");
   background-repeat: no-repeat;
   background-size: cover;
+  z-index: 1;
 `;
 
 const SecondPicture = styled.div`
@@ -47,6 +48,7 @@ const SecondPicture = styled.div`
   background-image: url("images/landing-page-2.png");
   background-repeat: no-repeat;
   background-size: cover;
+  z-index: 2;
 `;
 const Home: NextPage = () => {
   useLoginCheck();
