@@ -135,12 +135,12 @@ const Button = styled.button`
   color: #fff;
   font-family: inherit;
   font-size: 1.6rem;
-  background-color: #cf7581;
+  background-color: #333a42;
   border-radius: 3px;
   cursor: pointer;
 
   &:hover {
-    background-color: #9c414d;
+    background-color: #1b375a;
   }
 `;
 

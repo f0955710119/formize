@@ -78,11 +78,31 @@ const useStyleHandler = () => {
         break;
       }
 
+      case backgroundConfig.YELLOW2_BG: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.BACKGROUND_IMAGES,
+            backgroundImages: [backgroundConfig.YELLOW2],
+          })
+        );
+        break;
+      }
+
       case backgroundConfig.GREEN1_BG: {
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.BACKGROUND_IMAGES,
             backgroundImages: [backgroundConfig.GREEN1],
+          })
+        );
+        break;
+      }
+
+      case backgroundConfig.GRAY1_BG: {
+        dispatch(
+          styleActions.changeStyle({
+            actionType: styleActionType.BACKGROUND_IMAGES,
+            backgroundImages: [backgroundConfig.GRAY1],
           })
         );
         break;

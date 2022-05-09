@@ -15,12 +15,46 @@ const CardWrapper = styled.div`
   } ;
 `;
 
-const CardItem = styled.div`
+interface CardItemProps {
+  imageUrl: string;
+  font: string;
+  isBackground: boolean;
+}
+
+const CardItem = styled.div<CardItemProps>`
   display: inline-block;
   width: 15rem;
   height: 13rem;
-  background-color: #aaa;
+  background-color: #eee;
   margin-bottom: 0.5rem;
+
+  ${(props) => {
+    return props.imageUrl
+      ? `
+      background-image: url(${props.imageUrl});
+      background-repeat:no-repeat;
+      background-size:${props.isBackground ? "155%" : "cover"};
+      ${props.isBackground ? "" : "background-position: center;"}
+      
+    `
+      : "";
+  }}
+
+  ${(props) => {
+    return props.font
+      ? `
+      position:relative;
+      &::after {
+        content:'字體';  
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
+        font-size:2.6rem;
+        font-family:${props.font}
+      }`
+      : "";
+  }}
 `;
 
 const CardTitle = styled.div`
@@ -32,18 +66,30 @@ const CardTitle = styled.div`
 
 interface CardProps {
   title: string;
+  imageUrl?: string;
+  font?: string;
+  isBackground?: boolean;
   dispatchHandler?: (title: string, url?: string) => void;
 }
 
-const Card: FC<CardProps> = ({ title, dispatchHandler }: CardProps) => {
+const Card: FC<CardProps> = ({
+  title,
+  imageUrl,
+  font,
+  isBackground,
+  dispatchHandler,
+}: CardProps) => {
   return (
     <CardWrapper
       onClick={() => {
-        console.log(title);
         dispatchHandler && dispatchHandler(title);
       }}
     >
-      <CardItem />
+      <CardItem
+        imageUrl={imageUrl ? imageUrl : ""}
+        font={font ? font : ""}
+        isBackground={isBackground ? true : false}
+      />
       <CardTitle>{title}</CardTitle>
     </CardWrapper>
   );

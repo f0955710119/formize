@@ -67,8 +67,9 @@ const DashboardAddGroupBar: FC = () => {
       <AddGroupButton
         type="button"
         onClick={() => {
-          inputRef.current !== null &&
-            createNewGroupHandler(inputRef.current.value);
+          if (inputRef.current === null) return;
+          createNewGroupHandler(inputRef.current.value);
+          inputRef.current.value = "";
         }}
       >
         新增群組
