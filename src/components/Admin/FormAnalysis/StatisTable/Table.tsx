@@ -11,7 +11,7 @@ const TableWrapper = styled.div<TableWrapperProps>`
   margin-right: 3rem;
   max-width: 60rem;
   width: 100%;
-  border: 3px solid rgba(180, 188, 183, 0.298);
+  border: 3px solid #ccc;
   height: ${(props: TableWrapperProps) =>
     props.isTextContent ? "32rem" : "auto"};
   border-radius: 7px;
@@ -34,13 +34,13 @@ const TableWrapper = styled.div<TableWrapperProps>`
 `;
 
 const TableTitle = styled.div`
-  background-color: #dadbdb;
+  background-color: #ccc;
   padding: 2rem 1rem;
   font-size: 1.8rem;
-  color: #555;
-  font-weight: bold;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  color: #333;
+  /* font-weight: bold; */
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 `;
 
 interface TableProps {

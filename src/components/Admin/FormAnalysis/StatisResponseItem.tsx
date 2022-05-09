@@ -21,6 +21,7 @@ const ItemContainer = styled.div`
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   width: 100%;
+  height: 45rem;
   border-radius: 3px;
 
   &:not(:last-child) {
@@ -29,6 +30,13 @@ const ItemContainer = styled.div`
 
   @media ${breakpointConfig.laptopL} {
     flex-direction: column;
+    height: auto;
+    padding-bottom: 8rem;
+    padding-top: 3rem;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid rgba(180, 188, 183, 1);
+    }
   }
 `;
 
@@ -40,6 +48,7 @@ const ChartWrapper = styled.div`
   @media ${breakpointConfig.tabletS} {
     width: 100%;
     max-width: 42rem;
+    height: 38rem;
   }
 
   @media ${breakpointConfig.mobileL} {
@@ -52,6 +61,7 @@ const PieWrapper = styled(ChartWrapper)``;
 const BarWrapper = styled(ChartWrapper)`
   height: 36rem;
   @media ${breakpointConfig.laptopL} {
+    height: 38rem;
     transform: translateX(-13px);
   }
   @media ${breakpointConfig.mobileL} {
@@ -67,6 +77,19 @@ const WordCloudWrapper = styled(ChartWrapper)`
   @media ${breakpointConfig.mobileL} {
     max-width: 36rem;
     width: 100%;
+  }
+`;
+
+const ChartTitle = styled.div`
+  margin-top: 1rem;
+  padding: 0 1rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1.8rem;
+  text-align: center;
+
+  @media ${breakpointConfig.tabletS} {
+    font-size: 1.4rem;
   }
 `;
 
@@ -93,6 +116,7 @@ const MultipleTextReminderText = styled.span`
 `;
 
 interface StatisResponseItemProps {
+  index: number;
   type: string;
   id: string;
   title: string;
@@ -101,6 +125,7 @@ interface StatisResponseItemProps {
 }
 
 const renderResponseItemContent = (
+  index: number,
   type: string,
   title: string,
   count: Count,
@@ -132,9 +157,15 @@ const renderResponseItemContent = (
             <>
               <WordCloudWrapper>
                 <StatisWordCloud count={countForChart} />
+                <ChartTitle style={{ marginTop: "0.3rem" }}>
+                  圖{index + 1}-1、{title.split(" ")[0]}-文字雲統計
+                </ChartTitle>
               </WordCloudWrapper>
               <BarWrapper>
                 <StatisBar count={countForChart} />
+                <ChartTitle>
+                  圖{index + 1}-2、{title.split(" ")[0]}-長條圖統計
+                </ChartTitle>
               </BarWrapper>
             </>
           ) : (
@@ -174,9 +205,15 @@ const renderResponseItemContent = (
           </Table>
           <WordCloudWrapper>
             <StatisWordCloud count={countForChart} />
+            <ChartTitle style={{ marginTop: "0.3rem" }}>
+              圖{index + 1}-1、{title.split(" ")[0]}-文字雲統計
+            </ChartTitle>
           </WordCloudWrapper>
           <BarWrapper>
             <StatisBar count={countForChart} />
+            <ChartTitle>
+              圖{index + 1}-2、{title.split(" ")[0]}-長條圖統計
+            </ChartTitle>
           </BarWrapper>
         </>
       );
@@ -196,9 +233,15 @@ const renderResponseItemContent = (
           </Table>
           <PieWrapper>
             <StatisPie count={countForOptionType} />
+            <ChartTitle>
+              圖{index + 1}-1、{title.split(" ")[0]}-圓餅圖統計
+            </ChartTitle>
           </PieWrapper>
           <BarWrapper>
             <StatisBar count={countForOptionType} />
+            <ChartTitle>
+              圖{index + 1}-2、{title.split(" ")[0]}-長條圖統計
+            </ChartTitle>
           </BarWrapper>
         </>
       );
@@ -209,6 +252,7 @@ const renderResponseItemContent = (
 };
 
 const StatisResponseItem: FC<StatisResponseItemProps> = ({
+  index,
   type,
   title,
   count,
@@ -216,7 +260,7 @@ const StatisResponseItem: FC<StatisResponseItemProps> = ({
 }) => {
   return (
     <ItemContainer>
-      {renderResponseItemContent(type, title, count, numericData)}
+      {renderResponseItemContent(index, type, title, count, numericData)}
     </ItemContainer>
   );
 };

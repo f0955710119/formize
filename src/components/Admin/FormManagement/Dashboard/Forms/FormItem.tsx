@@ -14,7 +14,7 @@ const ItemContainer = styled.li<ItemContainerProps>`
   flex-direction: column;
   width: 100%;
   border-bottom: 1px solid rgba(180, 188, 183, 0.15);
-  background-color: rgba(180, 188, 183, 0.2);
+  background-color: #fdd87238;
 `;
 
 const ItemWrapper = styled.div`

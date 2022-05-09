@@ -58,7 +58,8 @@ const ButtonWrapper = styled.button`
   border-radius: 3px;
 
   &:hover {
-    background-color: #646665;
+    color: #555;
+    background-color: #9dbcb9;
   }
 
   @media ${breakpointConfig.tabletS} {
@@ -76,12 +77,14 @@ const ButtonText = styled.span`
 `;
 
 const DeleteButtonWrapper = styled(ButtonWrapper)`
-  background-color: #eee;
+  /* background-color: #eee; */
   margin-right: 1rem;
-  color: #777;
+  background-color: #b4bcb7;
+  color: #fff;
+  transition: color 0.3s;
   &:hover {
-    color: #f78a8a;
-    background-color: #646665;
+    color: #c73030;
+    background-color: #b4bcb7;
   }
 `;
 

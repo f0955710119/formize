@@ -20,6 +20,7 @@ const Admin: NextPage = () => {
   const checkUidInOtherPageHandler = useCheckUid();
   const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);
 
+  
   const fetchAdminData = async (uid: string) => {
     if (uid === "") {
       const isInvalid = await checkUidInOtherPageHandler();
@@ -33,10 +34,11 @@ const Admin: NextPage = () => {
     await initAdminHandler(uid);
     setIsFetchingAdminData(false);
   };
-
+  
   const initAdminHandler = useInitAdminInfo();
   useRouterLoaded(() => fetchAdminData(context.uid));
-
+ 
+  
   return (
     <>
       <Head>

@@ -5,15 +5,16 @@ import useCreateGroup from "../../../../hooks/useCreateGroup";
 import useWindow from "../../../../hooks/useWindow";
 
 const AddGroupWrapper = styled.div`
-  display: none;
+  display: flex;
+  margin: 1rem 0 1.5rem 0;
   align-items: center;
   width: 100%;
   height: 4rem;
-
+  /* 
   @media ${breakpointConfig.laptopS} {
     display: flex;
     margin: 1rem 0 1.5rem 0;
-  }
+  } */
 `;
 
 const AddGroupButton = styled.button`
@@ -24,7 +25,12 @@ const AddGroupButton = styled.button`
   background-color: rgba(180, 188, 183, 1);
   cursor: pointer;
   font-size: 1.4rem;
-  font-weight: bold;
+  /* font-weight: bold; */
+
+  &:hover {
+    color: #fff;
+    background-color: #555;
+  }
 `;
 
 const AddGroupInput = styled.input`
@@ -32,7 +38,7 @@ const AddGroupInput = styled.input`
   width: calc(100% - 12rem);
   height: 4rem;
   border: none;
-  background-color: rgba(180, 188, 183, 0.5);
+  background-color: #dddddd5c;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   &:focus {

@@ -37,7 +37,10 @@ const GroupTag = styled.div`
   padding: 0 4rem;
   line-height: 3rem;
   height: 3rem;
-  background-color: rgba(180, 188, 183, 1);
+  background-color: #c9ab59;
+  color: #fff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 `;
 
 const ResponsedQuantity = styled.span`
@@ -80,7 +83,7 @@ const EmptyListContainer = styled.div`
   height: 6rem;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  background-color: rgba(180, 188, 183, 0.2);
+  background-color: #fdd87238;
 `;
 
 const EmptyListContainerText = styled.span`

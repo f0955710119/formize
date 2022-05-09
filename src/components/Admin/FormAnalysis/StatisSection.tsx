@@ -11,10 +11,10 @@ import adminActionType from "../../../store/actionType/adminActionType";
 
 const hasDataBackgroundStyle = `
   background-image: linear-gradient(
-    rgba(255, 255, 255, 0.8),
-    rgba(255, 255, 255, 0.8)
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.5)
   ),
-  url("/images/main-bg.svg");
+  url("/images/dashboard-background.svg");
   background-size: cover;
 `;
 
@@ -203,10 +203,11 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
           </StatisSectionHeadingForNonDesktop>
         </StatisHeaderForNonDesktop>
         <StatisSectionHeading>問卷標題: {formData?.title}</StatisSectionHeading>
-        {statisData.map((data) => {
+        {statisData.map((data, i) => {
           if (data.numericData) {
             return (
               <StatisResponseItem
+                index={i}
                 key={data.id}
                 id={data.id}
                 title={
@@ -220,6 +221,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
           }
           return (
             <StatisResponseItem
+              index={i}
               key={data.id}
               id={data.id}
               title={data.title + " " + " " + `(${data.hasAnswerQuantityText})`}

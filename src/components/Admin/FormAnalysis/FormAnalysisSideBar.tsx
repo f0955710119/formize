@@ -13,10 +13,11 @@ const SideBar = styled.div`
 
   width: 23rem;
   height: 100%;
-  background-color: rgba(180, 188, 183, 0.298);
-  background-image: url("/images/side-bar-pic.svg");
+  background-color: #ffec9a;
+  background-image: url("/images/group.svg");
   background-repeat: no-repeat;
-  background-position: 0 100%;
+  background-position: 50% 97%;
+  background-size: 70%;
 
   @media ${breakpointConfig.tablet} {
     display: none;

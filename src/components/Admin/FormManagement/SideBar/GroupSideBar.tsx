@@ -17,10 +17,12 @@ const BarContainer = styled.div`
 
   width: 23rem;
   height: 100%;
-  background-color: rgba(180, 188, 183, 0.298);
-  background-image: url("/images/side-bar-pic.svg");
+  background-color: #ffec9a;
+  background-image: url("/images/group.svg");
   background-repeat: no-repeat;
-  background-position: 0 100%;
+  background-position: 50% 97%;
+  background-size: 70%;
+  /* background-blend-mode: luminosity; */
 
   @media ${breakpointConfig.laptopS} {
     display: none;
@@ -92,7 +94,7 @@ const GroupSideBar: FC = () => {
   return (
     <BarContainer>
       <Logo style={{ margin: "2rem 0 2rem 1rem", justifyContent: "start" }} />
-      <ButtonWrapper>
+      {/* <ButtonWrapper>
         <ButtonText
           onClick={() => {
             newGropuInputRef.current !== null &&
@@ -106,7 +108,7 @@ const GroupSideBar: FC = () => {
           placeholder="於此輸入群組名稱後，點擊上方新增"
           ref={newGropuInputRef}
         />
-      </ButtonWrapper>
+      </ButtonWrapper> */}
       <GroupHeading>群組分類</GroupHeading>
       <SideBarButton
         buttonText="總表 (切換群組來新增問卷)"
