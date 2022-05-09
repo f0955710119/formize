@@ -117,6 +117,11 @@ const FormBlankLink = styled.a`
   &:visited {
     color: #333;
   }
+
+  &:hover {
+    color: #fff;
+    background-color: #555;
+  }
 `;
 
 const CopyLinkButton = styled.div`

@@ -1,4 +1,4 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useRef } from "react";
 import styled from "styled-components";
 import { adminContext } from "../../../store/context/adminContext";
 import Logo from "../../UI/Logo";
@@ -8,6 +8,7 @@ import StatisResponseItem from "./StatisResponseItem";
 import scrollBar from "../../UI/scrollBar";
 import breakpointConfig from "../../../configs/breakpointConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
+import questionConfig from "../../../configs/questionConfig";
 
 const hasDataBackgroundStyle = `
   background-image: linear-gradient(
@@ -177,7 +178,11 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
   const formData = context.forms.find(
     (form) => form.id === context.editingFormId
   );
-  console.log(statisData);
+
+  const titleIndex = useRef<number>(0);
+  const currentQuestionId = useRef<string>("default");
+  // let currentQuestionId = "1";
+  // console.log(currentQuestionId);
   return statisData ? (
     <>
       <StatisSectionContainer hasData>
@@ -204,6 +209,14 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
         </StatisHeaderForNonDesktop>
         <StatisSectionHeading>問卷標題: {formData?.title}</StatisSectionHeading>
         {statisData.map((data, i) => {
+          console.log(currentQuestionId.current);
+          if (!data.id.split("_")[0].includes(currentQuestionId.current)) {
+            currentQuestionId.current = data.id.split("_")[0];
+            titleIndex.current++;
+          }
+          const questionTypeTitle = `${titleIndex.current}.${
+            questionConfig[data.type]
+          }題 - `;
           if (data.numericData) {
             return (
               <StatisResponseItem
@@ -211,7 +224,11 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
                 key={data.id}
                 id={data.id}
                 title={
-                  data.title + " " + " " + `(${data.hasAnswerQuantityText})`
+                  questionTypeTitle +
+                  data.title +
+                  " " +
+                  " " +
+                  `(${data.hasAnswerQuantityText})`
                 }
                 type={data.type}
                 count={data.count}
@@ -224,7 +241,13 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
               index={i}
               key={data.id}
               id={data.id}
-              title={data.title + " " + " " + `(${data.hasAnswerQuantityText})`}
+              title={
+                questionTypeTitle +
+                data.title +
+                " " +
+                " " +
+                `(${data.hasAnswerQuantityText})`
+              }
               type={data.type}
               count={data.count}
             />

@@ -53,8 +53,6 @@ const MultiPageFormContainer = styled.section`
   max-width: 90rem;
   width: 100%;
   height: 100vh;
-
-  background-image: url("/images/main-bg.svg");
   background-size: cover;
   background-repeat: no-repeat;
 `;

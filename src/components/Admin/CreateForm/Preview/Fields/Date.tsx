@@ -28,10 +28,86 @@ const CustomTextField = styled(TextField)`
 
 const CustomedCalendar = styled(Calendar)`
   align-self: center;
+
+  & .rdrCalendarWrapper {
+    border-radius: 7px;
+    overflow: hidden;
+    font-family: inherit;
+
+    & * {
+      font-family: inherit;
+    }
+  }
+
+  & .rdrDayToday .rdrDayNumber span:after {
+    background: ${(props) => props.theme.title};
+  }
+
+  & button {
+    color: ${(props) => props.theme.title} !important;
+    & .rdrSelected,
+    & .rdrStartEdge,
+    & .rdrEndEdge,
+    & .rdrInRange {
+      background-color: ${(props) => props.theme.title} !important;
+    }
+  }
+
+  & .rdrDateDisplayItemActive {
+    border: transparent;
+  }
+
+  & .rdrMonthAndYearWrapper {
+    padding-top: 0;
+  }
+
+  & .rdrMonthAndYearWrapper,
+  & .rdrDateDisplayWrapper,
+  & .rdrMonthsVertical {
+    background-color: ${(props) => `${props.theme.option}33`};
+  }
 `;
 
 const CustomedRangeCalendar = styled(DateRange)`
   align-self: center;
+
+  & .rdrCalendarWrapper {
+    border-radius: 7px;
+    overflow: hidden;
+    font-family: inherit;
+
+    & * {
+      font-family: inherit;
+    }
+  }
+
+  & .rdrDayToday .rdrDayNumber span:after {
+    background: ${(props) => props.theme.title};
+  }
+
+  & button {
+    color: ${(props) => props.theme.title} !important;
+    & .rdrSelected,
+    & .rdrStartEdge,
+    & .rdrEndEdge,
+    & .rdrInRange {
+      background-color: ${(props) => props.theme.title} !important;
+    }
+  }
+
+  & .rdrDateDisplayItemActive {
+    border: transparent;
+  }
+
+  & .rdrMonthAndYearWrapper {
+    padding-top: 0;
+  }
+
+  & .rdrMonthAndYearWrapper,
+  & .rdrDateDisplayWrapper,
+  & .rdrMonthsVertical {
+    background-color: ${(props) => `${props.theme.option}33`};
+  }
 `;
 
 const CustomedDateTextInput = styled(TextField)`

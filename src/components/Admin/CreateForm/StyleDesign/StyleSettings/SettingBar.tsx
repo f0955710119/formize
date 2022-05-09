@@ -20,6 +20,7 @@ import type { Styles } from "../../../../../types/form";
 import type { Question } from "../../../../../types/question";
 import { adminContext } from "../../../../../store/context/adminContext";
 import { SettingContext } from "../../../../../store/context/settingContext";
+import styleConfig from "../../../../../configs/styleConfig";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -165,9 +166,22 @@ const ButtonText = styled.span`
 
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
 const defaultThemeList = helper.generateStyleKeys("_NAME");
+const defaultThemeImages = [
+  process.env.NEXT_PUBLIC_ORIGIN + "/images/peace-ground.svg",
+  process.env.NEXT_PUBLIC_ORIGIN + "/images/happy-yellow.svg",
+  process.env.NEXT_PUBLIC_ORIGIN + "/images/fall-forest.svg",
+];
 const defaultFontList = helper.generateStyleKeys("_FONT");
+const defaultFont = [
+  styleConfig.OPENHUNNINN,
+  styleConfig.HANAMINA,
+  styleConfig.TAIPEISANSTCBOLD,
+];
 const defaultBackgroundList = Object.keys(backgroundConfig)
   .filter((key) => key.includes("_"))
+  .map((key) => backgroundConfig[key]);
+const defaultBackgroundUrl = Object.keys(backgroundConfig)
+  .filter((key) => !key.includes("_"))
   .map((key) => backgroundConfig[key]);
 
 const SettingBar: FC = () => {
@@ -211,6 +225,7 @@ const SettingBar: FC = () => {
         <CardContainer>
           {defaultThemeList.map((themeTitle, i) => (
             <Card
+              imageUrl={defaultThemeImages[i]}
               title={themeTitle}
               key={i}
               dispatchHandler={switchStyleHandler}
@@ -224,6 +239,7 @@ const SettingBar: FC = () => {
             <Card
               title={fontTitle}
               key={i}
+              font={defaultFont[i]}
               dispatchHandler={switchStyleHandler}
             />
           ))}
@@ -232,19 +248,33 @@ const SettingBar: FC = () => {
       {stylingOption === 2 && (
         <BackGroundContainer>
           <BackgroundContainerTitle>預設圖檔</BackgroundContainerTitle>
-          <BackgroundCardContainer>
+          <BackgroundCardContainer style={{ height: "70rem" }}>
             {defaultBackgroundList.map((Background, i) => {
               return (
                 <Card
                   title={Background}
                   key={i}
                   dispatchHandler={switchStyleHandler}
+                  imageUrl={defaultBackgroundUrl[i]}
+                  isBackground
                 />
               );
             })}
           </BackgroundCardContainer>
-          <BackgroundContainerTitle>上傳自訂</BackgroundContainerTitle>
-          <BackgroundCardContainer></BackgroundCardContainer>
+          {/* <BackgroundContainerTitle>上傳自訂</BackgroundContainerTitle>
+          <BackgroundCardContainer style={{ justifyItems: "center" }}>
+            <div
+              style={{
+                backgroundColor: "#ddd",
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                lineHeight: "25rem",
+              }}
+            >
+              (待上線功能)
+            </div>
+          </BackgroundCardContainer> */}
         </BackGroundContainer>
       )}
       <ButtonWrapper

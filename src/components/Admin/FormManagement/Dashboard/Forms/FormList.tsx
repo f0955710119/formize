@@ -35,8 +35,9 @@ const GroupTagWrapper = styled.div`
 const GroupTag = styled.div`
   display: inline-block;
   padding: 0 4rem;
-  line-height: 3rem;
-  height: 3rem;
+  height: 4rem;
+  line-height: 4rem;
+  font-size: 1.6rem;
   background-color: #c9ab59;
   color: #fff;
   border-top-left-radius: 5px;

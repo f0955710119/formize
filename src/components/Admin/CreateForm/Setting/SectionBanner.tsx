@@ -1,5 +1,6 @@
 import { FC, useContext } from "react";
 import styled from "styled-components";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
 
 import SectionWrapper from "../UI/Section";
 import SectionHeading from "../UI/SectionHeading";
@@ -11,6 +12,7 @@ import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { settingActions } from "../../../../store/slice/settingSlice";
 import settingActionType from "../../../../store/actionType/settingActionType";
 import { settingContext } from "../../../../store/context/settingContext";
+import scrollBar from "../../../UI/scrollBar";
 
 const BannerField = styled(Field)`
   height: 39rem;
@@ -28,6 +30,23 @@ const ImageLabel = styled(Label)`
   height: 100%;
   background-color: #eee;
   z-index: 1;
+`;
+
+const CustomTextareaAutosize = styled(TextareaAutosize)`
+  padding: 1rem;
+  width: calc(100% - 12rem);
+  border: 1px solid #aaa;
+  border-radius: 0px;
+  font-size: 1.8rem;
+  resize: none;
+  /* background-color: transparent; */
+  ${scrollBar}
+  /* &::-webkit-scrollbar {
+    display: none;
+  } */
+  &:focus {
+    outline: none;
+  }
 `;
 
 const TexteraInput = styled(Input)`
@@ -99,8 +118,9 @@ const SectionBanner: FC = () => {
           <br />
           <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>限250字</span>
         </Label>
-        <TexteraInput
-          type="text"
+        <CustomTextareaAutosize
+          minRows={5}
+          maxRows={5}
           onChange={(event) => {
             dispatch(
               settingActions.updateSingleSettingInput({
@@ -157,8 +177,9 @@ const SectionBanner: FC = () => {
           <br />
           <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>限250字</span>
         </Label>
-        <TexteraInput
-          type="text"
+        <CustomTextareaAutosize
+          minRows={5}
+          maxRows={5}
           onChange={(event) => {
             dispatch(
               settingActions.updateSingleSettingInput({

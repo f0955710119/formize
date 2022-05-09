@@ -131,6 +131,7 @@ const renderResponseItemContent = (
   count: Count,
   numericData?: StringKeyObject
 ) => {
+  const chartTitleWithQuestionTitle = title.split("- ")[1].split(" ")[0];
   switch (type) {
     case "0":
     case "1":
@@ -158,13 +159,13 @@ const renderResponseItemContent = (
               <WordCloudWrapper>
                 <StatisWordCloud count={countForChart} />
                 <ChartTitle style={{ marginTop: "0.3rem" }}>
-                  圖{index + 1}-1、{title.split(" ")[0]}-文字雲統計
+                  圖{index + 1}-1、{chartTitleWithQuestionTitle}-文字雲統計
                 </ChartTitle>
               </WordCloudWrapper>
               <BarWrapper>
                 <StatisBar count={countForChart} />
                 <ChartTitle style={{ transform: "translateX(2rem)" }}>
-                  圖{index + 1}-2、{title.split(" ")[0]}-長條圖統計
+                  圖{index + 1}-2、{chartTitleWithQuestionTitle}-長條圖統計
                 </ChartTitle>
               </BarWrapper>
             </>
@@ -206,13 +207,13 @@ const renderResponseItemContent = (
           <WordCloudWrapper>
             <StatisWordCloud count={countForChart} />
             <ChartTitle style={{ marginTop: "0.3rem" }}>
-              圖{index + 1}-1、{title.split(" ")[0]}-文字雲統計
+              圖{index + 1}-1、{chartTitleWithQuestionTitle}-文字雲統計
             </ChartTitle>
           </WordCloudWrapper>
           <BarWrapper>
             <StatisBar count={countForChart} />
             <ChartTitle style={{ transform: "translateX(2rem)" }}>
-              圖{index + 1}-2、{title.split(" ")[0]}-長條圖統計
+              圖{index + 1}-2、{chartTitleWithQuestionTitle}-長條圖統計
             </ChartTitle>
           </BarWrapper>
         </>
@@ -234,13 +235,13 @@ const renderResponseItemContent = (
           <PieWrapper>
             <StatisPie count={countForOptionType} />
             <ChartTitle>
-              圖{index + 1}-1、{title.split(" ")[0]}-圓餅圖統計
+              圖{index + 1}-1、{chartTitleWithQuestionTitle}-圓餅圖統計
             </ChartTitle>
           </PieWrapper>
           <BarWrapper>
             <StatisBar count={countForOptionType} />
             <ChartTitle style={{ transform: "translateX(2rem)" }}>
-              圖{index + 1}-2、{title.split(" ")[0]}-長條圖統計
+              圖{index + 1}-2、{chartTitleWithQuestionTitle}-長條圖統計
             </ChartTitle>
           </BarWrapper>
         </>

@@ -29,11 +29,11 @@ const FlexAlignCenter = styled.div`
     width: 60%;
     align-items: end;
   }
-
+  & .css-8mqz1p-MuiButtonBase-root-MuiRadio-root,
   & .css-1snu36k-MuiButtonBase-root-MuiRadio-root {
     width: 8rem;
   }
-
+  & .css-8mqz1p-MuiButtonBase-root-MuiRadio-root:hover,
   & .css-1snu36k-MuiButtonBase-root-MuiRadio-root:hover {
     background-color: transparent;
   }

@@ -75,6 +75,9 @@ const MultiPageMain = styled.main<MainProps>`
     return `${styleConfig[fontKey]}`;
   }};
 
+  background-image: ${(props) => `url(${props.backgroundImage})`};
+  background-size: cover;
+
   overflow: hidden;
 `;
 
@@ -123,7 +126,6 @@ const Form: FC<FormProps> = ({
           >
             {navigatePage === 0 ? (
               <>
-                {" "}
                 <PageSection
                   isStartPage
                   title={settings.title}

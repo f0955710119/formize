@@ -11,9 +11,9 @@ interface Themes {
 const themes: Themes = {
   main: {
     title: "#381D2A",
-    note: "#FFA552",
+    note: "#BA5624",
     placeholder: "#c8c8c8",
-    option: "#C4D6B0",
+    option: "#FFA552",
     matrix: "#C4D6B0",
     optionClicked: "#BA5624",
     addOption: "#FCDE9C",
