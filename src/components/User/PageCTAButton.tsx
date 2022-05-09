@@ -12,11 +12,8 @@ const ButtonWrapper = styled.button`
   font-size: 1.5rem;
   color: #fff;
   text-align: center;
-  background-color: #5d6b65;
+  background-color: ${(props) => props.theme.title};
   cursor: pointer;
-  &:hover {
-    background-color: #374941;
-  }
 `;
 
 interface PageCTAButtonProps {

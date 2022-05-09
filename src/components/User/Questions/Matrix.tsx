@@ -1,14 +1,18 @@
-import { FC, useState } from "react";
+import { FC, Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
+
+import { CustomIcon, CustomCheckedIcon } from "./ChoiceIcon/icon";
+
+import { useAppSelector } from "../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { userActions } from "../../../store/slice/userSlice";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import helper from "../../../utils/helper";
-import { useAppSelector } from "../../../hooks/useAppSelector";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const MatrixWrapper = styled.div`
   display: flex;
@@ -20,6 +24,19 @@ const FlexAlignCenter = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+
+  & .css-1nrlq1o-MuiFormControl-root {
+    width: 60%;
+    align-items: end;
+  }
+
+  & .css-1snu36k-MuiButtonBase-root-MuiRadio-root {
+    width: 8rem;
+  }
+
+  & .css-1snu36k-MuiButtonBase-root-MuiRadio-root:hover {
+    background-color: transparent;
+  }
 `;
 
 const MatrixTitleWrapper = styled(FlexAlignCenter)`
@@ -28,9 +45,24 @@ const MatrixTitleWrapper = styled(FlexAlignCenter)`
   width: 100%;
 `;
 
+const MartixTitle = styled.span`
+  margin: 0 0.5rem;
+  width: 7rem;
+  font-size: 1.4rem;
+  text-align: center;
+`;
+
 const MatrixOptions = styled(FlexAlignCenter)`
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid ${(props) => `${props.theme.option}`};
+`;
+
+const MatrixOption = styled.span`
+  width: 40%;
+  font-size: 1.7rem;
+  color: ${(props) => props.theme.title};
 `;
 
 interface MatrixRadioProps {
@@ -46,7 +78,11 @@ const MatrixRadio: FC<MatrixRadioProps> = ({
 }: MatrixRadioProps) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const questionIdIndex = useGetQuestionIdIndex(`${questionId}_${optionIndex}`);
+  const existingInput = answers[questionIdIndex]
+    ? answers[questionIdIndex].input
+    : "";
 
   return (
     <FormControl>
@@ -57,15 +93,19 @@ const MatrixRadio: FC<MatrixRadioProps> = ({
         onChange={(event) => {
           const input = event.target.value;
           dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+          showInvalidHandler("");
         }}
       >
         {matrixs.map((matrix) => (
           <Radio
+            disableRipple
+            icon={<CustomIcon />}
+            checkedIcon={<CustomCheckedIcon />}
             key={helper.generateId(8)}
             value={matrix}
             name="question-radio-buttons"
             inputProps={{ "aria-label": `value-${matrix}` }}
-            checked={answers[questionIdIndex].input === matrix}
+            checked={existingInput === matrix}
           />
         ))}
       </RadioGroup>
@@ -88,12 +128,12 @@ const matrix: FC<MatrixProps> = ({
     <MatrixWrapper>
       <MatrixTitleWrapper>
         {matrixs.map((matrix, i) => (
-          <span key={i}>{matrix}</span>
+          <MartixTitle key={i}>{matrix}</MartixTitle>
         ))}
       </MatrixTitleWrapper>
       {options.map((option, i) => (
         <MatrixOptions key={i}>
-          <span key={i}>{option}</span>
+          <MatrixOption key={i}>{option}</MatrixOption>
           <MatrixRadio
             optionIndex={i}
             matrixs={matrixs}

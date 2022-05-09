@@ -22,7 +22,7 @@ const DashboardWrapper = styled.div`
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5)
     ),
-    url("/images/main-bg.svg");
+    url("/images/dashboard-background.svg");
   background-repeat: no-repeat;
   background-size: cover;
 

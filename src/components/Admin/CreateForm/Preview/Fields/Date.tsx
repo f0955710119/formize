@@ -80,7 +80,7 @@ const Date: FC<DateProps> = ({ id }: DateProps) => {
 
   return isMultipleDate ? (
     <>
-      <CustomedDateTextInput
+      {/* <CustomedDateTextInput
         type="text"
         variant="standard"
         placeholder={`開始日期，如: ${helper.generateDate()}`}
@@ -89,7 +89,7 @@ const Date: FC<DateProps> = ({ id }: DateProps) => {
         type="text"
         variant="standard"
         placeholder={`結束日期，如: ${helper.generateDate(false)}`}
-      />
+      /> */}
       <CustomedRangeCalendar
         locale={zhTW}
         date={currentDate}
@@ -122,11 +122,11 @@ const Date: FC<DateProps> = ({ id }: DateProps) => {
     </>
   ) : (
     <>
-      <CustomedDateTextInput
+      {/* <CustomedDateTextInput
         type="text"
         variant="standard"
         placeholder={`如: ${helper.generateDate()}`}
-      />
+      /> */}
       <CustomedCalendar
         locale={zhTW}
         minDate={

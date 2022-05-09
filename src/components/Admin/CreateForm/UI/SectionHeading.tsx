@@ -4,19 +4,22 @@ import styled from "styled-components";
 export const Heading = styled.div`
   margin-bottom: 3rem;
   padding-bottom: 1rem;
-  font-size: 1.6rem;
-  color: #6e917bd6;
-  border-bottom: 0.1px solid #6e917bd6;
+  font-size: 1.8rem;
+  color: #c9ab59;
+  /* font-weight: bold; */
+  border-bottom: 2px solid #c9ab59;
 `;
 
 interface SectionHeadingProps {
   children: ReactNode;
+  className?: string;
 }
 
 const SectionHeading: FC<SectionHeadingProps> = ({
   children,
+  className,
 }: SectionHeadingProps) => {
-  return <Heading>{children}</Heading>;
+  return <Heading className={className}>{children}</Heading>;
 };
 
 export default SectionHeading;

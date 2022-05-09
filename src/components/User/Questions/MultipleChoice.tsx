@@ -1,4 +1,13 @@
-import { FC, useState, useEffect, useRef, ChangeEvent } from "react";
+import {
+  FC,
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+  useRef,
+  ChangeEvent,
+} from "react";
+import styled from "styled-components";
 
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
@@ -8,6 +17,35 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";
+
+import {
+  CustomIcon,
+  CustomCheckedIcon,
+  CustomFormLabel,
+} from "./ChoiceIcon/icon";
+import { useAppSelector } from "../../../hooks/useAppSelector";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
+
+const CustomFormControl = styled(FormControl)`
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+
+  & .css-ahj2mt-MuiTypography-root {
+    margin-left: 1rem;
+    font-family: inherit;
+    font-size: 1.8rem;
+  }
+
+  & .css-j204z7-MuiFormControlLabel-root {
+    margin-right: 0;
+    width: 100%;
+  }
+`;
+
+const CustomFormGroup = styled(FormGroup)`
+  align-items: end;
+`;
 
 interface MultipleChoiceProps {
   options: string[];
@@ -21,20 +59,49 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
   questionId,
 }) => {
   const dispatch = useAppDispatch();
+  const { answers } = useAppSelector((state) => state.user);
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
+  const existingInput = answers[questionIdIndex]
+    ? answers[questionIdIndex].input
+    : "";
+
   const [isValid, setIsValid] = useState(() => {
     const existedOption: {
       [key: string]: boolean;
     } = {};
 
-    options.forEach((option) => {
+    options.forEach((option, i) => {
+      if (!existingInput) {
+        existedOption[option] = false;
+        return;
+      }
+      if (existingInput.includes(`${i + 1}.`)) {
+        existedOption[option] = true;
+        return;
+      }
       existedOption[option] = false;
     });
     return existedOption;
   });
-  const [selectedOptions, setSelectedOptions] = useState<string[]>(
-    Array(options.length).fill("")
-  );
+
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(() => {
+    const selectedArray: string[] = [];
+
+    if (!existingInput) {
+      return Array(options.length).fill("");
+    }
+    options.forEach((option, i) => {
+      const existingOptionValue = `${i + 1}.${option}\n`;
+      if (existingInput.includes(existingOptionValue)) {
+        selectedArray[i] = existingOptionValue;
+        return;
+      }
+      selectedArray[i] = "";
+    });
+
+    return selectedArray;
+  });
 
   const isDidMount = useRef<boolean>(true);
   const optionValue = Object.values(isValid);
@@ -65,30 +132,35 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
       isDidMount.current = false;
       return;
     }
-
-    if (error) return;
+    const input =
+      selectedOptions.join("") === "" ? null : selectedOptions.join("");
     dispatch(
       userActions.updateFormAnswer({
         questionIdIndex,
-        input: selectedOptions.join(""),
+        input,
       })
     );
+
+    if (error) {
+      showInvalidHandler(`最多只能選擇${maxSelected}個選項!`);
+      return;
+    }
+
+    showInvalidHandler("");
   }, [selectedOptions]);
 
   return (
-    <FormControl
-      required
-      error={error}
-      component="fieldset"
-      sx={{ m: 3 }}
-      variant="standard"
-    >
-      <FormGroup>
+    <CustomFormControl required error={error} variant="standard">
+      <CustomFormGroup>
         {options.map((option, i) => (
-          <FormControlLabel
+          <CustomFormLabel
+            active={optionValue[i] ? "true" : "false"}
             key={i}
             control={
               <Checkbox
+                disableRipple
+                icon={<CustomIcon />}
+                checkedIcon={<CustomCheckedIcon />}
                 checked={optionValue[i]}
                 onChange={checkSelectedOptionNumberHandler}
                 name={option}
@@ -98,11 +170,8 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
             label={option}
           />
         ))}
-      </FormGroup>
-      {error && (
-        <FormHelperText>最多只能選擇{maxSelected}個選項!</FormHelperText>
-      )}
-    </FormControl>
+      </CustomFormGroup>
+    </CustomFormControl>
   );
 };
 

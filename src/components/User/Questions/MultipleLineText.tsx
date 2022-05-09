@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { userActions } from "../../../store/slice/userSlice";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import useResetInputValue from "../../../hooks/useResetInputValue";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 
 // prettier-ignore
 const CustomTextareaAutosize = styled(TextField)`
@@ -31,31 +32,30 @@ interface MultiLineTextProps {
 }
 
 const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
-  const {
-    invalidMessage,
-    setInvalidMessage,
-    isInvalid,
-    setIsInvalid,
-    showInvalidHandler,
-  } = useCheckAnswerValid();
-
+  const { answers } = useAppSelector((state) => state.user);
   const validTimerHandler = useCheckValidTimer();
   const dispatch = useAppDispatch();
   const questionIdIndex = useGetQuestionIdIndex(questionId);
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const resetInputHandler = useResetInputValue();
+
+  const [inputDispaly, setInputDisplay] = useState<string>(() => {
+    if (!answers[questionIdIndex]) return "";
+    const { input } = answers[questionIdIndex];
+    if (input === null) return "";
+    return input;
+  });
 
   return (
     <CustomTextareaAutosize
-      error={isInvalid}
-      // isValid={isInvalid}
+      value={inputDispaly}
       minRows={5}
       maxRows={maxLength ? Math.round(maxLength / 100) * 5 : 10}
       multiline
       onChange={(event) => {
         const input = event.target.value;
+        setInputDisplay(input);
         validTimerHandler(() => {
-          setIsInvalid(false);
-          setInvalidMessage("");
           const hasMaxLengthInvalid =
             maxLength && event.target.value.length > maxLength;
 
@@ -64,14 +64,15 @@ const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
             return;
           }
 
-          if (!hasMaxLengthInvalid) {
-            dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+          dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+
+          if (hasMaxLengthInvalid) {
+            showInvalidHandler(`不能超過${maxLength}字`);
             return;
           }
-          showInvalidHandler(`不能超過${maxLength}字`);
+          showInvalidHandler("");
         }, 300);
       }}
-      helperText={invalidMessage}
     />
   );
 };

@@ -18,6 +18,7 @@ const HeaderContainer = styled.header`
 const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
 const ChangeEditingGroupSelectForBiggerDevice = styled(

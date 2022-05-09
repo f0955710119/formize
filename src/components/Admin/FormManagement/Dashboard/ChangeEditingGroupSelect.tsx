@@ -4,7 +4,7 @@ import adminActionType from "../../../../store/actionType/adminActionType";
 import { adminContext } from "../../../../store/context/adminContext";
 
 const EditingGroupTagWrapper = styled.div`
-  width: 20rem;
+  width: 34.2%;
   height: 3.2rem;
   border-radius: 3px;
 `;

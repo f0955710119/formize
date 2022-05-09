@@ -12,6 +12,7 @@ import useInitNewForm from "../../../../hooks/useInitNewForm";
 import { adminContext } from "../../../../store/context/adminContext";
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useInitAdminInfo from "../../../../hooks/useInitAdminInfo";
+import adminActionType from "../../../../store/actionType/adminActionType";
 
 const defalutStatusOptions = ["公開", "待上線", "保護", "額滿", "關閉"];
 const defalutDateOptions = ["最新創建", "最舊創建", "最新回覆", "最舊創建"];
@@ -58,7 +59,8 @@ const ButtonWrapper = styled.button`
   border-radius: 3px;
 
   &:hover {
-    background-color: #646665;
+    color: #555;
+    background-color: #9dbcb9;
   }
 
   @media ${breakpointConfig.tabletS} {
@@ -76,12 +78,13 @@ const ButtonText = styled.span`
 `;
 
 const DeleteButtonWrapper = styled(ButtonWrapper)`
-  background-color: #eee;
   margin-right: 1rem;
-  color: #777;
+  background-color: #b4bcb7;
+  color: #fff;
+  transition: color 0.3s;
   &:hover {
-    color: #f78a8a;
-    background-color: #646665;
+    color: #c73030;
+    background-color: #b4bcb7;
   }
 `;
 
@@ -144,7 +147,7 @@ const DashboardSubHeader: FC = () => {
   return (
     <HeaderWrapper>
       <FilterWrapper>
-        <FormControl>
+        {/* <FormControl>
           <CustomFormHelperText>選擇問卷狀態</CustomFormHelperText>
           <CustomSelect>
             {defalutStatusOptions.map((status, i) => (
@@ -164,9 +167,7 @@ const DashboardSubHeader: FC = () => {
               </option>
             ))}
           </CustomSelect>
-        </FormControl>
-
-        {/* <DisplayButtonGroup /> */}
+        </FormControl> */}
       </FilterWrapper>
       {context.editingGroupId !== "0" && (
         <>

@@ -3,8 +3,8 @@ import WordCloud from "react-d3-cloud";
 import useWindow from "../../../../hooks/useWindow";
 import { NonTextCount } from "../../../../types/statis";
 
-const COLORS = ["#555", "#666", "#7e8480", "#a2a9a5", "#b4bcb7"];
-
+// const COLORS = ["#555", "#666", "#7e8480", "#a2a9a5", "#b4bcb7"];
+const COLORS = ["#19160b", "#332b17", "#7f6c39", "#988244", "#988244"];
 interface StatisWordCloudProps {
   count: NonTextCount[];
 }
@@ -38,7 +38,7 @@ const StatisWordCloud: FC<StatisWordCloudProps> = ({ count }) => {
       fontSize={fontSize}
       rotate={rotate}
       padding={2}
-      // fill={COLORS[Math.round(Math.random() * 5)]}
+      fill={COLORS[Math.round(Math.random() * 4)]}
     />
   );
 };

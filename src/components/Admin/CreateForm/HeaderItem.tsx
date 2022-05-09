@@ -12,9 +12,10 @@ const ItemWrapper = styled.div<ItemWrapperProps>`
   display: flex;
   align-items: center;
   color: ${(props) =>
-    props.currentStep === props.number ? "#6e917bd6" : "#333"};
-  font-weight: ${(props) =>
-    props.currentStep === props.number ? "bold" : "normal"};
+    props.currentStep === props.number ? "#e9b014" : "#333"};
+  font-weight: normal;
+  /* font-weight: ${(props) =>
+    props.currentStep === props.number ? "bold" : "normal"}; */
   transition: color 0.3s;
 `;
 
@@ -45,7 +46,7 @@ interface TitleTextProps {
 }
 
 const TitleText = styled.span<TitleTextProps>`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   cursor: pointer;
 
   @media ${breakpointConfig.laptopS} {

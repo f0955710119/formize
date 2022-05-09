@@ -1,10 +1,12 @@
-import { ChangeEventHandler, FC } from "react";
+import { FC, Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import UISlider from "@mui/material/Slider";
 import useCheckValidTimer from "../../../hooks/useCheckValidTimer";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";
+import { useAppSelector } from "../../../hooks/useAppSelector";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const SliderWrapper = styled.div`
   display: flex;
@@ -25,6 +27,7 @@ const CustomSlider = styled(UISlider)`
 
 interface SliderProps {
   questionId: string;
+
   min?: number;
   max?: number;
   unit?: string;
@@ -40,30 +43,49 @@ const Slider: FC<SliderProps> = ({
   interval,
 }: SliderProps) => {
   const dispatch = useAppDispatch();
-  const hasMax = max ? max : 100;
-  const hasMin = min ? min : 1;
+  const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
   const checkValidTimerHandler = useCheckValidTimer();
+  const showInvalidHandler = useCheckAnswerValid(questionId);
+
+  const hasMax = max ? max : 100;
+  const hasMin = min ? min : 1;
+
+  const [inputDispaly, setInputDisplay] = useState<number>(() => {
+    if (!answers[questionIdIndex]) return hasMin;
+    const { input } = answers[questionIdIndex];
+    if (input === null) return hasMin;
+    return +input;
+  });
+
   const changeSliderHandler = (event: Event) => {
+    const { value } = event.target as HTMLInputElement;
+    setInputDisplay(+value);
+    const input = "" + value;
+    dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+
     checkValidTimerHandler(() => {
       if (!event.target) return;
-      const { value } = event.target as HTMLInputElement;
-      const input = "" + value;
-      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+      showInvalidHandler("");
     }, 500);
   };
+
   return (
     <SliderWrapper>
-      <span>{unit ? hasMin + unit : hasMin}</span>
+      <span style={{ marginRight: "2rem" }}>
+        {unit ? hasMin + unit : hasMin}
+      </span>
       <CustomSlider
-        defaultValue={30}
+        value={inputDispaly}
         step={interval ? interval : 1}
         min={hasMin}
         max={hasMax}
         valueLabelDisplay="auto"
         onChange={changeSliderHandler}
       />
-      <span>{unit ? hasMax + unit : hasMax}</span>
+      <span style={{ marginLeft: "2rem" }}>
+        {unit ? hasMax + unit : hasMax}
+      </span>
     </SliderWrapper>
   );
 };

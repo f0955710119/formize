@@ -1,4 +1,12 @@
-import { FC, ChangeEventHandler } from "react";
+import {
+  FC,
+  ChangeEventHandler,
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
@@ -37,21 +45,23 @@ const OneLineText: FC<OneLineTextProps> = ({
   decimal,
 }: OneLineTextProps) => {
   const dispatch = useAppDispatch();
-  const {
-    invalidMessage,
-    setInvalidMessage,
-    isInvalid,
-    setIsInvalid,
-    showInvalidHandler,
-  } = useCheckAnswerValid();
+
+  const { answers } = useAppSelector((state) => state.user);
   const checkValidTimerHandler = useCheckValidTimer();
+  const showInvalidHandler = useCheckAnswerValid(questionId);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
   const resetInputHandler = useResetInputValue();
 
+  const [inputDispaly, setInputDisplay] = useState<string>(() => {
+    if (!answers[questionIdIndex]) return "";
+    const { input } = answers[questionIdIndex];
+    if (input === null) return "";
+    return input;
+  });
+
   const textChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setInputDisplay(event.target.value);
     checkValidTimerHandler(() => {
-      setIsInvalid(false);
-      setInvalidMessage("");
       const input = event.target.value;
       const hasLengthInvalid = length && input.length > length;
 
@@ -60,18 +70,19 @@ const OneLineText: FC<OneLineTextProps> = ({
         return;
       }
 
-      if (!hasLengthInvalid) {
-        dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+
+      if (hasLengthInvalid) {
+        showInvalidHandler(`字數不能超過${length}字`);
         return;
       }
-      showInvalidHandler(`字數不能超過${length}字`);
+      showInvalidHandler("");
     }, 300);
   };
 
   const numberChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setInputDisplay(event.target.value);
     checkValidTimerHandler(() => {
-      setIsInvalid(false);
-      setInvalidMessage("");
       const input = event.target.value;
       const hasMaxInvalid = max && +input > max;
       const hasMinInvalid = min && +input < min;
@@ -84,6 +95,8 @@ const OneLineText: FC<OneLineTextProps> = ({
         resetInputHandler(questionIdIndex);
         return;
       }
+
+      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
 
       if (hasMaxInvalid) {
         showInvalidHandler(`數值不能大於${max}`);
@@ -101,18 +114,16 @@ const OneLineText: FC<OneLineTextProps> = ({
         showInvalidHandler(errorMessage);
         return;
       }
-
-      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+      showInvalidHandler("");
     }, 300);
   };
   return (
     <CustomedTextField
-      error={isInvalid}
+      value={inputDispaly}
       variant="standard"
       type={textType}
       autoComplete="off"
       onChange={textType === "text" ? textChangeHandler : numberChangeHandler}
-      helperText={invalidMessage}
     />
   );
 };

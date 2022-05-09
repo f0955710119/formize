@@ -3,7 +3,6 @@ import type { Forms } from "../../../../src/types/form";
 import firebase from "../../../../src/utils/firebase";
 import firestoreCollectionCongfig from "../../../../src/configs/firestoreCollectionConfig";
 import helper from "../../../../src/utils/helper";
-import { Question } from "../../../../src/types/question";
 import { Answer, Table } from "../../../../src/types/responses";
 
 const dotenv = require("dotenv");

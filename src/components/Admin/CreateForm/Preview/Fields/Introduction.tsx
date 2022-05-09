@@ -5,6 +5,7 @@ import questionActionType from "../../../../../store/actionType/questionActionTy
 import styled from "styled-components";
 import Field from "../UI/Field";
 import { TextareaAutosize } from "@mui/material";
+import { ButtonWrapper, ButtonText } from "../UI/Button";
 
 const Heading = styled.div`
   width: 100%;
@@ -29,10 +30,32 @@ const CustomTextareaAutosize = styled(TextareaAutosize)`
   width: 100%;
   border: none;
   border-radius: 0px;
+  font-size: 1.8rem;
   resize: none;
+  /* background-color: transparent; */
 
   &:focus {
     outline: none;
+  }
+`;
+
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: end;
+  width: 15rem;
+  height: 3rem;
+  margin-top: 1rem;
+  text-align: center;
+  line-height: 3rem;
+  border-radius: 5px;
+  color: #777;
+  background-color: #ccc;
+
+  &:hover {
+    color: #fff;
+    background-color: #333;
   }
 `;
 
@@ -70,8 +93,8 @@ const Introduction: FC<IntroductionProps> = ({
             minRows={3}
             onChange={(event) => setEditingIntroduction(event.target.value)}
           />
-          <button onClick={saveUpdateIntroductionHandler}>儲存</button>
-          <button onClick={() => setHasClickedIntroduction(false)}>取消</button>
+          <Button onClick={saveUpdateIntroductionHandler}>儲存</Button>
+          <Button onClick={() => setHasClickedIntroduction(false)}>取消</Button>
         </>
       ) : (
         <Heading onClick={() => setHasClickedIntroduction(true)}>

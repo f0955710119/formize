@@ -22,7 +22,7 @@ const StatisBar: FC<StatisBarProps> = ({ count }) => {
         <YAxis yAxisId="left" orientation="left" stroke="#8e9aa2" />
         <Tooltip />
         <Legend verticalAlign="top" height={60} />
-        <Bar yAxisId="left" dataKey="value" fill="#b4bcb7" barSize={50} />
+        <Bar yAxisId="left" dataKey="value" fill="#fddc80b3" barSize={50} />
       </BarChart>
     </ResponsiveContainer>
   );

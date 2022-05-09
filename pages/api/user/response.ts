@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
-import { Answer } from "../../../src/types/responses";
 import firebase from "../../../src/utils/firebase";
 import helper from "../../../src/utils/helper";
 

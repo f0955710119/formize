@@ -53,14 +53,14 @@ const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
           text="統計分析"
           clickHandler={() => goToAnalysisPageHandler(0, formId)}
         />
-        <FeatureButton
+        {/* <FeatureButton
           text="明細匯出"
           clickHandler={() => goToAnalysisPageHandler(1, formId)}
         />
         <FeatureButton
           text="訪問紀錄"
           clickHandler={() => goToAnalysisPageHandler(2, formId)}
-        />
+        /> */}
         {/* <FeatureButton text="建立子問卷" /> */}
       </FormItemExpandFeatureList>
     </FormItemExpandContainer>

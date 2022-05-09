@@ -2,7 +2,9 @@ import { createGlobalStyle } from "styled-components";
 import type { AppProps } from "next/app";
 import { store } from "../src/store";
 import { Provider } from "react-redux";
-import { adminContext, AdminProvider } from "../src/store/context/adminContext";
+import { AdminProvider } from "../src/store/context/adminContext";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -75,6 +77,15 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  useEffect(() => {
+    router.events.on("routeChangeStart", () => {
+      console.log("test");
+    });
+    router.events.on("routeChangeComplete", () => {
+      console.log("test end");
+    });
+  }, []);
   return (
     <Provider store={store}>
       <AdminProvider>

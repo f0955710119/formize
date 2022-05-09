@@ -1,7 +1,5 @@
 import { FC } from "react";
 import styled from "styled-components";
-
-import { ContentWrapper } from "./style";
 import type { NonTextCount } from "../../../../types/statis";
 
 const NonTextContentWrapper = styled.div`

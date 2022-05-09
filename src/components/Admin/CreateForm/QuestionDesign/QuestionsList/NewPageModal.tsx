@@ -95,6 +95,8 @@ const NewPageModal: FC<NewPageModalProps> = ({
       {toggleNewPageQuestion === "left" ? (
         <FormControl fullWidth>
           <Select
+            sx={{ fontSize: "1.6rem" }}
+            color="primary"
             value={selectedNewQuestion}
             onChange={(event) => {
               setSelectedNewQuestion(event.target.value);

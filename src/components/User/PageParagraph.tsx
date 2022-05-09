@@ -4,7 +4,7 @@ import styled from "styled-components";
 const PageParagraphWrapper = styled.textarea`
   width: 100%;
   color: ${(props) => props.theme.title};
-  font-size: 1.8rem;
+  font-size: 2rem;
   line-height: 1.38;
   white-space: pre-line;
   margin: 2rem auto 0 0;
