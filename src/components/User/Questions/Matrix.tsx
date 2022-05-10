@@ -25,18 +25,35 @@ const FlexAlignCenter = styled.div`
   align-items: center;
   width: 100%;
 
-  & .css-1nrlq1o-MuiFormControl-root {
+  & .MuiFormControl-root {
     width: 60%;
     align-items: end;
   }
-  & .css-8mqz1p-MuiButtonBase-root-MuiRadio-root,
-  & .css-1snu36k-MuiButtonBase-root-MuiRadio-root {
+
+  /* & .css-1nrlq1o-MuiFormControl-root {
+    width: 60%;
+    align-items: end;
+  } */
+
+  & .PrivateSwitchBase-root {
     width: 8rem;
   }
-  & .css-8mqz1p-MuiButtonBase-root-MuiRadio-root:hover,
-  & .css-1snu36k-MuiButtonBase-root-MuiRadio-root:hover {
+
+  & .MuiButtonBase-root-MuiRadio-root:hover {
     background-color: transparent;
   }
+
+  & .PrivateSwitchBase-input:hover {
+    background-color: transparent;
+  }
+  /* & .css-8mqz1p-MuiButtonBase-root-MuiRadio-root,
+  & .css-1snu36k-MuiButtonBase-root-MuiRadio-root {
+    width: 8rem;
+  } */
+  /* & .css-8mqz1p-MuiButtonBase-root-MuiRadio-root:hover,
+  & .css-1snu36k-MuiButtonBase-root-MuiRadio-root:hover {
+    background-color: transparent;
+  } */
 `;
 
 const MatrixTitleWrapper = styled(FlexAlignCenter)`
