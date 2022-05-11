@@ -105,7 +105,7 @@ const SectionNormal: FC = () => {
             }}
           />
         </Field>
-        <Field>
+        {/* <Field>
           <Label>問卷狀態</Label>
           <CustomedFormControl>
             <Select
@@ -122,7 +122,7 @@ const SectionNormal: FC = () => {
               ))}
             </Select>
           </CustomedFormControl>
-        </Field>
+        </Field> */}
         <Field>
           <Label>頁面模式</Label>
           <CustomedFormControl>
@@ -143,7 +143,7 @@ const SectionNormal: FC = () => {
             </Select>
           </CustomedFormControl>
         </Field>
-        <Field>
+        {/* <Field>
           <Label>填答時間限制</Label>
           <NormalTextInput
             value={setting.limitedAnswerTime}
@@ -204,7 +204,7 @@ const SectionNormal: FC = () => {
               );
             }}
           />
-        </Field>
+        </Field> */}
       </SectionWrapper>
     </>
   );

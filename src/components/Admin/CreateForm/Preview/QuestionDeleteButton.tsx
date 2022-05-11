@@ -12,6 +12,7 @@ const DeleteButtonWrapper = styled.button`
   height: 3rem;
   border-radius: 50%;
   font-size: 1.4rem;
+  font-family: jfOpenhuninn;
   color: #333;
   background-color: transparent;
   cursor: pointer;

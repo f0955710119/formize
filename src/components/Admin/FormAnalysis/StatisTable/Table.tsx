@@ -12,8 +12,6 @@ const TableWrapper = styled.div<TableWrapperProps>`
   max-width: 60rem;
   width: 100%;
   border: 3px solid #ccc;
-  height: ${(props: TableWrapperProps) =>
-    props.isTextContent ? "32rem" : "auto"};
   border-radius: 7px;
 
   background-color: rgba(255, 255, 255, 0.7);
@@ -38,7 +36,6 @@ const TableTitle = styled.div`
   padding: 2rem 1rem;
   font-size: 1.8rem;
   color: #333;
-  /* font-weight: bold; */
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 `;

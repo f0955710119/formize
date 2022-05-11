@@ -23,12 +23,12 @@ const LoadingIamge = styled.img`
 
   @keyframes grayLoading {
     0% {
-      filter: grayscale(100%);
-    }
-
-    80% {
       filter: grayscale(50%);
     }
+
+    /* 20% {
+      filter: grayscale(50%);
+    } */
 
     100% {
       filter: grayscale(0%);

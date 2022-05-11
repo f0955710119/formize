@@ -71,7 +71,7 @@ const SectionBanner: FC = () => {
 
   return (
     <SectionWrapper>
-      <SectionHeading>橫幅設定</SectionHeading>
+      {/* <SectionHeading>橫幅設定</SectionHeading> */}
       <BannerField>
         <Label>
           歡迎頁圖檔

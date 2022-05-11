@@ -48,7 +48,6 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
   }
 `;
 
-// const formWidth = Math.round((window.innerHeight / 4) * 3);
 interface QuestionWrapperProps {
   hasQuestion: boolean;
   backgroundImageURL: string;
