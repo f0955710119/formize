@@ -77,15 +77,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  useEffect(() => {
-    router.events.on("routeChangeStart", () => {
-      console.log("test");
-    });
-    router.events.on("routeChangeComplete", () => {
-      console.log("test end");
-    });
-  }, []);
   return (
     <Provider store={store}>
       <AdminProvider>

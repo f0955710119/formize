@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
+import Swal, { SweetAlertResult } from "sweetalert2";
 
 import Main from "../../src/components/UI/Main";
 import GroupSideBar from "../../src/components/Admin/FormManagement/SideBar/GroupSideBar";
@@ -12,6 +13,7 @@ import { adminContext } from "../../src/store/context/adminContext";
 import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
 import useCheckUid from "../../src/hooks/useCheckUid";
 import useRouterLoaded from "../../src/hooks/useRouterLoaded";
+import sweetAlert from "../../src/utils/sweetAlert";
 
 const Admin: NextPage = () => {
   const context = useContext(adminContext);
@@ -35,6 +37,19 @@ const Admin: NextPage = () => {
 
   const initAdminHandler = useInitAdminInfo();
   useRouterLoaded(() => fetchAdminData(context.uid));
+
+  const alertRef = useRef<any>(null);
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", async () => {
+      if (window.location.href.includes("new")) return;
+      sweetAlert.errorAlert({ icon: "info", title: "正在準備問卷狀態..." });
+    });
+
+    router.events.on("routeChangeComplete", () => {
+      sweetAlert.closeAlert();
+    });
+  }, []);
 
   return (
     <>

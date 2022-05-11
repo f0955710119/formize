@@ -1,21 +1,13 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import FilterComboBox from "./FilterComboBox";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import DisplayButtonGroup from "./DisplayButtonGroup";
+import Swal from "sweetalert2";
 
 import useInitNewForm from "../../../../hooks/useInitNewForm";
 import { adminContext } from "../../../../store/context/adminContext";
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useInitAdminInfo from "../../../../hooks/useInitAdminInfo";
-import adminActionType from "../../../../store/actionType/adminActionType";
-
-const defalutStatusOptions = ["公開", "待上線", "保護", "額滿", "關閉"];
-const defalutDateOptions = ["最新創建", "最舊創建", "最新回覆", "最舊創建"];
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -121,10 +113,34 @@ const DashboardSubHeader: FC = () => {
   const initAdminHandler = useInitAdminInfo();
   const context = useContext(adminContext);
 
+  const [hasClickedAddNewForm, setHasClickedAddNewForm] =
+    useState<boolean>(false);
+
+  const hasClickedAddNewFormRef = useRef<boolean>(false);
+
   const goAddNewFormHandler = (): void => {
     initHandler();
+    setHasClickedAddNewForm(true);
     router.push("/admin/new");
   };
+
+  // useEffect(() => {
+  //   if (!hasClickedAddNewFormRef.current) return;
+  //   router.events.on("routeChangeStart", () => {
+  //     if (hasClickedAddNewForm) {
+  //       console.log("testing...");
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Your work has been saved",
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     }
+  //   });
+  //   router.events.on("routeChangeComplete", () => {
+  //     setHasClickedAddNewForm(false);
+  //   });
+  // }, [hasClickedAddNewForm]);
 
   const deleteExistingGroup = async () => {
     try {
@@ -174,7 +190,12 @@ const DashboardSubHeader: FC = () => {
           <DeleteButtonWrapper onClick={() => deleteExistingGroup()}>
             <DeleteButtonText>刪除群組</DeleteButtonText>
           </DeleteButtonWrapper>
-          <ButtonWrapper onClick={goAddNewFormHandler}>
+          <ButtonWrapper
+            onClick={() => {
+              hasClickedAddNewFormRef.current = true;
+              goAddNewFormHandler();
+            }}
+          >
             <ButtonText>新增問卷</ButtonText>
           </ButtonWrapper>
         </>

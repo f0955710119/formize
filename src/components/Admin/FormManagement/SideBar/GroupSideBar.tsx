@@ -43,7 +43,7 @@ const GroupSideBar: FC = () => {
     context.setField(adminActionType.EDITING_GROUP, id);
   };
   const createNewGroupHandler = useCreateGroup();
-  console.log(context);
+
   return (
     <BarContainer>
       <Logo style={{ margin: "2rem 0 2rem 2rem", justifyContent: "start" }} />
