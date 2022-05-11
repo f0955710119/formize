@@ -149,7 +149,7 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
           />
         </Field>
       )}
-      <Field>
+      {/* <Field>
         <Label>小數點後碼數</Label>
         <TextInput
           id={id}
@@ -158,7 +158,7 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
           dispatchHandler={saveDemcialHandler}
           validationType={questionConfig.DECIMAL}
         />
-      </Field>
+      </Field> */}
     </LimitationWrapper>
   );
 };

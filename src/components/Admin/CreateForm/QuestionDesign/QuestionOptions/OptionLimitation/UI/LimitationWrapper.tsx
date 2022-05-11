@@ -8,9 +8,12 @@ const LimitationWrapper = styled.div`
   margin-bottom: 1rem;
   padding-right: 1rem;
   width: 100%;
-  height: 25vh;
-  overflow-y: scroll;
-  ${scrollBar}
+  /* height: 25vh;
+  overflow-y: scroll; */
+  /* height: 15vh; */
+
+  /* overflow-y: auto;
+  ${scrollBar} */
 
   @media ${breakpointConfig.laptopM} {
     height: 10vh;

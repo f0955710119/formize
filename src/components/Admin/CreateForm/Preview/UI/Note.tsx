@@ -18,7 +18,7 @@ const CustomTextField = styled(TextField)`
     line-break: strict;
   }
 
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
+  /* & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
     border-bottom: 2px solid ${(props) => props.theme.note};
   }
 
@@ -34,7 +34,7 @@ const CustomTextField = styled(TextField)`
   }
   & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root::after {
     border-bottom: 2px solid ${(props) => props.theme.title};
-  }
+  } */
 `;
 
 const NoteText = styled.div`

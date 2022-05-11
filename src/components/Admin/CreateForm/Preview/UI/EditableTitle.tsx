@@ -4,6 +4,8 @@ import questionActionType from "../../../../../store/actionType/questionActionTy
 import styled from "styled-components";
 import { TextField } from "@mui/material";
 import { questionActions } from "../../../../../store/slice/questionSlice";
+import sweetAlert from "../../../../../utils/sweetAlert";
+import { AlertCircle } from "@styled-icons/ionicons-outline/AlertCircle";
 
 const TitleInputWrapper = styled.div`
   width: 100%;
@@ -30,16 +32,6 @@ const CustomTextField = styled(TextField)`
   & .MuiFilledInput-input {
     width: 100%;
     line-break: strict;
-    /* margin-bottom: 1rem; */
-  }
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:hover {
-    background-color: transparent;
-  }
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root.Mui-focused {
-    background-color: transparent;
-  }
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root::after {
-    border-bottom: 2px solid ${(props) => props.theme.title};
   }
 `;
 
@@ -68,7 +60,6 @@ const EditingButtonText = styled.span`
 `;
 
 const Heading = styled.div`
-  /* width: 100%; */
   display: inline-block;
   font-size: 2rem;
   line-break: strict;
@@ -101,6 +92,10 @@ const EditableTitle: FC<EditableTitleProps> = ({
       />
       <EditingButton
         onClick={() => {
+          if (editingTitle === "") {
+            sweetAlert.errorRminderAlert("標題不能空白！");
+            return;
+          }
           setHasClickedTitle(false);
           dispatch(
             questionActions.updateSiglePropOfQuestion({

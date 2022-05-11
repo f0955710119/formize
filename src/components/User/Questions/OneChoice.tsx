@@ -22,7 +22,7 @@ const CustomFormControl = styled(FormControl)`
     width: 100%;
   }
 
-  & .css-1snu36k-MuiButtonBase-root-MuiRadio-root:hover {
+  & [class*="-MuiButtonBase-root-MuiRadio-root"]:hover {
     background-color: transparent;
   }
 `;

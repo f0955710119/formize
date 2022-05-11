@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState, useRef } from "react";
-import Swal, { SweetAlertResult } from "sweetalert2";
+import { useContext, useEffect, useState } from "react";
 
 import Main from "../../src/components/UI/Main";
 import GroupSideBar from "../../src/components/Admin/FormManagement/SideBar/GroupSideBar";
@@ -14,9 +13,11 @@ import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
 import useCheckUid from "../../src/hooks/useCheckUid";
 import useRouterLoaded from "../../src/hooks/useRouterLoaded";
 import sweetAlert from "../../src/utils/sweetAlert";
+import { useAppSelector } from "../../src/hooks/useAppSelector";
 
 const Admin: NextPage = () => {
   const context = useContext(adminContext);
+  const { currentStep } = useAppSelector((state) => state.question);
   const router = useRouter();
   const checkUidInOtherPageHandler = useCheckUid();
   const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);
@@ -37,19 +38,6 @@ const Admin: NextPage = () => {
 
   const initAdminHandler = useInitAdminInfo();
   useRouterLoaded(() => fetchAdminData(context.uid));
-
-  const alertRef = useRef<any>(null);
-
-  useEffect(() => {
-    router.events.on("routeChangeStart", async () => {
-      if (window.location.href.includes("new")) return;
-      sweetAlert.errorAlert({ icon: "info", title: "正在準備問卷狀態..." });
-    });
-
-    router.events.on("routeChangeComplete", () => {
-      sweetAlert.closeAlert();
-    });
-  }, []);
 
   return (
     <>

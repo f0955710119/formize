@@ -24,6 +24,7 @@
     "@styled-icons/fa-regular": "^10.34.0",
     "@styled-icons/fluentui-system-filled": "^10.35.0",
     "@styled-icons/fluentui-system-regular": "^10.35.0",
+    "@styled-icons/ionicons-outline": "^10.34.0",
     "@styled-icons/material": "^10.34.0",
     "@types/react-date-range": "^1.4.3",
     "babel-preset-next": "^1.4.0",

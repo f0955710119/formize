@@ -8,6 +8,7 @@ import useInitNewForm from "../../../../hooks/useInitNewForm";
 import { adminContext } from "../../../../store/context/adminContext";
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useInitAdminInfo from "../../../../hooks/useInitAdminInfo";
+import sweetAlert from "../../../../utils/sweetAlert";
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -192,7 +193,7 @@ const DashboardSubHeader: FC = () => {
           </DeleteButtonWrapper>
           <ButtonWrapper
             onClick={() => {
-              hasClickedAddNewFormRef.current = true;
+              sweetAlert.loadingReminderAlert("正在準備問卷狀態...");
               goAddNewFormHandler();
             }}
           >

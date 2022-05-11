@@ -189,8 +189,8 @@ const QuestionOptions: FC = () => {
             </OptionItem>
           ))}
         </OptionList>
-        <OptionHeading>限制</OptionHeading>
-        {editingQuestion && generateLimitation(editingQuestion)}
+        {/* <OptionHeading>限制</OptionHeading>
+        {editingQuestion && generateLimitation(editingQuestion)} */}
 
         <OptionHeading>切換頁面</OptionHeading>
         {mode === "1" && (
