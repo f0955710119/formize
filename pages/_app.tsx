@@ -74,6 +74,13 @@ const GlobalStyle = createGlobalStyle`
   input:focus {
     outline: none;
   }
+
+  .swal2-container .swal2-modal {
+    background-image: url('/images/dashboard-background.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
   .swal2-modal .swal2-title {
     margin: 0;
   }
@@ -82,6 +89,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
     white-space: pre-line;
   }
+  
   .swal2-actions .swal2-styled.swal2-confirm, .swal2-actions .swal2-styled.swal2-cancel {
     width: 12rem;
     height: 3.2rem;

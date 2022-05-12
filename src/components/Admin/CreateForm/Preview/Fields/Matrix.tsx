@@ -3,6 +3,7 @@ import styled from "styled-components";
 import AddOptionButton from "../UI/AddOptionButton";
 import { ButtonWrapper, ButtonText } from "../UI/Button";
 import AddMatrixButton from "./Matrix/AddMatrixButton";
+import ChoiceOptionItem from "./ChoiceOptionItem";
 import MatrixTitle from "./Matrix/MatrixTitle";
 import MatrixRadio from "./Matrix/MatrixRadio";
 import MatrixOptionTitle from "./Matrix/MatrixOptionTitle";
@@ -61,7 +62,7 @@ const Matrix: FC<MatrixProps> = ({ id, options, matrixs }: MatrixProps) => {
         ))}
       </MatrixTitleWrapper>
       <AddOptionButton id={id} options={options} />
-      {options.map((option, i) => (
+      {/* {options.map((option, i) => (
         <MatrixOptions key={helper.generateId(6)}>
           <MatrixOptionTitle
             id={id}
@@ -71,6 +72,15 @@ const Matrix: FC<MatrixProps> = ({ id, options, matrixs }: MatrixProps) => {
           />
           <MatrixRadio id={id} matrixs={matrixs} />
         </MatrixOptions>
+      ))} */}
+      {options.map((option, i) => (
+        <ChoiceOptionItem
+          key={i}
+          id={id}
+          option={option}
+          options={options}
+          index={i}
+        />
       ))}
     </MatrixWrapper>
   );
