@@ -412,7 +412,9 @@ export default {
       case questionConfig.MULTIPLE_LINE_TEXT: {
         const { length } = question.validations;
         const hasLength = length
-          ? `${hasRequired} / 字數上限為${length}字`
+          ? `${
+              hasRequired !== "" ? `${hasRequired} /` : ""
+            }字數上限為${length}字`
           : hasRequired;
         return hasLength;
       }
@@ -421,7 +423,9 @@ export default {
       case questionConfig.SORT: {
         const { maxSelected } = question.validations;
         const hasMaxSelected = maxSelected
-          ? `${hasRequired} / 選擇上限為${maxSelected}個`
+          ? `${
+              hasRequired !== "" ? `${hasRequired} /` : ""
+            }選擇上限為${maxSelected}個`
           : hasRequired;
         return hasMaxSelected;
       }

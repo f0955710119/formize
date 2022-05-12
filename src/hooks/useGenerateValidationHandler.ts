@@ -2,6 +2,7 @@ import { useAppDispatch } from "./useAppDispatch";
 import type { Question } from "../types/question";
 import { questionActions } from "../store/slice/questionSlice";
 import questionActionType from "../store/actionType/questionActionType";
+import sweetAlert from "../utils/sweetAlert";
 
 const useGenerateValidationHandler = (
   id: string,
@@ -32,7 +33,7 @@ const useGenerateValidationHandler = (
       if (valiationHandler) {
         const inValidErrorMessage = valiationHandler(value);
         if (inValidErrorMessage) {
-          alert(inValidErrorMessage);
+          sweetAlert.errorRminderAlert(inValidErrorMessage);
           throw inValidErrorMessage;
         }
       }

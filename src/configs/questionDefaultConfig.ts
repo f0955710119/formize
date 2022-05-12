@@ -8,7 +8,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
   ONE_LINE_TEXT_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
-    note: "新增備註文字，若不需要則留白",
+    note: "",
     placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
     page: 1,
     type: "0",
@@ -21,7 +21,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
   MULTIPLE_LINE_TEXT_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
-    note: "新增備註文字，若不需要則留白",
+    note: "",
     placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
     page: 1,
     type: "1",
@@ -46,7 +46,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
   ONE_CHOICE_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
-    note: "新增備註文字，若不需要則留白",
+    note: "",
     placeholder: "",
     page: 1,
     type: "3",
@@ -59,7 +59,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
   MULTIPLE_CHOICE_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
-    note: "新增備註文字，若不需要則留白",
+    note: "",
     placeholder: "",
     page: 1,
     type: "4",
@@ -72,7 +72,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
   MATRIX_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
-    note: "新增備註文字，若不需要則留白",
+    note: "",
     placeholder: "",
     page: 1,
     type: "5",
@@ -86,7 +86,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
   NUMBER_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
-    note: "新增備註文字，若不需要則留白",
+    note: "",
     placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
     page: 1,
     type: "6",
@@ -102,7 +102,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
   SLIDER_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
-    note: "新增備註文字，若不需要則留白",
+    note: "",
     placeholder: "",
     page: 1,
     type: "7",
@@ -118,7 +118,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
   SORT_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
-    note: "新增備註文字，若不需要則留白",
+    note: "",
     placeholder: "",
     page: 1,
     type: "8",
@@ -131,7 +131,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
   DATE_DEFAULT: <Question>{
     id: "",
     title: "新增題目標題",
-    note: "新增備註文字，若不需要則留白",
+    note: "",
     placeholder: "",
     page: 1,
     type: "9",

@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import styled from "styled-components";
-import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
 
 import QuestionPage from "./QuestionPage";
 import CreatedQuestion from "./CreatedQuestion";
@@ -25,10 +24,6 @@ const DeleteButtonWrapper = styled.div`
   align-items: center;
   width: 5rem;
   height: 100%;
-
-  /* @media ${breakpointConfig.laptopM} {
-    display: none;
-  } */
 `;
 
 const DeleteButton = styled(icons.delete)`
@@ -36,7 +31,10 @@ const DeleteButton = styled(icons.delete)`
   height: 2.4rem;
   fill: #aaa;
   margin-right: 1rem;
-  /* @media ${breakpointConfig.laptopM} */
+
+  @media ${breakpointConfig.mobileL} {
+    display: none;
+  }
 `;
 
 interface MultiPageProps {

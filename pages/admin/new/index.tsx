@@ -21,7 +21,7 @@ import themes from "../../../src/store/theme/theme";
 import { useAppSelector } from "../../../src/hooks/useAppSelector";
 import breakpointConfig from "../../../src/configs/breakpointConfig";
 import scrollBar from "../../../src/components/UI/scrollBar";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useRouterLoaded from "../../../src/hooks/useRouterLoaded";
 import Loading from "../../../src/components/UI/Loading";
 import { adminContext } from "../../../src/store/context/adminContext";

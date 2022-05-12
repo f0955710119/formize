@@ -8,9 +8,7 @@ export default {
       timer: 1700,
       position: "top",
       backdrop: false,
-      // color: "#ffb4ad",
       color: "#ed4535",
-      background: "url(/images/error-alert-background-3.svg)",
     });
   },
   loadingReminderAlert(title: string) {

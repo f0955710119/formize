@@ -8,26 +8,39 @@ import { Question } from "../../../../../../types/question";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 
 import RequiredSwitch from "./UI/RequiredSwitch";
-import ComboBox from "./UI/ComboBox";
 import TextInput from "./UI/TextInput";
 import LimitationWrapper from "./UI/LimitationWrapper";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
+import sweetAlert from "../../../../../../utils/sweetAlert";
 
 interface TextLimitationProps {
   id: string;
-  type: string;
-  textType?: string | undefined;
 }
 
 const TextLimitation: FC<TextLimitationProps> = ({
   id,
-  type,
-  textType,
 }: TextLimitationProps) => {
   const dispatch = useAppDispatch();
   const question = useGetQuestion(id) as Question;
+  const numberRegex = /^[0-9]+$/;
   const saveMaxLengthHandler = (value: string) => {
+    if (value === "") {
+      sweetAlert.errorRminderAlert("字數上限不可空白!");
+      return;
+    }
+
+    if (!numberRegex.test(value)) {
+      const errorMessage =
+        +value <= 0 ? "字數上限只能是正整數!" : "字數上限只能是數值";
+      sweetAlert.errorRminderAlert(errorMessage);
+      return;
+    }
+
+    if (+value > 100) {
+      sweetAlert.errorRminderAlert("該題的字數上限為100字");
+      return;
+    }
     dispatch(
       questionActions.updateSiglePropOfQuestion({
         id,
@@ -39,13 +52,6 @@ const TextLimitation: FC<TextLimitationProps> = ({
   return (
     <LimitationWrapper>
       <RequiredSwitch id={id} />
-      {/* {type !== "2" && (
-        <Field>
-          <Label>驗證</Label>
-          {textType && <ComboBox options={["文字", "信箱", "手機"]} />}
-        </Field>
-      )} */}
-
       <Field>
         <Label>字數上限</Label>
         <TextInput

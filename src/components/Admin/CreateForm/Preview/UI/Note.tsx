@@ -106,7 +106,9 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
       </EditingButton>
     </>
   ) : (
-    <NoteText onClick={() => setHasClickedNote(true)}>{note}</NoteText>
+    <NoteText onClick={() => setHasClickedNote(true)}>
+      {note === "" ? "點擊新增註解，若無則無需修改此行" : note}
+    </NoteText>
   );
 };
 

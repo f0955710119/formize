@@ -18,6 +18,7 @@ import questionConfig from "../../configs/questionConfig";
 
 interface QuestionWrapperProps {
   hasErrorMessage: boolean;
+  isCreatingProcess: boolean;
 }
 
 const QuestionWrapper = styled.div<QuestionWrapperProps>`
@@ -38,6 +39,8 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
       : `
     border: 3px solid ${props.theme.titleContrast};
   `}
+
+  ${(props) => (props.isCreatingProcess ? "border:none" : "")}
 `;
 
 const Heading = styled.div`
@@ -128,27 +131,34 @@ const ResetAnswerButton = styled.button`
 interface QuestionListProps {
   titleIndex: string;
   question: Question;
+  isCreatingProcess: boolean;
 }
 
-const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
+const QuestionList: FC<QuestionListProps> = ({
+  titleIndex,
+  question,
+  isCreatingProcess = false,
+}) => {
   const { errorMessages, errorMessagesIdKeys } = useAppSelector(
     (state) => state.user
   );
   const errorMessage = errorMessages[errorMessagesIdKeys[question.id]];
   const hasErrorMessage = errorMessage !== "";
   const limitationTagText = helper.generateQuestionLimitationTagText(question);
-  console.log(limitationTagText);
+
   const isNotIntroduction =
     errorMessage !== "" ? (
       <ErrorReminder>{errorMessage}</ErrorReminder>
     ) : (
       <EmptyErrorMessage />
     );
+
   return (
     <>
       <QuestionWrapper
         hasErrorMessage={hasErrorMessage}
         style={{ marginBottom: question.type === "2" ? "8rem" : "4rem" }}
+        isCreatingProcess={isCreatingProcess}
       >
         {question.type !== "2" && (
           <>
@@ -158,7 +168,7 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
             <QuestionTypeTag>
               {questionConfig[question.type] + "題"}
             </QuestionTypeTag>
-            {question.validations.required && (
+            {limitationTagText !== "" && (
               <LimitationQuestionTag>{limitationTagText}</LimitationQuestionTag>
             )}
             {question.note && <NoteText>{question.note}</NoteText>}
@@ -185,6 +195,7 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
           <OneChoice
             options={question.options ? question.options : []}
             questionId={question.id}
+            isCreatingProcess={isCreatingProcess}
           />
         )}
         {question.type === "4" && (
@@ -196,6 +207,7 @@ const QuestionList: FC<QuestionListProps> = ({ titleIndex, question }) => {
                 : 1
             }
             questionId={question.id}
+            isCreatingProcess={isCreatingProcess}
           />
         )}
         {question.type === "5" && (

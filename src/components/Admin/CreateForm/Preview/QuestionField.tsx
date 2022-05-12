@@ -37,14 +37,11 @@ interface QuestionFieldProps {
   titleIndex: string;
 }
 
-const generateResponseQuestion = (type: string, question: Question) => {
+const renderResponseQuestion = (type: string, question: Question) => {
   switch (type) {
     case "0":
     case "1":
-      // return <OneLineText />;
-      return <TextLimitation id={question.id} type={type} />;
-    // case "1":
-    //   return <MultiLineText />;
+      return <TextLimitation id={question.id} />;
     case "2":
       return <Introduction id={question.id} title={question.title} />;
     case "3":
@@ -58,10 +55,7 @@ const generateResponseQuestion = (type: string, question: Question) => {
           </>
         );
       }
-    // case "4":
-    //   if (question.options) {
-    //     return <Choice id={question.id} options={question.options} />;
-    //   }
+
     case "5":
       if (question.options && question.matrixs) {
         return (
@@ -75,40 +69,18 @@ const generateResponseQuestion = (type: string, question: Question) => {
           </>
         );
       }
-    // case "6":
-    //   return <OneLineText />;
-    // case "7":
-    //   if (question.validations.min && question.validations.max) {
-    //     return (
-    //       <>
 
-    //         <Slider
-    //           id={question.id}
-    //           min={question.validations.min}
-    //           max={question.validations.max}
-    //         />
-    //       </>
-    //     );
-    //   }
     case "6":
     case "7": {
       return (
         <NumberLimitation id={question.id} validations={question.validations} />
       );
     }
-    // case "8":
-    //   if (question.options) {
-    //     return (
-    //       <>
-    //         <Choice id={question.id} options={question.options} />
-    //       </>
-    //     );
-    //   }
+
     case "9":
       return (
         <>
           <DateLimitation id={question.id} />
-          {/* <Date id={question.id} /> */}
         </>
       );
   }
@@ -120,6 +92,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
 }: QuestionFieldProps) => {
   const dispatch = useAppDispatch();
   const { editingQuestion } = useAppSelector((state) => state.question);
+
   const editingFieldHandler = (question: Question, target: Element) => {
     const hasSwitched = editingQuestion && editingQuestion.id === question.id;
     if (hasSwitched) return;
@@ -161,7 +134,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
           <Note id={question.id} note={question.note} />
         </>
       )}
-      {generateResponseQuestion(question.type, question)}
+      {renderResponseQuestion(question.type, question)}
     </Field>
   );
 };
