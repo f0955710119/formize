@@ -188,7 +188,6 @@ const SettingBar: FC = () => {
   const context = useContext(adminContext);
   const [stylingOption, setStylingOption] = useState<number>(0);
 
-  // useCheckUid();
   const switchStepHanlder = useSwitchCurrentStep();
   const switchStyleHandler = useStyleHandler();
   const sendFormDataHandler = useDeployForm();
@@ -246,36 +245,49 @@ const SettingBar: FC = () => {
         </CardContainer>
       )}
       {stylingOption === 2 && (
-        <BackGroundContainer>
-          <BackgroundContainerTitle>預設圖檔</BackgroundContainerTitle>
-          <BackgroundCardContainer style={{ height: "70rem" }}>
-            {defaultBackgroundList.map((Background, i) => {
-              return (
-                <Card
-                  title={Background}
-                  key={i}
-                  dispatchHandler={switchStyleHandler}
-                  imageUrl={defaultBackgroundUrl[i]}
-                  isBackground
-                />
-              );
-            })}
-          </BackgroundCardContainer>
-          {/* <BackgroundContainerTitle>上傳自訂</BackgroundContainerTitle>
-          <BackgroundCardContainer style={{ justifyItems: "center" }}>
-            <div
-              style={{
-                backgroundColor: "#ddd",
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                lineHeight: "25rem",
-              }}
-            >
-              (待上線功能)
-            </div>
-          </BackgroundCardContainer> */}
-        </BackGroundContainer>
+        <CardContainer>
+          {defaultBackgroundList.map((Background, i) => {
+            return (
+              <Card
+                title={Background}
+                key={i}
+                dispatchHandler={switchStyleHandler}
+                imageUrl={defaultBackgroundUrl[i]}
+                isBackground
+              />
+            );
+          })}
+        </CardContainer>
+        // <BackGroundContainer>
+        //   <BackgroundContainerTitle>預設圖檔</BackgroundContainerTitle>
+        //   <BackgroundCardContainer style={{ height: "70rem" }}>
+        //     {defaultBackgroundList.map((Background, i) => {
+        //       return (
+        //         <Card
+        //           title={Background}
+        //           key={i}
+        //           dispatchHandler={switchStyleHandler}
+        //           imageUrl={defaultBackgroundUrl[i]}
+        //           isBackground
+        //         />
+        //       );
+        //     })}
+        //   </BackgroundCardContainer>
+        //   {/* <BackgroundContainerTitle>上傳自訂</BackgroundContainerTitle>
+        //   <BackgroundCardContainer style={{ justifyItems: "center" }}>
+        //     <div
+        //       style={{
+        //         backgroundColor: "#ddd",
+        //         width: "100%",
+        //         height: "100%",
+        //         textAlign: "center",
+        //         lineHeight: "25rem",
+        //       }}
+        //     >
+        //       (待上線功能)
+        //     </div>
+        //   </BackgroundCardContainer> */}
+        // </BackGroundContainer>
       )}
       <ButtonWrapper
         onClick={() => clickToSendForm(sendingFormData)}
