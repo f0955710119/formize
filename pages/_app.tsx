@@ -115,6 +115,23 @@ const GlobalStyle = createGlobalStyle`
       outline: none;
     }
   }
+
+  .swal2-modal .swal2-input-label{
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    color:#ed4535;
+    cursor: text;
+  }
+
+  .swal2-modal .swal2-validation-message {
+    margin: 0;
+    background-color: transparent;
+    font-size: 1.3rem;
+  }
+
+  .swal2-modal .swal2-input {
+    font-size: 1.4rem;
+  }
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {

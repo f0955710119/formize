@@ -100,6 +100,42 @@ export default {
 
     return selectedData;
   },
+  async textInputAlert(
+    alertObj: {
+      title: string;
+      text: string;
+      inputLabel: string;
+      cancelButtonText: string;
+      confirmButtonText: string;
+    },
+    confirmText: string
+  ) {
+    const { title, text, inputLabel, cancelButtonText, confirmButtonText } =
+      alertObj;
+
+    const inputData = await Swal.fire({
+      title,
+      text,
+      input: "text",
+      inputLabel,
+      showCancelButton: true,
+      cancelButtonText,
+      confirmButtonText,
+      confirmButtonColor: "#ed4535",
+      width: "40rem",
+      imageUrl: "/images/loading-reminder.svg",
+      imageWidth: "20rem",
+      imageHeight: "10rem",
+      inputValidator: (value: string) => {
+        console.log(value);
+        if (value === "") return "請輸入欲刪除的內容名稱！";
+        if (value !== confirmText) return "輸入的文字跟名稱不一樣！";
+        return null;
+      },
+    });
+
+    return inputData;
+  },
 
   closeAlert() {
     Swal.close();

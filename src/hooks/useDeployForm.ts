@@ -20,8 +20,7 @@ const useDeployForm = () => {
     styles: Styles;
     settingContextData: SettingContext;
   }) => {
-    const { uid, groupId, settings, questions, styles, settingContextData } =
-      sendingObj;
+    const { uid, settings, questions, settingContextData } = sendingObj;
 
     if (uid === "") {
       sweetAlert.clickToConfirmAlert(
@@ -50,6 +49,7 @@ const useDeployForm = () => {
 
     const postDataHandler = async () => {
       try {
+        sweetAlert.loadingReminderAlert("正在發佈問卷中...");
         let startPageImageFile = null;
         let endPageImageFile = null;
 
@@ -95,8 +95,11 @@ const useDeployForm = () => {
           body: JSON.stringify(newSendingObj),
         });
         const data = await response.json();
-        alert(data.message);
         if (data.status !== "success") throw "上傳資料失敗";
+        sweetAlert.loadedReminderAlert("成功發佈問卷!");
+        setTimeout(() => {
+          sweetAlert.closeAlert();
+        }, 1500);
         dispatch(adminActions.createNewFormId(data.data.formId));
         switchStepHanlder(4);
       } catch (error: any) {
