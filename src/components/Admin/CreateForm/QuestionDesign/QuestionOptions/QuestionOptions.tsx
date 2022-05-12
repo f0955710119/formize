@@ -5,21 +5,20 @@ import styled from "styled-components";
 import Layout from "../../UI/Layout";
 
 import questionConfig from "../../../../../configs/questionConfig";
-import { Question } from "../../../../../types/question";
 
 import OptionItem from "./OptionItem";
 import { Heading } from "../../UI/SectionHeading";
-import TextLimitation from "./OptionLimitation/TextLimitation";
-import ChoiceLimitation from "./OptionLimitation/ChoiceLimitation";
-import NumberLimitation from "./OptionLimitation/NumberLimitation";
-import DateLimitation from "./OptionLimitation/DateLimitation";
 import QuestionIcon from "../QuestionIcon";
 
-import NewPageModal from "../QuestionsList/NewPageModal";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import scrollBar from "../../../../UI/scrollBar";
+import sweetAlert from "../../../../../utils/sweetAlert";
+import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import { questionActions } from "../../../../../store/slice/questionSlice";
+import { settingActions } from "../../../../../store/slice/settingSlice";
+import settingActinoType from "../../../../../store/actionType/settingActionType";
 
 const OptionsLayout = styled(Layout)`
   width: 18%;
@@ -102,62 +101,12 @@ const questionList = Array(10)
   .fill(null)
   .map((_, i) => questionConfig[i]);
 
-const generateLimitation = (question: Question) => {
-  switch (question.type) {
-    case "0": {
-      return (
-        <TextLimitation
-          id={question.id}
-          type={question.type}
-          textType={question.validations.textType}
-        />
-      );
-    }
+const questionListConfig: { [key: string]: string } = {};
 
-    case "1": {
-      return (
-        <TextLimitation
-          id={question.id}
-          type={question.type}
-          textType={question.validations.textType}
-        />
-      );
-    }
+questionList.forEach((question, i) => {
+  questionListConfig[question] = question;
+});
 
-    case "2": {
-      return <></>;
-    }
-
-    case "3": {
-      return <ChoiceLimitation id={question.id} type={question.type} />;
-    }
-    case "4": {
-      return <ChoiceLimitation id={question.id} type={question.type} />;
-    }
-    case "5": {
-      return <ChoiceLimitation id={question.id} type={question.type} />;
-    }
-    case "6": {
-      return (
-        <NumberLimitation id={question.id} validations={question.validations} />
-      );
-    }
-    case "7": {
-      return (
-        <NumberLimitation id={question.id} validations={question.validations} />
-      );
-    }
-    case "8": {
-      return <ChoiceLimitation id={question.id} type={question.type} />;
-    }
-    case "9": {
-      return <DateLimitation id={question.id} />;
-    }
-    default: {
-      return <></>;
-    }
-  }
-};
 interface OptionItem {
   title: string;
   questionType: string;
@@ -165,69 +114,89 @@ interface OptionItem {
 }
 
 const QuestionOptions: FC = () => {
-  const { editingQuestion, questions } = useAppSelector(
-    (state) => state.question
-  );
+  const dispatch = useAppDispatch();
+  const { questions } = useAppSelector((state) => state.question);
+  const { pageQuantity } = useAppSelector((state) => state.setting);
   const { mode } = useAppSelector((state) => state.setting);
   const switchStepHandler = useSwitchCurrentStep();
-  const [hasOpenModal, setHasOpenModal] = useState<boolean>(false);
+
+  const addNewFormPageHandler = (selectedNewQuestion: string) => {
+    dispatch(
+      questionActions.addNewFormPage({
+        questionType: selectedNewQuestion,
+        newPage: pageQuantity + 1,
+      })
+    );
+    dispatch(
+      settingActions.updateSingleSettingInput({
+        actionType: settingActinoType.PAGE_QUANTITY,
+        value: pageQuantity + 1,
+      })
+    );
+  };
 
   return (
-    <>
-      {hasOpenModal && (
-        <NewPageModal hasOpenModal={hasOpenModal} setModal={setHasOpenModal} />
+    <OptionsLayout>
+      <OptionHeading>題型</OptionHeading>
+      <OptionList>
+        {questionList.map((title, i) => (
+          <OptionItem title={title} questionType={`${i}`} key={title}>
+            <QuestionIcon
+              questionType={`${i}`}
+              style="transform: translateY(-0.6rem);"
+            />
+          </OptionItem>
+        ))}
+      </OptionList>
+
+      <OptionHeading>切換頁面</OptionHeading>
+      {mode === "1" && (
+        <AddPageButton
+          type="button"
+          onClick={async () => {
+            if (questions.length === 0) {
+              sweetAlert.errorReminderAlert(
+                "分頁模式不得有空白分頁，請先新增至少一題在第一頁唷！"
+              );
+              return;
+            }
+            const selectedNewQuestionType = await sweetAlert.selectInputAlert({
+              title: "請選擇一種題型",
+              text: "新增分頁前，需先選擇要加入該分頁的題型，\n像是很推薦用引言當開頭唷！",
+              inputOptions: questionListConfig,
+              inputPlaceholder: "點開選單",
+            });
+            const selectedQuestionTypeTitle = selectedNewQuestionType.value;
+            const selectedQuestionType = Object.values(
+              questionListConfig
+            ).indexOf(selectedQuestionTypeTitle);
+
+            if (selectedQuestionType === -1) return;
+
+            addNewFormPageHandler(`${selectedQuestionType}`);
+          }}
+        >
+          <ButtonText>新增分頁</ButtonText>
+        </AddPageButton>
       )}
-      <OptionsLayout>
-        <OptionHeading>題型</OptionHeading>
-        <OptionList>
-          {questionList.map((title, i) => (
-            <OptionItem title={title} questionType={`${i}`} key={title}>
-              <QuestionIcon
-                questionType={`${i}`}
-                style="transform: translateY(-0.6rem);"
-              />
-            </OptionItem>
-          ))}
-        </OptionList>
-        {/* <OptionHeading>限制</OptionHeading>
-        {editingQuestion && generateLimitation(editingQuestion)} */}
 
-        <OptionHeading>切換頁面</OptionHeading>
-        {mode === "1" && (
-          <AddPageButton
-            type="button"
-            onClick={() => {
-              if (questions.length === 0) {
-                alert(
-                  "因為分頁型問卷不得有空白頁，請先新增至少一題才能加分頁唷!"
-                );
-                return;
-              }
-              setHasOpenModal(true);
-            }}
-          >
-            <ButtonText>新增分頁</ButtonText>
-          </AddPageButton>
-        )}
-
-        <NavigatorButton
-          type="button"
-          onClick={() => {
-            switchStepHandler(3);
-          }}
-        >
-          <ButtonText>前往外觀樣式設計</ButtonText>
-        </NavigatorButton>
-        <ButtonWrapper
-          type="button"
-          onClick={() => {
-            switchStepHandler(1);
-          }}
-        >
-          <ButtonText>回到資訊設定</ButtonText>
-        </ButtonWrapper>
-      </OptionsLayout>
-    </>
+      <NavigatorButton
+        type="button"
+        onClick={() => {
+          switchStepHandler(3);
+        }}
+      >
+        <ButtonText>前往外觀樣式設計</ButtonText>
+      </NavigatorButton>
+      <ButtonWrapper
+        type="button"
+        onClick={() => {
+          switchStepHandler(1);
+        }}
+      >
+        <ButtonText>回到資訊設定</ButtonText>
+      </ButtonWrapper>
+    </OptionsLayout>
   );
 };
 

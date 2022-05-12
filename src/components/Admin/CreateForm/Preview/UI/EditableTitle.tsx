@@ -93,7 +93,7 @@ const EditableTitle: FC<EditableTitleProps> = ({
       <EditingButton
         onClick={() => {
           if (editingTitle === "") {
-            sweetAlert.errorRminderAlert("標題不能空白！");
+            sweetAlert.errorReminderAlert("標題不能空白！");
             return;
           }
           setHasClickedTitle(false);

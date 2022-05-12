@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Link from "next/link";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 interface LogoWrapper {
   mediaSetting?: string;
@@ -37,6 +38,7 @@ interface LogoProps {
   mediaSetting?: string;
   textMediaSetting?: string;
   className?: string;
+  clickHandler?: () => void;
 }
 
 const Logo: FC<LogoProps> = ({
@@ -45,9 +47,20 @@ const Logo: FC<LogoProps> = ({
   mediaSetting,
   textMediaSetting,
   className,
+  clickHandler,
 }: LogoProps) => {
+  const router = useRouter();
   return (
-    <Link href="/admin">
+    <span
+      onClick={() => {
+        if (!clickHandler) {
+          router.push("/admin");
+          return;
+        }
+
+        clickHandler();
+      }}
+    >
       <LogoWrapper
         style={{ ...style }}
         mediaSetting={mediaSetting}
@@ -60,7 +73,7 @@ const Logo: FC<LogoProps> = ({
           FORMiZE
         </LogoText>
       </LogoWrapper>
-    </Link>
+    </span>
   );
 };
 

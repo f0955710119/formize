@@ -26,19 +26,19 @@ const TextLimitation: FC<TextLimitationProps> = ({
   const numberRegex = /^[0-9]+$/;
   const saveMaxLengthHandler = (value: string) => {
     if (value === "") {
-      sweetAlert.errorRminderAlert("字數上限不可空白!");
+      sweetAlert.errorReminderAlert("字數上限不可空白!");
       return;
     }
 
     if (!numberRegex.test(value)) {
       const errorMessage =
         +value <= 0 ? "字數上限只能是正整數!" : "字數上限只能是數值";
-      sweetAlert.errorRminderAlert(errorMessage);
+      sweetAlert.errorReminderAlert(errorMessage);
       return;
     }
 
     if (+value > 100) {
-      sweetAlert.errorRminderAlert("該題的字數上限為100字");
+      sweetAlert.errorReminderAlert("該題的字數上限為100字");
       return;
     }
     dispatch(

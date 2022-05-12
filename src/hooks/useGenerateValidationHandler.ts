@@ -33,7 +33,7 @@ const useGenerateValidationHandler = (
       if (valiationHandler) {
         const inValidErrorMessage = valiationHandler(value);
         if (inValidErrorMessage) {
-          sweetAlert.errorRminderAlert(inValidErrorMessage);
+          sweetAlert.errorReminderAlert(inValidErrorMessage);
           throw inValidErrorMessage;
         }
       }

@@ -74,6 +74,39 @@ const GlobalStyle = createGlobalStyle`
   input:focus {
     outline: none;
   }
+  .swal2-modal .swal2-title {
+    margin: 0;
+  }
+
+  & #swal2-html-container {
+    font-size: 1.6rem;
+    white-space: pre-line;
+  }
+  .swal2-actions .swal2-styled.swal2-confirm, .swal2-actions .swal2-styled.swal2-cancel {
+    width: 12rem;
+    height: 3.2rem;
+    font-size: 1.6rem;
+    padding:0
+  }
+
+  .swal2-actions .swal2-styled.swal2-confirm {
+    order: 2;
+  }
+  .swal2-actions .swal2-styled.swal2-cancel {
+    order: 1;
+  }
+
+  .swal2-modal .swal2-select {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding:1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {

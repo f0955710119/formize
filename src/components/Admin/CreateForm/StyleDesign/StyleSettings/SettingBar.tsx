@@ -190,8 +190,8 @@ const SettingBar: FC = () => {
 
   const switchStepHanlder = useSwitchCurrentStep();
   const switchStyleHandler = useStyleHandler();
-  const sendFormDataHandler = useDeployForm();
   const sendingFormData = useFormData();
+  const sendFormDataHandler = useDeployForm();
 
   const clickToSendForm = async (sendingFormData: {
     uid: string;
@@ -201,8 +201,11 @@ const SettingBar: FC = () => {
     styles: Styles;
     settingContextData: SettingContext;
   }) => {
-    await sendFormDataHandler(sendingFormData);
-    switchStepHanlder(4);
+    try {
+      await sendFormDataHandler(sendingFormData);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   console.log(context);

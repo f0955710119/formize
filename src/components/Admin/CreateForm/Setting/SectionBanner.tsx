@@ -97,7 +97,7 @@ const SectionBanner: FC = () => {
             const file = event.target.files[0];
             if (!file) return;
             if (file.size > 5_000_000) {
-              sweetAlert.errorRminderAlert("不可上傳超過5MB的圖片!");
+              sweetAlert.errorReminderAlert("不可上傳超過5MB的圖片!");
               return;
             }
 
@@ -125,7 +125,7 @@ const SectionBanner: FC = () => {
           maxRows={5}
           onChange={(event) => {
             if (event.target.value.length > 250) {
-              sweetAlert.errorRminderAlert("不可超過250字");
+              sweetAlert.errorReminderAlert("不可超過250字");
               return;
             }
             dispatch(
@@ -161,7 +161,7 @@ const SectionBanner: FC = () => {
             const file = event.target.files[0];
             if (!file) return;
             if (file.size > 5_000_000) {
-              sweetAlert.errorRminderAlert("不可上傳超過5MB的圖片!");
+              sweetAlert.errorReminderAlert("不可上傳超過5MB的圖片!");
               return;
             }
 
@@ -189,7 +189,7 @@ const SectionBanner: FC = () => {
           maxRows={5}
           onChange={(event) => {
             if (event.target.value.length > 250) {
-              sweetAlert.errorRminderAlert("不可超過250字");
+              sweetAlert.errorReminderAlert("不可超過250字");
               return;
             }
             dispatch(
