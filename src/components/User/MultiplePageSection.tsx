@@ -205,6 +205,7 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
               key={question.id}
               titleIndex={indexInDifferentPageArr[questionPage][i]}
               question={question}
+              isCreatingProcess={false}
             />
           );
         })}

@@ -84,6 +84,7 @@ const SinglePageSection: FC<SinglePageSectionProps> = ({
               titleIndex={indexArr[i]}
               question={question}
               key={question.id}
+              isCreatingProcess={false}
             />
           );
         })}
