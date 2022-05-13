@@ -45,6 +45,7 @@ const OptionItemText = styled.div`
   width: 70%;
   font-size: 1.8rem;
   color: ${(props) => props.theme.optionText};
+  margin-left: 1rem;
 `;
 
 const DeleteButton = styled(icons.delete)`
@@ -107,7 +108,9 @@ const OptionItem: FC<OptionItemProps> = ({
 }: OptionItemProps) => {
   const [hasClickedOptionText, setHasClickedOptionText] =
     useState<boolean>(false);
-  const [editingOptionText, setEditingOptionText] = useState<string>(option);
+  const [editingOptionText, setEditingOptionText] = useState<string>(
+    options[index]
+  );
   const dispatch = useAppDispatch();
 
   const deleteOptionHandler = (index: number) => {
@@ -162,7 +165,15 @@ const OptionItem: FC<OptionItemProps> = ({
     </EditingOptionItemWrapper>
   ) : (
     <OptionItemWrapper>
-      <DeleteButton onClick={() => deleteOptionHandler(index)} />
+      <DeleteButton
+        onClick={() => {
+          if (options.length < 3) {
+            sweetAlert.errorReminderAlert("至少要有兩個選項，請先新增再刪除");
+          }
+          console.log(options);
+          deleteOptionHandler(index);
+        }}
+      />
 
       <OptionItemText
         onClick={() => {

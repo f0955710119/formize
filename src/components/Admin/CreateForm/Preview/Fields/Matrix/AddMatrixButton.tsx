@@ -7,6 +7,7 @@ import { ButtonWrapper, ButtonText } from "../../UI/Button";
 import icons from "../../../UI/icons";
 
 import Modal from "../../../UI/Modal";
+import sweetAlert from "../../../../../../utils/sweetAlert";
 
 const Button = styled(ButtonWrapper)`
   height: 2.4rem;
@@ -115,18 +116,18 @@ const AddMatrixButton: FC<AddMatrixButtonProps> = ({
 
   const addWillUpdateMatrixHandler = () => {
     if (addNewMatrixInputRef.current === null) {
-      alert("不能新增空的欄位");
+      sweetAlert.errorReminderAlert("不能新增空的欄位");
       return;
     }
 
     const value = addNewMatrixInputRef.current.value;
     if (value.length === 0) {
-      alert("不能新增空的欄位");
+      sweetAlert.errorReminderAlert("不能新增空的欄位");
       return;
     }
 
     if (willUpdatedMatrixList.includes(value)) {
-      alert("不能新增重複名稱的欄位");
+      sweetAlert.errorReminderAlert("不能新增重複名稱的欄位");
       return;
     }
 
@@ -139,7 +140,7 @@ const AddMatrixButton: FC<AddMatrixButtonProps> = ({
 
   return (
     <>
-      {hasOpenModal && (
+      {/* {hasOpenModal && (
         <Modal
           setModal={setHasOpenModal}
           hasOpenModal={hasOpenModal}
@@ -187,7 +188,7 @@ const AddMatrixButton: FC<AddMatrixButtonProps> = ({
             </AddMatrixWrapper>
           </EditingMatrixList>
         </Modal>
-      )}
+      )} */}
       <Button
         onClick={() => {
           setHasOpenModal(true);

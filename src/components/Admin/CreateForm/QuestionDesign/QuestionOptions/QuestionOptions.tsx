@@ -32,7 +32,7 @@ const OptionsLayout = styled(Layout)`
     width: 100%;
     order: 3;
     height: 50vh;
-    padding: 2rem 12rem 0 12rem;
+    padding: 2rem 3rem 0 3rem;
     margin-bottom: 1rem;
   }
 
@@ -58,7 +58,11 @@ const OptionList = styled.div`
   ${scrollBar}
 
   @media ${breakpointConfig.laptopM} {
-    height: 15vh;
+    height: 20vh;
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    height: 22vh;
   }
 `;
 

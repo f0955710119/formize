@@ -24,6 +24,8 @@ import TextLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/T
 import NumberLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/NumberLimitation";
 import DateLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/DateLimitation";
 import ChoiceLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/ChoiceLimitation";
+import sweetAlert from "../../../../utils/sweetAlert";
+import helper from "../../../../utils/helper";
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -91,11 +93,21 @@ const QuestionField: FC<QuestionFieldProps> = ({
   titleIndex,
 }: QuestionFieldProps) => {
   const dispatch = useAppDispatch();
-  const { editingQuestion } = useAppSelector((state) => state.question);
+  const { editingQuestion, questions } = useAppSelector(
+    (state) => state.question
+  );
 
   const editingFieldHandler = (question: Question, target: Element) => {
     const hasSwitched = editingQuestion && editingQuestion.id === question.id;
     if (hasSwitched) return;
+    if (editingQuestion !== null) {
+      const hasNoSameArrStringName = helper.checkHasSameArrStringName(
+        editingQuestion,
+        questions
+      );
+
+      if (!hasNoSameArrStringName) return;
+    }
 
     dispatch(questionActions.willChangeLimitationValue(true));
     dispatch(questionActions.switchEditingFormPage(question.page));

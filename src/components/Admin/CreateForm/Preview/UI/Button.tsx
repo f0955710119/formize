@@ -1,5 +1,4 @@
 import styled from "styled-components";
-// import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 export const ButtonWrapper = styled.div`
   display: flex;
@@ -15,13 +14,7 @@ export const ButtonWrapper = styled.div`
 `;
 
 export const ButtonText = styled.div`
-  /* margin-right: 1rem; */
   font-size: 1.8rem;
   color: ${(props) => props.theme.title};
 `;
 
-// export const CustomButtonIcon = styled(AddCircleRoundedIcon)`
-//   width: 1.8rem;
-//   height: 80%;
-//   fill: ${(props) => props.theme.title};
-// `;

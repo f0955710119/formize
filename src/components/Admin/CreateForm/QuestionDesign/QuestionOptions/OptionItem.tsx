@@ -7,6 +7,7 @@ import AddCommentSharpIcon from "@mui/icons-material/AddCommentSharp";
 import helper from "../../../../../utils/helper";
 import questionDefaultConfig from "../../../../../configs/questionDefaultConfig";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import sweetAlert from "../../../../../utils/sweetAlert";
 
 const OptionWrapper = styled.div`
   display: flex;
@@ -73,8 +74,20 @@ const OptionItem: FC<OptionItemProps> = ({
   children,
 }: OptionItemProps) => {
   const dispatch = useAppDispatch();
-  const { editingFormPage } = useAppSelector((state) => state.question);
+
+  const { editingFormPage, editingQuestion, questions } = useAppSelector(
+    (state) => state.question
+  );
+
   const addNewQuestionHandler = (questionType: string) => {
+    if (editingQuestion !== null) {
+      const hasNoSameArrStringName = helper.checkHasSameArrStringName(
+        editingQuestion,
+        questions
+      );
+      if (!hasNoSameArrStringName) return;
+    }
+
     const id = helper.generateId(8);
     const defaultQuestion = questionDefaultList[+questionType];
     const newQuestion = {

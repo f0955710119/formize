@@ -23,7 +23,7 @@ const ListLayout = styled(Layout)<ListLayoutProps>`
     height: ${(props: ListLayoutProps) =>
       props.isMultiplePage ? "auto" : "17rem"};
     order: 2;
-    padding: 2rem 12rem 0 12rem;
+    padding: 2rem 3rem 0 3rem;
   }
   @media ${breakpointConfig.tablet} {
     padding: 2rem 6rem 0 6rem;

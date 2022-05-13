@@ -8,7 +8,7 @@ const useFormData = () => {
   const context = useContext(adminContext);
   const settingContextData = useContext(settingContext);
   const { uid, editingGroupId } = context;
-  console.log(editingGroupId);
+
   const sendingFormData = {
     uid,
     groupId: editingGroupId,

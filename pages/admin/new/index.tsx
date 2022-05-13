@@ -67,7 +67,7 @@ const New: NextPage = () => {
       return;
     }
 
-    alert("此頁只能透過管理員頁面進入唷!");
+    // alert("此頁只能透過管理員頁面進入唷!");
     router.push("/admin");
   };
 
