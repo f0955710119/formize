@@ -24,6 +24,8 @@ const QuestionWrapper = styled.div`
 
   @media ${breakpointConfig.mobileL} {
     min-width: 20rem;
+    width: 100%;
+    margin-right: 0;
   }
 `;
 
@@ -58,7 +60,8 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
   questionType,
   index,
 }: CreatedQuestionProps) => {
-  const noteText = questionType === "2" ? "引言沒有註解" : note;
+  const noteTextRaw = questionType === "2" ? "引言沒有註解" : note;
+  const noteText = noteTextRaw === "" ? "暫無註解" : noteTextRaw;
   return (
     <QuestionWrapper>
       <QuestionIcon

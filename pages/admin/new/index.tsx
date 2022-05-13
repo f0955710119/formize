@@ -24,15 +24,11 @@ import scrollBar from "../../../src/components/UI/scrollBar";
 import { useContext, useEffect, useState } from "react";
 import useRouterLoaded from "../../../src/hooks/useRouterLoaded";
 import Loading from "../../../src/components/UI/Loading";
-import useCheckUid from "../../../src/hooks/useCheckUid";
 import { adminContext } from "../../../src/store/context/adminContext";
-import useInitAdminInfo from "../../../src/hooks/useInitAdminInfo";
 import { useRouter } from "next/router";
 
-import {
-  SettingContextProvider,
-  settingContext,
-} from "../../../src/store/context/settingContext";
+import { SettingContextProvider } from "../../../src/store/context/settingContext";
+import sweetAlert from "../../../src/utils/sweetAlert";
 
 const CreateNewPageContainer = styled.div`
   width: 100vw;
@@ -58,27 +54,23 @@ const New: NextPage = () => {
   const { currentStep } = useAppSelector((state) => state.question);
   const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);
   const themeCode = useGetTheme();
-  const checkUidInOtherPageHandler = useCheckUid();
   const colorTheme = themes[helper.generateResponseThemePalette(themeCode)];
 
   const fetchAdminData = async (uid: string) => {
     if (uid !== "") {
       setIsFetchingAdminData(false);
+      sweetAlert.loadedReminderAlert("準備完成，開始創造問卷囉!");
+      setTimeout(() => {
+        sweetAlert.closeAlert();
+      }, 1500);
+
       return;
     }
-    alert("此頁只能透過管理員頁面進入唷!");
-    router.push("/");
-    // const isInvalid = await checkUidInOtherPageHandler();
-    // if (isInvalid) {
-    // }
-    // setIsFetchingAdminData(false);
-    // return;
 
-    // await initAdminHandler(uid);
-    // setIsFetchingAdminData(false);
+    alert("此頁只能透過管理員頁面進入唷!");
+    router.push("/admin");
   };
 
-  const initAdminHandler = useInitAdminInfo();
   useRouterLoaded(() => fetchAdminData(context.uid));
 
   return (

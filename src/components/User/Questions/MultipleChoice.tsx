@@ -1,19 +1,10 @@
-import {
-  FC,
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-  useRef,
-  ChangeEvent,
-} from "react";
+import { FC, useState, useEffect, useRef, ChangeEvent } from "react";
 import styled from "styled-components";
 
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormHelperText from "@mui/material/FormHelperText";
+
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";
@@ -31,13 +22,13 @@ const CustomFormControl = styled(FormControl)`
   width: 100%;
   font-family: inherit;
 
-  & .css-ahj2mt-MuiTypography-root {
+  & [class*="-MuiTypography-root"] {
     margin-left: 1rem;
     font-family: inherit;
     font-size: 1.8rem;
   }
 
-  & .css-j204z7-MuiFormControlLabel-root {
+  & [class*="-MuiFormControlLabel-root"] {
     margin-right: 0;
     width: 100%;
   }
@@ -51,12 +42,14 @@ interface MultipleChoiceProps {
   options: string[];
   maxSelected: number;
   questionId: string;
+  isCreatingProcess: boolean;
 }
 
 const MultipleChoice: FC<MultipleChoiceProps> = ({
   options,
   maxSelected,
   questionId,
+  isCreatingProcess = false,
 }) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
@@ -72,7 +65,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
     } = {};
 
     options.forEach((option, i) => {
-      if (!existingInput) {
+      if (!existingInput || isCreatingProcess) {
         existedOption[option] = false;
         return;
       }
@@ -88,7 +81,7 @@ const MultipleChoice: FC<MultipleChoiceProps> = ({
   const [selectedOptions, setSelectedOptions] = useState<string[]>(() => {
     const selectedArray: string[] = [];
 
-    if (!existingInput) {
+    if (!existingInput || isCreatingProcess) {
       return Array(options.length).fill("");
     }
     options.forEach((option, i) => {

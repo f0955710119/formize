@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import styled from "styled-components";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import useDeleteForm from "../../../../../hooks/useDeleteForm";
 import usePushToAnalysisPage from "../../../../../hooks/usePushToAnalysisPage";
+import { adminContext } from "../../../../../store/context/adminContext";
 import helper from "../../../../../utils/helper";
 import FeatureButton from "./FormItemExpand/FeatureButton";
 
@@ -134,8 +135,14 @@ const FormCard: FC<FormCardProps> = ({
   dateResponsed,
   formId,
 }) => {
+  const adminContextData = useContext(adminContext);
   const goToAnalysisPageHandler = usePushToAnalysisPage();
   const deleteFormHandler = useDeleteForm();
+  const willDeleteForm =
+    adminContextData.forms.length > 0
+      ? adminContextData.forms.find((form) => form.id === formId)
+      : undefined;
+  const deleteFormTitle = willDeleteForm ? willDeleteForm.title : "";
   return (
     <CardContainer id={formId}>
       <FormTitle>{title}</FormTitle>
@@ -162,7 +169,7 @@ const FormCard: FC<FormCardProps> = ({
         <FeatureButton
           text="刪除"
           styleText={featureButtonStyleTextDelete}
-          clickHandler={() => deleteFormHandler(formId)}
+          clickHandler={() => deleteFormHandler(formId, deleteFormTitle)}
         />
         <FeatureLink href={`/s/${formId}`} target="_blank" rel="noreferrer">
           <FeatureButton

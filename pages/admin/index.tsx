@@ -12,9 +12,12 @@ import { adminContext } from "../../src/store/context/adminContext";
 import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
 import useCheckUid from "../../src/hooks/useCheckUid";
 import useRouterLoaded from "../../src/hooks/useRouterLoaded";
+import sweetAlert from "../../src/utils/sweetAlert";
+import { useAppSelector } from "../../src/hooks/useAppSelector";
 
 const Admin: NextPage = () => {
   const context = useContext(adminContext);
+  const { currentStep } = useAppSelector((state) => state.question);
   const router = useRouter();
   const checkUidInOtherPageHandler = useCheckUid();
   const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);

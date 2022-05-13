@@ -5,11 +5,10 @@ import useSwitchCurrentStep from "../../../../hooks/useSwitchCurrentStep";
 
 import styled from "styled-components";
 import SectionNormal from "./SectionNormal";
-import SectionMedia from "./SectionMedia";
 import SectionBanner from "./SectionBanner";
-import Button from "../UI/Button";
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import scrollBar from "../../../UI/scrollBar";
+import sweetAlert from "../../../../utils/sweetAlert";
 
 const Wrapper = styled.main`
   display: flex;
@@ -94,22 +93,45 @@ const ButtonText = styled.span`
 
 const SettingForm: FC = () => {
   const router = useRouter();
+  const { title } = useAppSelector((state) => state.setting);
   const switchStepHandler = useSwitchCurrentStep();
+
   const backToAdminIndexPage = (): void => {
-    router.push("/admin");
+    sweetAlert.clickToConfirmAlert(
+      {
+        title: "FORMiZE小提醒",
+        text: "現在回到首頁的話，\n會失去正在編輯的問卷資料，\n確定離開嗎?",
+        cancelButtonText: "留在此頁",
+        confirmButtonText: "確定離開",
+      },
+      () => {
+        router.replace("/admin");
+      }
+    );
   };
 
   return (
     <Wrapper>
       <Form>
         <SectionNormal />
-        {/* <SectionMedia /> */}
         <SectionBanner />
         <ButtonContainer>
-          <BackToFormManagemenetButton onClick={() => backToAdminIndexPage()}>
+          <BackToFormManagemenetButton
+            type="button"
+            onClick={() => backToAdminIndexPage()}
+          >
             <ButtonText>回到管理頁面</ButtonText>
           </BackToFormManagemenetButton>
-          <GoToQuestionDesignButton onClick={() => switchStepHandler(2)}>
+          <GoToQuestionDesignButton
+            type="button"
+            onClick={() => {
+              if (title === "") {
+                sweetAlert.errorReminderAlert("請一定要填寫問卷的標題！");
+                return;
+              }
+              switchStepHandler(2);
+            }}
+          >
             <ButtonText>前往題目設計</ButtonText>
           </GoToQuestionDesignButton>
         </ButtonContainer>

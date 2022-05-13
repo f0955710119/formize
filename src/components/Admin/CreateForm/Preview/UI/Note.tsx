@@ -18,7 +18,7 @@ const CustomTextField = styled(TextField)`
     line-break: strict;
   }
 
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
+  /* & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
     border-bottom: 2px solid ${(props) => props.theme.note};
   }
 
@@ -34,7 +34,7 @@ const CustomTextField = styled(TextField)`
   }
   & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root::after {
     border-bottom: 2px solid ${(props) => props.theme.title};
-  }
+  } */
 `;
 
 const NoteText = styled.div`
@@ -106,7 +106,9 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
       </EditingButton>
     </>
   ) : (
-    <NoteText onClick={() => setHasClickedNote(true)}>{note}</NoteText>
+    <NoteText onClick={() => setHasClickedNote(true)}>
+      {note === "" ? "點擊新增註解，若無則無需修改此行" : note}
+    </NoteText>
   );
 };
 

@@ -10,25 +10,13 @@ import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../store/slice/questionSlice";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
+import QuestionList from "../../../User/QuestionList";
 
 interface PreviewLayoutProps {
   fontFamily: string;
 }
 
 const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
-  @font-face {
-    font-family: "jfOpenhuninn";
-    src: url("/fonts/jf-openhuninn-1.1.ttf") format("truetype");
-  }
-  @font-face {
-    font-family: "hanaMinA";
-    src: url("/fonts/HanaMinA.ttf") format("truetype");
-  }
-  @font-face {
-    font-family: "taipeiSansTCBold";
-    src: url("/fonts/TaipeiSansTCBeta-Bold.ttf") format("truetype");
-  }
-
   font-family: ${(props: PreviewLayoutProps) => props.fontFamily};
 
   position: relative;
@@ -48,7 +36,6 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
   }
 `;
 
-// const formWidth = Math.round((window.innerHeight / 4) * 3);
 interface QuestionWrapperProps {
   hasQuestion: boolean;
   backgroundImageURL: string;
@@ -59,7 +46,8 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: ${(props: QuestionWrapperProps) => props.width};
+  /* width: ${(props: QuestionWrapperProps) => props.width}; */
+  width: 80rem;
   height: 100%;
   padding: 2rem 4rem;
   ${(props: QuestionWrapperProps) => `background-image: linear-gradient(
@@ -73,6 +61,9 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
 
   overflow-y: scroll;
 
+  @media ${breakpointConfig.tablet} {
+    width: 100%;
+  }
   &::-webkit-scrollbar {
     display: none;
   }
@@ -142,7 +133,7 @@ const Preview: FC = () => {
   const [reminderText, setReminderText] = useState<string>(
     "尚無題目，點擊右欄題目的新增符號來創建題型吧!"
   );
-  const { questions, editingFormPage } = useAppSelector(
+  const { questions, editingFormPage, currentStep } = useAppSelector(
     (state) => state.question
   );
   const { mode, pageQuantity } = useAppSelector((state) => state.setting);
@@ -169,7 +160,7 @@ const Preview: FC = () => {
 
   const hasQuestions = questions.length > 0;
 
-  const renderQuestions =
+  const editingQuestions =
     mode === "1"
       ? questions
           .filter((question) => question.page === editingFormPage)
@@ -187,6 +178,30 @@ const Preview: FC = () => {
             titleIndex={indexArr[i]}
           />
         ));
+
+  const stylingQuestions =
+    mode === "1"
+      ? questions
+          .filter((question) => question.page === editingFormPage)
+          .map((question, i) => (
+            <QuestionList
+              key={question.id}
+              titleIndex={multiPageQuestionIndexArr[editingFormPage - 1][i]}
+              question={question}
+              isCreatingProcess
+            />
+          ))
+      : questions.map((question, i) => (
+          <QuestionList
+            key={question.id}
+            titleIndex={indexArr[i]}
+            question={question}
+            isCreatingProcess
+          />
+        ));
+
+  const previewQuestions =
+    currentStep === 2 ? editingQuestions : stylingQuestions;
 
   return (
     <PreviewLayout fontFamily={fontTheme}>
@@ -223,7 +238,7 @@ const Preview: FC = () => {
         width={width}
       >
         {hasQuestions ? (
-          renderQuestions
+          previewQuestions
         ) : (
           <NoQuestionReminder>
             <NoQuestionReminderText>{reminderText}</NoQuestionReminderText>

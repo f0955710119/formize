@@ -74,18 +74,67 @@ const GlobalStyle = createGlobalStyle`
   input:focus {
     outline: none;
   }
+
+  .swal2-container .swal2-modal {
+    background-image: url('/images/dashboard-background.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .swal2-modal .swal2-title {
+    margin: 0;
+  }
+
+  & #swal2-html-container {
+    font-size: 1.6rem;
+    white-space: pre-line;
+  }
+  
+  .swal2-actions .swal2-styled.swal2-confirm, .swal2-actions .swal2-styled.swal2-cancel {
+    width: 12rem;
+    height: 3.2rem;
+    font-size: 1.6rem;
+    padding:0
+  }
+
+  .swal2-actions .swal2-styled.swal2-confirm {
+    order: 2;
+  }
+  .swal2-actions .swal2-styled.swal2-cancel {
+    order: 1;
+  }
+
+  .swal2-modal .swal2-select {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding:1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .swal2-modal .swal2-input-label{
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    color:#ed4535;
+    cursor: text;
+  }
+
+  .swal2-modal .swal2-validation-message {
+    margin: 0;
+    background-color: transparent;
+    font-size: 1.3rem;
+  }
+
+  .swal2-modal .swal2-input {
+    font-size: 1.4rem;
+  }
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  useEffect(() => {
-    router.events.on("routeChangeStart", () => {
-      console.log("test");
-    });
-    router.events.on("routeChangeComplete", () => {
-      console.log("test end");
-    });
-  }, []);
   return (
     <Provider store={store}>
       <AdminProvider>

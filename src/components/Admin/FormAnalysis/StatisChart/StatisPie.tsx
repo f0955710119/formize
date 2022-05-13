@@ -43,7 +43,7 @@ const renderCustomizedLabel = (props: any) => {
 
   // prettier-ignore
   const [xLotText, yLotText] = generateLabelPoisitionValue({ ...settings, percentage: 0.4 });
-  const [x, y] = generateLabelPoisitionValue({ ...settings, percentage: 0.1 });
+  const [x, y] = generateLabelPoisitionValue({ ...settings, percentage: 0.3 });
 
   const title = payload.payload.rowTitle;
   const textColor = index < 1 ? "#fff" : "#555";

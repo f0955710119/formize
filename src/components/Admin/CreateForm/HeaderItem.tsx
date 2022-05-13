@@ -2,6 +2,10 @@ import { FC } from "react";
 import styled from "styled-components";
 import useSwitchCurrentStep from "../../../hooks/useSwitchCurrentStep";
 import breakpointConfig from "../../../configs/breakpointConfig";
+import useFormData from "../../../hooks/useFormData";
+import useDeployForm from "../../../hooks/useDeployForm";
+import sweetAlert from "../../../utils/sweetAlert";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 
 interface ItemWrapperProps {
   number: number;
@@ -93,10 +97,26 @@ const HeaderItem: FC<HeaderItemProps> = ({
   isLastItem,
   currentStep,
 }: HeaderItemProps) => {
+  const setting = useAppSelector((state) => state.setting);
   const switchStepHandler = useSwitchCurrentStep();
+  const sendingFormData = useFormData();
+  const sendFormDataHandler = useDeployForm();
   return (
     <ItemWrapper number={number} currentStep={currentStep}>
-      <OptionWrapper onClick={() => switchStepHandler(number)}>
+      <OptionWrapper
+        onClick={async () => {
+          if (setting.title === "") {
+            sweetAlert.errorReminderAlert("請一定要填寫問卷的標題！");
+            return;
+          }
+
+          if (number === 4) {
+            await sendFormDataHandler(sendingFormData);
+            return;
+          }
+          switchStepHandler(number);
+        }}
+      >
         <NumberIconWrapper>
           <NumberIcon>{number}</NumberIcon>
         </NumberIconWrapper>

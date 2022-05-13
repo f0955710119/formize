@@ -1,4 +1,4 @@
-import { FC, useRef, ChangeEvent, useState, useEffect } from "react";
+import { FC, ChangeEvent, useState, useEffect, useRef } from "react";
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { settingActions } from "../../../../store/slice/settingSlice";
 import settingActionType from "../../../../store/actionType/settingActionType";
@@ -11,16 +11,13 @@ import SectionHeading from "../UI/SectionHeading";
 import Field from "../UI/Field";
 import Label from "../UI/Label";
 import NormalTextInput from "./SectionNormal/NormalTextInput";
-import Modal from "../UI/Modal";
 
-import helper from "../../../../utils/helper";
 import settingConfig from "../../../../configs/settingConfig";
 import { useAppSelector } from "../../../../hooks/useAppSelector";
 import { questionActions } from "../../../../store/slice/questionSlice";
-import breakpointConfig from "../../../../configs/breakpointConfig";
+import sweetAlert from "../../../../utils/sweetAlert";
 
-const { DEFAULT_STATUS_LIST, DEFAULT_MODE_LIST, DEFAULT_UNIT_LIST } =
-  settingConfig;
+const { DEFAULT_MODE_LIST } = settingConfig;
 
 const CustomedFormControl = styled(FormControl)`
   width: calc(100% - 12rem);
@@ -36,31 +33,17 @@ const SectionNormal: FC = () => {
   const dispatch = useAppDispatch();
   const { setting } = useAppSelector((state) => state);
   const [selectedMode, setSelectedMode] = useState<string>(setting.mode);
-  const [switchModeComfirmModal, setSwitchModeComfirmModal] =
-    useState<boolean>(false);
-  const [windowWidth, setWindowWidth] = useState<number>(0);
-  const timeUnit = useRef<number>(1);
-  const limitTime = useRef<number>(1);
-
-  const isNotBeyond584px =
-    windowWidth > Number.parseInt(breakpointConfig.tabletS);
-
-  useEffect(() => {
-    const width = window.innerWidth;
-    setWindowWidth(width);
-  }, [windowWidth]);
-
-  console.log(setting);
+  const hasUpdateMode = useRef<boolean>(false);
 
   const dispatchNormalSettingHandler = (
-    value: string | number | object | null,
-    actionType: string
+    actionType: string,
+    value: string | number | object | null
   ) => {
     dispatch(settingActions.updateSingleSettingInput({ actionType, value }));
   };
 
   const switchModeHandler = () => {
-    dispatchNormalSettingHandler(selectedMode, settingActionType.MODE);
+    dispatchNormalSettingHandler(settingActionType.MODE, selectedMode);
     dispatch(
       questionActions.updateQuestionPage({ page: 1, isSwitchMode: true })
     );
@@ -70,27 +53,16 @@ const SectionNormal: FC = () => {
         value: 1,
       })
     );
-    setSwitchModeComfirmModal(false);
   };
 
-  const cancelSwitchModeHandler = () => {
-    setSelectedMode(setting.mode);
-    setSwitchModeComfirmModal(false);
-  };
+  useEffect(() => {
+    if (!hasUpdateMode.current) return;
+    hasUpdateMode.current = false;
+    switchModeHandler();
+  }, [selectedMode]);
 
   return (
     <>
-      <Modal
-        hasOpenModal={switchModeComfirmModal}
-        setModal={setSwitchModeComfirmModal}
-        submuitButtonText="確認切換"
-        undoButtonText="取消"
-        submitHandler={switchModeHandler}
-        cancelHandler={cancelSwitchModeHandler}
-      >
-        改變問卷模式將會移除原本題型的分頁，確認要執行嗎?
-      </Modal>
-
       <SectionWrapper>
         <SectionHeading>一般設定</SectionHeading>
         <Field>
@@ -101,27 +73,9 @@ const SectionNormal: FC = () => {
             placeholder="輸入問卷的標題"
             changeHandler={(event: ChangeEvent<HTMLInputElement>) => {
               const { value } = event.currentTarget;
-              dispatchNormalSettingHandler(value, settingActionType.TITLE);
+              dispatchNormalSettingHandler(settingActionType.TITLE, value);
             }}
           />
-        </Field>
-        <Field>
-          <Label>問卷狀態</Label>
-          <CustomedFormControl>
-            <Select
-              value={setting.status}
-              onChange={(event) => {
-                const { value } = event.target;
-                dispatchNormalSettingHandler(value, settingActionType.STATUS);
-              }}
-            >
-              {DEFAULT_STATUS_LIST.map((option, i) => (
-                <MenuItem value={"" + i} key={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </CustomedFormControl>
         </Field>
         <Field>
           <Label>頁面模式</Label>
@@ -133,8 +87,24 @@ const SectionNormal: FC = () => {
                   key={option}
                   onClick={() => {
                     if (+selectedMode === i) return;
-                    setSelectedMode("" + i);
-                    setSwitchModeComfirmModal(true);
+                    const modeReminderText =
+                      +selectedMode === 0
+                        ? "改變分頁模式會完全改動當前的分頁設定，\n如:「當前的題目將全部移動至第一頁」，\n確定要改變嗎?"
+                        : "改變分頁模式會完全改動當前的分頁設定，\n如:「分頁將歸為第一頁，而當前的分頁將不被儲存」，\n確定要改變嗎?";
+
+                    sweetAlert.clickToConfirmAlert(
+                      {
+                        title: "切換模式",
+                        text: modeReminderText,
+                        cancelButtonText: "取消變動",
+                        confirmButtonText: "確定切換",
+                        imageUrl: `${process.env.NEXT_PUBLIC_ORIGIN}/images/loading-reminder.svg`,
+                      },
+                      () => {
+                        setSelectedMode("" + i);
+                        hasUpdateMode.current = true;
+                      }
+                    );
                   }}
                 >
                   {option}
@@ -142,68 +112,6 @@ const SectionNormal: FC = () => {
               ))}
             </Select>
           </CustomedFormControl>
-        </Field>
-        <Field>
-          <Label>填答時間限制</Label>
-          <NormalTextInput
-            value={setting.limitedAnswerTime}
-            style={{
-              width: `${isNotBeyond584px ? "50%" : "40%"}`,
-            }}
-            type="number"
-            placeholder={
-              isNotBeyond584px ? "請填寫數值，並選擇單位" : "請填寫數值"
-            }
-            changeHandler={(event: ChangeEvent<HTMLInputElement>) => {
-              const { value } = event.target;
-              limitTime.current = +value;
-              dispatchNormalSettingHandler(
-                +value * timeUnit.current,
-                settingActionType.LIMITED_ANSWER_TIME
-              );
-            }}
-          />
-          <CustomedFormControl
-            style={{
-              width: `${
-                isNotBeyond584px ? "calc(50% - 12rem)" : "calc(60% - 12rem)"
-              }`,
-            }}
-          >
-            <Select
-              defaultValue="0"
-              onChange={(event) => {
-                const { value } = event.target;
-                const unitTimeNumber = helper.generateResponsedUnitTime(value);
-                timeUnit.current = unitTimeNumber;
-                dispatchNormalSettingHandler(
-                  limitTime.current * unitTimeNumber,
-                  settingActionType.LIMITED_ANSWER_TIME
-                );
-              }}
-            >
-              {DEFAULT_UNIT_LIST.map((option, i) => (
-                <MenuItem value={i} key={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </CustomedFormControl>
-        </Field>
-        <Field>
-          <Label>上限回應筆數</Label>
-          <NormalTextInput
-            value={setting.limitedResponseQuantity}
-            type="number"
-            placeholder="限制問卷的填答上限數量"
-            changeHandler={(event: ChangeEvent<HTMLInputElement>) => {
-              const { value } = event.target;
-              dispatchNormalSettingHandler(
-                +value,
-                settingActionType.LIMITED_RESPONSE_QUANTITY
-              );
-            }}
-          />
         </Field>
       </SectionWrapper>
     </>

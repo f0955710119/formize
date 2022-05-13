@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import { FormControl, RadioGroup, Radio } from "@mui/material";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
@@ -22,7 +22,7 @@ const CustomFormControl = styled(FormControl)`
     width: 100%;
   }
 
-  & .css-1snu36k-MuiButtonBase-root-MuiRadio-root:hover {
+  & [class*="-MuiButtonBase-root-MuiRadio-root"]:hover {
     background-color: transparent;
   }
 `;
@@ -38,9 +38,14 @@ const CustomRadio = styled(Radio)`
 interface OneChoiceProps {
   options: string[];
   questionId: string;
+  isCreatingProcess: boolean;
 }
 
-const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
+const OneChoice: FC<OneChoiceProps> = ({
+  options,
+  questionId,
+  isCreatingProcess = false,
+}) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const showInvalidHandler = useCheckAnswerValid(questionId);
@@ -48,6 +53,8 @@ const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
   const existingInput = answers[questionIdIndex]
     ? answers[questionIdIndex].input
     : "";
+  const [previewChecked, setPreviewChecked] = useState<string>("");
+
   return (
     <CustomFormControl>
       <CustomRadioGroup
@@ -55,28 +62,42 @@ const OneChoice: FC<OneChoiceProps> = ({ options, questionId }) => {
         name="one-choice-question-radio-buttons-group"
         onChange={(event) => {
           const input = event.target.value;
+          if (isCreatingProcess) {
+            setPreviewChecked(input);
+            return;
+          }
           dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
           showInvalidHandler("");
         }}
       >
-        {options.map((option, i) => (
-          <CustomFormLabel
-            active={existingInput === `${i + 1}.${option}` ? "true" : "false"}
-            value={`${i + 1}.${option}`}
-            control={
-              <CustomRadio
-                disableRipple
-                disableTouchRipple
-                checked={existingInput === `${i + 1}.${option}`}
-                icon={<CustomIcon />}
-                checkedIcon={<CustomCheckedIcon />}
-                size="medium"
-              />
-            }
-            label={option}
-            key={i}
-          />
-        ))}
+        {options.map((option, i) => {
+          const checkedForCreatingProcess =
+            previewChecked === `${i + 1}.${option}`;
+          const checkedForUserFillingProcess =
+            existingInput === `${i + 1}.${option}`;
+          const renderCheckedStatus = isCreatingProcess
+            ? checkedForCreatingProcess
+            : checkedForUserFillingProcess;
+
+          return (
+            <CustomFormLabel
+              active={renderCheckedStatus ? "true" : "false"}
+              value={`${i + 1}.${option}`}
+              control={
+                <CustomRadio
+                  disableRipple
+                  disableTouchRipple
+                  checked={renderCheckedStatus}
+                  icon={<CustomIcon />}
+                  checkedIcon={<CustomCheckedIcon />}
+                  size="medium"
+                />
+              }
+              label={option}
+              key={i}
+            />
+          );
+        })}
       </CustomRadioGroup>
     </CustomFormControl>
   );

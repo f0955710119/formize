@@ -47,7 +47,7 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
 
   const maxValidationHandler = (value: string) => {
     if (min === undefined || max === undefined) return null;
-    if (+value < min) "最大值不可以小於最大值，請更換數值";
+    if (+value < min) return "最大值不可以小於最大值，請更換數值";
     return checkInt({ max, min, value: "" + interval });
   };
 
@@ -149,7 +149,7 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
           />
         </Field>
       )}
-      <Field>
+      {/* <Field>
         <Label>小數點後碼數</Label>
         <TextInput
           id={id}
@@ -158,7 +158,7 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
           dispatchHandler={saveDemcialHandler}
           validationType={questionConfig.DECIMAL}
         />
-      </Field>
+      </Field> */}
     </LimitationWrapper>
   );
 };

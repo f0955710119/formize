@@ -13,6 +13,7 @@ import { settingActions } from "../../../../store/slice/settingSlice";
 import settingActionType from "../../../../store/actionType/settingActionType";
 import { settingContext } from "../../../../store/context/settingContext";
 import scrollBar from "../../../UI/scrollBar";
+import sweetAlert from "../../../../utils/sweetAlert";
 
 const BannerField = styled(Field)`
   height: 39rem;
@@ -71,7 +72,7 @@ const SectionBanner: FC = () => {
 
   return (
     <SectionWrapper>
-      <SectionHeading>橫幅設定</SectionHeading>
+      {/* <SectionHeading>橫幅設定</SectionHeading> */}
       <BannerField>
         <Label>
           歡迎頁圖檔
@@ -94,8 +95,9 @@ const SectionBanner: FC = () => {
           onChange={(event) => {
             if (event.target.files === null) return;
             const file = event.target.files[0];
+            if (!file) return;
             if (file.size > 5_000_000) {
-              alert("不可上傳超過5MB的圖片!");
+              sweetAlert.errorReminderAlert("不可上傳超過5MB的圖片!");
               return;
             }
 
@@ -122,6 +124,10 @@ const SectionBanner: FC = () => {
           minRows={5}
           maxRows={5}
           onChange={(event) => {
+            if (event.target.value.length > 250) {
+              sweetAlert.errorReminderAlert("不可超過250字");
+              return;
+            }
             dispatch(
               settingActions.updateSingleSettingInput({
                 actionType: settingActionType.START_PAGE_PARAGRAPH,
@@ -153,8 +159,9 @@ const SectionBanner: FC = () => {
           onChange={(event) => {
             if (event.target.files === null) return;
             const file = event.target.files[0];
+            if (!file) return;
             if (file.size > 5_000_000) {
-              alert("不可上傳超過5MB的圖片!");
+              sweetAlert.errorReminderAlert("不可上傳超過5MB的圖片!");
               return;
             }
 
@@ -181,6 +188,10 @@ const SectionBanner: FC = () => {
           minRows={5}
           maxRows={5}
           onChange={(event) => {
+            if (event.target.value.length > 250) {
+              sweetAlert.errorReminderAlert("不可超過250字");
+              return;
+            }
             dispatch(
               settingActions.updateSingleSettingInput({
                 actionType: settingActionType.END_PAGE_PARAGRAPH,

@@ -21,7 +21,7 @@ const ItemContainer = styled.div`
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   width: 100%;
-  height: 45rem;
+  height: 50rem;
   border-radius: 3px;
 
   &:not(:last-child) {
@@ -44,6 +44,10 @@ const ChartWrapper = styled.div`
   display: inline-block;
   width: 46rem;
   height: 36rem;
+
+  @media ${breakpointConfig.laptopL} {
+    margin-top: 4rem;
+  }
 
   @media ${breakpointConfig.tabletS} {
     width: 100%;
@@ -99,6 +103,10 @@ const MultipleTextReminder = styled.div`
   align-items: center;
   width: calc(100% - 64rem);
   height: 100%;
+
+  @media ${breakpointConfig.laptopL} {
+    margin-top: 4rem;
+  }
 
   @media ${breakpointConfig.laptopM} {
     width: 100%;

@@ -111,7 +111,7 @@ const FormList: FC = () => {
     return hasResponsedGroup;
   };
   const groupListArray = isShowAllForm ? context.groups : [showSingleGroup()];
-  console.log(groupListArray);
+
   return (
     <>
       {groupListArray[0] === undefined ? (

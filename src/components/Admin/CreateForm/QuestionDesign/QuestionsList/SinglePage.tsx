@@ -26,6 +26,10 @@ const DeleteButtonWrapper = styled.div`
   width: 5rem;
   height: 100%;
 
+  @media ${breakpointConfig.mobileL} {
+    display: none;
+  }
+
   /* @media ${breakpointConfig.laptopM} {
     display: none;
   } */

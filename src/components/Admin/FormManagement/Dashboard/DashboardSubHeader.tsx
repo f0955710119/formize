@@ -1,21 +1,14 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import FilterComboBox from "./FilterComboBox";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import DisplayButtonGroup from "./DisplayButtonGroup";
+import Swal from "sweetalert2";
 
 import useInitNewForm from "../../../../hooks/useInitNewForm";
 import { adminContext } from "../../../../store/context/adminContext";
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useInitAdminInfo from "../../../../hooks/useInitAdminInfo";
-import adminActionType from "../../../../store/actionType/adminActionType";
-
-const defalutStatusOptions = ["公開", "待上線", "保護", "額滿", "關閉"];
-const defalutDateOptions = ["最新創建", "最舊創建", "最新回覆", "最舊創建"];
+import sweetAlert from "../../../../utils/sweetAlert";
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -127,54 +120,63 @@ const DashboardSubHeader: FC = () => {
   };
 
   const deleteExistingGroup = async () => {
-    try {
-      const response = await fetch("/api/admin/group", {
-        method: "DELETE",
-        headers: {
-          Authorization: `Basic ${context.uid}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ groupId: context.editingGroupId }),
-      });
-      const data = await response.json();
-      await initAdminHandler(context.uid, true);
-      alert("刪除成功!");
-    } catch (error: any) {
-      console.error(error.message);
-    }
+    const willDeleteGroup =
+      context.groups.length > 0
+        ? context.groups.find((group) => group.id === context.editingGroupId)
+        : undefined;
+    const deleteGroupTitle = willDeleteGroup ? willDeleteGroup.name : "";
+    const deleteGroupCallback = async () => {
+      try {
+        sweetAlert.loadingReminderAlert("正在刪除群組...");
+        const response = await fetch("/api/admin/group", {
+          method: "DELETE",
+          headers: {
+            Authorization: `Basic ${context.uid}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ groupId: context.editingGroupId }),
+        });
+        const data = await response.json();
+        await initAdminHandler(context.uid, true);
+        sweetAlert.loadedReminderAlert("刪除成功!");
+        setTimeout(() => {
+          sweetAlert.closeAlert();
+        }, 1500);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    };
+    const reesponse = await sweetAlert.textInputAlert(
+      {
+        title: `刪除群組\n${
+          deleteGroupTitle !== "" ? `「${deleteGroupTitle}」` : ""
+        }`,
+        text: "刪除群組將遺失其內部的所有問卷，\n會失去大量資料且不可復原，確定要刪除嗎?",
+        cancelButtonText: "取消",
+        confirmButtonText: "刪除",
+        inputLabel: `輸入群組名稱: ${deleteGroupTitle}`,
+      },
+      deleteGroupTitle
+    );
+
+    if (reesponse.value !== deleteGroupTitle) return;
+    await deleteGroupCallback();
   };
 
   return (
     <HeaderWrapper>
-      <FilterWrapper>
-        {/* <FormControl>
-          <CustomFormHelperText>選擇問卷狀態</CustomFormHelperText>
-          <CustomSelect>
-            {defalutStatusOptions.map((status, i) => (
-              <option value={status} key={i}>
-                {status}
-              </option>
-            ))}
-          </CustomSelect>
-        </FormControl>
-
-        <FormControl>
-          <CustomFormHelperText>選擇問卷日期</CustomFormHelperText>
-          <CustomSelect>
-            {defalutDateOptions.map((date, i) => (
-              <option value={date} key={i}>
-                {date}
-              </option>
-            ))}
-          </CustomSelect>
-        </FormControl> */}
-      </FilterWrapper>
+      <FilterWrapper></FilterWrapper>
       {context.editingGroupId !== "0" && (
         <>
           <DeleteButtonWrapper onClick={() => deleteExistingGroup()}>
             <DeleteButtonText>刪除群組</DeleteButtonText>
           </DeleteButtonWrapper>
-          <ButtonWrapper onClick={goAddNewFormHandler}>
+          <ButtonWrapper
+            onClick={() => {
+              sweetAlert.loadingReminderAlert("正在準備問卷狀態...");
+              goAddNewFormHandler();
+            }}
+          >
             <ButtonText>新增問卷</ButtonText>
           </ButtonWrapper>
         </>

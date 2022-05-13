@@ -9,6 +9,7 @@ import helper from "../../../../../utils/helper";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import icons from "../../UI/icons";
+import sweetAlert from "../../../../../utils/sweetAlert";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
@@ -129,7 +130,7 @@ const OptionItem: FC<OptionItemProps> = ({
     const checkHasExistedTitle = helper.checkExistedName(checkNameUtilObj);
 
     if (checkHasExistedTitle) {
-      alert("有重複的選項名稱存在，不可以重複儲存喲!");
+      sweetAlert.errorReminderAlert("有重複的選項名稱存在，不可以重複儲存喲!");
       return;
     }
 

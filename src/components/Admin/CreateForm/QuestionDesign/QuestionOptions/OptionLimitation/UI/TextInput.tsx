@@ -14,17 +14,28 @@ const CustomTextInput = styled(TextField)`
   border-radius: 0px;
 
   & div {
-    border-radius: 0px;
+    border-radius: 3px;
     height: 100%;
   }
 
   & label {
     font-size: 1.4rem;
+    display: none;
+    background-color: transparent;
   }
 
   & .MuiInputBase-input::placeholder {
     color: #aaa;
     opacity: 1;
+  }
+
+  & [class*="-MuiInputBase-input-MuiOutlinedInput-input"] {
+    font-size: 1.4rem;
+    cursor: text;
+  }
+
+  & legend {
+    display: none;
   }
 `;
 
