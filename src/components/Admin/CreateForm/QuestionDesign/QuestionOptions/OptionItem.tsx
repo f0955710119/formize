@@ -8,6 +8,7 @@ import helper from "../../../../../utils/helper";
 import questionDefaultConfig from "../../../../../configs/questionDefaultConfig";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import sweetAlert from "../../../../../utils/sweetAlert";
+import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 
 const OptionWrapper = styled.div`
   display: flex;
@@ -75,18 +76,13 @@ const OptionItem: FC<OptionItemProps> = ({
 }: OptionItemProps) => {
   const dispatch = useAppDispatch();
 
-  const { editingFormPage, editingQuestion, questions } = useAppSelector(
-    (state) => state.question
-  );
+  const { editingFormPage } = useAppSelector((state) => state.question);
+  const checkHasNoSameArrayStringNameHandler =
+    useCheckQuestionArraySameString();
 
   const addNewQuestionHandler = (questionType: string) => {
-    if (editingQuestion !== null) {
-      const hasNoSameArrStringName = helper.checkHasSameArrStringName(
-        editingQuestion,
-        questions
-      );
-      if (!hasNoSameArrStringName) return;
-    }
+    const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
+    if (!hasNoSameStringName) return;
 
     const id = helper.generateId(8);
     const defaultQuestion = questionDefaultList[+questionType];

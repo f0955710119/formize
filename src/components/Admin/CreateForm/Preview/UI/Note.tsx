@@ -4,6 +4,7 @@ import { questionActions } from "../../../../../store/slice/questionSlice";
 import styled from "styled-components";
 import { TextField } from "@mui/material";
 import questionActionType from "../../../../../store/actionType/questionActionType";
+import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 
 const CustomTextField = styled(TextField)`
   width: 100%;
@@ -74,10 +75,12 @@ interface NoteProps {
 }
 
 const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
+  const dispatch = useAppDispatch();
   const [hasClickedNote, setHasClickedNote] = useState<boolean>(false);
   const [editingNote, setEditingNote] = useState<string>(note);
+  const checkHasNoSameArrayStringNameHandler =
+    useCheckQuestionArraySameString();
 
-  const dispatch = useAppDispatch();
   return hasClickedNote ? (
     <>
       <CustomTextField
@@ -106,7 +109,13 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
       </EditingButton>
     </>
   ) : (
-    <NoteText onClick={() => setHasClickedNote(true)}>
+    <NoteText
+      onClick={() => {
+        const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
+        if (!hasNoSameStringName) return;
+        setHasClickedNote(true);
+      }}
+    >
       {note === "" ? "點擊新增註解，若無則無需修改此行" : note}
     </NoteText>
   );

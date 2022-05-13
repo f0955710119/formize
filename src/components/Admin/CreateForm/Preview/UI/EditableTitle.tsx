@@ -6,6 +6,9 @@ import { TextField } from "@mui/material";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import sweetAlert from "../../../../../utils/sweetAlert";
 import { AlertCircle } from "@styled-icons/ionicons-outline/AlertCircle";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import helper from "../../../../../utils/helper";
+import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 
 const TitleInputWrapper = styled.div`
   width: 100%;
@@ -79,9 +82,11 @@ const EditableTitle: FC<EditableTitleProps> = ({
   id,
   title,
 }: EditableTitleProps) => {
+  const dispatch = useAppDispatch();
   const [hasClickedTitle, setHasClickedTitle] = useState<boolean>(false);
   const [editingTitle, setEditingTitle] = useState<string>(title);
-  const dispatch = useAppDispatch();
+  const checkHasNoSameArrayStringNameHandler =
+    useCheckQuestionArraySameString();
   return hasClickedTitle ? (
     <TitleInputWrapper>
       <CustomTextField
@@ -115,6 +120,8 @@ const EditableTitle: FC<EditableTitleProps> = ({
   ) : (
     <Heading
       onClick={() => {
+        const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
+        if (!hasNoSameStringName) return;
         setEditingTitle(title);
         setHasClickedTitle(true);
       }}

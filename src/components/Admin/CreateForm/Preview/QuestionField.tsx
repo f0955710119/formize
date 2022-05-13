@@ -26,6 +26,8 @@ import DateLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/D
 import ChoiceLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/ChoiceLimitation";
 import sweetAlert from "../../../../utils/sweetAlert";
 import helper from "../../../../utils/helper";
+import useCheckQuestionArraySameString from "../../../../hooks/useCheckQuestionArraySameString";
+import useGetQuestionTitleIndex from "../../../../hooks/useGetQuestionTitleIndex";
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -93,30 +95,56 @@ const QuestionField: FC<QuestionFieldProps> = ({
   titleIndex,
 }: QuestionFieldProps) => {
   const dispatch = useAppDispatch();
-  const { editingQuestion, questions } = useAppSelector(
+  const { editingQuestion, isEditingOption, questions } = useAppSelector(
     (state) => state.question
   );
+  const checkHasNoSameArrayStringNameHandler =
+    useCheckQuestionArraySameString();
+
+  const getTitleIndexHandler = useGetQuestionTitleIndex();
 
   const editingFieldHandler = (question: Question, target: Element) => {
     const hasSwitched = editingQuestion && editingQuestion.id === question.id;
     if (hasSwitched) return;
-    if (editingQuestion !== null) {
-      const hasNoSameArrStringName = helper.checkHasSameArrStringName(
-        editingQuestion,
-        questions
-      );
+    const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
+    if (!hasNoSameStringName) return;
 
-      if (!hasNoSameArrStringName) return;
-    }
+    const confirmToSwitchEditingFieldCallback = () => {
+      dispatch(questionActions.willChangeLimitationValue(true));
+      dispatch(questionActions.switchEditingFormPage(question.page));
+      const hasId = target.id ? true : false;
+      if (hasId && target.id === question.id) {
+        dispatch(questionActions.switchEditingQuestion(null));
+        return;
+      }
+      dispatch(questionActions.switchEditingQuestion(question));
 
-    dispatch(questionActions.willChangeLimitationValue(true));
-    dispatch(questionActions.switchEditingFormPage(question.page));
-    const hasId = target.id ? true : false;
-    if (hasId && target.id === question.id) {
-      dispatch(questionActions.switchEditingQuestion(null));
+      if (!target.classList[0].includes("ChoiceOptionItem")) return;
+      dispatch(questionActions.setIsSwitchingEditingOption(true));
+    };
+
+    if (!isEditingOption) {
+      confirmToSwitchEditingFieldCallback();
       return;
     }
-    dispatch(questionActions.switchEditingQuestion(question));
+
+    if (editingQuestion === null) return;
+    const questionTitleIndex = getTitleIndexHandler(editingQuestion.id);
+    const responseQuestion = questions.find(
+      (question) => question.id === editingQuestion.id
+    );
+
+    sweetAlert.clickToConfirmAlert(
+      {
+        title: "準備切換編輯題目",
+        text: `發現「${questionTitleIndex}.${
+          responseQuestion ? responseQuestion.title : ""
+        }」\n還有正在編輯的「選項」，\n直接切換編輯題目將不會存儲，\n確定要直接切換嗎?`,
+        cancelButtonText: "取消",
+        confirmButtonText: "確定",
+      },
+      confirmToSwitchEditingFieldCallback
+    );
   };
 
   const deleteAddedQuestionHandler = useDeleteQuestion();

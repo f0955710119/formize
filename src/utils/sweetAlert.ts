@@ -5,7 +5,7 @@ export default {
     Swal.fire({
       title,
       showConfirmButton: false,
-      timer: 1700,
+      timer: 2200,
       position: "top",
       backdrop: false,
       color: "#ed4535",

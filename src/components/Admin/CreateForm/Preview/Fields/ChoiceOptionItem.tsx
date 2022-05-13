@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../store/actionType/questionActionType";
@@ -10,6 +10,9 @@ import helper from "../../../../../utils/helper";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import icons from "../../UI/icons";
 import sweetAlert from "../../../../../utils/sweetAlert";
+import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import useGetQuestionTitleIndex from "../../../../../hooks/useGetQuestionTitleIndex";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
@@ -106,14 +109,30 @@ const OptionItem: FC<OptionItemProps> = ({
   option,
   options,
 }: OptionItemProps) => {
+  const dispatch = useAppDispatch();
+  const {
+    editingQuestion,
+    isEditingOption,
+    isSwitchingEditingOption,
+    questions,
+  } = useAppSelector((state) => state.question);
+
   const [hasClickedOptionText, setHasClickedOptionText] =
     useState<boolean>(false);
-  const [editingOptionText, setEditingOptionText] = useState<string>(
-    options[index]
-  );
-  const dispatch = useAppDispatch();
+  const [editingOptionText, setEditingOptionText] = useState<string>(option);
+  const isLoading = useRef<boolean>(true);
+  const checkHasNoSameArrayStringNameHandler =
+    useCheckQuestionArraySameString();
+
+  const getTitleIndexHandler = useGetQuestionTitleIndex();
 
   const deleteOptionHandler = (index: number) => {
+    if (isEditingOption && editingQuestion?.id === id) {
+      sweetAlert.errorReminderAlert(
+        "請先完成所有正在編輯的選項，\n才能進行刪除的動作"
+      );
+      return;
+    }
     const updateOptinos = options.filter((_, i) => i !== index);
     dispatch(
       questionActions.updateSiglePropOfQuestion({
@@ -147,7 +166,27 @@ const OptionItem: FC<OptionItemProps> = ({
       })
     );
     setHasClickedOptionText(false);
+    dispatch(questionActions.setIsEditingOption(false));
   };
+
+  useEffect(() => {
+    if (!isLoading.current) {
+      if (editingQuestion === null) return;
+
+      if (editingQuestion.id !== id) {
+        setHasClickedOptionText(false);
+
+        !isSwitchingEditingOption &&
+          dispatch(questionActions.setIsEditingOption(false));
+        dispatch(questionActions.setIsSwitchingEditingOption(false));
+        return;
+      }
+      return;
+    }
+    isLoading.current = false;
+  }, [editingQuestion]);
+
+  console.log(isEditingOption);
 
   return hasClickedOptionText ? (
     <EditingOptionItemWrapper>
@@ -159,7 +198,12 @@ const OptionItem: FC<OptionItemProps> = ({
       />
 
       <EditingButton onClick={saveEditedTextHandler}>儲存</EditingButton>
-      <EditingButton onClick={() => setHasClickedOptionText(false)}>
+      <EditingButton
+        onClick={() => {
+          setHasClickedOptionText(false);
+          dispatch(questionActions.setIsEditingOption(false));
+        }}
+      >
         取消
       </EditingButton>
     </EditingOptionItemWrapper>
@@ -168,16 +212,49 @@ const OptionItem: FC<OptionItemProps> = ({
       <DeleteButton
         onClick={() => {
           if (options.length < 3) {
-            sweetAlert.errorReminderAlert("至少要有兩個選項，請先新增再刪除");
+            sweetAlert.errorReminderAlert(
+              "至少要維持兩個選項唷，\n所以當前不能再刪除！"
+            );
+            return;
           }
-          console.log(options);
           deleteOptionHandler(index);
         }}
       />
 
       <OptionItemText
         onClick={() => {
-          setHasClickedOptionText(true);
+          const openEditingInputHandler = () => {
+            setHasClickedOptionText(true);
+            dispatch(questionActions.setIsEditingOption(true));
+          };
+          if (editingQuestion !== null && editingQuestion.id !== id) {
+            const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
+            if (!hasNoSameStringName) return;
+          }
+
+          if (
+            isEditingOption &&
+            editingQuestion !== null &&
+            editingQuestion.id !== id
+          ) {
+            const questionTitleIndex = getTitleIndexHandler(editingQuestion.id);
+            const question = questions.find((question) => question.id === id);
+
+            sweetAlert.clickToConfirmAlert(
+              {
+                title: "準備切換編輯題目",
+                text: `發現「${questionTitleIndex}.${
+                  question ? question.title : ""
+                }」\n還有正在編輯的「選項」，\n直接切換編輯題目將不會存儲，\n確定要直接切換嗎?`,
+                cancelButtonText: "取消",
+                confirmButtonText: "確定",
+              },
+              openEditingInputHandler
+            );
+            return;
+          }
+
+          openEditingInputHandler();
         }}
       >
         {option}

@@ -180,6 +180,20 @@ const switchEditingFormPage: CaseReducer<
   state.editingFormPage = action.payload;
 };
 
+const setIsEditingOption: CaseReducer<QuestionState, PayloadAction<boolean>> = (
+  state,
+  action
+) => {
+  state.isEditingOption = action.payload;
+};
+
+const setIsSwitchingEditingOption: CaseReducer<
+  QuestionState,
+  PayloadAction<boolean>
+> = (state, action) => {
+  state.isSwitchingEditingOption = action.payload;
+};
+
 const addNewFormPage: CaseReducer<
   QuestionState,
   PayloadAction<{
@@ -237,6 +251,8 @@ export default {
   willChangeLimitationValue,
   switchCreatingFormStep,
   switchEditingFormPage,
+  setIsEditingOption,
+  setIsSwitchingEditingOption,
   addNewFormPage,
   updateQuestionPage,
 };
