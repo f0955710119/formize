@@ -1,11 +1,11 @@
 import Swal from "sweetalert2";
 
 export default {
-  errorReminderAlert(title: string) {
+  errorReminderAlert(title: string, time: number = 2200) {
     Swal.fire({
       title,
       showConfirmButton: false,
-      timer: 2200,
+      timer: time,
       position: "top",
       backdrop: false,
       color: "#ed4535",

@@ -15,6 +15,8 @@ export interface QuestionState {
   editingFormPage: number;
   isEditingOption: boolean;
   isSwitchingEditingOption: boolean;
+  isEditingMatrix: boolean;
+  isSwitchingEditingMatrix: boolean;
 }
 
 const initialState: QuestionState = {
@@ -26,9 +28,10 @@ const initialState: QuestionState = {
   editingFormPage: 1,
   isEditingOption: false,
   isSwitchingEditingOption: false,
+  isEditingMatrix: false,
+  isSwitchingEditingMatrix: false,
 };
 
-// BUG: 把 type 是引言的濾掉產生的 array 長度 index + 1 就是題號，題目長度有更新要跑處理這塊的function
 const questionSlice = createSlice({
   name: "question",
   initialState,

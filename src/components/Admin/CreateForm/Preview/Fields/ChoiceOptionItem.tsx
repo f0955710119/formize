@@ -15,14 +15,20 @@ import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuesti
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import useGetQuestionTitleIndex from "../../../../../hooks/useGetQuestionTitleIndex";
 
+const OptionItemText = styled.div`
+  width: calc(100% - 3.4rem);
+  font-size: 1.8rem;
+  color: ${(props) => props.theme.title};
+  margin-left: 1rem;
+  cursor: text;
+  transition: color 0.3s;
+`;
+
 export const ChoiceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-
-  @media ${breakpointConfig.laptopS} {
-  }
 `;
 
 const OptionItemWrapper = styled.div`
@@ -34,19 +40,16 @@ const OptionItemWrapper = styled.div`
   width: 100%;
   height: 6rem;
   border: 2px solid ${(props) => props.theme.optionText};
+
+  &:hover ${OptionItemText} {
+    color: ${(props) => props.theme.note};
+  }
 `;
 
 const EditingOptionItemWrapper = styled(OptionItemWrapper)`
   flex-direction: column;
   height: auto;
   padding: 1rem;
-`;
-
-const OptionItemText = styled.div`
-  width: 70%;
-  font-size: 1.8rem;
-  color: ${(props) => props.theme.optionText};
-  margin-left: 1rem;
 `;
 
 const DeleteButton = styled(Delete)`
@@ -67,7 +70,7 @@ const CustomTextField = styled(TextField)`
   width: 100%;
   height: 100%;
 
-  & .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  & [class*="-MuiInputBase-root-MuiOutlinedInput-root"] {
     font-size: 1.8rem;
     width: 100%;
     height: 100%;

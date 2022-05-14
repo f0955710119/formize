@@ -3,9 +3,12 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../store/actionType/questionActionType";
 import styled from "styled-components";
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import { ButtonWrapper, ButtonText } from "./Button";
 
+import { ButtonWrapper, ButtonText, AddButtonIcon } from "./Button";
+
+import { AddCircle } from "@styled-icons/remix-line/AddCircle";
+
+const OptionButtonIcon = styled(AddCircle)``;
 interface AddOptionButtonProps {
   id: string;
   options: string[];
@@ -18,7 +21,7 @@ const AddOptionButton: FC<AddOptionButtonProps> = ({
   const dispatch = useAppDispatch();
 
   const addNewOptionHandler = () => {
-    const updateOptions = [...options, `選項${options.length + 1}`];
+    const updateOptions = [...options, "預設選項"];
 
     dispatch(
       questionActions.updateSiglePropOfQuestion({
@@ -31,7 +34,8 @@ const AddOptionButton: FC<AddOptionButtonProps> = ({
 
   return (
     <ButtonWrapper onClick={addNewOptionHandler}>
-      <ButtonText>新增選項題目</ButtonText>
+      <ButtonText>新增選項</ButtonText>
+      <AddButtonIcon />
     </ButtonWrapper>
   );
 };

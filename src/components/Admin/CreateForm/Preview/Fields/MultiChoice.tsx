@@ -20,11 +20,10 @@ const MultiChoice: FC<MultiChoiceProps> = ({
   options,
 }: MultiChoiceProps) => {
   return (
-    // 這邊要做按鈕可以新增選項 / 編輯選項文字 / 移除選項
     <MultiChoiceWrapper>
-      {options.map((option) => (
+      {options.map((option, i) => (
         <FormControlLabel
-          key={helper.generateId(6)}
+          key={i}
           control={
             <Checkbox icon={<CircleIcon />} checkedIcon={<CircleIcon />} />
           }

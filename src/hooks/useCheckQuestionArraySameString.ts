@@ -33,7 +33,8 @@ const useCheckQuestionArraySameString = () => {
       const optionsUnique = [...new Set(options)];
       if (options.length !== optionsUnique.length) {
         sweetAlert.errorReminderAlert(
-          `「${questionTitleIndex}.${haseditingQuestion.title}」有誤，\n不可以有重複的選項名稱，\n請先修正再更換編輯的題目！`
+          `「${questionTitleIndex}.${haseditingQuestion.title}」有誤，\n不可以有重複的選項名稱，\n請先修正再更換編輯的題目！`,
+          3500
         );
         return false;
       }
@@ -46,7 +47,8 @@ const useCheckQuestionArraySameString = () => {
       const matrixsUnique = [...new Set(matrixs)];
       if (matrixs.length !== matrixsUnique.length) {
         sweetAlert.errorReminderAlert(
-          `「${questionTitleIndex}.${haseditingQuestion.title}」有誤，\n不可以有重複的欄位名稱，\n請先修正再更換編輯的題目！`
+          `「${questionTitleIndex}.${haseditingQuestion.title}」有誤，\n不可以有重複的欄位名稱，\n請先修正再更換編輯的題目！`,
+          3500
         );
         return false;
       }

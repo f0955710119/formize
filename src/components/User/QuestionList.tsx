@@ -171,7 +171,9 @@ const QuestionList: FC<QuestionListProps> = ({
             {limitationTagText !== "" && (
               <LimitationQuestionTag>{limitationTagText}</LimitationQuestionTag>
             )}
-            {question.note && <NoteText>{question.note}</NoteText>}
+            {question.note.trim().length !== 0 && (
+              <NoteText>{question.note}</NoteText>
+            )}
           </>
         )}
 

@@ -30,16 +30,16 @@ const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  margin-top: 1rem;
   margin-bottom: 2rem;
 `;
 
 const QuestionHeading = styled(SectionHeading)`
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  margin-top: 2rem;
   margin-bottom: 2rem;
   color: #777;
   border-bottom: 1px solid #777;
-  /* color: ${(props) => props.theme.title};
-  border-bottom: 1px solid ${(props) => props.theme.title}; */
 `;
 
 interface QuestionFieldProps {
@@ -189,6 +189,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
       />
       {question.type !== "2" && (
         <>
+          <QuestionHeading>標題設定</QuestionHeading>
           <TitleWrapper>
             <TitleIndex titleIndex={titleIndex} />
             <EditableTitle id={question.id} title={question.title} />

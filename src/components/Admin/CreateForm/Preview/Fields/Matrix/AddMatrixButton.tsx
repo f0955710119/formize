@@ -1,31 +1,13 @@
-import { FC, useState, useRef } from "react";
+import { FC } from "react";
 import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import styled from "styled-components";
-import { ButtonWrapper, ButtonText } from "../../UI/Button";
-import Icons from "../../../QuestionDesign/QuestionIcon";
-
+import { ButtonWrapper, ButtonText, AddButtonIcon } from "../../UI/Button";
 import sweetAlert from "../../../../../../utils/sweetAlert";
 
-const Button = styled(ButtonWrapper)`
-  height: 2.4rem;
-  background-color: ${(props) => props.theme.title};
-
+const MatrixButton = styled(ButtonWrapper)`
   margin-bottom: 0;
-  font-size: 1.4rem;
-`;
-
-const MatrixButtonText = styled(ButtonText)`
-  color: ${(props) => props.theme.addOption};
-`;
-
-const DeleteExistedMatrixButtonString = `
-  width: 2rem;
-  height: 2rem;
-  fill: #aaa;
-  margin-right: 0.5rem;
-  cursor: pointer;
 `;
 
 interface AddMatrixButtonProps {
@@ -37,58 +19,29 @@ const AddMatrixButton: FC<AddMatrixButtonProps> = ({
   id,
   matrixs,
 }: AddMatrixButtonProps) => {
-  const [hasOpenModal, setHasOpenModal] = useState<boolean>(false);
-  const [willUpdatedMatrixList, setWillUpdatedMatrixList] = useState<string[]>([
-    ...matrixs,
-  ]);
-  const addNewMatrixInputRef = useRef<HTMLInputElement | null>(null);
-
   const dispatch = useAppDispatch();
   const addNewMatrixHandler = () => {
+    if (matrixs.length > 4) {
+      sweetAlert.errorReminderAlert(
+        "【 新增失敗 】\n欄位數量目前最多只能5個！"
+      );
+      return;
+    }
+    const updateMatrixs = [...matrixs, "預設欄位"];
     dispatch(
       questionActions.updateSiglePropOfQuestion({
         id,
         actionType: questionActionType.MATRIXS,
-        stringArr: willUpdatedMatrixList,
+        stringArr: updateMatrixs,
       })
     );
   };
 
-  const addWillUpdateMatrixHandler = () => {
-    if (addNewMatrixInputRef.current === null) {
-      sweetAlert.errorReminderAlert("不能新增空的欄位");
-      return;
-    }
-
-    const value = addNewMatrixInputRef.current.value;
-    if (value.length === 0) {
-      sweetAlert.errorReminderAlert("不能新增空的欄位");
-      return;
-    }
-
-    if (willUpdatedMatrixList.includes(value)) {
-      sweetAlert.errorReminderAlert("不能新增重複名稱的欄位");
-      return;
-    }
-
-    setWillUpdatedMatrixList((prevState) => {
-      return [...prevState, value];
-    });
-
-    addNewMatrixInputRef.current.value = "";
-  };
-
   return (
-    <>
-      <Button
-        onClick={() => {
-          setHasOpenModal(true);
-          setWillUpdatedMatrixList(matrixs);
-        }}
-      >
-        <MatrixButtonText>修改欄位</MatrixButtonText>
-      </Button>
-    </>
+    <MatrixButton onClick={addNewMatrixHandler}>
+      <ButtonText>新增欄位</ButtonText>
+      <AddButtonIcon />
+    </MatrixButton>
   );
 };
 

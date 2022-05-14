@@ -9,13 +9,13 @@ import { AlertCircle } from "@styled-icons/ionicons-outline/AlertCircle";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import helper from "../../../../../utils/helper";
 import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
+import textUnderline from "../../../../UI/textUnderline";
 
 const TitleInputWrapper = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
+  width: 100%;
 `;
 
 const CustomTextField = styled(TextField)`
@@ -32,6 +32,12 @@ const CustomTextField = styled(TextField)`
       border-bottom: 2px solid ${(props) => props.theme.title};
     }
   }
+
+  & .MuiFilledInput-root.Mui-focused,
+  & .MuiFilledInput-root.Mui-focused:hover {
+    background-color: transparent;
+  }
+
   & .MuiFilledInput-input {
     width: 100%;
     line-break: strict;
@@ -67,10 +73,7 @@ const Heading = styled.div`
   font-size: 2rem;
   line-break: strict;
   color: ${(props) => props.theme.title};
-
-  &:not(:last-child) {
-    margin-bottom: 3rem;
-  }
+  ${(props) => textUnderline(props.theme.title)}
 `;
 
 interface EditableTitleProps {
