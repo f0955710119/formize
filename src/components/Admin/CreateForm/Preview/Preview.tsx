@@ -56,7 +56,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   padding: 2rem 4rem;
   border-radius: 7px;
 
-  ${(props: QuestionWrapperProps) => `background-image: linear-gradient(
+  ${(props) => `background-image: linear-gradient(
       to bottom right,
       rgba(255, 255, 255, 0),
       rgba(255, 255, 255, 0)
@@ -65,8 +65,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   background-size: cover;
   background-repeat: no-repeat;
 
-  overflow-y: scroll;
-  ${scrollBar}
+  ${(props) => (props.hasQuestion ? `overflow-y: scroll;${scrollBar}` : "")}
 
   &::-webkit-scrollbar-thumb {
     background-color: ${(props) => props.theme.title};

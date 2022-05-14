@@ -180,11 +180,24 @@ const switchEditingFormPage: CaseReducer<
   state.editingFormPage = action.payload;
 };
 
-const setIsEditingOption: CaseReducer<QuestionState, PayloadAction<boolean>> = (
-  state,
-  action
-) => {
-  state.isEditingOption = action.payload;
+const setIsEditingOption: CaseReducer<
+  QuestionState,
+  PayloadAction<{ setEditingState: boolean; isReset: boolean }>
+> = (state, action) => {
+  if (action.payload.isReset) {
+    state.isEditingOption = false;
+    state.editingOptionQuantity = 0;
+    return;
+  }
+
+  const upateEditingOptionQuantity = action.payload.setEditingState
+    ? state.editingOptionQuantity + 1
+    : state.editingOptionQuantity - 1;
+
+  state.editingOptionQuantity = upateEditingOptionQuantity;
+
+  const setEditingOption = upateEditingOptionQuantity > 0 ? true : false;
+  state.isEditingOption = setEditingOption;
 };
 
 const setIsSwitchingEditingOption: CaseReducer<
@@ -192,6 +205,34 @@ const setIsSwitchingEditingOption: CaseReducer<
   PayloadAction<boolean>
 > = (state, action) => {
   state.isSwitchingEditingOption = action.payload;
+};
+
+const setIsEditingMatrix: CaseReducer<
+  QuestionState,
+  PayloadAction<{ setEditingState: boolean; isReset: boolean }>
+> = (state, action) => {
+  if (action.payload.isReset) {
+    console.log("test");
+    state.editingMatrixQuantity = 0;
+    state.isEditingMatrix = false;
+    return;
+  }
+
+  const upateEditingMatrixQuantity = action.payload.setEditingState
+    ? state.editingMatrixQuantity + 1
+    : state.editingMatrixQuantity - 1;
+
+  state.editingMatrixQuantity = upateEditingMatrixQuantity;
+
+  const setEditingMatrix = upateEditingMatrixQuantity > 0 ? true : false;
+  state.isEditingMatrix = setEditingMatrix;
+};
+
+const setIsSwitchingEditingMatrix: CaseReducer<
+  QuestionState,
+  PayloadAction<boolean>
+> = (state, action) => {
+  state.isSwitchingEditingMatrix = action.payload;
 };
 
 const addNewFormPage: CaseReducer<
@@ -253,6 +294,8 @@ export default {
   switchEditingFormPage,
   setIsEditingOption,
   setIsSwitchingEditingOption,
+  setIsEditingMatrix,
+  setIsSwitchingEditingMatrix,
   addNewFormPage,
   updateQuestionPage,
 };

@@ -7,6 +7,7 @@ export const Heading = styled.div`
   font-size: 1.8rem;
   color: #c9ab59;
   border-bottom: 2px solid #c9ab59;
+  cursor: default;
 `;
 
 interface SectionHeadingProps {

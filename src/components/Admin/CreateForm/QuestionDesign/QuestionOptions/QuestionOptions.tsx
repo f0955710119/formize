@@ -44,6 +44,7 @@ const OptionHeading = styled(Heading)`
   margin-bottom: 2rem;
   color: #c9ab59;
   border-bottom: 1px solid #c9ab59;
+  cursor: default;
 `;
 
 const OptionList = styled.div`

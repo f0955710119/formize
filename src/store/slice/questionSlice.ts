@@ -15,8 +15,10 @@ export interface QuestionState {
   editingFormPage: number;
   isEditingOption: boolean;
   isSwitchingEditingOption: boolean;
+  editingOptionQuantity: number;
   isEditingMatrix: boolean;
   isSwitchingEditingMatrix: boolean;
+  editingMatrixQuantity: number;
 }
 
 const initialState: QuestionState = {
@@ -28,8 +30,10 @@ const initialState: QuestionState = {
   editingFormPage: 1,
   isEditingOption: false,
   isSwitchingEditingOption: false,
+  editingOptionQuantity: 0,
   isEditingMatrix: false,
   isSwitchingEditingMatrix: false,
+  editingMatrixQuantity: 0,
 };
 
 const questionSlice = createSlice({

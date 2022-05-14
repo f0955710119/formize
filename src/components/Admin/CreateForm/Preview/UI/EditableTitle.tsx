@@ -72,6 +72,7 @@ const Heading = styled.div`
   display: inline-block;
   font-size: 2rem;
   line-break: strict;
+  cursor: text;
   color: ${(props) => props.theme.title};
   ${(props) => textUnderline(props.theme.title)}
 `;

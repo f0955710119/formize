@@ -2,13 +2,11 @@ import { FC } from "react";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../store/actionType/questionActionType";
-import styled from "styled-components";
 
 import { ButtonWrapper, ButtonText, AddButtonIcon } from "./Button";
 
-import { AddCircle } from "@styled-icons/remix-line/AddCircle";
+import useCheckEditingStateOfTextEditingField from "../../../../../hooks/useCheckEditingStateOfTextEditingField";
 
-const OptionButtonIcon = styled(AddCircle)``;
 interface AddOptionButtonProps {
   id: string;
   options: string[];
@@ -19,6 +17,7 @@ const AddOptionButton: FC<AddOptionButtonProps> = ({
   options,
 }: AddOptionButtonProps) => {
   const dispatch = useAppDispatch();
+  const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
 
   const addNewOptionHandler = () => {
     const updateOptions = [...options, "預設選項"];
@@ -33,7 +32,11 @@ const AddOptionButton: FC<AddOptionButtonProps> = ({
   };
 
   return (
-    <ButtonWrapper onClick={addNewOptionHandler}>
+    <ButtonWrapper
+      onClick={() => {
+        checkOpenEditingTextHandler(addNewOptionHandler, id);
+      }}
+    >
       <ButtonText>新增選項</ButtonText>
       <AddButtonIcon />
     </ButtonWrapper>

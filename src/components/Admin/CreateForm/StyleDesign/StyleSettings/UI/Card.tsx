@@ -42,6 +42,7 @@ const CardItem = styled.div<CardItemProps>`
   background-color: #eee;
   margin-bottom: 0.5rem;
   border-radius: 9px;
+  cursor: pointer;
 
   ${(props) => {
     return props.imageUrl
@@ -77,6 +78,7 @@ const CardTitle = styled.div`
   text-align: center;
   height: 2rem;
   font-size: 2rem;
+  cursor: pointer;
 `;
 
 interface CardProps {

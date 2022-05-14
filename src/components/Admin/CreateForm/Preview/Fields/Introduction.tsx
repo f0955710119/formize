@@ -12,7 +12,7 @@ const Heading = styled.div`
   font-size: 2rem;
   text-align: center;
   line-break: strict;
-
+  cursor: text;
   &:not(:last-child) {
     margin-bottom: 3rem;
   }
@@ -23,13 +23,14 @@ const IntroductionField = styled(Field)`
   border: 1px solid ${(props) => props.theme.note};
   color: ${(props) => props.theme.title};
   font-weight: bold;
+  cursor: text;
 `;
 
 const CustomTextareaAutosize = styled(TextareaAutosize)`
   padding: 1rem;
   width: 100%;
   border: none;
-  border-radius: 0px;
+  border-radius: 3px;
   font-size: 1.8rem;
   resize: none;
   /* background-color: transparent; */

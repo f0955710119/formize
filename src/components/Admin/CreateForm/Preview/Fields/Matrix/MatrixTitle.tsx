@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { DeleteBack2 } from "@styled-icons/remix-fill/DeleteBack2";
@@ -11,6 +11,8 @@ import breakpointConfig from "../../../../../../configs/breakpointConfig";
 import { TextField } from "@mui/material";
 import sweetAlert from "../../../../../../utils/sweetAlert";
 import textUnderline from "../../../../../UI/textUnderline";
+import { useAppSelector } from "../../../../../../hooks/useAppSelector";
+import useCheckEditingStateOfTextEditingField from "../../../../../../hooks/useCheckEditingStateOfTextEditingField";
 
 const MatrixTitleWrapper = styled.div`
   display: flex;
@@ -45,7 +47,7 @@ const MatrixTitleDeleteButton = styled(DeleteBack2)`
   fill: ${(props) => props.theme.title};
   transition: fill 0.3s;
   &:hover {
-    fill: #333;
+    fill: ${(props) => props.theme.note};
   }
 `;
 
@@ -117,12 +119,23 @@ const MatrixTitle: FC<matrixTitleProps> = ({
   matrix,
   matrixs,
 }: matrixTitleProps) => {
+  const dispatch = useAppDispatch();
+  const { editingQuestion, isEditingMatrix, isSwitchingEditingMatrix } =
+    useAppSelector((state) => state.question);
   const [hasClickedMatrix, setHasClickedMatrix] = useState<boolean>(false);
   const [editingMatrix, setEditingMatrix] = useState<string>(matrixs[index]);
-  const dispatch = useAppDispatch();
+  const isLoading = useRef<boolean>(false);
+  const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
+
   const deleteMatrixTitleHandler = () => {
+    if (isEditingMatrix && editingQuestion?.id === id) {
+      sweetAlert.errorReminderAlert(
+        "【 刪除失敗 】\n請先完成所有正在編輯的欄位"
+      );
+      return;
+    }
     if (matrixs.length < 3) {
-      sweetAlert.errorReminderAlert("【 刪除失敗 】\n欄位數量不可以低於2個！");
+      sweetAlert.errorReminderAlert("【 刪除失敗 】\n欄位數量不可以低於2個");
       return;
     }
 
@@ -150,7 +163,7 @@ const MatrixTitle: FC<matrixTitleProps> = ({
 
     const checkExistedmatrixTitle = helper.checkExistedName(newMatrixObj);
     if (checkExistedmatrixTitle) {
-      sweetAlert.errorReminderAlert("不能存取重複的欄位名稱，請修改後再儲存!");
+      sweetAlert.errorReminderAlert("【儲存失敗】\n不能存取重複的欄位名稱");
       return;
     }
     const updateMatrixTitle = helper.generateUpdateNames(newMatrixObj);
@@ -162,7 +175,45 @@ const MatrixTitle: FC<matrixTitleProps> = ({
       })
     );
     setHasClickedMatrix(false);
+    dispatch(
+      questionActions.setIsEditingMatrix({
+        setEditingState: false,
+        isReset: false,
+      })
+    );
   };
+
+  const openEditingInputHandler = () => {
+    dispatch(
+      questionActions.setIsEditingMatrix({
+        setEditingState: true,
+        isReset: false,
+      })
+    );
+    setHasClickedMatrix(true);
+  };
+
+  useEffect(() => {
+    if (!isLoading.current) {
+      if (editingQuestion === null) return;
+
+      if (editingQuestion.id !== id) {
+        setHasClickedMatrix(false);
+        console.log(isSwitchingEditingMatrix);
+        // !isSwitchingEditingMatrix &&
+        dispatch(
+          questionActions.setIsEditingMatrix({
+            setEditingState: false,
+            isReset: true,
+          })
+        );
+        // dispatch(questionActions.setIsSwitchingEditingMatrix(false));
+        return;
+      }
+      return;
+    }
+    isLoading.current = false;
+  }, [editingQuestion]);
 
   return hasClickedMatrix ? (
     <EditingTextWrapper>
@@ -185,7 +236,12 @@ const MatrixTitle: FC<matrixTitleProps> = ({
         <EditingButton
           onClick={() => {
             setHasClickedMatrix(false);
-            dispatch(questionActions.setIsEditingOption(false));
+            dispatch(
+              questionActions.setIsEditingMatrix({
+                setEditingState: false,
+                isReset: false,
+              })
+            );
           }}
         >
           取消
@@ -194,7 +250,11 @@ const MatrixTitle: FC<matrixTitleProps> = ({
     </EditingTextWrapper>
   ) : (
     <MatrixTitleWrapper>
-      <MatrixTitleText onClick={() => setHasClickedMatrix(true)}>
+      <MatrixTitleText
+        onClick={() => {
+          checkOpenEditingTextHandler(openEditingInputHandler, id);
+        }}
+      >
         {matrixs[index]}
       </MatrixTitleText>
       <MatrixTitleDeleteButton onClick={deleteMatrixTitleHandler} />

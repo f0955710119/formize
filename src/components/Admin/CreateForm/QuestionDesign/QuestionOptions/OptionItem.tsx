@@ -18,11 +18,13 @@ const Option = styled.div`
   align-items: center;
   padding: 0.4rem 1rem;
   width: 90%;
+  cursor: pointer;
 `;
 
 const OptionText = styled.div`
   font-size: 1.6rem;
   margin-right: 1rem;
+  cursor: pointer;
 `;
 
 const IconWrapper = styled.div`
@@ -41,6 +43,7 @@ const OptionTypeIconWrapper = styled(IconWrapper)`
 const AddCommentSharpIconWrapper = styled(IconWrapper)`
   transform: translateY(2px);
   height: 2rem;
+  cursor: pointer;
 
   @media ${breakpointConfig.laptopM} {
     width: 10%;
@@ -55,6 +58,7 @@ const AddQuestionIcon = styled(AddComment)`
   fill: #c8c8c8;
   transform: translate(-0.6rem, -0.2rem);
   transition: fill 0.3s;
+  cursor: pointer;
 
   @media ${breakpointConfig.laptopM} {
     width: auto;
@@ -105,6 +109,7 @@ const OptionWrapper = styled.div`
 
 const customIconStyleString = `
   transform: translateY(-0.5rem);
+  cursor: pointer;
 `;
 
 const questionDefaultList = [

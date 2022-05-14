@@ -14,15 +14,7 @@ import sweetAlert from "../../../../../utils/sweetAlert";
 import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import useGetQuestionTitleIndex from "../../../../../hooks/useGetQuestionTitleIndex";
-
-const OptionItemText = styled.div`
-  width: calc(100% - 3.4rem);
-  font-size: 1.8rem;
-  color: ${(props) => props.theme.title};
-  margin-left: 1rem;
-  cursor: text;
-  transition: color 0.3s;
-`;
+import useCheckEditingStateOfTextEditingField from "../../../../../hooks/useCheckEditingStateOfTextEditingField";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
@@ -40,8 +32,17 @@ const OptionItemWrapper = styled.div`
   width: 100%;
   height: 6rem;
   border: 2px solid ${(props) => props.theme.optionText};
+`;
 
-  &:hover ${OptionItemText} {
+const OptionItemText = styled.div`
+  width: calc(100% - 3.4rem);
+  font-size: 1.8rem;
+  color: ${(props) => props.theme.title};
+  margin-left: 1rem;
+  cursor: text;
+  transition: color 0.3s;
+
+  &:hover {
     color: ${(props) => props.theme.note};
   }
 `;
@@ -60,9 +61,8 @@ const DeleteButton = styled(Delete)`
   cursor: pointer;
 
   transition: fill 0.3s;
-
   &:hover {
-    fill: #333;
+    fill: ${(props) => props.theme.note};
   }
 `;
 
@@ -122,22 +122,26 @@ const OptionItem: FC<OptionItemProps> = ({
     editingQuestion,
     isEditingOption,
     isSwitchingEditingOption,
-    questions,
+    editingOptionQuantity,
   } = useAppSelector((state) => state.question);
 
   const [hasClickedOptionText, setHasClickedOptionText] =
     useState<boolean>(false);
   const [editingOptionText, setEditingOptionText] = useState<string>(option);
   const isLoading = useRef<boolean>(true);
-  const checkHasNoSameArrayStringNameHandler =
-    useCheckQuestionArraySameString();
-
-  const getTitleIndexHandler = useGetQuestionTitleIndex();
+  const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
 
   const deleteOptionHandler = (index: number) => {
     if (isEditingOption && editingQuestion?.id === id) {
       sweetAlert.errorReminderAlert(
-        "請先完成所有正在編輯的選項，\n才能進行刪除的動作"
+        "【 刪除失敗 】\n請先完成所有正在編輯的選項"
+      );
+      return;
+    }
+
+    if (editingOptionQuantity > 0) {
+      sweetAlert.errorReminderAlert(
+        "【 刪除失敗 】\n請先完成所有正在編輯的選項"
       );
       return;
     }
@@ -152,6 +156,10 @@ const OptionItem: FC<OptionItemProps> = ({
   };
 
   const saveEditedTextHandler = () => {
+    if (editingOptionText.trim().length === 0) {
+      sweetAlert.errorReminderAlert("【儲存失敗】\n選項不能留空");
+      return;
+    }
     const checkNameUtilObj = {
       stringArr: options,
       index,
@@ -160,7 +168,7 @@ const OptionItem: FC<OptionItemProps> = ({
     const checkHasExistedTitle = helper.checkExistedName(checkNameUtilObj);
 
     if (checkHasExistedTitle) {
-      sweetAlert.errorReminderAlert("有重複的選項名稱存在，不可以重複儲存喲!");
+      sweetAlert.errorReminderAlert("【儲存失敗】\n有重複的選項名稱存在");
       return;
     }
 
@@ -174,7 +182,22 @@ const OptionItem: FC<OptionItemProps> = ({
       })
     );
     setHasClickedOptionText(false);
-    dispatch(questionActions.setIsEditingOption(false));
+    dispatch(
+      questionActions.setIsEditingOption({
+        setEditingState: false,
+        isReset: false,
+      })
+    );
+  };
+
+  const openEditingInputHandler = () => {
+    setHasClickedOptionText(true);
+    dispatch(
+      questionActions.setIsEditingOption({
+        setEditingState: true,
+        isReset: false,
+      })
+    );
   };
 
   useEffect(() => {
@@ -185,7 +208,12 @@ const OptionItem: FC<OptionItemProps> = ({
         setHasClickedOptionText(false);
 
         !isSwitchingEditingOption &&
-          dispatch(questionActions.setIsEditingOption(false));
+          dispatch(
+            questionActions.setIsEditingOption({
+              setEditingState: false,
+              isReset: true,
+            })
+          );
         dispatch(questionActions.setIsSwitchingEditingOption(false));
         return;
       }
@@ -193,8 +221,6 @@ const OptionItem: FC<OptionItemProps> = ({
     }
     isLoading.current = false;
   }, [editingQuestion]);
-
-  console.log(isEditingOption);
 
   return hasClickedOptionText ? (
     <EditingOptionItemWrapper>
@@ -209,7 +235,12 @@ const OptionItem: FC<OptionItemProps> = ({
       <EditingButton
         onClick={() => {
           setHasClickedOptionText(false);
-          dispatch(questionActions.setIsEditingOption(false));
+          dispatch(
+            questionActions.setIsEditingOption({
+              setEditingState: false,
+              isReset: false,
+            })
+          );
         }}
       >
         取消
@@ -220,9 +251,7 @@ const OptionItem: FC<OptionItemProps> = ({
       <DeleteButton
         onClick={() => {
           if (options.length < 3) {
-            sweetAlert.errorReminderAlert(
-              "至少要維持兩個選項唷，\n所以當前不能再刪除！"
-            );
+            sweetAlert.errorReminderAlert("【刪除失敗】\n至少要維持兩個選項！");
             return;
           }
           deleteOptionHandler(index);
@@ -231,38 +260,7 @@ const OptionItem: FC<OptionItemProps> = ({
 
       <OptionItemText
         onClick={() => {
-          const openEditingInputHandler = () => {
-            setHasClickedOptionText(true);
-            dispatch(questionActions.setIsEditingOption(true));
-          };
-          if (editingQuestion !== null && editingQuestion.id !== id) {
-            const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
-            if (!hasNoSameStringName) return;
-          }
-
-          if (
-            isEditingOption &&
-            editingQuestion !== null &&
-            editingQuestion.id !== id
-          ) {
-            const questionTitleIndex = getTitleIndexHandler(editingQuestion.id);
-            const question = questions.find((question) => question.id === id);
-
-            sweetAlert.clickToConfirmAlert(
-              {
-                title: "準備切換編輯題目",
-                text: `發現「${questionTitleIndex}.${
-                  question ? question.title : ""
-                }」\n還有正在編輯的「選項」，\n直接切換編輯題目將不會存儲，\n確定要直接切換嗎?`,
-                cancelButtonText: "取消",
-                confirmButtonText: "確定",
-              },
-              openEditingInputHandler
-            );
-            return;
-          }
-
-          openEditingInputHandler();
+          checkOpenEditingTextHandler(openEditingInputHandler, id);
         }}
       >
         {option}

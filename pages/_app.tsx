@@ -69,10 +69,15 @@ const GlobalStyle = createGlobalStyle`
     transition: background-color 0.3s;
     border: none;
     font-family: inherit;
+    cursor: pointer;
   }
 
   input:focus {
     outline: none;
+  }
+
+  div {
+    cursor: default;
   }
 
   .swal2-container .swal2-modal {

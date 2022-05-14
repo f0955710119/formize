@@ -117,9 +117,8 @@ const QuestionField: FC<QuestionFieldProps> = ({
   titleIndex,
 }: QuestionFieldProps) => {
   const dispatch = useAppDispatch();
-  const { editingQuestion, isEditingOption, questions } = useAppSelector(
-    (state) => state.question
-  );
+  const { editingQuestion, isEditingOption, isEditingMatrix, questions } =
+    useAppSelector((state) => state.question);
   const checkHasNoSameArrayStringNameHandler =
     useCheckQuestionArraySameString();
 
@@ -141,11 +140,17 @@ const QuestionField: FC<QuestionFieldProps> = ({
       }
       dispatch(questionActions.switchEditingQuestion(question));
 
-      if (!target.classList[0].includes("ChoiceOptionItem")) return;
-      dispatch(questionActions.setIsSwitchingEditingOption(true));
+      if (target.classList[0].includes("ChoiceOptionItem")) {
+        dispatch(questionActions.setIsSwitchingEditingOption(true));
+        return;
+      }
+
+      if (target.classList[0].includes("MatrixTitle")) {
+        dispatch(questionActions.setIsSwitchingEditingMatrix(true));
+      }
     };
 
-    if (!isEditingOption) {
+    if (!isEditingOption && !isEditingMatrix) {
       confirmToSwitchEditingFieldCallback();
       return;
     }
@@ -161,7 +166,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
         title: "準備切換編輯題目",
         text: `發現「${questionTitleIndex}.${
           responseQuestion ? responseQuestion.title : ""
-        }」\n還有正在編輯的「選項」，\n直接切換編輯題目將不會存儲，\n確定要直接切換嗎?`,
+        }」\n還有正在編輯的內容，\n直接切換編輯題目將不會存儲，\n確定要直接切換嗎?`,
         cancelButtonText: "取消",
         confirmButtonText: "確定",
       },

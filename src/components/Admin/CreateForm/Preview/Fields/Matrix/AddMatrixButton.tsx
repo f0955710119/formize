@@ -5,9 +5,24 @@ import questionActionType from "../../../../../../store/actionType/questionActio
 import styled from "styled-components";
 import { ButtonWrapper, ButtonText, AddButtonIcon } from "../../UI/Button";
 import sweetAlert from "../../../../../../utils/sweetAlert";
+import useCheckEditingStateOfTextEditingField from "../../../../../../hooks/useCheckEditingStateOfTextEditingField";
+import { useAppSelector } from "../../../../../../hooks/useAppSelector";
 
-const MatrixButton = styled(ButtonWrapper)`
+interface MatrixButtonProps {
+  isEditingField: boolean;
+}
+
+const MatrixButton = styled(ButtonWrapper)<MatrixButtonProps>`
   margin-bottom: 0;
+
+  /* ${(props) =>
+    props.isEditingField
+      ? ""
+      : `
+  &:hover {
+    background-color:${props.theme.title};  
+  }
+  `} */
 `;
 
 interface AddMatrixButtonProps {
@@ -20,6 +35,11 @@ const AddMatrixButton: FC<AddMatrixButtonProps> = ({
   matrixs,
 }: AddMatrixButtonProps) => {
   const dispatch = useAppDispatch();
+  const { editingQuestion } = useAppSelector((state) => state.question);
+  const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
+
+  const hasEditingQuestion = editingQuestion !== null ? editingQuestion.id : "";
+  const isEditingField = hasEditingQuestion === id;
   const addNewMatrixHandler = () => {
     if (matrixs.length > 4) {
       sweetAlert.errorReminderAlert(
@@ -38,7 +58,12 @@ const AddMatrixButton: FC<AddMatrixButtonProps> = ({
   };
 
   return (
-    <MatrixButton onClick={addNewMatrixHandler}>
+    <MatrixButton
+      isEditingField={isEditingField}
+      onClick={() => {
+        checkOpenEditingTextHandler(addNewMatrixHandler, id);
+      }}
+    >
       <ButtonText>新增欄位</ButtonText>
       <AddButtonIcon />
     </MatrixButton>

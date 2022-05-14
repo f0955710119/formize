@@ -35,6 +35,7 @@ const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  cursor: default;
 `;
 
 const Title = styled.div`
@@ -54,6 +55,7 @@ const Note = styled.div`
   font-size: 1.4rem;
   color: #aaa;
   letter-spacing: 0.5px;
+  cursor: default;
 `;
 
 const IconWrapper = styled.div`
@@ -62,9 +64,9 @@ const IconWrapper = styled.div`
   align-items: center;
   margin-bottom: 0.5rem;
   padding: 0rem 0.8rem;
-  /* background-color: #e9b014; */
   background-color: #aaa;
   border-radius: 30px;
+  cursor: default;
 `;
 
 const customIconStyleString = `
@@ -94,7 +96,7 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
   index,
 }: CreatedQuestionProps) => {
   const noteTextRaw = questionType === "2" ? "引言沒有註解" : note;
-  const noteText = noteTextRaw === "" ? "暫無註解" : noteTextRaw;
+  const noteText = noteTextRaw.trim().length === 0 ? "暫無註解" : noteTextRaw;
   return (
     <QuestionWrapper>
       <IconWrapper>

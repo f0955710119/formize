@@ -73,6 +73,7 @@ const Heading = styled.div`
   font-size: 1.8rem;
   color: #c9ab59;
   border-bottom: 0.1px solid #c9ab59;
+  cursor: default;
 
   @media ${breakpointConfig.laptopM} {
     margin-bottom: 0;

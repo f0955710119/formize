@@ -44,6 +44,7 @@ const NoteText = styled.div`
   display: inline-block;
   font-size: 1.6rem;
   line-break: strict;
+  cursor: text;
   color: ${(props) => props.theme.note};
   ${(props) => textUnderline(props.theme.note)}
 `;
