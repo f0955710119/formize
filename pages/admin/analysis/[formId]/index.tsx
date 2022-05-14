@@ -37,8 +37,8 @@ const Analysis: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Formize</title>
-        <meta name="description" content="Formize - 簡易上手的質感問卷工具" />
+        <title>FORMiZE</title>
+        <meta name="description" content="FORMiZE - 簡易上手的質感問卷工具" />
         <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Vidaloka&display=swap"

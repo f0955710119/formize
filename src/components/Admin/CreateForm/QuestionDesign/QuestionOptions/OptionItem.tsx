@@ -1,23 +1,17 @@
-import { FC, MouseEventHandler, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import styled from "styled-components";
-import AddCommentSharpIcon from "@mui/icons-material/AddCommentSharp";
+
+import { AddComment } from "@styled-icons/material-sharp/AddComment";
+import QuestionIcon from "../QuestionIcon";
 
 import helper from "../../../../../utils/helper";
 import questionDefaultConfig from "../../../../../configs/questionDefaultConfig";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
-import sweetAlert from "../../../../../utils/sweetAlert";
-import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 
-const OptionWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding: 1.45rem 1rem;
-  width: 100%;
-  border: 1px solid #c8c8c8;
-`;
+import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
 
 const Option = styled.div`
   display: flex;
@@ -34,19 +28,83 @@ const OptionText = styled.div`
 const IconWrapper = styled.div`
   height: 2rem;
   transform: translateY(4px);
+
+  @media ${breakpointConfig.laptopM} {
+    width: 10%;
+  }
 `;
 const OptionTypeIconWrapper = styled(IconWrapper)`
   width: 2rem;
 `;
 
-interface AddCommentSharpIconWrapper {
-  readonly onClick: MouseEventHandler;
-}
-
 // prettier-ignore
-const AddCommentSharpIconWrapper = styled(IconWrapper)<AddCommentSharpIconWrapper>`
+const AddCommentSharpIconWrapper = styled(IconWrapper)`
   transform: translateY(2px);
   height: 2rem;
+
+  @media ${breakpointConfig.laptopM} {
+    width: 10%;
+    display: flex;
+    justify-content: end;
+  }
+`;
+
+const AddQuestionIcon = styled(AddComment)`
+  width: 100%;
+  height: 100%;
+  fill: #c8c8c8;
+  transform: translate(-0.6rem, -0.2rem);
+  transition: fill 0.3s;
+
+  @media ${breakpointConfig.laptopM} {
+    width: auto;
+  }
+`;
+
+const OptionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1.45rem 1rem;
+  width: 100%;
+  border: 1px solid #d8d8d8;
+  border-radius: 3px;
+  cursor: pointer;
+
+  transition: background 0.3s, border 0.3s, border-radius 0.3s;
+
+  &:hover {
+    background: #fdd87238;
+    border: 1px solid #fdd87238;
+    border-radius: 0px;
+  }
+
+  &:hover svg {
+    fill: #f90;
+  }
+
+  &:hover ${OptionText} {
+    color: #f90;
+  }
+
+  @media ${breakpointConfig.laptopM} {
+    &:hover {
+      background: transparent;
+      border: 1px solid #c8c8c8;
+    }
+
+    &:hover svg {
+      fill: #c8c8c8;
+    }
+
+    &:hover ${OptionText} {
+      color: #c8c8c8;
+    }
+  }
+`;
+
+const customIconStyleString = `
+  transform: translateY(-0.5rem);
 `;
 
 const questionDefaultList = [
@@ -65,14 +123,12 @@ const questionDefaultList = [
 interface OptionItemProps {
   title: string;
   questionType: string;
-  children: ReactNode;
   dragStartHandler?: (event: DragEvent) => void;
 }
 
 const OptionItem: FC<OptionItemProps> = ({
   title,
   questionType,
-  children,
 }: OptionItemProps) => {
   const dispatch = useAppDispatch();
 
@@ -96,22 +152,15 @@ const OptionItem: FC<OptionItemProps> = ({
     dispatch(questionActions.switchEditingQuestion(newQuestion));
   };
   return (
-    <OptionWrapper>
+    <OptionWrapper onClick={() => addNewQuestionHandler(questionType)}>
       <Option>
         <OptionText>{title}</OptionText>
-        <OptionTypeIconWrapper>{children}</OptionTypeIconWrapper>
+        <OptionTypeIconWrapper>
+          <QuestionIcon type={questionType} style={customIconStyleString} />
+        </OptionTypeIconWrapper>
       </Option>
-      <AddCommentSharpIconWrapper
-        onClick={() => addNewQuestionHandler(questionType)}
-      >
-        <AddCommentSharpIcon
-          sx={{
-            width: "100%",
-            height: "100%",
-            fill: "#c8c8c8",
-            cursor: "pointer",
-          }}
-        />
+      <AddCommentSharpIconWrapper>
+        <AddQuestionIcon />
       </AddCommentSharpIconWrapper>
     </OptionWrapper>
   );

@@ -9,15 +9,11 @@ import EditableTitle from "./UI/EditableTitle";
 import Note from "./UI/Note";
 import type { Question } from "../../../../types/question";
 
-import OneLineText from "./Fields/OneLineText";
-import MultiLineText from "./Fields/MultiLineText";
 import Introduction from "./Fields/Introduction";
 import Choice from "./Fields/OneChoice";
-import MultiChoice from "./Fields/MultiChoice";
+
 import Matrix from "./Fields/Matrix";
-import Slider from "./Fields/Slider";
-import SequenceWeight from "./Fields/Sort";
-import Date from "./Fields/Date";
+
 import QuestionDeleteButton from "./QuestionDeleteButton";
 import useDeleteQuestion from "../../../../hooks/useDeleteQuestion";
 import TextLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/TextLimitation";
@@ -25,15 +21,25 @@ import NumberLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation
 import DateLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/DateLimitation";
 import ChoiceLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/ChoiceLimitation";
 import sweetAlert from "../../../../utils/sweetAlert";
-import helper from "../../../../utils/helper";
+
 import useCheckQuestionArraySameString from "../../../../hooks/useCheckQuestionArraySameString";
 import useGetQuestionTitleIndex from "../../../../hooks/useGetQuestionTitleIndex";
+import SectionHeading from "../UI/SectionHeading";
 
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   margin-bottom: 2rem;
+`;
+
+const QuestionHeading = styled(SectionHeading)`
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #777;
+  border-bottom: 1px solid #777;
+  /* color: ${(props) => props.theme.title};
+  border-bottom: 1px solid ${(props) => props.theme.title}; */
 `;
 
 interface QuestionFieldProps {
@@ -45,7 +51,12 @@ const renderResponseQuestion = (type: string, question: Question) => {
   switch (type) {
     case "0":
     case "1":
-      return <TextLimitation id={question.id} />;
+      return (
+        <>
+          <QuestionHeading>限制設定</QuestionHeading>
+          <TextLimitation id={question.id} />
+        </>
+      );
     case "2":
       return <Introduction id={question.id} title={question.title} />;
     case "3":
@@ -54,8 +65,10 @@ const renderResponseQuestion = (type: string, question: Question) => {
       if (question.options) {
         return (
           <>
-            <Choice id={question.id} options={question.options} />
+            <QuestionHeading>限制設定</QuestionHeading>
             <ChoiceLimitation id={question.id} type={type} />
+            <QuestionHeading>內容設定</QuestionHeading>
+            <Choice id={question.id} options={question.options} />
           </>
         );
       }
@@ -64,12 +77,14 @@ const renderResponseQuestion = (type: string, question: Question) => {
       if (question.options && question.matrixs) {
         return (
           <>
+            <QuestionHeading>限制設定</QuestionHeading>
+            <ChoiceLimitation id={question.id} type={type} />
+            <QuestionHeading>內容設定</QuestionHeading>
             <Matrix
               id={question.id}
               options={question.options}
               matrixs={question.matrixs}
             />
-            <ChoiceLimitation id={question.id} type={type} />
           </>
         );
       }
@@ -77,13 +92,20 @@ const renderResponseQuestion = (type: string, question: Question) => {
     case "6":
     case "7": {
       return (
-        <NumberLimitation id={question.id} validations={question.validations} />
+        <>
+          <QuestionHeading>限制設定</QuestionHeading>
+          <NumberLimitation
+            id={question.id}
+            validations={question.validations}
+          />
+        </>
       );
     }
 
     case "9":
       return (
         <>
+          <QuestionHeading>限制設定</QuestionHeading>
           <DateLimitation id={question.id} />
         </>
       );

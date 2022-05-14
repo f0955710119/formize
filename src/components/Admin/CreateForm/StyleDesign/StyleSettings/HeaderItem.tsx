@@ -12,11 +12,16 @@ const HeaderItemWrapper = styled.div<HeaderItemWrapperProps>`
   display: flex;
   align-items: center;
   color: ${(props: HeaderItemWrapperProps) =>
-    props.isActive ? "#c9ab59" : "inherit"};
-  font-weight: ${(props: HeaderItemWrapperProps) =>
-    props.isActive ? "bold" : "inherit"};
-  border-right: 1px solid #c8c8c8;
+    props.isActive ? "#fff" : "inherit"};
+
+  border-right: 1px solid #c9ab59;
+  cursor: pointer;
   transition: color 0.3s;
+
+  background-color: ${(props: HeaderItemWrapperProps) =>
+    props.isActive ? "#c9ab59" : "#fff"};
+
+  transition: background-color 0.3s;
 
   @media ${breakpointConfig.laptopM} {
     border-right: none;

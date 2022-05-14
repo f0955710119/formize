@@ -3,7 +3,6 @@ import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
-// BUG: 之後要照官方文件建議去改
 const CustomedComboBox = styled(Autocomplete)`
   & div {
     border-radius: 3px;

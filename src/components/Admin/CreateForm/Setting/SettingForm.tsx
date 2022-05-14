@@ -20,7 +20,7 @@ const Wrapper = styled.main`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  margin: 2rem auto 4rem auto;
+  margin: 4rem auto 4rem auto;
   padding: 0 3.2rem 0 0;
   width: 70.8rem;
   height: calc(100% - 6rem);
@@ -64,6 +64,7 @@ const ButtonWrapper = styled.button`
   height: 4rem;
   background-color: #c8c8c8;
   border-radius: 5px;
+  cursor: pointer;
 
   &:hover {
     background-color: #ffc652;

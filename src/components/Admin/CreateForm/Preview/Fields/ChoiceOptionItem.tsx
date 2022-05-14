@@ -3,12 +3,13 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../store/actionType/questionActionType";
 import styled from "styled-components";
-import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
+
 import { TextField } from "@mui/material";
 import helper from "../../../../../utils/helper";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import icons from "../../UI/icons";
+import Icons from "../../QuestionDesign/QuestionIcon";
+import { Delete } from "@styled-icons/material/Delete";
 import sweetAlert from "../../../../../utils/sweetAlert";
 import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
@@ -33,9 +34,6 @@ const OptionItemWrapper = styled.div`
   width: 100%;
   height: 6rem;
   border: 2px solid ${(props) => props.theme.optionText};
-
-  /* @media ${breakpointConfig.laptopS} {
-  } */
 `;
 
 const EditingOptionItemWrapper = styled(OptionItemWrapper)`
@@ -51,11 +49,18 @@ const OptionItemText = styled.div`
   margin-left: 1rem;
 `;
 
-const DeleteButton = styled(icons.delete)`
+const DeleteButton = styled(Delete)`
   width: 2.4rem;
   height: 2.4rem;
   fill: ${(props) => props.theme.optionText};
   margin-right: 1rem;
+  cursor: pointer;
+
+  transition: fill 0.3s;
+
+  &:hover {
+    fill: #333;
+  }
 `;
 
 const CustomTextField = styled(TextField)`

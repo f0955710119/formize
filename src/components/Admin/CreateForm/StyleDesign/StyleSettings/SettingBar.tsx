@@ -21,6 +21,7 @@ import type { Question } from "../../../../../types/question";
 import { adminContext } from "../../../../../store/context/adminContext";
 import { SettingContext } from "../../../../../store/context/settingContext";
 import styleConfig from "../../../../../configs/styleConfig";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -146,6 +147,7 @@ const ButtonWrapper = styled.button`
   height: 4rem;
   background-color: #c8c8c8;
   border-radius: 5px;
+  cursor: pointer;
 
   &:hover {
     background-color: #ffc652c2;
@@ -185,7 +187,9 @@ const defaultBackgroundUrl = Object.keys(backgroundConfig)
   .map((key) => backgroundConfig[key]);
 
 const SettingBar: FC = () => {
-  const context = useContext(adminContext);
+  const { theme, font, backgroundImages } = useAppSelector(
+    (state) => state.style
+  );
   const [stylingOption, setStylingOption] = useState<number>(0);
 
   const switchStepHanlder = useSwitchCurrentStep();
@@ -208,8 +212,6 @@ const SettingBar: FC = () => {
     }
   };
 
-  console.log(context);
-
   return (
     <SettingLayout>
       <Header>
@@ -227,6 +229,7 @@ const SettingBar: FC = () => {
         <CardContainer>
           {defaultThemeList.map((themeTitle, i) => (
             <Card
+              isActive={+theme === i}
               imageUrl={defaultThemeImages[i]}
               title={themeTitle}
               key={i}
@@ -239,6 +242,7 @@ const SettingBar: FC = () => {
         <CardContainer>
           {defaultFontList.map((fontTitle, i) => (
             <Card
+              isActive={+font === i}
               title={fontTitle}
               key={i}
               font={defaultFont[i]}
@@ -249,10 +253,11 @@ const SettingBar: FC = () => {
       )}
       {stylingOption === 2 && (
         <CardContainer>
-          {defaultBackgroundList.map((Background, i) => {
+          {defaultBackgroundList.map((background, i) => {
             return (
               <Card
-                title={Background}
+                isActive={defaultBackgroundUrl[i] === backgroundImages[0]}
+                title={background}
                 key={i}
                 dispatchHandler={switchStyleHandler}
                 imageUrl={defaultBackgroundUrl[i]}
@@ -261,36 +266,6 @@ const SettingBar: FC = () => {
             );
           })}
         </CardContainer>
-        // <BackGroundContainer>
-        //   <BackgroundContainerTitle>預設圖檔</BackgroundContainerTitle>
-        //   <BackgroundCardContainer style={{ height: "70rem" }}>
-        //     {defaultBackgroundList.map((Background, i) => {
-        //       return (
-        //         <Card
-        //           title={Background}
-        //           key={i}
-        //           dispatchHandler={switchStyleHandler}
-        //           imageUrl={defaultBackgroundUrl[i]}
-        //           isBackground
-        //         />
-        //       );
-        //     })}
-        //   </BackgroundCardContainer>
-        //   {/* <BackgroundContainerTitle>上傳自訂</BackgroundContainerTitle>
-        //   <BackgroundCardContainer style={{ justifyItems: "center" }}>
-        //     <div
-        //       style={{
-        //         backgroundColor: "#ddd",
-        //         width: "100%",
-        //         height: "100%",
-        //         textAlign: "center",
-        //         lineHeight: "25rem",
-        //       }}
-        //     >
-        //       (待上線功能)
-        //     </div>
-        //   </BackgroundCardContainer> */}
-        // </BackGroundContainer>
       )}
       <ButtonWrapper
         onClick={() => clickToSendForm(sendingFormData)}

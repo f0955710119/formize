@@ -2,6 +2,7 @@ import { FC } from "react";
 import styled from "styled-components";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import questionConfig from "../../../../../configs/questionConfig";
 import QuestionIcon from "../QuestionIcon";
 
 const QuestionWrapper = styled.div`
@@ -11,6 +12,7 @@ const QuestionWrapper = styled.div`
   padding: 1rem 0.7rem 1rem 1rem;
   width: 81%;
   border: 1px solid #c8c8c8;
+  border-radius: 3px;
 
   @media ${breakpointConfig.laptopM} {
     min-height: 6rem;
@@ -29,22 +31,53 @@ const QuestionWrapper = styled.div`
   }
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
 const Title = styled.div`
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.7px;
 `;
 
 const TitleIndex = styled.span`
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-right: 0.3rem;
-  transform: translateY(-3.5px);
+  transform: translateY(-2px);
 `;
 
 const Note = styled.div`
   width: 100%;
   font-size: 1.4rem;
   color: #aaa;
+  letter-spacing: 0.5px;
+`;
+
+const IconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding: 0rem 0.8rem;
+  /* background-color: #e9b014; */
+  background-color: #aaa;
+  border-radius: 30px;
+`;
+
+const customIconStyleString = `
+  transform: translateY(0);
+  width:1.4rem;
+  height:1.4rem;
+  margin-right:0.6rem;
+  fill: #fff;
+`;
+
+const QuestionTypeName = styled.span`
+  font-size: 1.3rem;
+  color: #fff;
 `;
 
 interface CreatedQuestionProps {
@@ -64,14 +97,16 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
   const noteText = noteTextRaw === "" ? "暫無註解" : noteTextRaw;
   return (
     <QuestionWrapper>
-      <QuestionIcon
-        questionType={questionType}
-        style=" transform: translateY(-2.5px); width:1.6rem; height:1.6rem; margin-right:0.8rem;"
-      />
-      <TitleIndex>{index}</TitleIndex>
-      <Title>{title.length > 12 ? `${title.slice(0, 13)}...` : title}</Title>
+      <IconWrapper>
+        <QuestionIcon type={questionType} style={customIconStyleString} />
+        <QuestionTypeName>{questionConfig[questionType]}</QuestionTypeName>
+      </IconWrapper>
+      <TitleWrapper>
+        {questionType !== "2" && <TitleIndex>{index}.</TitleIndex>}
+        <Title>{title.length > 10 ? `${title.slice(0, 11)}...` : title}</Title>
+      </TitleWrapper>
       <Note>
-        {noteText.length > 14 ? `${noteText.slice(0, 15)}...` : noteText}
+        {noteText.length > 12 ? `${noteText.slice(0, 13)}...` : noteText}
       </Note>
     </QuestionWrapper>
   );

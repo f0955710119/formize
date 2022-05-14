@@ -14,6 +14,9 @@ const Field = styled.div<FieldProps>`
   border-radius: 3px;
   border: ${(props: FieldProps) =>
     props.isActive ? `3px solid ${props.theme.title};` : "1px solid #c8c8c8;"};
+
+  ${(props) => (props.isActive ? "" : "cursor: pointer;")}
+
   transition: border 0.3s;
   &:not(:last-child) {
     margin-bottom: 3rem;

@@ -11,6 +11,7 @@ import { questionActions } from "../../../../store/slice/questionSlice";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import QuestionList from "../../../User/QuestionList";
+import scrollBar from "../../../UI/scrollBar";
 
 interface PreviewLayoutProps {
   fontFamily: string;
@@ -25,7 +26,7 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
   justify-content: center;
   width: 62%;
   height: 100%;
-  padding: 0rem;
+  padding: 2rem 0rem;
   background-color: #f8f8f8;
 
   @media ${breakpointConfig.laptopM} {
@@ -33,6 +34,10 @@ const PreviewLayout = styled(Layout)<PreviewLayoutProps>`
     height: calc(100vh - 6rem);
     order: 1;
     background-color: #fff;
+  }
+
+  @media ${breakpointConfig.tabletL} {
+    padding: 2rem 1rem;
   }
 `;
 
@@ -46,10 +51,11 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* width: ${(props: QuestionWrapperProps) => props.width}; */
   width: 80rem;
   height: 100%;
   padding: 2rem 4rem;
+  border-radius: 7px;
+
   ${(props: QuestionWrapperProps) => `background-image: linear-gradient(
       to bottom right,
       rgba(255, 255, 255, 0),
@@ -60,12 +66,27 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   background-repeat: no-repeat;
 
   overflow-y: scroll;
+  ${scrollBar}
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.title};
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 0.8rem;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+  }
 
   @media ${breakpointConfig.tablet} {
     width: 100%;
-  }
-  &::-webkit-scrollbar {
-    display: none;
   }
 `;
 
@@ -85,54 +106,18 @@ const NoQuestionReminder = styled.div`
 `;
 
 const NoQuestionReminderText = styled.div`
-  font-size: 1.6rem;
-  transform: translateY(-10rem);
+  font-size: 1.8rem;
+  font-family: jfOpenhuninn;
   text-align: center;
   color: #777;
-`;
-
-const EditingFormPageLabel = styled.div`
-  position: absolute;
-  top: 2rem;
-  left: 50%;
-
-  width: 15rem;
-  height: 2rem;
-  border-radius: 3px;
-  line-height: 2rem;
-
-  font-size: 2rem;
-  text-align: center;
-  color: #aaa;
-  transform: translateX(-60%);
-`;
-
-interface SwitchEditingFormPageButtonProps {
-  isLeft: boolean;
-}
-
-const SwitchEditingFormPageButton = styled.div<SwitchEditingFormPageButtonProps>`
-  position: absolute;
-  top: 5rem;
-  ${(props: SwitchEditingFormPageButtonProps) =>
-    props.isLeft ? "top: 3.1rem" : "top: 3rem"};
-  ${(props: SwitchEditingFormPageButtonProps) =>
-    props.isLeft ? "left: 40%" : "right:42.8%"};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #aaa;
-  font-size: 1.8rem;
-
-  transform: translateY(-50%);
+  transform: translateY(-14rem);
 `;
 
 const Preview: FC = () => {
   const dispatch = useAppDispatch();
   const [width, setWidth] = useState<string>("");
-  const [reminderText, setReminderText] = useState<string>(
-    "尚無題目，點擊右欄題目的新增符號來創建題型吧!"
-  );
+  const [reminderText, setReminderText] =
+    useState<string>("尚無題目，點擊右欄題目來創建題型吧!");
   const { questions, editingFormPage, currentStep } = useAppSelector(
     (state) => state.question
   );
@@ -152,11 +137,6 @@ const Preview: FC = () => {
     if (window.innerWidth > 1240) return;
     setReminderText("尚無題目!下滑至題目欄，點擊新增符號來創建題型吧!");
   }, []);
-
-  // const switchEditingPageHandler = (page: number) => {
-  //   dispatch(questionActions.switchEditingFormPage(page));
-  //   dispatch(questionActions.switchEditingQuestion(null));
-  // };
 
   const hasQuestions = questions.length > 0;
 
@@ -205,33 +185,6 @@ const Preview: FC = () => {
 
   return (
     <PreviewLayout fontFamily={fontTheme}>
-      {/* {mode === "1" && (
-        <>
-          <EditingFormPageLabel>{`第${helper.generateChineseNumberString(
-            editingFormPage - 1
-          )}頁`}</EditingFormPageLabel>
-          {editingFormPage !== 1 && (
-            <SwitchEditingFormPageButton
-              isLeft
-              onClick={() => {
-                switchEditingPageHandler(editingFormPage - 1);
-              }}
-            >
-              上一頁
-            </SwitchEditingFormPageButton>
-          )}
-          {editingFormPage !== pageQuantity && (
-            <SwitchEditingFormPageButton
-              isLeft={false}
-              onClick={() => {
-                switchEditingPageHandler(editingFormPage + 1);
-              }}
-            >
-              下一頁
-            </SwitchEditingFormPageButton>
-          )}
-        </>
-      )} */}
       <QuestionWrapper
         backgroundImageURL={backgroundImages[0]}
         hasQuestion={hasQuestions}

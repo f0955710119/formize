@@ -4,12 +4,11 @@ import styled from "styled-components";
 
 import QuestionPage from "./QuestionPage";
 import CreatedQuestion from "./CreatedQuestion";
+import { Delete } from "@styled-icons/material/Delete";
 
 import helper from "../../../../../utils/helper";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-
-import icons from "../../UI/icons";
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
@@ -26,11 +25,17 @@ const DeleteButtonWrapper = styled.div`
   height: 100%;
 `;
 
-const DeleteButton = styled(icons.delete)`
+const DeleteButton = styled(Delete)`
   width: 2.4rem;
   height: 2.4rem;
   fill: #aaa;
   margin-right: 1rem;
+  cursor: pointer;
+  transition: fill 0.3s;
+
+  &:hover {
+    fill: #333;
+  }
 
   @media ${breakpointConfig.mobileL} {
     display: none;

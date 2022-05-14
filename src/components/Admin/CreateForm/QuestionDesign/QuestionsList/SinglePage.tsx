@@ -1,10 +1,10 @@
 import { FC } from "react";
 
 import styled from "styled-components";
-import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
+import { Delete } from "@styled-icons/material/Delete";
 import CreatedQuestion from "./CreatedQuestion";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import icons from "../../UI/icons";
+import icons from "../QuestionIcon";
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
@@ -29,16 +29,18 @@ const DeleteButtonWrapper = styled.div`
   @media ${breakpointConfig.mobileL} {
     display: none;
   }
-
-  /* @media ${breakpointConfig.laptopM} {
-    display: none;
-  } */
 `;
 
-const DeleteButton = styled(icons.delete)`
+const DeleteButton = styled(Delete)`
   width: 2.4rem;
   height: 2.4rem;
   fill: #aaa;
+  cursor: pointer;
+  transition: fill 0.3s;
+
+  &:hover {
+    fill: #333;
+  }
 `;
 
 interface SingplePageProps {

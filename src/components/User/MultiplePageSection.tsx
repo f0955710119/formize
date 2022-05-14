@@ -14,6 +14,7 @@ import { Question } from "../../types/question";
 import QuestionList from "./QuestionList";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import useWholePageAnswersValidCheck from "../../hooks/useWholePageAnswersValidCheck";
+import scrollBar from "../UI/scrollBar";
 
 const moveInRightAnimation = `
   animation: moveInRight 0.3s ease-in-out;
@@ -21,11 +22,11 @@ const moveInRightAnimation = `
   @keyframes moveInRight {
     0% {
       opacity: 0.3;
-      transform: translateX(6rem);
+      transform: translate(6rem,-6.5rem);
     }
     100% {
       opacity: 1;
-      transform: translateX(0);
+      transform: translate(0,-6.5rem);
     }
   }
 `;
@@ -36,11 +37,11 @@ const moveInLeftAnimation = `
   @keyframes moveInLeft {
     0% {
       opacity: 0.3;
-      transform: translateX(-6rem);
+      transform: translate(-6rem,-6.5rem);
     }
     100% {
       opacity: 1;
-      transform: translateX(0);
+      transform: translate(0,-6.5rem);
     }
   }
 `;
@@ -64,13 +65,26 @@ interface QuestionContainerProps {
 const QuestionContainer = styled.div<QuestionContainerProps>`
   padding: 0 2rem;
   width: 100%;
-  height: 70%;
+  height: 87%;
   overflow: scroll;
-
+  transform: translate(0, -6.5rem);
   ${(props) => props.moveInAnimation}
 
+  overflow-y: auto;
+  overflow-x: hidden;
+  ${scrollBar}
+
+  &::-webkit-scrollbar-track {
+    background-color: #ccc;
+  }
+
   &::-webkit-scrollbar {
-    display: none;
+    width: 0.8rem;
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.title};
   }
 `;
 

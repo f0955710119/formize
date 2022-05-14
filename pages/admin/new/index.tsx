@@ -76,8 +76,8 @@ const New: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Formize - 問卷進行式</title>
-        <meta name="description" content="Formize - 問卷進行式" />
+        <title>FORMiZE - 問卷進行式</title>
+        <meta name="description" content="FORMiZE - 問卷進行式" />
       </Head>
       {isFetchingAdminData ? (
         <Loading

@@ -26,8 +26,12 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   position: relative;
   width: 100%;
 
+  &:first-child {
+    margin-top: 6rem;
+  }
+
   &:not(:last-child) {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
   border-radius: 7px;
   border: 3px solid transparent;
@@ -62,10 +66,6 @@ const NoteText = styled.div`
   font-size: 1.6rem;
   margin-bottom: 2rem;
   color: ${(props) => props.theme.note}; ;
-`;
-
-const EmptySpace = styled.div`
-  height: 4rem;
 `;
 
 const QuestionTypeTag = styled.div`
@@ -157,7 +157,7 @@ const QuestionList: FC<QuestionListProps> = ({
     <>
       <QuestionWrapper
         hasErrorMessage={hasErrorMessage}
-        style={{ marginBottom: question.type === "2" ? "8rem" : "4rem" }}
+        style={{ marginBottom: question.type === "2" ? "4rem" : "2rem" }}
         isCreatingProcess={isCreatingProcess}
       >
         {question.type !== "2" && (

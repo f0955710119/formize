@@ -2,15 +2,28 @@ import { FC } from "react";
 import styled from "styled-components";
 import breakpointConfig from "../../../../../../configs/breakpointConfig";
 
-const CardWrapper = styled.div`
+interface CardWrapperProps {
+  isActive: boolean;
+}
+
+const CardWrapper = styled.div<CardWrapperProps>`
   display: inline-block;
   align-items: center;
   width: 15rem;
   margin-bottom: 2rem;
+  cursor: pointer;
+  border: 3px solid ${(props) => (props.isActive ? "#c9ab59" : "transparent")};
+  border-radius: 7px;
+  padding: 1rem;
+  transition: transform 0.3s, border 0.3s;
+
+  &:hover {
+    transform: translateY(1rem);
+  }
 
   @media ${breakpointConfig.laptopM} {
-    min-width: 15rem;
-    min-height: 13rem;
+    min-width: 12rem;
+    min-height: 10rem;
     margin-right: 1rem;
   } ;
 `;
@@ -23,10 +36,12 @@ interface CardItemProps {
 
 const CardItem = styled.div<CardItemProps>`
   display: inline-block;
-  width: 15rem;
-  height: 13rem;
+  min-width: 12rem;
+  min-height: 10rem;
+  width: 100%;
   background-color: #eee;
   margin-bottom: 0.5rem;
+  border-radius: 9px;
 
   ${(props) => {
     return props.imageUrl
@@ -66,6 +81,7 @@ const CardTitle = styled.div`
 
 interface CardProps {
   title: string;
+  isActive: boolean;
   imageUrl?: string;
   font?: string;
   isBackground?: boolean;
@@ -74,6 +90,7 @@ interface CardProps {
 
 const Card: FC<CardProps> = ({
   title,
+  isActive,
   imageUrl,
   font,
   isBackground,
@@ -81,6 +98,7 @@ const Card: FC<CardProps> = ({
 }: CardProps) => {
   return (
     <CardWrapper
+      isActive={isActive}
       onClick={() => {
         dispatchHandler && dispatchHandler(title);
       }}
