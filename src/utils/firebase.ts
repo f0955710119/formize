@@ -105,9 +105,9 @@ export default {
       throw new Error(message);
     }
   },
-  nativeSignOut() {
+  async nativeSignOut() {
     try {
-      signOut(auth);
+      await signOut(auth);
     } catch (error: any) {
       console.error(error.message);
     }

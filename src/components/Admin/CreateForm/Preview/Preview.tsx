@@ -7,7 +7,6 @@ import QuestionField from "./QuestionField";
 import Layout from "../UI/Layout";
 import helper from "../../../../utils/helper";
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../store/slice/questionSlice";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import QuestionList from "../../../User/QuestionList";
@@ -102,6 +101,10 @@ const NoQuestionReminder = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   background-position: 50% 70%;
+
+  @media ${breakpointConfig.desktopS} {
+    background-size: 80%;
+  }
 `;
 
 const NoQuestionReminderText = styled.div`
@@ -110,6 +113,11 @@ const NoQuestionReminderText = styled.div`
   text-align: center;
   color: #777;
   transform: translateY(-14rem);
+
+  @media ${breakpointConfig.desktopS} {
+    font-size: 1.6rem;
+    transform: translateY(-10rem);
+  }
 `;
 
 const Preview: FC = () => {
