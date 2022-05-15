@@ -34,7 +34,7 @@ const FlexAlignCenter = styled.div`
     width: 8rem;
   }
 
-  & [class*="-MuiButtonBase-root-MuiRadio-root"]:hover {
+  & .MuiRadio-root:hover {
     background-color: transparent;
   }
 `;

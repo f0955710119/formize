@@ -16,6 +16,12 @@
     "incremental": true,
     "downlevelIteration": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/firebase.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/utils/firebase.ts",
+    "server.js"
+  ],
   "exclude": ["node_modules"]
 }

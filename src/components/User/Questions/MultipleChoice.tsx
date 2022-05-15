@@ -22,13 +22,13 @@ const CustomFormControl = styled(FormControl)`
   width: 100%;
   font-family: inherit;
 
-  & [class*="-MuiTypography-root"] {
+  & .MuiTypography-root {
     margin-left: 1rem;
     font-family: inherit;
     font-size: 1.8rem;
   }
 
-  & [class*="-MuiFormControlLabel-root"] {
+  & .MuiFormControlLabel-root {
     margin-right: 0;
     width: 100%;
   }
