@@ -29,6 +29,7 @@ const FormId: NextPage = () => {
     settings: userFormConfig.initSettings,
     styles: userFormConfig.initStyles,
   });
+
   const [hasFetchedData, setHasFetchedData] = useState<boolean>(false);
   const [colorTheme, setColorTheme] = useState<{ [key: string]: string }>({});
 
@@ -73,9 +74,9 @@ const FormId: NextPage = () => {
   return (
     <>
       <Head>
-        <title>FORMiZE</title>
+        <title>FORMiZE - 問卷填答</title>
         <meta name="description" content="FORMiZE - 簡易上手的質感問卷工具" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/formize.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Vidaloka&display=swap"
           rel="stylesheet"

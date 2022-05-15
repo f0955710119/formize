@@ -66,6 +66,7 @@ const SinglePage: FC<SingplePageProps> = ({
         <DeleteButton />
       </DeleteButtonWrapper>
       <CreatedQuestion
+        id={id}
         title={type === "2" ? "引言" : title}
         note={note}
         questionType={type}

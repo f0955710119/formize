@@ -17,14 +17,6 @@ const CreatedQuestionWrapper = styled.div`
   margin-top: 2rem;
 `;
 
-const DeleteButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 5rem;
-  height: 100%;
-`;
-
 const DeleteButton = styled(Delete)`
   width: 2.4rem;
   height: 2.4rem;
@@ -78,6 +70,7 @@ const MultiPage: FC<MultiPageProps> = ({
                 }}
               />
               <CreatedQuestion
+                id={question.id}
                 title={question.type === "2" ? "引言" : `${question.title}`}
                 index={`${titleIndexArr[i]}`}
                 note={question.note}
@@ -102,6 +95,7 @@ const MultiPage: FC<MultiPageProps> = ({
                 }}
               />
               <CreatedQuestion
+                id={question.id}
                 title={question.type === "2" ? "引言" : `${question.title}`}
                 index={`${titleIndexArr[i]}`}
                 note={question.note}

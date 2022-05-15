@@ -3,16 +3,24 @@ import styled from "styled-components";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import questionConfig from "../../../../../configs/questionConfig";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
 import QuestionIcon from "../QuestionIcon";
 
-const QuestionWrapper = styled.div`
+interface QuestionWrapperProps {
+  isActive: boolean;
+}
+
+const QuestionWrapper = styled.div<QuestionWrapperProps>`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   padding: 1rem 0.7rem 1rem 1rem;
   width: 81%;
-  border: 1px solid #c8c8c8;
+  border: 2px solid
+    ${(props) => (props.isActive ? props.theme.note : "#c8c8c8")};
   border-radius: 3px;
+
+  transition: border 0.3s;
 
   @media ${breakpointConfig.laptopM} {
     min-height: 6rem;
@@ -83,6 +91,7 @@ const QuestionTypeName = styled.span`
 `;
 
 interface CreatedQuestionProps {
+  id: string;
   title: string;
   note: string;
   questionType: string;
@@ -90,15 +99,18 @@ interface CreatedQuestionProps {
 }
 
 const CreatedQuestion: FC<CreatedQuestionProps> = ({
+  id,
   title,
   note,
   questionType,
   index,
 }: CreatedQuestionProps) => {
+  const { editingQuestion } = useAppSelector((state) => state.question);
   const noteTextRaw = questionType === "2" ? "引言沒有註解" : note;
   const noteText = noteTextRaw.trim().length === 0 ? "暫無註解" : noteTextRaw;
+  const hasEditingQuestion = editingQuestion !== null ? editingQuestion.id : "";
   return (
-    <QuestionWrapper>
+    <QuestionWrapper isActive={hasEditingQuestion === id}>
       <IconWrapper>
         <QuestionIcon type={questionType} style={customIconStyleString} />
         <QuestionTypeName>{questionConfig[questionType]}</QuestionTypeName>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useAppSelector } from "../../../../hooks/useAppSelector";
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../store/slice/questionSlice";
-import Field from "./UI/Field";
+import Field, { SwitchFieldReminder } from "./UI/Field";
 import TitleIndex from "./UI/TitleIndex";
 import EditableTitle from "./UI/EditableTitle";
 import Note from "./UI/Note";
@@ -185,6 +185,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
       }}
       isActive={question.id === editingQuestion?.id}
     >
+      <SwitchFieldReminder>點擊切換編輯中的題目</SwitchFieldReminder>
       <QuestionDeleteButton
         id={question.id}
         text="X"

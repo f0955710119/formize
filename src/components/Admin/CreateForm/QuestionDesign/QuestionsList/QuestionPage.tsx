@@ -12,7 +12,23 @@ interface PageWrapperProps {
   isActive: boolean;
 }
 
+const SwitchPageReminder = styled.div`
+  position: absolute;
+
+  opacity: 0;
+  visibility: hidden;
+  text-align: center;
+  padding: 0.4rem 1rem;
+  font-size: 1.4rem;
+
+  background-color: #fff;
+  color: #f90;
+
+  transition: opacity 0.3s, visibility 0.3s;
+`;
+
 const PageWrapper = styled.div<PageWrapperProps>`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +39,21 @@ const PageWrapper = styled.div<PageWrapperProps>`
   border: ${(props: PageWrapperProps) =>
     props.isActive ? " 3px solid#777 " : "1px solid  #c8c8c8"};
   transition: border 0.3s;
+  cursor: pointer;
+
+  ${(props) =>
+    props.isActive
+      ? ""
+      : ` 
+    &:not(:hover) ${SwitchPageReminder} {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    &:hover ${SwitchPageReminder} {
+      opacity: 1;
+      visibility: visible;
+    }`}
 
   @media ${breakpointConfig.laptopM} {
     margin-top: 2rem;
@@ -37,11 +68,17 @@ const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  cursor: pointer;
+
+  & .MuiSvgIcon-root {
+    cursor: pointer;
+  }
 `;
 
 const Title = styled.div`
   font-size: 1.8rem;
   width: 90%;
+  cursor: pointer;
 `;
 
 interface QuestionPageProps {
@@ -78,6 +115,7 @@ const QuestionPage: FC<QuestionPageProps> = ({
         switchEditingFormPageHandler(page);
       }}
     >
+      <SwitchPageReminder>點擊能切換編輯的分頁</SwitchPageReminder>
       <TitleWrapper>
         <Title>{title}</Title>
         {!isExpanded && (
