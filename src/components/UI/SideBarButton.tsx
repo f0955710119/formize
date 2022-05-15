@@ -31,7 +31,7 @@ const ButtonIcon = styled(RightArrow)`
 `;
 
 const ButtonText = styled.span`
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 `;
 
 interface SideBarButtonProps {

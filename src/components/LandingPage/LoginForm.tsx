@@ -2,32 +2,74 @@ import { FC, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import firebase from "../../utils/firebase";
-import { SignFunctionType, UserInfoType } from "../../types/login";
+import { SignFunctionType } from "../../types/login";
 import { ChangeHandler } from "../../types/common";
 import { adminContext } from "../../store/context/adminContext";
 import loginConfig from "../../configs/loginConfig";
-import useInitAdminInfo from "../../hooks/useInitAdminInfo";
+
 import adminActionType from "../../store/actionType/adminActionType";
+import sweetAlert from "../../utils/sweetAlert";
+import breakpointConfig from "../../configs/breakpointConfig";
 
 const Form = styled.form`
   position: absolute;
-  top: 27%;
+  top: 22%;
   right: 20%;
   display: flex;
   flex-direction: column;
   padding: 1rem;
   width: 40rem;
   z-index: 3;
+
+  @media ${breakpointConfig.desktopS} {
+    top: 20%;
+    right: 18%;
+  }
+
+  @media ${breakpointConfig.laptopL} {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  @media ${breakpointConfig.laptopM} {
+    top: 50%;
+    right: 50%;
+
+    transform: translate(50%, -50%);
+  }
+`;
+
+const LogoImageWrapper = styled.div`
+  align-self: center;
+  height: 8rem;
+  margin-bottom: 2rem;
+
+  @media ${breakpointConfig.desktopS} {
+    height: 6rem;
+  }
+`;
+
+const LogoImage = styled.img`
+  width: 8rem;
+  height: 100%;
+  object-fit: cover;
+
+  @media ${breakpointConfig.desktopS} {
+    width: 6rem;
+  }
 `;
 
 const DefaultLandingTitle = styled.h1`
   display: block;
-  /* margin-bottom: 1rem; */
   padding-bottom: 1rem;
   width: 100%;
   font-size: 3.2rem;
   font-weight: normal;
   text-align: center;
+
+  @media ${breakpointConfig.desktopS} {
+    font-size: 2.6rem;
+  }
 `;
 
 const TraditionalText = styled.span`
@@ -39,11 +81,14 @@ const TraditionalText = styled.span`
 const EnglishText = styled.span`
   font-family: inherit;
   font-weight: bold;
-  /* background-image: linear-gradient(to right, #fcbe63, #c4944d); */
   background-color: #fcbe63;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+
+  @media ${breakpointConfig.tabletS} {
+    background-color: #f8ab5d;
+  }
 `;
 
 const SubTitle = styled(TraditionalText)`
@@ -63,7 +108,12 @@ const SubTitle = styled(TraditionalText)`
     height: 1rem;
     width: 11rem;
     background-color: #fcbf634c;
-    /* border-radius: 30px; */
+  }
+
+  @media ${breakpointConfig.desktopS} {
+    font-size: 2rem;
+    letter-spacing: 3.6px;
+    margin-bottom: 5.8rem;
   }
 `;
 
@@ -84,16 +134,23 @@ const Label = styled.label`
   color: #a77121;
   letter-spacing: 8px;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  cursor: text;
+
+  @media ${breakpointConfig.desktopS} {
+    left: 7.6rem;
+    font-size: 1.6rem;
+  }
 `;
 
 const ErrorMessage = styled.div`
   position: absolute;
-  top: 11.5rem;
-  left: 50%;
+  top: 21.5rem;
+  left: 49%;
   width: 71%;
   transform: translate(-47%, 0);
   font-size: 1.5rem;
-  color: #c4944d;
+  font-weight: bold;
+  color: #1b375a;
 
   animation: moveInTop 0.5s ease-in-out;
 
@@ -107,6 +164,25 @@ const ErrorMessage = styled.div`
       transform: translate(-47%, 0);
     }
   }
+
+  @media ${breakpointConfig.desktopM} {
+    top: 21.5rem;
+    left: 49%;
+  }
+
+  @media ${breakpointConfig.desktopS} {
+    top: 18.5rem;
+    left: 55%;
+  }
+
+  @media ${breakpointConfig.laptopL} {
+    top: 18.5rem;
+    font-size: 1.4rem;
+  }
+
+  @media ${breakpointConfig.laptopM} {
+    top: 18.5rem;
+  }
 `;
 
 const Input = styled.input`
@@ -117,10 +193,16 @@ const Input = styled.input`
   border-bottom: 1px solid #777;
   margin: 0 auto;
   background-color: transparent;
+  color: #a77121;
 
   &:focus ~ ${Label},&:not(:focus):valid ~ ${Label} {
     opacity: 0;
     transform: translateY(-2rem);
+  }
+
+  @media ${breakpointConfig.desktopS} {
+    width: 60%;
+    font-size: 1.6rem;
   }
 `;
 
@@ -141,6 +223,11 @@ const Button = styled.button`
 
   &:hover {
     background-color: #1b375a;
+  }
+
+  @media ${breakpointConfig.desktopS} {
+    width: 60.9%;
+    font-size: 1.4rem;
   }
 `;
 
@@ -189,7 +276,6 @@ const LoginForm: FC = () => {
   };
 
   const signinHandler: SignFunctionType = async (email, password) => {
-    // BUG: 顯示給使用者跟開發的人的錯誤訊息不一樣，之後要優化
     try {
       const errorMessage = checkSignInput(email, password);
       if (errorMessage) throw new Error(errorMessage);
@@ -209,7 +295,10 @@ const LoginForm: FC = () => {
 
       context.setField(adminActionType.UID, uid);
 
-      alert("登入成功，將前往問卷管理頁面!");
+      sweetAlert.loadedReminderAlert("登入成功，將前往問卷管理頁面!");
+      setTimeout(() => {
+        sweetAlert.closeAlert();
+      }, 1500);
       router.push("/admin");
     } catch (error: any) {
       setUserInfo((prevState) => {
@@ -218,7 +307,6 @@ const LoginForm: FC = () => {
           errorMessage: error.message,
         };
       });
-      console.log(error.message);
     }
   };
 
@@ -226,7 +314,6 @@ const LoginForm: FC = () => {
     try {
       const errorMessage = checkSignInput(email, password);
       if (errorMessage) throw new Error(errorMessage);
-      //BUG: 之後要寫type gurad + validation
       const uid = await firebase
         .createNativeUser({ email, password })
         .catch(() => {
@@ -236,7 +323,10 @@ const LoginForm: FC = () => {
       if (!uid) throw new Error("帳號密碼已存在，請嘗試其他排序組合");
       context.setField(adminActionType.UID, uid);
       router.push("/admin");
-      alert("註冊成功，將前往問卷管理頁面!");
+      sweetAlert.loadedReminderAlert("註冊成功，將前往問卷管理頁面!");
+      setTimeout(() => {
+        sweetAlert.closeAlert();
+      }, 1500);
     } catch (error: any) {
       setUserInfo((prevState) => {
         return {
@@ -244,11 +334,16 @@ const LoginForm: FC = () => {
           errorMessage: error.message,
         };
       });
-      console.log(error.message);
     }
   };
   return (
     <Form>
+      <LogoImageWrapper>
+        <LogoImage
+          src="/images/formize-logo.svg"
+          alt="Formize是中文質感問卷製作工具，此為logo"
+        />
+      </LogoImageWrapper>
       <DefaultLandingTitle>
         <TraditionalText>歡迎來到</TraditionalText>
         <EnglishText>FORMiZE</EnglishText>

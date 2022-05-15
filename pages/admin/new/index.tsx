@@ -67,7 +67,7 @@ const New: NextPage = () => {
       return;
     }
 
-    alert("此頁只能透過管理員頁面進入唷!");
+    // alert("此頁只能透過管理員頁面進入唷!");
     router.push("/admin");
   };
 
@@ -76,8 +76,8 @@ const New: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Formize - 問卷進行式</title>
-        <meta name="description" content="Formize - 問卷進行式" />
+        <title>FORMiZE - 問卷進行式</title>
+        <meta name="description" content="FORMiZE - 問卷進行式" />
       </Head>
       {isFetchingAdminData ? (
         <Loading

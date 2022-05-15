@@ -2,9 +2,10 @@ import { FC } from "react";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../store/actionType/questionActionType";
-import styled from "styled-components";
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import { ButtonWrapper, ButtonText } from "./Button";
+
+import { ButtonWrapper, ButtonText, AddButtonIcon } from "./Button";
+
+import useCheckEditingStateOfTextEditingField from "../../../../../hooks/useCheckEditingStateOfTextEditingField";
 
 interface AddOptionButtonProps {
   id: string;
@@ -16,8 +17,11 @@ const AddOptionButton: FC<AddOptionButtonProps> = ({
   options,
 }: AddOptionButtonProps) => {
   const dispatch = useAppDispatch();
+  const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
+
   const addNewOptionHandler = () => {
-    const updateOptions = [...options, `選項${options.length + 1}`];
+    const updateOptions = [...options, "預設選項"];
+
     dispatch(
       questionActions.updateSiglePropOfQuestion({
         id,
@@ -28,8 +32,13 @@ const AddOptionButton: FC<AddOptionButtonProps> = ({
   };
 
   return (
-    <ButtonWrapper onClick={addNewOptionHandler}>
-      <ButtonText>新增選項題目</ButtonText>
+    <ButtonWrapper
+      onClick={() => {
+        checkOpenEditingTextHandler(addNewOptionHandler, id);
+      }}
+    >
+      <ButtonText>新增選項</ButtonText>
+      <AddButtonIcon />
     </ButtonWrapper>
   );
 };

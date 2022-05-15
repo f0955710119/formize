@@ -9,7 +9,7 @@ export default `
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #b4bcb7;
+    background-color: #f90;
     background-image: -webkit-linear-gradient(
       45deg,
       rgba(255, 255, 255, 0.2) 25%,

@@ -3,11 +3,12 @@ import styled from "styled-components";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 
 import SectionWrapper from "../UI/Section";
-import SectionHeading from "../UI/SectionHeading";
 import Field from "../UI/Field";
 import Label from "../UI/Label";
 import Input from "../UI/Input";
-import { useAppSelector } from "../../../../hooks/useAppSelector";
+
+import { Image as ImageIcon } from "@styled-icons/evil/Image";
+
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { settingActions } from "../../../../store/slice/settingSlice";
 import settingActionType from "../../../../store/actionType/settingActionType";
@@ -18,8 +19,10 @@ import sweetAlert from "../../../../utils/sweetAlert";
 const BannerField = styled(Field)`
   height: 39rem;
   align-items: start;
+  margin-top: 1rem;
+
   &:not(:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: 1.4rem;
   }
 `;
 
@@ -27,8 +30,11 @@ const ImageLabel = styled(Label)`
   display: flex;
   justify-content: center;
   align-items: center;
+
   width: calc(100% - 12rem);
   height: 100%;
+  border-radius: 3px;
+  cursor: pointer;
   background-color: #eee;
   z-index: 1;
 `;
@@ -37,21 +43,21 @@ const CustomTextareaAutosize = styled(TextareaAutosize)`
   padding: 1rem;
   width: calc(100% - 12rem);
   border: 1px solid #aaa;
-  border-radius: 0px;
-  font-size: 1.8rem;
+  border-radius: 3px;
+  font-size: 1.5rem;
   resize: none;
-  /* background-color: transparent; */
+
   ${scrollBar}
-  /* &::-webkit-scrollbar {
-    display: none;
-  } */
+
   &:focus {
     outline: none;
   }
 `;
 
-const TexteraInput = styled(Input)`
-  height: 100%;
+const TextareaLabelText = styled.span`
+  font-size: 1.4rem;
+  color: #c9ab59;
+  white-space: pre-line;
 `;
 
 const ImageInput = styled(Input)`
@@ -65,6 +71,51 @@ const Image = styled.img`
   object-fit: contain;
 `;
 
+const UploadImageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const UploadImageIcon = styled(ImageIcon)`
+  width: 10.6rem;
+  height: 10.6rem;
+  fill: #aaa;
+`;
+
+const UploadImageText = styled.span`
+  font-size: 1.6rem;
+  text-align: center;
+  color: #888;
+  letter-spacing: 2px;
+  margin-top: -1rem;
+`;
+
+const UploadImage = () => {
+  return (
+    <UploadImageWrapper>
+      <UploadImageIcon />
+      <UploadImageText>點擊上傳</UploadImageText>
+    </UploadImageWrapper>
+  );
+};
+
+const ParagraphLabel = ({
+  labelText,
+  reminderText,
+}: {
+  labelText: string;
+  reminderText: string;
+}) => {
+  return (
+    <Label>
+      {labelText}
+      <br />
+      <TextareaLabelText>{reminderText}</TextareaLabelText>
+    </Label>
+  );
+};
+
 const SectionBanner: FC = () => {
   const settingContextData = useContext(settingContext);
   const dispatch = useAppDispatch();
@@ -72,20 +123,16 @@ const SectionBanner: FC = () => {
 
   return (
     <SectionWrapper>
-      {/* <SectionHeading>橫幅設定</SectionHeading> */}
       <BannerField>
-        <Label>
-          歡迎頁圖檔
-          <br />
-          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
-            上限5MB，比例建議4:3
-          </span>
-        </Label>
+        <ParagraphLabel
+          labelText="歡迎頁圖檔"
+          reminderText={`上限5MB\n比例建議4:3`}
+        />
         <ImageLabel htmlFor="welcome-banner">
           {settingContextData.startPageImageObjectUrl ? (
             <Image src={settingContextData.startPageImageObjectUrl} />
           ) : (
-            "點擊上傳"
+            <UploadImage />
           )}
         </ImageLabel>
         <ImageInput
@@ -114,15 +161,11 @@ const SectionBanner: FC = () => {
           }}
         />
       </BannerField>
-      <BannerField style={{ height: "15rem" }}>
-        <Label>
-          歡迎頁文字
-          <br />
-          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>限250字</span>
-        </Label>
+      <BannerField style={{ height: "13rem" }}>
+        <ParagraphLabel labelText="歡迎頁文字" reminderText="限250字" />
         <CustomTextareaAutosize
-          minRows={5}
-          maxRows={5}
+          minRows={6}
+          maxRows={6}
           onChange={(event) => {
             if (event.target.value.length > 250) {
               sweetAlert.errorReminderAlert("不可超過250字");
@@ -138,18 +181,15 @@ const SectionBanner: FC = () => {
         />
       </BannerField>
       <BannerField>
-        <Label>
-          結束頁圖檔
-          <br />
-          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>
-            上限5MB，比例建議4:3
-          </span>
-        </Label>
+        <ParagraphLabel
+          labelText="結束頁圖檔"
+          reminderText={`上限5MB\n比例建議4:3`}
+        />
         <ImageLabel htmlFor="end-banner">
           {settingContextData.endPageImageObjectUrl ? (
             <Image src={settingContextData.endPageImageObjectUrl} />
           ) : (
-            "點擊上傳"
+            <UploadImage />
           )}
         </ImageLabel>
         <ImageInput
@@ -178,15 +218,11 @@ const SectionBanner: FC = () => {
           }}
         />
       </BannerField>
-      <BannerField style={{ height: "15rem" }}>
-        <Label>
-          結束頁文字
-          <br />
-          <span style={{ fontSize: "1.2rem", color: "#4b6655" }}>限250字</span>
-        </Label>
+      <BannerField style={{ height: "13rem" }}>
+        <ParagraphLabel labelText="結束頁文字" reminderText="限250字" />
         <CustomTextareaAutosize
-          minRows={5}
-          maxRows={5}
+          minRows={6}
+          maxRows={6}
           onChange={(event) => {
             if (event.target.value.length > 250) {
               sweetAlert.errorReminderAlert("不可超過250字");

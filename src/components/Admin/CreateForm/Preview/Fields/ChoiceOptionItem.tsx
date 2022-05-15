@@ -1,24 +1,26 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import questionActionType from "../../../../../store/actionType/questionActionType";
 import styled from "styled-components";
-import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
+
 import { TextField } from "@mui/material";
 import helper from "../../../../../utils/helper";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import icons from "../../UI/icons";
+import Icons from "../../QuestionDesign/QuestionIcon";
+import { Delete } from "@styled-icons/material/Delete";
 import sweetAlert from "../../../../../utils/sweetAlert";
+import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
+import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import useGetQuestionTitleIndex from "../../../../../hooks/useGetQuestionTitleIndex";
+import useCheckEditingStateOfTextEditingField from "../../../../../hooks/useCheckEditingStateOfTextEditingField";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-
-  @media ${breakpointConfig.laptopS} {
-  }
 `;
 
 const OptionItemWrapper = styled.div`
@@ -30,9 +32,19 @@ const OptionItemWrapper = styled.div`
   width: 100%;
   height: 6rem;
   border: 2px solid ${(props) => props.theme.optionText};
+`;
 
-  /* @media ${breakpointConfig.laptopS} {
-  } */
+const OptionItemText = styled.div`
+  width: calc(100% - 3.4rem);
+  font-size: 1.8rem;
+  color: ${(props) => props.theme.title};
+  margin-left: 1rem;
+  cursor: text;
+  transition: color 0.3s;
+
+  &:hover {
+    color: ${(props) => props.theme.note};
+  }
 `;
 
 const EditingOptionItemWrapper = styled(OptionItemWrapper)`
@@ -41,24 +53,24 @@ const EditingOptionItemWrapper = styled(OptionItemWrapper)`
   padding: 1rem;
 `;
 
-const OptionItemText = styled.div`
-  width: 70%;
-  font-size: 1.8rem;
-  color: ${(props) => props.theme.optionText};
-`;
-
-const DeleteButton = styled(icons.delete)`
+const DeleteButton = styled(Delete)`
   width: 2.4rem;
   height: 2.4rem;
   fill: ${(props) => props.theme.optionText};
   margin-right: 1rem;
+  cursor: pointer;
+
+  transition: fill 0.3s;
+  &:hover {
+    fill: ${(props) => props.theme.note};
+  }
 `;
 
 const CustomTextField = styled(TextField)`
   width: 100%;
   height: 100%;
 
-  & .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  & [class*="-MuiInputBase-root-MuiOutlinedInput-root"] {
     font-size: 1.8rem;
     width: 100%;
     height: 100%;
@@ -105,12 +117,34 @@ const OptionItem: FC<OptionItemProps> = ({
   option,
   options,
 }: OptionItemProps) => {
+  const dispatch = useAppDispatch();
+  const {
+    editingQuestion,
+    isEditingOption,
+    isSwitchingEditingOption,
+    editingOptionQuantity,
+  } = useAppSelector((state) => state.question);
+
   const [hasClickedOptionText, setHasClickedOptionText] =
     useState<boolean>(false);
   const [editingOptionText, setEditingOptionText] = useState<string>(option);
-  const dispatch = useAppDispatch();
+  const isLoading = useRef<boolean>(true);
+  const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
 
   const deleteOptionHandler = (index: number) => {
+    if (isEditingOption && editingQuestion?.id === id) {
+      sweetAlert.errorReminderAlert(
+        "【 刪除失敗 】\n請先完成所有正在編輯的選項"
+      );
+      return;
+    }
+
+    if (editingOptionQuantity > 0) {
+      sweetAlert.errorReminderAlert(
+        "【 刪除失敗 】\n請先完成所有正在編輯的選項"
+      );
+      return;
+    }
     const updateOptinos = options.filter((_, i) => i !== index);
     dispatch(
       questionActions.updateSiglePropOfQuestion({
@@ -122,6 +156,10 @@ const OptionItem: FC<OptionItemProps> = ({
   };
 
   const saveEditedTextHandler = () => {
+    if (editingOptionText.trim().length === 0) {
+      sweetAlert.errorReminderAlert("【儲存失敗】\n選項不能留空");
+      return;
+    }
     const checkNameUtilObj = {
       stringArr: options,
       index,
@@ -130,7 +168,7 @@ const OptionItem: FC<OptionItemProps> = ({
     const checkHasExistedTitle = helper.checkExistedName(checkNameUtilObj);
 
     if (checkHasExistedTitle) {
-      sweetAlert.errorReminderAlert("有重複的選項名稱存在，不可以重複儲存喲!");
+      sweetAlert.errorReminderAlert("【儲存失敗】\n有重複的選項名稱存在");
       return;
     }
 
@@ -144,7 +182,45 @@ const OptionItem: FC<OptionItemProps> = ({
       })
     );
     setHasClickedOptionText(false);
+    dispatch(
+      questionActions.setIsEditingOption({
+        setEditingState: false,
+        isReset: false,
+      })
+    );
   };
+
+  const openEditingInputHandler = () => {
+    setHasClickedOptionText(true);
+    dispatch(
+      questionActions.setIsEditingOption({
+        setEditingState: true,
+        isReset: false,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (!isLoading.current) {
+      if (editingQuestion === null) return;
+
+      if (editingQuestion.id !== id) {
+        setHasClickedOptionText(false);
+
+        !isSwitchingEditingOption &&
+          dispatch(
+            questionActions.setIsEditingOption({
+              setEditingState: false,
+              isReset: true,
+            })
+          );
+        dispatch(questionActions.setIsSwitchingEditingOption(false));
+        return;
+      }
+      return;
+    }
+    isLoading.current = false;
+  }, [editingQuestion]);
 
   return hasClickedOptionText ? (
     <EditingOptionItemWrapper>
@@ -156,17 +232,35 @@ const OptionItem: FC<OptionItemProps> = ({
       />
 
       <EditingButton onClick={saveEditedTextHandler}>儲存</EditingButton>
-      <EditingButton onClick={() => setHasClickedOptionText(false)}>
+      <EditingButton
+        onClick={() => {
+          setHasClickedOptionText(false);
+          dispatch(
+            questionActions.setIsEditingOption({
+              setEditingState: false,
+              isReset: false,
+            })
+          );
+        }}
+      >
         取消
       </EditingButton>
     </EditingOptionItemWrapper>
   ) : (
     <OptionItemWrapper>
-      <DeleteButton onClick={() => deleteOptionHandler(index)} />
+      <DeleteButton
+        onClick={() => {
+          if (options.length < 3) {
+            sweetAlert.errorReminderAlert("【刪除失敗】\n至少要維持兩個選項！");
+            return;
+          }
+          deleteOptionHandler(index);
+        }}
+      />
 
       <OptionItemText
         onClick={() => {
-          setHasClickedOptionText(true);
+          checkOpenEditingTextHandler(openEditingInputHandler, id);
         }}
       >
         {option}

@@ -4,12 +4,11 @@ import styled from "styled-components";
 
 import QuestionPage from "./QuestionPage";
 import CreatedQuestion from "./CreatedQuestion";
+import { Delete } from "@styled-icons/material/Delete";
 
 import helper from "../../../../../utils/helper";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-
-import icons from "../../UI/icons";
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
@@ -18,19 +17,17 @@ const CreatedQuestionWrapper = styled.div`
   margin-top: 2rem;
 `;
 
-const DeleteButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 5rem;
-  height: 100%;
-`;
-
-const DeleteButton = styled(icons.delete)`
+const DeleteButton = styled(Delete)`
   width: 2.4rem;
   height: 2.4rem;
   fill: #aaa;
   margin-right: 1rem;
+  cursor: pointer;
+  transition: fill 0.3s;
+
+  &:hover {
+    fill: #333;
+  }
 
   @media ${breakpointConfig.mobileL} {
     display: none;
@@ -73,6 +70,7 @@ const MultiPage: FC<MultiPageProps> = ({
                 }}
               />
               <CreatedQuestion
+                id={question.id}
                 title={question.type === "2" ? "引言" : `${question.title}`}
                 index={`${titleIndexArr[i]}`}
                 note={question.note}
@@ -97,6 +95,7 @@ const MultiPage: FC<MultiPageProps> = ({
                 }}
               />
               <CreatedQuestion
+                id={question.id}
                 title={question.type === "2" ? "引言" : `${question.title}`}
                 index={`${titleIndexArr[i]}`}
                 note={question.note}

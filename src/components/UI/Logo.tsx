@@ -1,19 +1,37 @@
 import { FC } from "react";
-import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-
-interface LogoWrapper {
+import breakpointConfig from "../../configs/breakpointConfig";
+interface LogoWrapperProps {
   mediaSetting?: string;
 }
 
-const LogoWrapper = styled.div<LogoWrapper>`
+const LogoWrapper = styled.div<LogoWrapperProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 
-  ${(props: LogoWrapper) => props.mediaSetting}
+  ${(props) => props.mediaSetting}
+`;
+
+interface LogoImageWrapperProps {
+  imageMediaSetting?: string;
+}
+
+const LogoImageWrapper = styled.div<LogoImageWrapperProps>`
+  margin-right: 1rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  transform: translateY(-0.2rem);
+  cursor: pointer;
+  ${(props) => props.imageMediaSetting}
+`;
+
+const LogoImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 interface LogoTextProps {
@@ -37,6 +55,7 @@ interface LogoProps {
   };
   mediaSetting?: string;
   textMediaSetting?: string;
+  imageMediaSetting?: string;
   className?: string;
   clickHandler?: () => void;
 }
@@ -46,6 +65,7 @@ const Logo: FC<LogoProps> = ({
   style,
   mediaSetting,
   textMediaSetting,
+  imageMediaSetting,
   className,
   clickHandler,
 }: LogoProps) => {
@@ -66,6 +86,12 @@ const Logo: FC<LogoProps> = ({
         mediaSetting={mediaSetting}
         className={className}
       >
+        <LogoImageWrapper imageMediaSetting={imageMediaSetting}>
+          <LogoImage
+            src="/images/formize-logo.svg"
+            alt="Formize是中文質感問卷製作工具，此為logo"
+          />
+        </LogoImageWrapper>
         <LogoText
           fontSize={fontSize ? fontSize : "2.6rem"}
           textMediaSetting={textMediaSetting}

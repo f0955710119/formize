@@ -2,7 +2,6 @@ import { FC, ReactNode } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Logo from "./Logo";
-import firebase from "../../utils/firebase";
 import LogoutButton from "./LogoutButton";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import sweetAlert from "../../utils/sweetAlert";
@@ -17,16 +16,8 @@ const HeaderWrapper = styled.header`
   border-bottom: 1px solid #c8c8c8;
 `;
 
-const Button = styled.button`
-  padding: 0.4rem 1rem;
-  width: 10rem;
-  height: 3.2rem;
-  font-size: 1.6rem;
-
-  &:hover {
-    color: #fff;
-    background-color: #333;
-  }
+const logoImageStyle = `
+  transform: translateY(0);
 `;
 
 interface HeaderProps {
@@ -60,7 +51,10 @@ const Header: FC<HeaderProps> = ({ children }) => {
 
   return (
     <HeaderWrapper>
-      <Logo clickHandler={backToAdminHomePageHandler} />
+      <Logo
+        clickHandler={backToAdminHomePageHandler}
+        imageMediaSetting={logoImageStyle}
+      />
       {children}
       <LogoutButton />
     </HeaderWrapper>

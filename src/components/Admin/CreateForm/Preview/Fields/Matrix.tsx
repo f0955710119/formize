@@ -22,8 +22,9 @@ const FlexAlignCenter = styled.div`
 `;
 
 const MatrixTitleWrapper = styled(FlexAlignCenter)`
-  justify-content: end;
-  margin: 2rem 0;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0.5rem 0 2rem 0;
   width: 100%;
 `;
 
@@ -46,14 +47,11 @@ interface MatrixProps {
 const Matrix: FC<MatrixProps> = ({ id, options, matrixs }: MatrixProps) => {
   return (
     <MatrixWrapper>
-      {/* <OpenDefaultMatrixTitleButton>
-        <ButtonText>開啟預設欄位清單</ButtonText>
-      </OpenDefaultMatrixTitleButton> */}
       <AddMatrixButton id={id} matrixs={matrixs} />
       <MatrixTitleWrapper>
         {matrixs.map((matrix, i) => (
           <MatrixTitle
-            key={helper.generateId(6)}
+            key={i}
             id={id}
             matrix={matrix}
             index={i}
@@ -62,17 +60,6 @@ const Matrix: FC<MatrixProps> = ({ id, options, matrixs }: MatrixProps) => {
         ))}
       </MatrixTitleWrapper>
       <AddOptionButton id={id} options={options} />
-      {/* {options.map((option, i) => (
-        <MatrixOptions key={helper.generateId(6)}>
-          <MatrixOptionTitle
-            id={id}
-            index={i}
-            option={option}
-            options={options}
-          />
-          <MatrixRadio id={id} matrixs={matrixs} />
-        </MatrixOptions>
-      ))} */}
       {options.map((option, i) => (
         <ChoiceOptionItem
           key={i}

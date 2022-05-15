@@ -38,6 +38,9 @@ const AddGroupInput = styled.input`
   background-color: #dddddd5c;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
+
+  font-size: 1.4rem;
+
   &:focus {
     outline: none;
   }

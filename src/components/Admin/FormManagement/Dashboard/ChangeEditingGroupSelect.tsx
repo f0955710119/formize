@@ -16,6 +16,8 @@ const EditingGroupTag = styled.select`
   padding: 0.4rem;
   border-radius: 3px;
   font-family: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
   &:focus {
     outline: none;
   }

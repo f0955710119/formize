@@ -76,7 +76,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     placeholder: "",
     page: 1,
     type: "5",
-    options: ["選項1"],
+    options: ["選項1", "選項2"],
     matrixs: ["欄位1", "欄位2", "欄位3"],
     validations: {
       required: false,

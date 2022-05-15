@@ -4,45 +4,49 @@ import { questionActions } from "../../../../../store/slice/questionSlice";
 import styled from "styled-components";
 import { TextField } from "@mui/material";
 import questionActionType from "../../../../../store/actionType/questionActionType";
+import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
+import textUnderline from "../../../../UI/textUnderline";
 
 const CustomTextField = styled(TextField)`
   width: 100%;
   margin-bottom: 1rem;
 
+  & .MuiFilledInput-root {
+    background-color: transparent;
+    color: ${(props) => props.theme.note};
+
+    &::before {
+      border-bottom: 2px solid ${(props) => props.theme.note};
+    }
+  }
+
+  & .MuiFilledInput-root.Mui-focused,
+  & .MuiFilledInput-root.Mui-focused:hover {
+    background-color: transparent;
+  }
+
   & input {
     color: ${(props) => props.theme.note};
-    padding-top: 1.8rem;
-    padding-bottom: 1.8rem;
+    /* padding-top: 1.8rem;
+    padding-bottom: 1.8rem; */
     width: 100%;
     font-size: 1.6rem;
     line-break: strict;
   }
-
-  /* & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:after {
-    border-bottom: 2px solid ${(props) => props.theme.note};
-  }
-
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root {
-    background-color: transparent;
-  }
-
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root:hover {
-    background-color: transparent;
-  }
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root.Mui-focused {
-    background-color: transparent;
-  }
-  & .css-cio0x1-MuiInputBase-root-MuiFilledInput-root::after {
-    border-bottom: 2px solid ${(props) => props.theme.title};
-  } */
+`;
+const NoteWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const NoteText = styled.div`
+  margin-bottom: 3rem;
   display: inline-block;
-  color: #aaa;
   font-size: 1.6rem;
-  margin-bottom: 2rem;
-  color: ${(props) => props.theme.note}; ;
+  line-break: strict;
+  cursor: text;
+  color: ${(props) => props.theme.note};
+  ${(props) => textUnderline(props.theme.note)}
 `;
 
 const EditingButton = styled.button`
@@ -74,27 +78,33 @@ interface NoteProps {
 }
 
 const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
+  const dispatch = useAppDispatch();
   const [hasClickedNote, setHasClickedNote] = useState<boolean>(false);
   const [editingNote, setEditingNote] = useState<string>(note);
+  const checkHasNoSameArrayStringNameHandler =
+    useCheckQuestionArraySameString();
 
-  const dispatch = useAppDispatch();
   return hasClickedNote ? (
     <>
       <CustomTextField
         label=""
         variant="filled"
         value={editingNote}
-        onChange={(event) => setEditingNote(event.target.value)}
+        onChange={(event) => {
+          setEditingNote(event.target.value);
+        }}
       />
 
       <EditingButton
         onClick={() => {
           setHasClickedNote(false);
+          const text = editingNote.trim().length !== 0 ? editingNote : " ";
+          console.log(text);
           dispatch(
             questionActions.updateSiglePropOfQuestion({
               id,
               actionType: questionActionType.NOTE,
-              text: editingNote,
+              text,
             })
           );
         }}
@@ -106,9 +116,17 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
       </EditingButton>
     </>
   ) : (
-    <NoteText onClick={() => setHasClickedNote(true)}>
-      {note === "" ? "點擊新增註解，若無則無需修改此行" : note}
-    </NoteText>
+    <NoteWrapper>
+      <NoteText
+        onClick={() => {
+          const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
+          if (!hasNoSameStringName) return;
+          setHasClickedNote(true);
+        }}
+      >
+        {note.trim() === "" ? "點擊新增註解，若無則無需修改此行" : note}
+      </NoteText>
+    </NoteWrapper>
   );
 };
 

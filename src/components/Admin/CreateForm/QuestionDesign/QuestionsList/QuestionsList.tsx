@@ -23,7 +23,7 @@ const ListLayout = styled(Layout)<ListLayoutProps>`
     height: ${(props: ListLayoutProps) =>
       props.isMultiplePage ? "auto" : "17rem"};
     order: 2;
-    padding: 2rem 12rem 0 12rem;
+    padding: 2rem 3rem 0 3rem;
   }
   @media ${breakpointConfig.tablet} {
     padding: 2rem 6rem 0 6rem;
@@ -56,7 +56,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
     ${(props: QuestionWrapperProps) =>
       props.isMultiplePage
         ? " overflow-y: auto;overflow-x: hidden; max-height: 50rem;"
-        : "overflow-y: hidden; overflow-x: scroll; max-height: 10rem; flex-direction: row;"}
+        : "overflow-y: hidden; overflow-x: scroll; max-height: 12rem; flex-direction: row;"}
 
     display: flex;
 
@@ -70,9 +70,10 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
 const Heading = styled.div`
   margin-bottom: 2rem;
   padding-bottom: 0.5rem;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   color: #c9ab59;
   border-bottom: 0.1px solid #c9ab59;
+  cursor: default;
 
   @media ${breakpointConfig.laptopM} {
     margin-bottom: 0;

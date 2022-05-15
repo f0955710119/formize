@@ -21,34 +21,48 @@ const HeaderWrapper = styled.div`
   width: 100%;
 `;
 
-const ChangeEditingGroupSelectForBiggerDevice = styled(
-  ChangeEditingGroupSelect
-)`
+// prettier-ignore
+const ChangeEditingGroupSelectForBiggerDevice = styled(ChangeEditingGroupSelect)`
   @media ${breakpointConfig.tabletS} {
     display: none;
   }
 `;
 
-const DashboardMainHeader: FC = () => {
-  const logoMedia = `
+const logoMedia = `
   display: "none";
 
   @media ${breakpointConfig.laptopS}{
-    display:inline-block;
-    margin-right: 1rem;
-  }`;
+    display:flex;
+    margin-right: 2rem;
+  }
+`;
 
-  const logoTextMedia = `
+const logoImageMedia = `
+  display:none;
+  @media ${breakpointConfig.laptopS}{
+    display:inline-block;
+    margin-right: 0.4rem;
+    transform: translateY(0);
+  }
+`;
+
+const logoTextMedia = `
   display: none;
   @media ${breakpointConfig.laptopS}{
     display:block;
     font-size: 2.8rem
-  }`;
+  }
+`;
 
+const DashboardMainHeader: FC = () => {
   return (
     <HeaderContainer>
       <HeaderWrapper>
-        <Logo mediaSetting={logoMedia} textMediaSetting={logoTextMedia} />
+        <Logo
+          mediaSetting={logoMedia}
+          textMediaSetting={logoTextMedia}
+          imageMediaSetting={logoImageMedia}
+        />
         <ChangeEditingGroupSelectForBiggerDevice />
       </HeaderWrapper>
       <LogoutButton />

@@ -3,8 +3,6 @@ import type { AppProps } from "next/app";
 import { store } from "../src/store";
 import { Provider } from "react-redux";
 import { AdminProvider } from "../src/store/context/adminContext";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -69,10 +67,15 @@ const GlobalStyle = createGlobalStyle`
     transition: background-color 0.3s;
     border: none;
     font-family: inherit;
+    cursor: pointer;
   }
 
   input:focus {
     outline: none;
+  }
+
+  div {
+    cursor: default;
   }
 
   .swal2-container .swal2-modal {

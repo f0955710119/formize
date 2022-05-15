@@ -3,22 +3,29 @@ import Head from "next/head";
 import styled from "styled-components";
 
 import LoginForm from "../src/components/LandingPage/LoginForm";
+import breakpointConfig from "../src/configs/breakpointConfig";
 import useLoginCheck from "../src/hooks/useLoginCheck";
 
 const DefalutMain = styled.main`
   width: 100vw;
   height: 100vh;
   position: relative;
-
-  /* background-image: url("images/main-bg.svg"); */
   background-image: linear-gradient(
       rgba(255, 255, 255, 0.2),
       rgba(255, 255, 255, 0.2)
     ),
     url("images/blob-scene-haikei (1).svg");
   background-repeat: no-repeat;
-  /* background-position: 20% 30%; */
   background-size: cover;
+
+  @media ${breakpointConfig.tablet} {
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5)
+      ),
+      url("images/blob-scene-haikei (1).svg");
+    overflow: hidden;
+  }
 `;
 
 const FirstPicture = styled.div`
@@ -33,6 +40,15 @@ const FirstPicture = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 1;
+
+  @media ${breakpointConfig.desktopS} {
+    width: 32rem;
+    height: 40rem;
+  }
+
+  @media ${breakpointConfig.laptopL} {
+    display: none;
+  }
 `;
 
 const SecondPicture = styled.div`
@@ -49,6 +65,21 @@ const SecondPicture = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 2;
+
+  @media ${breakpointConfig.desktopS} {
+    width: 40rem;
+    height: 50rem;
+  }
+
+  @media ${breakpointConfig.laptopL} {
+    left: 20%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  @media ${breakpointConfig.laptopM} {
+    display: none;
+  }
 `;
 const Home: NextPage = () => {
   useLoginCheck();
@@ -56,9 +87,9 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Formize</title>
-        <meta name="description" content="Formize - 簡易上手的質感問卷工具" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>FORMiZE - 簡易上手的質感問卷工具</title>
+        <meta name="description" content="FORMiZE - 簡易上手的質感問卷工具" />
+        <link rel="icon" href="/formize.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Vidaloka&display=swap"
           rel="stylesheet"

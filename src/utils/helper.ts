@@ -1,6 +1,7 @@
 import type { Question } from "../types/question";
 import styleConfig from "../configs/styleConfig";
 import questionConfig from "../configs/questionConfig";
+import sweetAlert from "./sweetAlert";
 
 interface CheckStringName {
   stringArr: string[];
@@ -471,5 +472,47 @@ export default {
         return hasRequired;
       }
     }
+  },
+  checkHasSameArrStringName(editingQuestion: Question, questions: Question[]) {
+    const haseditingQuestion = questions.find(
+      (question) => question.id === editingQuestion.id
+    );
+
+    if (!haseditingQuestion) {
+      sweetAlert.errorReminderAlert("發生技術問題，請聯絡IT部門");
+      return false;
+    }
+    const questionType = haseditingQuestion.type;
+    if (
+      questionType === "3" ||
+      questionType === "4" ||
+      questionType === "5" ||
+      questionType === "8"
+    ) {
+      const options = haseditingQuestion.options
+        ? haseditingQuestion.options
+        : [""];
+      const optionsUnique = [...new Set(options)];
+      if (options.length !== optionsUnique.length) {
+        sweetAlert.errorReminderAlert(
+          "不可以有重複的選項名稱，\n請先修正再更換編輯的題目！"
+        );
+        return false;
+      }
+    }
+
+    if (questionType === "5") {
+      const matrixs = haseditingQuestion.matrixs
+        ? haseditingQuestion.matrixs
+        : [""];
+      const matrixsUnique = [...new Set(matrixs)];
+      if (matrixs.length !== matrixsUnique.length) {
+        sweetAlert.errorReminderAlert(
+          "不可以有重複的欄位名稱，\n請先修正再更換編輯的題目！"
+        );
+        return false;
+      }
+    }
+    return true;
   },
 };

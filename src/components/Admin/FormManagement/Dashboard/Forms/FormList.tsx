@@ -44,24 +44,25 @@ const GroupTag = styled.div`
   border-top-right-radius: 5px;
 `;
 
-const ResponsedQuantity = styled.span`
+const ColumnTitle = styled.span`
+  font-size: 1.5rem;
+  text-align: center;
+`;
+
+const ResponsedQuantity = styled(ColumnTitle)`
   width: 7.5rem;
-  text-align: center;
 `;
 
-const CreatedTime = styled.span`
+const CreatedTime = styled(ColumnTitle)`
   width: 12rem;
-  text-align: center;
 `;
 
-const ResponsedTime = styled.span`
+const ResponsedTime = styled(ColumnTitle)`
   width: 12rem;
-  text-align: center;
 `;
 
-const ExpandMore = styled.span`
+const ExpandMore = styled(ColumnTitle)`
   width: 4.5rem;
-  text-align: center;
 `;
 
 const FormWrapper = styled.ul`
@@ -88,7 +89,7 @@ const EmptyListContainer = styled.div`
 `;
 
 const EmptyListContainerText = styled.span`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: #777;
 `;
 
@@ -135,7 +136,7 @@ const FormList: FC = () => {
                   <ResponsedQuantity>回應數量</ResponsedQuantity>
                   <CreatedTime>創建日期</CreatedTime>
                   <ResponsedTime>最新回應日期</ResponsedTime>
-                  <ExpandMore>更多</ExpandMore>
+                  <ExpandMore></ExpandMore>
                 </ListColumnTitleContainer>
                 <FormWrapper>
                   {groupForms.map((form, i) => {
@@ -143,7 +144,7 @@ const FormList: FC = () => {
                       return (
                         <EmptyListContainer key={i}>
                           <EmptyListContainerText>
-                            此群組還沒有問卷唷!
+                            此群組還沒有問卷唷
                           </EmptyListContainerText>
                         </EmptyListContainer>
                       );
@@ -189,7 +190,7 @@ const FormList: FC = () => {
                       return (
                         <EmptyListContainer key={i}>
                           <EmptyListContainerText>
-                            此群組還沒有問卷唷!
+                            此群組還沒有問卷唷
                           </EmptyListContainerText>
                         </EmptyListContainer>
                       );

@@ -8,7 +8,6 @@ import questionConfig from "../../../../../configs/questionConfig";
 
 import OptionItem from "./OptionItem";
 import { Heading } from "../../UI/SectionHeading";
-import QuestionIcon from "../QuestionIcon";
 
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
@@ -32,7 +31,7 @@ const OptionsLayout = styled(Layout)`
     width: 100%;
     order: 3;
     height: 50vh;
-    padding: 2rem 12rem 0 12rem;
+    padding: 2rem 3rem 0 3rem;
     margin-bottom: 1rem;
   }
 
@@ -45,6 +44,7 @@ const OptionHeading = styled(Heading)`
   margin-bottom: 2rem;
   color: #c9ab59;
   border-bottom: 1px solid #c9ab59;
+  cursor: default;
 `;
 
 const OptionList = styled.div`
@@ -53,12 +53,16 @@ const OptionList = styled.div`
   margin-bottom: 1rem;
   padding-right: 1rem;
   width: 100%;
-  height: 35vh;
+  height: 65vh;
   overflow-y: scroll;
   ${scrollBar}
 
   @media ${breakpointConfig.laptopM} {
-    height: 15vh;
+    height: 25vh;
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    height: 26vh;
   }
 `;
 
@@ -71,7 +75,7 @@ const ButtonWrapper = styled.button`
   height: 4rem;
   background-color: #c8c8c8;
   border-radius: 5px;
-
+  cursor: pointer;
   &:hover {
     background-color: #ffc652c2;
   }
@@ -95,6 +99,10 @@ const AddPageButton = styled(ButtonWrapper)`
 
 const NavigatorButton = styled(ButtonWrapper)`
   background-color: #c8c8c8;
+`;
+
+const customIconStyleString = `
+  transform: translateY(-0.6rem);
 `;
 
 const questionList = Array(10)
@@ -140,12 +148,7 @@ const QuestionOptions: FC = () => {
       <OptionHeading>題型</OptionHeading>
       <OptionList>
         {questionList.map((title, i) => (
-          <OptionItem title={title} questionType={`${i}`} key={title}>
-            <QuestionIcon
-              questionType={`${i}`}
-              style="transform: translateY(-0.6rem);"
-            />
-          </OptionItem>
+          <OptionItem title={title} questionType={`${i}`} key={title} />
         ))}
       </OptionList>
 

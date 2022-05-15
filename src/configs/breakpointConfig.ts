@@ -10,6 +10,8 @@ const size = {
   laptopS: "1024px",
   laptopM: "1240px",
   laptopL: "1440px",
+  desktopS: "1537px",
+  desktopM: "1746px",
 };
 
 const breakpointConfig: StringKeyObject = {
@@ -20,6 +22,8 @@ const breakpointConfig: StringKeyObject = {
   laptopS: `(max-width: ${size.laptopS})`,
   laptopM: `(max-width: ${size.laptopM})`,
   laptopL: `(max-width: ${size.laptopL})`,
+  desktopS: `(max-width: ${size.desktopS})`,
+  desktopM: `(max-width: ${size.desktopM})`,
 };
 
 export default breakpointConfig;
