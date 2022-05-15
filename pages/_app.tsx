@@ -3,8 +3,6 @@ import type { AppProps } from "next/app";
 import { store } from "../src/store";
 import { Provider } from "react-redux";
 import { AdminProvider } from "../src/store/context/adminContext";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {

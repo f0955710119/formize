@@ -88,6 +88,10 @@ const StatisSectionContainer = styled.section<StatisSectionContainerProps>`
 
   overflow-y: scroll;
   ${scrollBar}
+
+  &::-webkit-scrollbar {
+    width: 1rem;
+  }
   @media ${breakpointConfig.tablet} {
     width: 100%;
   }

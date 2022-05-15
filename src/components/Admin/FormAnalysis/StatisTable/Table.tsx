@@ -9,12 +9,16 @@ interface TableWrapperProps {
 const TableWrapper = styled.div<TableWrapperProps>`
   display: inline-block;
   margin-right: 3rem;
-  max-width: 60rem;
+  max-width: 64rem;
   width: 100%;
   border: 3px solid #ccc;
   border-radius: 7px;
 
   background-color: rgba(255, 255, 255, 0.7);
+
+  @media ${breakpointConfig.desktopM} {
+    max-width: 50rem;
+  }
 
   @media ${breakpointConfig.laptopL} {
     max-width: 46rem;
@@ -47,6 +51,7 @@ interface TableProps {
 }
 
 const Table: FC<TableProps> = ({ title, children, isTextContent }) => {
+  console.log(document.body.clientWidth);
   return (
     <TableWrapper isTextContent={isTextContent}>
       <TableTitle>{title}</TableTitle>

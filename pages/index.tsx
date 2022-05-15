@@ -9,15 +9,12 @@ const DefalutMain = styled.main`
   width: 100vw;
   height: 100vh;
   position: relative;
-
-  /* background-image: url("images/main-bg.svg"); */
   background-image: linear-gradient(
       rgba(255, 255, 255, 0.2),
       rgba(255, 255, 255, 0.2)
     ),
     url("images/blob-scene-haikei (1).svg");
   background-repeat: no-repeat;
-  /* background-position: 20% 30%; */
   background-size: cover;
 `;
 
@@ -58,7 +55,7 @@ const Home: NextPage = () => {
       <Head>
         <title>FORMiZE - 簡易上手的質感問卷工具</title>
         <meta name="description" content="FORMiZE - 簡易上手的質感問卷工具" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/formize.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Vidaloka&display=swap"
           rel="stylesheet"

@@ -10,7 +10,6 @@ import {
 import type { NonTextCount } from "../../../../types/statis";
 
 const COLORS = ["#caad5b", "#fdd872", "#feecb9", "#fef3d5", "#fff7e3"];
-// const COLORS = ["#cae1d1", "#dfede3", "#eaf3ed"];
 
 const generateLabelPoisitionValue = (setting: { [key: string]: number }) => {
   const RADIAN = Math.PI / 180;

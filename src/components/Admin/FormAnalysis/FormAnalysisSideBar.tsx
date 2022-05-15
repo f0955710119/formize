@@ -25,7 +25,7 @@ const SideBar = styled.div`
   }
 `;
 
-const analysisFeatureList = ["統計分析", "明細匯出", "訪問紀錄"];
+const analysisFeatureList = ["統計分析"];
 
 const FormAnalysisSideBar: FC = () => {
   const context = useContext(adminContext);
