@@ -17,12 +17,18 @@ const CustomFormControl = styled(FormControl)`
   width: 100%;
   display: block;
 
-  & .css-j204z7-MuiFormControlLabel-root {
+  & .MuiTypography-root {
+    margin-left: 1rem;
+    font-family: inherit;
+    font-size: 1.8rem;
+  }
+
+  & .MuiFormControlLabel-root {
     margin-right: 0;
     width: 100%;
   }
 
-  & [class*="-MuiButtonBase-root-MuiRadio-root"]:hover {
+  & .MuiRadio-root:hover {
     background-color: transparent;
   }
 `;
@@ -31,9 +37,7 @@ const CustomRadioGroup = styled(RadioGroup)`
   align-items: end;
 `;
 
-const CustomRadio = styled(Radio)`
-  /* font-size: 2rem; */
-`;
+const CustomRadio = styled(Radio)``;
 
 interface OneChoiceProps {
   options: string[];

@@ -177,7 +177,7 @@ const FormCard: FC<FormCardProps> = ({
             // styleText={featureButtonStyleTextGeneral}
           />
         </FeatureLink>
-        <FeatureButton text="預覽" styleText={featureButtonStyleTextGeneral} />
+        {/* <FeatureButton text="預覽" styleText={featureButtonStyleTextGeneral} /> */}
       </CardField>
       {/* <CardField>
         <FeatureColumnTitle>修改問卷</FeatureColumnTitle>

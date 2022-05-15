@@ -33,22 +33,25 @@ interface FormItemExpandProps {
 }
 
 const FormItemExpand: FC<FormItemExpandProps> = ({ isExpand, formId }) => {
-  const adminContextData = useContext(adminContext) 
+  const adminContextData = useContext(adminContext);
   const goToAnalysisPageHandler = usePushToAnalysisPage();
   const deleteFormHandler = useDeleteForm();
-  const willDeleteForm = adminContextData.forms.length > 0 ? adminContextData.forms.find(form=>form.id === formId) : undefined
-  const deleteFormTitle = willDeleteForm ? willDeleteForm.title : ''
+  const willDeleteForm =
+    adminContextData.forms.length > 0
+      ? adminContextData.forms.find((form) => form.id === formId)
+      : undefined;
+  const deleteFormTitle = willDeleteForm ? willDeleteForm.title : "";
   return (
     <FormItemExpandContainer isExpand={isExpand}>
       <FormItemExpandFeatureList>
         <FeatureButton
           text="刪除"
-          clickHandler={() => deleteFormHandler(formId,deleteFormTitle)}
+          clickHandler={() => deleteFormHandler(formId, deleteFormTitle)}
         />
         <a href={`/s/${formId}`} target="_blank" rel="noreferrer">
           <FeatureButton text="開啟" />
         </a>
-        <FeatureButton text="預覽" />
+        {/* <FeatureButton text="預覽" /> */}
         {/* <FeatureButton text="編輯" />
         <FeatureButton text="複製" />
         <FeatureButton text="移動" /> */}
