@@ -23,6 +23,7 @@ const CustomedFormControl = styled(FormControl)`
   width: calc(100% - 12rem);
   height: 100%;
   border-radius: 0px;
+
   & div {
     border-radius: 0px;
     height: 100%;
