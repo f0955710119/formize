@@ -14,18 +14,18 @@ const Field = styled.div`
     margin-top: 0.6rem;
   }
 
-  & [class*="-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"] {
+  & .MuiSelect-root {
     height: 3.8rem;
     padding: 1.8rem 0;
     border-radius: 3px;
   }
 
-  & [class*="-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"] {
+  & .MuiSelect-select {
     font-size: 1.5rem;
     line-height: 1.4375em;
   }
 
-  & [class*="-MuiButtonBase-root-MuiMenuItem-root"] {
+  & .MuiMenuItem-root {
     font-size: 1.5rem;
   }
 `;

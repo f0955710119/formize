@@ -30,7 +30,7 @@ const OptionsLayout = styled(Layout)`
   @media ${breakpointConfig.laptopM} {
     width: 100%;
     order: 3;
-    height: 50vh;
+    height: 49vh;
     padding: 2rem 3rem 0 3rem;
     margin-bottom: 1rem;
   }
@@ -56,6 +56,14 @@ const OptionList = styled.div`
   height: 65vh;
   overflow-y: scroll;
   ${scrollBar}
+
+  @media ${breakpointConfig.desktopM} {
+    height: 60vh;
+  }
+
+  @media ${breakpointConfig.desktopS} {
+    height: 55vh;
+  }
 
   @media ${breakpointConfig.laptopM} {
     height: 25vh;
