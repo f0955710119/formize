@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
+import type { Settings, Styles } from "../../../src/types/form";
+import type { Question } from "../../../src/types/question";
 import firebase from "../../../src/utils/firebase";
-import { Question } from "../../../src/types/question";
-import { Settings, Styles } from "../../../src/types/form";
 
 interface Data {
   status: string;

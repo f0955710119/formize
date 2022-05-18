@@ -1,5 +1,5 @@
 import { questionActions } from "../store/slice/questionSlice";
-import { useAppDispatch } from "./useAppDispatch";
+import useAppDispatch from "./useAppDispatch";
 
 const useDeleteQuestionArrayItem = () => {
   const dispatch = useAppDispatch();

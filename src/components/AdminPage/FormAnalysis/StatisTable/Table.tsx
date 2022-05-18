@@ -1,5 +1,7 @@
 import { FC, ReactNode } from "react";
+
 import styled from "styled-components";
+
 import breakpointConfig from "../../../../configs/breakpointConfig";
 
 interface TableWrapperProps {

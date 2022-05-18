@@ -1,5 +1,5 @@
 import helper from "../utils/helper";
-import { useAppSelector } from "./useAppSelector";
+import useAppSelector from "./useAppSelector";
 
 const useGetQuestionTitleIndex = () => {
   const { questions, editingFormPage } = useAppSelector(

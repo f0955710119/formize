@@ -1,11 +1,13 @@
 import { FC } from "react";
+
 import styled from "styled-components";
-import useSwitchCurrentStep from "../../../hooks/useSwitchCurrentStep";
+
 import breakpointConfig from "../../../configs/breakpointConfig";
-import useFormData from "../../../hooks/useFormData";
+import useAppSelector from "../../../hooks/useAppSelector";
 import useDeployForm from "../../../hooks/useDeployForm";
+import useFormData from "../../../hooks/useFormData";
+import useSwitchCurrentStep from "../../../hooks/useSwitchCurrentStep";
 import sweetAlert from "../../../utils/sweetAlert";
-import { useAppSelector } from "../../../hooks/useAppSelector";
 
 interface ItemWrapperProps {
   number: number;

@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { settingReducer } from "./slice/settingSlice";
-import { questionReducer } from "./slice/questionSlice";
-import { styleReducer } from "./slice/styleSlice";
+
 import { adminReducer } from "./slice/adminSlice";
+import { questionReducer } from "./slice/questionSlice";
+import { settingReducer } from "./slice/settingSlice";
+import { styleReducer } from "./slice/styleSlice";
 import { userReducer } from "./slice/userSlice";
 
 export const store = configureStore({

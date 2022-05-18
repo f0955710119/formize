@@ -1,9 +1,10 @@
 import { FC } from "react";
-import styled from "styled-components";
-import HeaderItem from "./HeaderItem";
-import breakpointConfig from "../../../configs/breakpointConfig";
 
-const defaultTitles = ["設定資訊", "題目設計", "外觀樣式", "發佈問卷"];
+import styled from "styled-components";
+
+import breakpointConfig from "../../../configs/breakpointConfig";
+import HeaderItem from "./HeaderItem";
+
 
 const Header = styled.header`
   display: flex;
@@ -18,6 +19,8 @@ const Header = styled.header`
     display: none;
   }
 `;
+
+const defaultTitles = ["設定資訊", "題目設計", "外觀樣式", "發佈問卷"];
 
 interface StepHeaderProps {
   currentStep: number;

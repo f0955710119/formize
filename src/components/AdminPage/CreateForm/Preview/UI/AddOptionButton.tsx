@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../../store/slice/questionSlice";
-import questionActionType from "../../../../../store/actionType/questionActionType";
 
-import { ButtonWrapper, ButtonText, AddButtonIcon } from "./Button";
 
+import useAppDispatch from "../../../../../hooks/useAppDispatch";
 import useCheckEditingStateOfTextEditingField from "../../../../../hooks/useCheckEditingStateOfTextEditingField";
+import questionActionType from "../../../../../store/actionType/questionActionType";
+import { questionActions } from "../../../../../store/slice/questionSlice";
+import { ButtonWrapper, ButtonText, AddButtonIcon } from "./Button";
 
 interface AddOptionButtonProps {
   id: string;

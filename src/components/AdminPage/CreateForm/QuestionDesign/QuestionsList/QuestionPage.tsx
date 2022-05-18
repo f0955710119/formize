@@ -1,11 +1,12 @@
 import { FC, ReactNode, useState } from "react";
-import styled from "styled-components";
+
 import { KeyboardArrowDown } from "@styled-icons/material-rounded/KeyboardArrowDown";
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../../store/slice/questionSlice";
-import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import styled from "styled-components";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import useAppDispatch from "../../../../../hooks/useAppDispatch";
+import useAppSelector from "../../../../../hooks/useAppSelector";
+import { questionActions } from "../../../../../store/slice/questionSlice";
 import scrollBar from "../../../../UI/scrollBar";
 
 interface PageWrapperProps {

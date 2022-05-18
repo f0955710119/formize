@@ -1,5 +1,7 @@
 import { FC, MouseEventHandler, ReactNode } from "react";
+
 import styled from "styled-components";
+
 import breakpointConfig from "../../../../configs/breakpointConfig";
 
 const Layout = styled.main`

@@ -1,4 +1,5 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+
 import type { Admin } from "../slice/adminSlice";
 
 const updateLoginState: CaseReducer<Admin, PayloadAction<string>> = (

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import scrollBar from "../../../UI/scrollBar";
 
 export const ContentWrapper = styled.div`

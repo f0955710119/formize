@@ -1,17 +1,18 @@
 import { FC, useState } from "react";
-import styled from "styled-components";
-import { FormControl, RadioGroup, Radio } from "@mui/material";
-import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { useAppSelector } from "../../../hooks/useAppSelector";
-import { userActions } from "../../../store/slice/userSlice";
-import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 
+import { FormControl, RadioGroup, Radio } from "@mui/material";
+import styled from "styled-components";
+
+import useAppDispatch from "../../../hooks/useAppDispatch";
+import useAppSelector from "../../../hooks/useAppSelector";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
+import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
+import { userActions } from "../../../store/slice/userSlice";
 import {
   CustomIcon,
   CustomCheckedIcon,
   CustomFormLabel,
 } from "./ChoiceIcon/icon";
-import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const CustomFormControl = styled(FormControl)`
   width: 100%;

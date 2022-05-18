@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import reducers from "../reducer/questionReducer";
+
 import { Question } from "../../types/question";
+import reducers from "../reducer/questionReducer";
 export interface ErrorMessage {
   id: string;
   message: string;

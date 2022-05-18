@@ -1,18 +1,17 @@
 import { FC } from "react";
-import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
-import questionActionType from "../../../../../../store/actionType/questionActionType";
+
 import questionConfig from "../../../../../../configs/questionConfig";
+import useAppDispatch from "../../../../../../hooks/useAppDispatch";
 import useGetQuestion from "../../../../../../hooks/useQuestion";
-
-import { Question } from "../../../../../../types/question";
+import questionActionType from "../../../../../../store/actionType/questionActionType";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
-
-import RequiredSwitch from "./UI/RequiredSwitch";
-import TextInput from "./UI/TextInput";
-import LimitationWrapper from "./UI/LimitationWrapper";
+import { Question } from "../../../../../../types/question";
+import sweetAlert from "../../../../../../utils/sweetAlert";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
-import sweetAlert from "../../../../../../utils/sweetAlert";
+import LimitationWrapper from "./UI/LimitationWrapper";
+import RequiredSwitch from "./UI/RequiredSwitch";
+import TextInput from "./UI/TextInput";
 
 interface TextLimitationProps {
   id: string;

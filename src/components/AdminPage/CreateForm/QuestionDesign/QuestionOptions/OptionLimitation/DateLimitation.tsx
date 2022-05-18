@@ -1,22 +1,20 @@
 import { FC, useEffect, useRef } from "react";
-import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
-import useGetQuestion from "../../../../../../hooks/useQuestion";
-import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
-
-import type { Question } from "../../../../../../types/question";
 
 import { Switch } from "@mui/material";
-import RequiredSwitch from "./UI/RequiredSwitch";
-import TextInput from "./UI/TextInput";
-import LimitationWrapper from "./UI/LimitationWrapper";
+
+import questionConfig from "../../../../../../configs/questionConfig";
+import useAppDispatch from "../../../../../../hooks/useAppDispatch";
+import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
+import useGetQuestion from "../../../../../../hooks/useQuestion";
+import questionActionType from "../../../../../../store/actionType/questionActionType";
+import { questionActions } from "../../../../../../store/slice/questionSlice";
+import type { Question } from "../../../../../../types/question";
+import helper from "../../../../../../utils/helper";
 import Field from "./UI/Field";
 import Label from "./UI/Label";
-
-import helper from "../../../../../../utils/helper";
-import questionConfig from "../../../../../../configs/questionConfig";
-import { questionActions } from "../../../../../../store/slice/questionSlice";
-import questionActionType from "../../../../../../store/actionType/questionActionType";
-import { useAppSelector } from "../../../../../../hooks/useAppSelector";
+import LimitationWrapper from "./UI/LimitationWrapper";
+import RequiredSwitch from "./UI/RequiredSwitch";
+import TextInput from "./UI/TextInput";
 interface DateLimitationProps {
   id: string;
 }

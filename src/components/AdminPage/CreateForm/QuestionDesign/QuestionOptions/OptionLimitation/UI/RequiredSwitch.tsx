@@ -1,13 +1,15 @@
 import { FC } from "react";
-import { useAppSelector } from "../../../../../../../hooks/useAppSelector";
-import { useAppDispatch } from "../../../../../../../hooks/useAppDispatch";
+
 import { Switch } from "@mui/material";
+
+
+import useAppDispatch from "../../../../../../../hooks/useAppDispatch";
+import useGetQuestion from "../../../../../../../hooks/useQuestion";
+import questionActionType from "../../../../../../../store/actionType/questionActionType";
+import { questionActions } from "../../../../../../../store/slice/questionSlice";
+import { Question } from "../../../../../../../types/question";
 import Field from "./Field";
 import Label from "./Label";
-import { questionActions } from "../../../../../../../store/slice/questionSlice";
-import questionActionType from "../../../../../../../store/actionType/questionActionType";
-import { Question } from "../../../../../../../types/question";
-import useGetQuestion from "../../../../../../../hooks/useQuestion";
 
 interface RequiredSwitchProps {
   id: string;

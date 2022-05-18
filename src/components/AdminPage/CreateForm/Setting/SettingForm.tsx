@@ -1,14 +1,17 @@
-import { FC } from "react";
 import { useRouter } from "next/router";
-import { useAppSelector } from "../../../../hooks/useAppSelector";
-import useSwitchCurrentStep from "../../../../hooks/useSwitchCurrentStep";
+
+import { FC } from "react";
 
 import styled from "styled-components";
-import SectionNormal from "./SectionNormal";
-import SectionBanner from "./SectionBanner";
+
+
 import breakpointConfig from "../../../../configs/breakpointConfig";
-import scrollBar from "../../../UI/scrollBar";
+import useAppSelector from "../../../../hooks/useAppSelector";
+import useSwitchCurrentStep from "../../../../hooks/useSwitchCurrentStep";
 import sweetAlert from "../../../../utils/sweetAlert";
+import scrollBar from "../../../UI/scrollBar";
+import SectionBanner from "./SectionBanner";
+import SectionNormal from "./SectionNormal";
 
 const Wrapper = styled.main`
   display: flex;

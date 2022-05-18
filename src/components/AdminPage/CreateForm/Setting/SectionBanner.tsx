@@ -1,20 +1,20 @@
 import { FC, useContext } from "react";
-import styled from "styled-components";
+
 import TextareaAutosize from "@mui/material/TextareaAutosize";
-
-import SectionWrapper from "../UI/Section";
-import Field from "../UI/Field";
-import Label from "../UI/Label";
-import Input from "../UI/Input";
-
 import { Image as ImageIcon } from "@styled-icons/evil/Image";
+import styled from "styled-components";
 
-import { useAppDispatch } from "../../../../hooks/useAppDispatch";
-import { settingActions } from "../../../../store/slice/settingSlice";
+
+import useAppDispatch from "../../../../hooks/useAppDispatch";
 import settingActionType from "../../../../store/actionType/settingActionType";
 import { settingContext } from "../../../../store/context/settingContext";
-import scrollBar from "../../../UI/scrollBar";
+import { settingActions } from "../../../../store/slice/settingSlice";
 import sweetAlert from "../../../../utils/sweetAlert";
+import scrollBar from "../../../UI/scrollBar";
+import Field from "../UI/Field";
+import Input from "../UI/Input";
+import Label from "../UI/Label";
+import SectionWrapper from "../UI/Section";
 
 const BannerField = styled(Field)`
   height: 39rem;

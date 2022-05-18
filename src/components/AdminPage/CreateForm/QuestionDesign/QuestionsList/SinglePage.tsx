@@ -1,9 +1,11 @@
 import { FC } from "react";
 
-import styled from "styled-components";
 import { Delete } from "@styled-icons/material/Delete";
-import CreatedQuestion from "./CreatedQuestion";
+import styled from "styled-components";
+
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import CreatedQuestion from "./CreatedQuestion";
+
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;

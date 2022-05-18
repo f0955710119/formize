@@ -1,14 +1,14 @@
 import { FC } from "react";
-import useGetQuestion from "../../../../../../hooks/useQuestion";
-import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
-import RequiredSwitch from "./UI/RequiredSwitch";
-import TextInput from "./UI/TextInput";
-import LimitationWrapper from "./UI/LimitationWrapper";
-import Field from "./UI/Field";
-import Label from "./UI/Label";
 
 import questionConfig from "../../../../../../configs/questionConfig";
+import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
+import useGetQuestion from "../../../../../../hooks/useQuestion";
 import { Question } from "../../../../../../types/question";
+import Field from "./UI/Field";
+import Label from "./UI/Label";
+import LimitationWrapper from "./UI/LimitationWrapper";
+import RequiredSwitch from "./UI/RequiredSwitch";
+import TextInput from "./UI/TextInput";
 
 interface ChoiceLimitationProps {
   id: string;

@@ -6,14 +6,15 @@ import {
   useEffect,
   useRef,
 } from "react";
+
 import styled from "styled-components";
 
-import helper from "../../utils/helper";
+import useAppSelector from "../../hooks/useAppSelector";
+import useWholePageAnswersValidCheck from "../../hooks/useWholePageAnswersValidCheck";
 import { Settings } from "../../types/form";
 import { Question } from "../../types/question";
+import helper from "../../utils/helper";
 import QuestionList from "../Questions/QuestionList";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import useWholePageAnswersValidCheck from "../../hooks/useWholePageAnswersValidCheck";
 import scrollBar from "../UI/scrollBar";
 
 const moveInRightAnimation = `

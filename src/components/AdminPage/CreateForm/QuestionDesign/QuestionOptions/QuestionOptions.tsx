@@ -1,23 +1,22 @@
-import { FC, useState } from "react";
-import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import { FC } from "react";
 
 import styled from "styled-components";
-import Layout from "../../UI/Layout";
 
-import questionConfig from "../../../../../configs/questionConfig";
 
-import OptionItem from "./OptionItem";
-import { Heading } from "../../UI/SectionHeading";
-
-import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import scrollBar from "../../../../UI/scrollBar";
-import sweetAlert from "../../../../../utils/sweetAlert";
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
+import questionConfig from "../../../../../configs/questionConfig";
+import useAppDispatch from "../../../../../hooks/useAppDispatch";
+import useAppSelector from "../../../../../hooks/useAppSelector";
+import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
+import settingActinoType from "../../../../../store/actionType/settingActionType";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import { settingActions } from "../../../../../store/slice/settingSlice";
-import settingActinoType from "../../../../../store/actionType/settingActionType";
+import sweetAlert from "../../../../../utils/sweetAlert";
+import scrollBar from "../../../../UI/scrollBar";
+import Layout from "../../UI/Layout";
+import { Heading } from "../../UI/SectionHeading";
+import OptionItem from "./OptionItem";
 
 const OptionsLayout = styled(Layout)`
   width: 18%;

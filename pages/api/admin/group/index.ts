@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+
+import type { DocumentData } from "firebase/firestore";
+
 import firestoreCollectionConfig from "../../../../src/configs/firestoreCollectionConfig";
 import firebase from "../../../../src/utils/firebase";
-import type { DocumentData } from "firebase/firestore";
 
 interface Data {
   status: string;

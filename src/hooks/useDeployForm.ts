@@ -1,11 +1,12 @@
-import { useAppDispatch } from "./useAppDispatch";
+import { useRouter } from "next/router";
+
+import { SettingContext } from "../store/context/settingContext";
 import { adminActions } from "../store/slice/adminSlice";
 import { Styles } from "../types/form";
 import { Question } from "../types/question";
 import firebase from "../utils/firebase";
-import { SettingContext } from "../store/context/settingContext";
 import sweetAlert from "../utils/sweetAlert";
-import { useRouter } from "next/router";
+import useAppDispatch from "./useAppDispatch";
 import useSwitchCurrentStep from "./useSwitchCurrentStep";
 
 const useDeployForm = () => {

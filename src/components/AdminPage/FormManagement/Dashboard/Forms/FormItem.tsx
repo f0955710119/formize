@@ -1,8 +1,10 @@
 import { FC, useState } from "react";
-import styled from "styled-components";
+
 import { KeyboardArrowDown } from "@styled-icons/material-rounded/KeyboardArrowDown";
-import FormItemExpand from "./FormItemExpand/FormItemExpand";
+import styled from "styled-components";
+
 import helper from "../../../../../utils/helper";
+import FormItemExpand from "./FormItemExpand/FormItemExpand";
 
 interface ItemContainerProps {
   isExpand: boolean;

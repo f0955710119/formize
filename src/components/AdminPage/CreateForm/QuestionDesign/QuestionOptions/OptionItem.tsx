@@ -1,17 +1,17 @@
-import { FC, ReactNode } from "react";
-import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../../store/slice/questionSlice";
-import styled from "styled-components";
+import { FC } from "react";
 
 import { AddComment } from "@styled-icons/material-sharp/AddComment";
-import QuestionIcon from "../QuestionIcon";
+import styled from "styled-components";
 
-import helper from "../../../../../utils/helper";
-import questionDefaultConfig from "../../../../../configs/questionDefaultConfig";
-import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
-import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
+import questionDefaultConfig from "../../../../../configs/questionDefaultConfig";
+import useAppDispatch from "../../../../../hooks/useAppDispatch";
+import useAppSelector from "../../../../../hooks/useAppSelector";
+import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
+import { questionActions } from "../../../../../store/slice/questionSlice";
+import helper from "../../../../../utils/helper";
+import QuestionIcon from "../QuestionIcon";
 
 const Option = styled.div`
   display: flex;

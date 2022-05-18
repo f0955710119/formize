@@ -1,25 +1,24 @@
 import { FC, useState } from "react";
 
-import useStyleHandler from "../../../../../hooks/useStyleHandler";
-import useDeployForm from "../../../../../hooks/useDeployForm";
-
 import styled from "styled-components";
-import Layout from "../../UI/Layout";
-import Card from "./UI/Card";
-import HeaderItem from "./HeaderItem";
-import scrollBar from "../../../../UI/scrollBar";
 
-import helper from "../../../../../utils/helper";
-import useFormData from "../../../../../hooks/useFormData";
-import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
+
 import backgroundConfig from "../../../../../configs/backgroundConfig";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-
+import styleConfig from "../../../../../configs/styleConfig";
+import useAppSelector from "../../../../../hooks/useAppSelector";
+import useDeployForm from "../../../../../hooks/useDeployForm";
+import useFormData from "../../../../../hooks/useFormData";
+import useStyleHandler from "../../../../../hooks/useStyleHandler";
+import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
+import { SettingContext } from "../../../../../store/context/settingContext";
 import type { Styles } from "../../../../../types/form";
 import type { Question } from "../../../../../types/question";
-import { SettingContext } from "../../../../../store/context/settingContext";
-import styleConfig from "../../../../../configs/styleConfig";
-import { useAppSelector } from "../../../../../hooks/useAppSelector";
+import helper from "../../../../../utils/helper";
+import scrollBar from "../../../../UI/scrollBar";
+import Layout from "../../UI/Layout";
+import HeaderItem from "./HeaderItem";
+import Card from "./UI/Card";
 
 const SettingLayout = styled(Layout)`
   padding: 0;

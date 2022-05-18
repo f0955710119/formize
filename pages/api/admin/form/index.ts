@@ -1,11 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Forms } from "../../../../src/types/form";
-import firebase from "../../../../src/utils/firebase";
+
+
 import firestoreCollectionCongfig from "../../../../src/configs/firestoreCollectionConfig";
+import type { Forms } from "../../../../src/types/form";
+import type { Answer, Table } from "../../../../src/types/responses";
+import firebase from "../../../../src/utils/firebase";
 import helper from "../../../../src/utils/helper";
-import { Answer, Table } from "../../../../src/types/responses";
 
 const dotenv = require("dotenv");
+
 dotenv.config();
 interface Data {
   status: string;

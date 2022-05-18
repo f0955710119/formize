@@ -1,7 +1,8 @@
 import { useContext } from "react";
+
 import { adminContext } from "../store/context/adminContext";
 import { settingContext } from "../store/context/settingContext";
-import { useAppSelector } from "./useAppSelector";
+import useAppSelector from "./useAppSelector";
 
 const useFormData = () => {
   const { setting, style, question } = useAppSelector((state) => state);

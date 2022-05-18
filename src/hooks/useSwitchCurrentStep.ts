@@ -1,5 +1,5 @@
-import { useAppDispatch } from "./useAppDispatch";
 import { questionActions } from "../store/slice/questionSlice";
+import useAppDispatch from "./useAppDispatch";
 
 const useSwitchCurrentStep = () => {
   const dispatch = useAppDispatch();

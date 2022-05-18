@@ -1,5 +1,7 @@
 import { FC, useRef } from "react";
+
 import styled from "styled-components";
+
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useCreateGroup from "../../../../hooks/useCreateGroup";
 import useWindow from "../../../../hooks/useWindow";

@@ -1,16 +1,16 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../../../store/slice/questionSlice";
-import questionActionType from "../../../../../../store/actionType/questionActionType";
-import styled from "styled-components";
 
 import { TextField } from "@mui/material";
-import helper from "../../../../../../utils/helper";
-
 import { Delete } from "@styled-icons/material/Delete";
-import sweetAlert from "../../../../../../utils/sweetAlert";
-import { useAppSelector } from "../../../../../../hooks/useAppSelector";
+import styled from "styled-components";
+
+import useAppDispatch from "../../../../../../hooks/useAppDispatch";
+import useAppSelector from "../../../../../../hooks/useAppSelector";
 import useCheckEditingStateOfTextEditingField from "../../../../../../hooks/useCheckEditingStateOfTextEditingField";
+import questionActionType from "../../../../../../store/actionType/questionActionType";
+import { questionActions } from "../../../../../../store/slice/questionSlice";
+import helper from "../../../../../../utils/helper";
+import sweetAlert from "../../../../../../utils/sweetAlert";
 
 export const ChoiceWrapper = styled.div`
   display: flex;

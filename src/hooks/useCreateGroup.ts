@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { adminContext } from "../store/context/adminContext";
-import adminActionType from "../store/actionType/adminActionType";
 
+import adminActionType from "../store/actionType/adminActionType";
+import { adminContext } from "../store/context/adminContext";
 import type { Group } from "../types/group";
 import sweetAlert from "../utils/sweetAlert";
 

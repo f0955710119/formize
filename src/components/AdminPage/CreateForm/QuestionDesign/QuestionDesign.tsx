@@ -1,6 +1,7 @@
 import { FC } from "react";
-import Main from "../UI/Main";
+
 import Preview from "../Preview/Preview";
+import Main from "../UI/Main";
 import QuestionOptions from "./QuestionOptions/QuestionOptions";
 import QuestionsList from "./QuestionsList/QuestionsList";
 

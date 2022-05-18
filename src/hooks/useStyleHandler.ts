@@ -1,8 +1,8 @@
-import { useAppDispatch } from "./useAppDispatch";
-import { styleActions } from "../store/slice/styleSlice";
-import styleActionType from "../store/actionType/styleActionType";
-import styleConfig from "../configs/styleConfig";
 import backgroundConfig from "../configs/backgroundConfig";
+import styleConfig from "../configs/styleConfig";
+import styleActionType from "../store/actionType/styleActionType";
+import { styleActions } from "../store/slice/styleSlice";
+import useAppDispatch from "./useAppDispatch";
 
 const useStyleHandler = () => {
   const dispatch = useAppDispatch();

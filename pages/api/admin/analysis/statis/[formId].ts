@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import firebase from "../../../../../src/utils/firebase";
-import firestoreCollectionCongfig from "../../../../../src/configs/firestoreCollectionConfig";
+
 import { max, min, mean, median, mode } from "mathjs";
+
+import firestoreCollectionCongfig from "../../../../../src/configs/firestoreCollectionConfig";
+import firebase from "../../../../../src/utils/firebase";
 
 interface Data {
   status: string;

@@ -1,7 +1,8 @@
 import { FC, useRef, useEffect } from "react";
-import styled from "styled-components";
-import breakpointConfig from "../../configs/breakpointConfig";
 
+import styled from "styled-components";
+
+import breakpointConfig from "../../configs/breakpointConfig";
 import PageCTAButton from "./PageCTAButton";
 import PageParagraph from "./PageParagraph";
 

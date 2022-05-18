@@ -1,8 +1,8 @@
-import { useAppDispatch } from "./useAppDispatch";
-import type { Question } from "../types/question";
-import { questionActions } from "../store/slice/questionSlice";
 import questionActionType from "../store/actionType/questionActionType";
+import { questionActions } from "../store/slice/questionSlice";
+import type { Question } from "../types/question";
 import sweetAlert from "../utils/sweetAlert";
+import useAppDispatch from "./useAppDispatch";
 
 const useGenerateValidationHandler = (
   id: string,

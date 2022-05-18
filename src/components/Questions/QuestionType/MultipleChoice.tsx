@@ -1,21 +1,20 @@
 import { FC, useState, useEffect, useRef, ChangeEvent } from "react";
-import styled from "styled-components";
 
+import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
-import Checkbox from "@mui/material/Checkbox";
+import styled from "styled-components";
 
-import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import useAppDispatch from "../../../hooks/useAppDispatch";
+import useAppSelector from "../../../hooks/useAppSelector";
+import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";
-
 import {
   CustomIcon,
   CustomCheckedIcon,
   CustomFormLabel,
 } from "./ChoiceIcon/icon";
-import { useAppSelector } from "../../../hooks/useAppSelector";
-import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 
 const CustomFormControl = styled(FormControl)`
   margin: 0;

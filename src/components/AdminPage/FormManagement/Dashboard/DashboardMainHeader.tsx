@@ -1,8 +1,9 @@
 import { FC } from "react";
+
 import styled from "styled-components";
 
-import Logo from "../../../UI/Logo";
 import breakpointConfig from "../../../../configs/breakpointConfig";
+import Logo from "../../../UI/Logo";
 import LogoutButton from "../../../UI/LogoutButton";
 import ChangeEditingGroupSelect from "./ChangeEditingGroupSelect";
 

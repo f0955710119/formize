@@ -1,4 +1,4 @@
-import { useAppSelector } from "./useAppSelector";
+import useAppSelector from "./useAppSelector";
 
 const useGetTheme = () => {
   const { theme } = useAppSelector((state) => state.style);

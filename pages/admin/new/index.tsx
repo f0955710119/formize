@@ -1,33 +1,31 @@
-import { ThemeProvider } from "styled-components";
-import useGetTheme from "../../../src/hooks/useGetTheme";
-import Head from "next/head";
 import type { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
-import styled from "styled-components";
+import { useContext, useState } from "react";
+
 import {
   createTheme,
   ThemeProvider as MUIThemeProvider,
 } from "@mui/material/styles";
+import styled, { ThemeProvider } from "styled-components";
 
-import Header from "../../../src/components/UI/Header";
-import StepHeader from "../../../src/components/AdminPage/CreateForm/StepHeader";
-import SettingForm from "../../../src/components/AdminPage/CreateForm/Setting/SettingForm";
-import QuestionDesign from "../../../src/components/AdminPage/CreateForm/QuestionDesign/QuestionDesign";
-import StyleDesign from "../../../src/components/AdminPage/CreateForm/StyleDesign/StyleDesign";
 import DeployFormSection from "../../../src/components/AdminPage/CreateForm/DeployForm/DeployFormSection";
-
-import helper from "../../../src/utils/helper";
-import themes from "../../../src/store/theme/theme";
-import { useAppSelector } from "../../../src/hooks/useAppSelector";
-import breakpointConfig from "../../../src/configs/breakpointConfig";
-import scrollBar from "../../../src/components/UI/scrollBar";
-import { useContext, useState } from "react";
-import useRouterLoaded from "../../../src/hooks/useRouterLoaded";
+import QuestionDesign from "../../../src/components/AdminPage/CreateForm/QuestionDesign/QuestionDesign";
+import SettingForm from "../../../src/components/AdminPage/CreateForm/Setting/SettingForm";
+import StepHeader from "../../../src/components/AdminPage/CreateForm/StepHeader";
+import StyleDesign from "../../../src/components/AdminPage/CreateForm/StyleDesign/StyleDesign";
+import Header from "../../../src/components/UI/Header";
 import Loading from "../../../src/components/UI/Loading";
+import scrollBar from "../../../src/components/UI/scrollBar";
+import breakpointConfig from "../../../src/configs/breakpointConfig";
+import useAppSelector from "../../../src/hooks/useAppSelector";
+import useGetTheme from "../../../src/hooks/useGetTheme";
+import useRouterLoaded from "../../../src/hooks/useRouterLoaded";
 import { adminContext } from "../../../src/store/context/adminContext";
-import { useRouter } from "next/router";
-
 import { SettingContextProvider } from "../../../src/store/context/settingContext";
+import themes from "../../../src/store/theme/theme";
+import helper from "../../../src/utils/helper";
 import sweetAlert from "../../../src/utils/sweetAlert";
 
 const CreateNewPageContainer = styled.div`

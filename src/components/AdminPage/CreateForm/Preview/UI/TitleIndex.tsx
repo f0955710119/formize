@@ -1,6 +1,6 @@
 import { FC } from "react";
+
 import styled from "styled-components";
-import { useAppSelector } from "../../../../../hooks/useAppSelector";
 
 const TitleIndexText = styled.span`
   align-self: stretch;
@@ -15,7 +15,6 @@ interface TitleIndexProps {
 }
 
 const TitleIndex: FC<TitleIndexProps> = ({ titleIndex }: TitleIndexProps) => {
-  const { questions } = useAppSelector((state) => state.question);
   return <TitleIndexText>{titleIndex}</TitleIndexText>;
 };
 

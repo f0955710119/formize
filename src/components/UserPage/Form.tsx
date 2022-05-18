@@ -1,15 +1,15 @@
-import { FC, useState } from "react";
-import styled from "styled-components";
-import type { UserForm } from "../../types/userForm";
-
-import styleConfig from "../../configs/styleConfig";
-import PageSection from "./PageSection";
-
-import { useAppSelector } from "../../hooks/useAppSelector";
 import { useRouter } from "next/router";
 
+import { FC, useState } from "react";
+
+import styled from "styled-components";
+
+import styleConfig from "../../configs/styleConfig";
+import useAppSelector from "../../hooks/useAppSelector";
+import type { UserForm } from "../../types/userForm";
 import scrollBar from "../UI/scrollBar";
 import MultiplePageSection from "./MultiplePageSection";
+import PageSection from "./PageSection";
 import SinglePageSection from "./SinglePageSection";
 
 type FormProps = UserForm;

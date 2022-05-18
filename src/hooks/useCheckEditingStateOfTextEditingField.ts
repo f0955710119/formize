@@ -1,5 +1,5 @@
 import sweetAlert from "../utils/sweetAlert";
-import { useAppSelector } from "./useAppSelector";
+import useAppSelector from "./useAppSelector";
 import useCheckQuestionArraySameString from "./useCheckQuestionArraySameString";
 import useGetQuestionTitleIndex from "./useGetQuestionTitleIndex";
 

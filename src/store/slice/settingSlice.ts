@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import reducers from "../reducer/settingReducer";
 
 export interface SettingState {

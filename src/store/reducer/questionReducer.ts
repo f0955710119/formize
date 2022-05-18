@@ -1,10 +1,11 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
-import type { QuestionState } from "../slice/questionSlice";
+
+import questionDefaultConfig from "../../configs/questionDefaultConfig";
 import type { Question } from "../../types/question";
 import type { Validation } from "../../types/validation";
-import questionActionType from "../actionType/questionActionType";
 import helper from "../../utils/helper";
-import questionDefaultConfig from "../../configs/questionDefaultConfig";
+import questionActionType from "../actionType/questionActionType";
+import type { QuestionState } from "../slice/questionSlice";
 
 const initQuestion: CaseReducer<QuestionState> = (state) => {
   state.accumulatedInValidInputError = [{ id: "", message: "" }];

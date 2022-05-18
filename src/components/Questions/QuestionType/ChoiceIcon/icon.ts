@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import styled from "styled-components";
 
 export const CustomIcon = styled.span`
   width: 2rem;

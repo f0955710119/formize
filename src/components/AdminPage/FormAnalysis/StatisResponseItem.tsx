@@ -1,19 +1,20 @@
 import { FC } from "react";
-import styled from "styled-components";
-import helper from "../../../utils/helper";
-import Table from "./StatisTable/Table";
-import NonTextContent from "./StatisTable/NonTextContent";
-import TextContent from "./StatisTable/TextContent";
 
+import styled from "styled-components";
+
+import breakpointConfig from "../../../configs/breakpointConfig";
 import type {
   StringKeyObject,
   Count,
   NonTextCount,
 } from "../../../types/statis";
-import StatisPie from "./StatisChart/StatisPie";
+import helper from "../../../utils/helper";
 import StatisBar from "./StatisChart/StatisBar";
+import StatisPie from "./StatisChart/StatisPie";
 import StatisWordCloud from "./StatisChart/StatisWordCloud";
-import breakpointConfig from "../../../configs/breakpointConfig";
+import NonTextContent from "./StatisTable/NonTextContent";
+import Table from "./StatisTable/Table";
+import TextContent from "./StatisTable/TextContent";
 
 const ItemContainer = styled.div`
   display: flex;

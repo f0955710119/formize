@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { StyledComponentTheme } from "../../../../../store/theme/theme";
 
 export const SwitchFieldReminder = styled.div`
   position: absolute;
@@ -45,7 +44,6 @@ const showFieldReminderAnimation = `
 `;
 interface FieldProps {
   isActive?: boolean;
-  theme: StyledComponentTheme;
 }
 
 const Field = styled.div<FieldProps>`
@@ -55,7 +53,7 @@ const Field = styled.div<FieldProps>`
   width: 100%;
   padding: 4rem;
   border-radius: 3px;
-  border: ${(props: FieldProps) =>
+  border: ${(props) =>
     props.isActive ? `3px solid ${props.theme.note};` : "1px solid #c8c8c8;"};
 
   ${(props) => (props.isActive ? "" : "cursor: pointer;")}

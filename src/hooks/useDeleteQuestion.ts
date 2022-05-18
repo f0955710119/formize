@@ -2,8 +2,8 @@ import settingActinoType from "../store/actionType/settingActionType";
 import { questionActions } from "../store/slice/questionSlice";
 import { settingActions } from "../store/slice/settingSlice";
 import sweetAlert from "../utils/sweetAlert";
-import { useAppDispatch } from "./useAppDispatch";
-import { useAppSelector } from "./useAppSelector";
+import useAppDispatch from "./useAppDispatch";
+import useAppSelector from "./useAppSelector";
 
 const useDeleteQuestion = () => {
   const { questions } = useAppSelector((state) => state.question);

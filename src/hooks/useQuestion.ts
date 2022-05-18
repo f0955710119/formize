@@ -1,4 +1,4 @@
-import { useAppSelector } from "./useAppSelector";
+import useAppSelector from "./useAppSelector";
 
 const useGetQuestion = (id: string) => {
   const question = useAppSelector((state) =>

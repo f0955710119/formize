@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import reducers from "../reducer/userReducer";
 
 import type { UserAnswer, UserAnswerErrorMessage } from "../../types/userForm";
+import reducers from "../reducer/userReducer";
+
 
 export interface UserState {
   answers: UserAnswer[];

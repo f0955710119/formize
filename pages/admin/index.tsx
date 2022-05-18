@@ -1,17 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
 import { useContext, useState } from "react";
 
-import Main from "../../src/components/UI/Main";
-import GroupSideBar from "../../src/components/AdminPage/FormManagement/SideBar/GroupSideBar";
 import Dashboard from "../../src/components/AdminPage/FormManagement/Dashboard/Dashboard";
+import GroupSideBar from "../../src/components/AdminPage/FormManagement/SideBar/GroupSideBar";
 import Loading from "../../src/components/UI/Loading";
-
-import { adminContext } from "../../src/store/context/adminContext";
-import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
+import Main from "../../src/components/UI/Main";
 import useCheckUid from "../../src/hooks/useCheckUid";
+import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
 import useRouterLoaded from "../../src/hooks/useRouterLoaded";
+import { adminContext } from "../../src/store/context/adminContext";
 
 const Admin: NextPage = () => {
   const context = useContext(adminContext);

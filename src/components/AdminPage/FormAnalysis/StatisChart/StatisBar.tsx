@@ -1,4 +1,5 @@
 import { FC } from "react";
+
 import {
   BarChart,
   Bar,
@@ -8,6 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+
 import { NonTextCount } from "../../../../types/statis";
 
 interface StatisBarProps {

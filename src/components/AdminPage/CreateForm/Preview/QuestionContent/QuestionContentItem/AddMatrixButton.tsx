@@ -1,12 +1,14 @@
 import { FC } from "react";
-import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../../../store/slice/questionSlice";
-import questionActionType from "../../../../../../store/actionType/questionActionType";
+
 import styled from "styled-components";
-import { ButtonWrapper, ButtonText, AddButtonIcon } from "../../UI/Button";
-import sweetAlert from "../../../../../../utils/sweetAlert";
+
+import useAppDispatch from "../../../../../../hooks/useAppDispatch";
+import useAppSelector from "../../../../../../hooks/useAppSelector";
 import useCheckEditingStateOfTextEditingField from "../../../../../../hooks/useCheckEditingStateOfTextEditingField";
-import { useAppSelector } from "../../../../../../hooks/useAppSelector";
+import questionActionType from "../../../../../../store/actionType/questionActionType";
+import { questionActions } from "../../../../../../store/slice/questionSlice";
+import sweetAlert from "../../../../../../utils/sweetAlert";
+import { ButtonWrapper, ButtonText, AddButtonIcon } from "../../UI/Button";
 
 interface MatrixButtonProps {
   isEditingField: boolean;

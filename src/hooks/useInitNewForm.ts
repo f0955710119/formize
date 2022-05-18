@@ -1,7 +1,7 @@
 import { questionActions } from "../store/slice/questionSlice";
 import { settingActions } from "../store/slice/settingSlice";
 import { styleActions } from "../store/slice/styleSlice";
-import { useAppDispatch } from "./useAppDispatch";
+import useAppDispatch from "./useAppDispatch";
 
 const useInitNewForm = () => {
   const dispatch = useAppDispatch();

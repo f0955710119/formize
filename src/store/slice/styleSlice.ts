@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import reducers from "../reducer/styleReducer";
-import styleConfig from "../../configs/styleConfig";
+
 import backgroundConfig from "../../configs/backgroundConfig";
+import styleConfig from "../../configs/styleConfig";
+import reducers from "../reducer/styleReducer";
 
 export interface StyleState {
   theme: string;

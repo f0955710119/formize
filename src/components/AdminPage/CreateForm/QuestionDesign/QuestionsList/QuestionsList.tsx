@@ -1,16 +1,16 @@
 import { FC } from "react";
-import { useAppSelector } from "../../../../../hooks/useAppSelector";
-
-import useDeleteQuestion from "../../../../../hooks/useDeleteQuestion";
 
 import styled from "styled-components";
-import Layout from "../../UI/Layout";
 
+import breakpointConfig from "../../../../../configs/breakpointConfig";
+import useAppSelector from "../../../../../hooks/useAppSelector";
+import useDeleteQuestion from "../../../../../hooks/useDeleteQuestion";
 import helper from "../../../../../utils/helper";
+import scrollBar from "../../../../UI/scrollBar";
+import Layout from "../../UI/Layout";
 import MultiPage from "./MultiPage";
 import SinglePage from "./SinglePage";
-import breakpointConfig from "../../../../../configs/breakpointConfig";
-import scrollBar from "../../../../UI/scrollBar";
+
 
 interface ListLayoutProps {
   isMultiplePage: boolean;

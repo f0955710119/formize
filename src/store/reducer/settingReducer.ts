@@ -1,4 +1,5 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+
 import type { SettingState } from "../slice/settingSlice";
 
 const initSetting: CaseReducer<SettingState> = (state) => {

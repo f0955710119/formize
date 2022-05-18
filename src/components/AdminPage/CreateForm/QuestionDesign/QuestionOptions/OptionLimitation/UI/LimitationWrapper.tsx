@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import breakpointConfig from "../../../../../../../configs/breakpointConfig";
 
 const LimitationWrapper = styled.div`

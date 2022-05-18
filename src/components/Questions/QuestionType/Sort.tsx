@@ -1,7 +1,9 @@
 import { FC, useState, useRef, useEffect } from "react";
+
 import styled from "styled-components";
-import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { useAppSelector } from "../../../hooks/useAppSelector";
+
+import useAppDispatch from "../../../hooks/useAppDispatch";
+import useAppSelector from "../../../hooks/useAppSelector";
 import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";

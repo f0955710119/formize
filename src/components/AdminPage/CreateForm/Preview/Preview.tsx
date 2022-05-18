@@ -1,15 +1,15 @@
 import { FC, useEffect, useState } from "react";
-import { useAppSelector } from "../../../../hooks/useAppSelector";
 
 import styled from "styled-components";
-import QuestionField from "./QuestionField";
 
-import Layout from "../UI/Layout";
-import helper from "../../../../utils/helper";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
+import useAppSelector from "../../../../hooks/useAppSelector";
+import helper from "../../../../utils/helper";
 import QuestionList from "../../../Questions/QuestionList";
 import scrollBar from "../../../UI/scrollBar";
+import Layout from "../UI/Layout";
+import QuestionField from "./QuestionField";
 
 interface PreviewLayoutProps {
   fontFamily: string;

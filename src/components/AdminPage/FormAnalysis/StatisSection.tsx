@@ -1,14 +1,15 @@
 import { FC, useContext, useRef } from "react";
-import styled from "styled-components";
-import { adminContext } from "../../../store/context/adminContext";
-import Logo from "../../UI/Logo";
 
-import type { StatisResponse } from "../../../types/statis";
-import StatisResponseItem from "./StatisResponseItem";
-import scrollBar from "../../UI/scrollBar";
+import styled from "styled-components";
+
 import breakpointConfig from "../../../configs/breakpointConfig";
-import adminActionType from "../../../store/actionType/adminActionType";
 import questionConfig from "../../../configs/questionConfig";
+import adminActionType from "../../../store/actionType/adminActionType";
+import { adminContext } from "../../../store/context/adminContext";
+import type { StatisResponse } from "../../../types/statis";
+import Logo from "../../UI/Logo";
+import scrollBar from "../../UI/scrollBar";
+import StatisResponseItem from "./StatisResponseItem";
 
 const hasDataBackgroundStyle = `
   background-image: linear-gradient(

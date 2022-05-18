@@ -1,23 +1,24 @@
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
 import { useRef, useState } from "react";
-import { ThemeProvider } from "styled-components";
+
 import {
   createTheme,
   ThemeProvider as MUIThemeProvider,
 } from "@mui/material/styles";
+import { ThemeProvider } from "styled-components";
 
-import Head from "next/head";
-import { useRouter } from "next/router";
-import type { NextPage } from "next";
-import type { UserForm } from "../../src/types/userForm";
-
+import Loading from "../../src/components/UI/Loading";
 import Form from "../../src/components/UserPage/Form";
 import userFormConfig from "../../src/configs/userFormConfig";
-import helper from "../../src/utils/helper";
-import themes from "../../src/store/theme/theme";
-import { useAppDispatch } from "../../src/hooks/useAppDispatch";
-import { userActions } from "../../src/store/slice/userSlice";
+import useAppDispatch from "../../src/hooks/useAppDispatch";
 import useRouterLoaded from "../../src/hooks/useRouterLoaded";
-import Loading from "../../src/components/UI/Loading";
+import { userActions } from "../../src/store/slice/userSlice";
+import themes from "../../src/store/theme/theme";
+import type { UserForm } from "../../src/types/userForm";
+import helper from "../../src/utils/helper";
 
 const FormId: NextPage = () => {
   const dispatch = useAppDispatch();

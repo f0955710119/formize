@@ -1,6 +1,6 @@
-import type { Question } from "../types/question";
-import styleConfig from "../configs/styleConfig";
 import questionConfig from "../configs/questionConfig";
+import styleConfig from "../configs/styleConfig";
+import type { Question } from "../types/question";
 import sweetAlert from "./sweetAlert";
 
 interface CheckStringName {

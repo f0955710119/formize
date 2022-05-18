@@ -1,14 +1,15 @@
+import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import type { NextPage } from "next";
-import { useContext, useEffect, useState } from "react";
-import type { StatisResponse } from "../../../../src/types/statis";
 
-import Main from "../../../../src/components/UI/Main";
+import { useContext, useEffect, useState } from "react";
+
 import FormAnalysisSideBar from "../../../../src/components/AdminPage/FormAnalysis/FormAnalysisSideBar";
-import { adminContext } from "../../../../src/store/context/adminContext";
 import StatisSection from "../../../../src/components/AdminPage/FormAnalysis/StatisSection";
 import Loading from "../../../../src/components/UI/Loading";
+import Main from "../../../../src/components/UI/Main";
+import { adminContext } from "../../../../src/store/context/adminContext";
+import type { StatisResponse } from "../../../../src/types/statis";
 
 const Analysis: NextPage = () => {
   const router = useRouter();

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import reducers from "../reducer/adminReducer";
 
 export interface Admin {

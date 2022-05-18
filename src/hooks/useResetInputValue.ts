@@ -1,5 +1,5 @@
 import { userActions } from "../store/slice/userSlice";
-import { useAppDispatch } from "./useAppDispatch";
+import useAppDispatch from "./useAppDispatch";
 
 const useResetInputValue = () => {
   const dispatch = useAppDispatch();

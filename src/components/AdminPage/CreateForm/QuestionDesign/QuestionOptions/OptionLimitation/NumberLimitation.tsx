@@ -1,18 +1,16 @@
 import { FC } from "react";
 
-import type { Question } from "../../../../../../types/question";
-import type { Validation } from "../../../../../../types/validation";
-
-import useGetQuestion from "../../../../../../hooks/useQuestion";
-import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
-
-import RequiredSwitch from "./UI/RequiredSwitch";
-import TextInput from "./UI/TextInput";
-import LimitationWrapper from "./UI/LimitationWrapper";
-import Field from "./UI/Field";
-import Label from "./UI/Label";
 
 import questionConfig from "../../../../../../configs/questionConfig";
+import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
+import useGetQuestion from "../../../../../../hooks/useQuestion";
+import type { Question } from "../../../../../../types/question";
+import type { Validation } from "../../../../../../types/validation";
+import Field from "./UI/Field";
+import Label from "./UI/Label";
+import LimitationWrapper from "./UI/LimitationWrapper";
+import RequiredSwitch from "./UI/RequiredSwitch";
+import TextInput from "./UI/TextInput";
 
 interface NumberLimitationProps {
   id: string;

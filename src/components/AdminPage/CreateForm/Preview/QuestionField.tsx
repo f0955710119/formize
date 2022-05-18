@@ -1,29 +1,30 @@
 import { FC } from "react";
+
 import styled from "styled-components";
-import { useAppSelector } from "../../../../hooks/useAppSelector";
-import { useAppDispatch } from "../../../../hooks/useAppDispatch";
-import { questionActions } from "../../../../store/slice/questionSlice";
-import Field, { SwitchFieldReminder } from "./UI/Field";
-import TitleIndex from "./UI/TitleIndex";
-import EditableTitle from "./UI/EditableTitle";
-import Note from "./UI/Note";
-import type { Question } from "../../../../types/question";
 
-import Introduction from "./QuestionContent/Introduction";
-import Choice from "./QuestionContent/Choice";
-import Matrix from "./QuestionContent/Matrix";
 
-import QuestionDeleteButton from "./QuestionDeleteButton";
-import useDeleteQuestion from "../../../../hooks/useDeleteQuestion";
-import TextLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/TextLimitation";
-import NumberLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/NumberLimitation";
-import DateLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/DateLimitation";
-import ChoiceLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/ChoiceLimitation";
-import sweetAlert from "../../../../utils/sweetAlert";
 
+import useAppDispatch from "../../../../hooks/useAppDispatch";
+import useAppSelector from "../../../../hooks/useAppSelector";
 import useCheckQuestionArraySameString from "../../../../hooks/useCheckQuestionArraySameString";
+import useDeleteQuestion from "../../../../hooks/useDeleteQuestion";
 import useGetQuestionTitleIndex from "../../../../hooks/useGetQuestionTitleIndex";
+import { questionActions } from "../../../../store/slice/questionSlice";
+import type { Question } from "../../../../types/question";
+import sweetAlert from "../../../../utils/sweetAlert";
+import ChoiceLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/ChoiceLimitation";
+import DateLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/DateLimitation";
+import NumberLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/NumberLimitation";
+import TextLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/TextLimitation";
 import SectionHeading from "../UI/SectionHeading";
+import Choice from "./QuestionContent/Choice";
+import Introduction from "./QuestionContent/Introduction";
+import Matrix from "./QuestionContent/Matrix";
+import QuestionDeleteButton from "./QuestionDeleteButton";
+import EditableTitle from "./UI/EditableTitle";
+import Field, { SwitchFieldReminder } from "./UI/Field";
+import Note from "./UI/Note";
+import TitleIndex from "./UI/TitleIndex";
 
 const TitleWrapper = styled.div`
   display: flex;

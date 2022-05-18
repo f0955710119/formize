@@ -1,8 +1,9 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
-import type { StyleState } from "../slice/styleSlice";
-import styleActionType from "../actionType/styleActionType";
-import styleConfig from "../../configs/styleConfig";
+
 import backgroundConfig from "../../configs/backgroundConfig";
+import styleConfig from "../../configs/styleConfig";
+import styleActionType from "../actionType/styleActionType";
+import type { StyleState } from "../slice/styleSlice";
 
 const initStyle: CaseReducer<StyleState> = (state) => {
   state.theme = styleConfig.MAIN_CODE;

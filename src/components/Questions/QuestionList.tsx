@@ -1,20 +1,20 @@
 import { FC } from "react";
-import styled from "styled-components";
-import { Question } from "../../types/question";
 
-import OneLineText from "./QuestionType/OneLineText";
-import MultipleLineText from "./QuestionType/MultipleLineText";
+import styled from "styled-components";
+
+import questionConfig from "../../configs/questionConfig";
+import useAppSelector from "../../hooks/useAppSelector";
+import { Question } from "../../types/question";
+import helper from "../../utils/helper";
+import Date from "./QuestionType/Date";
 import Introduction from "./QuestionType/Introdction";
-import OneChoice from "./QuestionType/OneChoice";
-import MultiChoice from "./QuestionType/MultipleChoice";
 import Matrix from "./QuestionType/Matrix";
+import MultiChoice from "./QuestionType/MultipleChoice";
+import MultipleLineText from "./QuestionType/MultipleLineText";
+import OneChoice from "./QuestionType/OneChoice";
+import OneLineText from "./QuestionType/OneLineText";
 import Slider from "./QuestionType/Slider";
 import Sort from "./QuestionType/Sort";
-import Date from "./QuestionType/Date";
-
-import helper from "../../utils/helper";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import questionConfig from "../../configs/questionConfig";
 
 interface QuestionWrapperProps {
   hasErrorMessage: boolean;

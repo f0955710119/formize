@@ -1,15 +1,16 @@
-import styled from "styled-components";
-import { Text } from "@styled-icons/fluentui-system-filled/Text";
-import { CardText } from "@styled-icons/bootstrap/CardText";
-import { TooltipQuote } from "@styled-icons/fluentui-system-filled/TooltipQuote";
-import { Check2Circle } from "@styled-icons/bootstrap/Check2Circle";
+import { FC } from "react";
+
 import { CardChecklist } from "@styled-icons/bootstrap/CardChecklist";
-import { TableFreezeColumnAndRow } from "@styled-icons/fluentui-system-filled/TableFreezeColumnAndRow";
-import { NumberRow } from "@styled-icons/fluentui-system-regular/NumberRow";
+import { CardText } from "@styled-icons/bootstrap/CardText";
+import { Check2Circle } from "@styled-icons/bootstrap/Check2Circle";
 import { SliderAlt } from "@styled-icons/boxicons-regular/SliderAlt";
+import { TableFreezeColumnAndRow } from "@styled-icons/fluentui-system-filled/TableFreezeColumnAndRow";
+import { Text } from "@styled-icons/fluentui-system-filled/Text";
+import { TooltipQuote } from "@styled-icons/fluentui-system-filled/TooltipQuote";
+import { NumberRow } from "@styled-icons/fluentui-system-regular/NumberRow";
 import { TextSortAscending } from "@styled-icons/fluentui-system-regular/TextSortAscending";
 import { DateRange } from "@styled-icons/material/DateRange";
-import { FC } from "react";
+import styled from "styled-components";
 
 interface Icon {
   customStyle: string;

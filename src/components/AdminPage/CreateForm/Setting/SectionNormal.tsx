@@ -1,21 +1,20 @@
 import { FC, ChangeEvent, useState, useEffect, useRef } from "react";
-import { useAppDispatch } from "../../../../hooks/useAppDispatch";
-import { settingActions } from "../../../../store/slice/settingSlice";
-import settingActionType from "../../../../store/actionType/settingActionType";
 
-import styled from "styled-components";
 import { FormControl, Select, MenuItem } from "@mui/material";
-
-import SectionWrapper from "../UI/Section";
-import SectionHeading from "../UI/SectionHeading";
-import Field from "../UI/Field";
-import Label from "../UI/Label";
-import NormalTextInput from "./SectionNormal/NormalTextInput";
+import styled from "styled-components";
 
 import settingConfig from "../../../../configs/settingConfig";
-import { useAppSelector } from "../../../../hooks/useAppSelector";
+import useAppDispatch from "../../../../hooks/useAppDispatch";
+import useAppSelector from "../../../../hooks/useAppSelector";
+import settingActionType from "../../../../store/actionType/settingActionType";
 import { questionActions } from "../../../../store/slice/questionSlice";
+import { settingActions } from "../../../../store/slice/settingSlice";
 import sweetAlert from "../../../../utils/sweetAlert";
+import Field from "../UI/Field";
+import Label from "../UI/Label";
+import SectionWrapper from "../UI/Section";
+import SectionHeading from "../UI/SectionHeading";
+import NormalTextInput from "./SectionNormal/NormalTextInput";
 
 const { DEFAULT_MODE_LIST } = settingConfig;
 

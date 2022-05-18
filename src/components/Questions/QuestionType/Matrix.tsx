@@ -1,18 +1,17 @@
 import { FC } from "react";
-import styled from "styled-components";
 
 import FormControl from "@mui/material/FormControl";
-import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import styled from "styled-components";
 
-import { CustomIcon, CustomCheckedIcon } from "./ChoiceIcon/icon";
-
-import { useAppSelector } from "../../../hooks/useAppSelector";
-import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { userActions } from "../../../store/slice/userSlice";
-import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
-import helper from "../../../utils/helper";
+import useAppDispatch from "../../../hooks/useAppDispatch";
+import useAppSelector from "../../../hooks/useAppSelector";
 import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
+import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
+import { userActions } from "../../../store/slice/userSlice";
+import helper from "../../../utils/helper";
+import { CustomIcon, CustomCheckedIcon } from "./ChoiceIcon/icon";
 
 const MatrixWrapper = styled.div`
   display: flex;

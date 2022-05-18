@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import { adminContext } from "../store/context/adminContext";
+
 import adminActionType from "../store/actionType/adminActionType";
+import { adminContext } from "../store/context/adminContext";
 import useRoutePush from "./useRoutePush";
 
 const usePushToAnalysisPage = () => {

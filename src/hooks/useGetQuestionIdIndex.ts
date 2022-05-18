@@ -1,4 +1,4 @@
-import { useAppSelector } from "./useAppSelector";
+import useAppSelector from "./useAppSelector";
 
 const useGetQuestionIdIndex = (questionId: string) => {
   const { questionIdKeys } = useAppSelector((state) => state.user);

@@ -1,7 +1,10 @@
-import { createGlobalStyle } from "styled-components";
 import type { AppProps } from "next/app";
-import { store } from "../src/store";
+
 import { Provider } from "react-redux";
+
+import { createGlobalStyle } from "styled-components";
+
+import { store } from "../src/store";
 import { AdminProvider } from "../src/store/context/adminContext";
 
 const GlobalStyle = createGlobalStyle`

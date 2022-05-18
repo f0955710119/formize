@@ -1,14 +1,15 @@
 import { FC, useRef, useEffect, useState } from "react";
-import styled from "styled-components";
-import { Question } from "../../types/question";
 
+import styled from "styled-components";
+
+import useAppSelector from "../../hooks/useAppSelector";
+import useWholePageAnswersValidCheck from "../../hooks/useWholePageAnswersValidCheck";
+import { Question } from "../../types/question";
+import helper from "../../utils/helper";
 import QuestionList from "../Questions/QuestionList";
+import scrollBar from "../UI/scrollBar";
 import PageCTAButton from "./PageCTAButton";
 
-import helper from "../../utils/helper";
-import scrollBar from "../UI/scrollBar";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import useWholePageAnswersValidCheck from "../../hooks/useWholePageAnswersValidCheck";
 
 const SinglePageContainer = styled.section`
   position: relative;

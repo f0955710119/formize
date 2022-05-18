@@ -1,14 +1,16 @@
-import { FC, useState, useContext, ChangeEvent } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
-import firebase from "../../utils/firebase";
-import { SignFunctionType } from "../../types/login";
-import { adminContext } from "../../store/context/adminContext";
-import loginConfig from "../../configs/loginConfig";
 
-import adminActionType from "../../store/actionType/adminActionType";
-import sweetAlert from "../../utils/sweetAlert";
+import { FC, useState, useContext, ChangeEvent } from "react";
+
+import styled from "styled-components";
+
 import breakpointConfig from "../../configs/breakpointConfig";
+import loginConfig from "../../configs/loginConfig";
+import adminActionType from "../../store/actionType/adminActionType";
+import { adminContext } from "../../store/context/adminContext";
+import { SignFunctionType } from "../../types/login";
+import firebase from "../../utils/firebase";
+import sweetAlert from "../../utils/sweetAlert";
 
 const Form = styled.form`
   position: absolute;

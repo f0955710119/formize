@@ -1,6 +1,5 @@
-import helper from "../utils/helper";
 import sweetAlert from "../utils/sweetAlert";
-import { useAppSelector } from "./useAppSelector";
+import useAppSelector from "./useAppSelector";
 import useGetQuestionTitleIndex from "./useGetQuestionTitleIndex";
 
 const useCheckQuestionArraySameString = () => {

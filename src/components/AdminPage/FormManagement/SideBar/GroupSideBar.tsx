@@ -1,14 +1,15 @@
 import { FC, useContext, useRef } from "react";
+
 import styled from "styled-components";
 
-import SideBarButton from "../../../UI/SideBarButton";
 
-import Logo from "../../../UI/Logo";
-import { adminContext } from "../../../../store/context/adminContext";
-import adminActionType from "../../../../store/actionType/adminActionType";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useCreateGroup from "../../../../hooks/useCreateGroup";
+import adminActionType from "../../../../store/actionType/adminActionType";
+import { adminContext } from "../../../../store/context/adminContext";
+import Logo from "../../../UI/Logo";
+import SideBarButton from "../../../UI/SideBarButton";
 
 const BarContainer = styled.div`
   display: flex;

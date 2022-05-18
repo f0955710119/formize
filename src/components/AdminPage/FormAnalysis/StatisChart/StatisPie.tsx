@@ -1,4 +1,5 @@
 import { FC, useState, useCallback, useMemo } from "react";
+
 import {
   PieChart,
   Pie,
@@ -7,6 +8,7 @@ import {
   Sector,
   Legend,
 } from "recharts";
+
 import type { NonTextCount } from "../../../../types/statis";
 
 const COLORS = ["#caad5b", "#fdd872", "#feecb9", "#fef3d5", "#fff7e3"];
