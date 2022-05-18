@@ -6,7 +6,6 @@ import QuestionField from "./QuestionField";
 
 import Layout from "../UI/Layout";
 import helper from "../../../../utils/helper";
-import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import QuestionList from "../../../User/QuestionList";
@@ -121,7 +120,6 @@ const NoQuestionReminderText = styled.div`
 `;
 
 const Preview: FC = () => {
-  const dispatch = useAppDispatch();
   const [width, setWidth] = useState<string>("");
   const [reminderText, setReminderText] =
     useState<string>("尚無題目，點擊右欄題目來創建題型吧!");

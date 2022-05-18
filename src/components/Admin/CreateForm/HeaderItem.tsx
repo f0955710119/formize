@@ -18,8 +18,6 @@ const ItemWrapper = styled.div<ItemWrapperProps>`
   color: ${(props) =>
     props.currentStep === props.number ? "#e9b014" : "#333"};
   font-weight: normal;
-  /* font-weight: ${(props) =>
-    props.currentStep === props.number ? "bold" : "normal"}; */
   transition: color 0.3s;
 `;
 

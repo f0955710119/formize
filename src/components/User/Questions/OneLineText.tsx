@@ -1,12 +1,4 @@
-import {
-  FC,
-  ChangeEventHandler,
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
+import { FC, ChangeEventHandler, useState } from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";

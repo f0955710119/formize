@@ -4,19 +4,12 @@ import styled from "styled-components";
 import { Delete } from "@styled-icons/material/Delete";
 import CreatedQuestion from "./CreatedQuestion";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import icons from "../QuestionIcon";
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   margin-top: 2rem;
-
-  /* @media ${breakpointConfig.laptopM} {
-    display: inline-block;
-    width: auto;
-    margin-top: 0rem;
-  } ; */
 `;
 
 const DeleteButtonWrapper = styled.div`

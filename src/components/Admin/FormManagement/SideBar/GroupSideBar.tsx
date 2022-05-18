@@ -6,7 +6,6 @@ import SideBarButton from "../../../UI/SideBarButton";
 import Logo from "../../../UI/Logo";
 import { adminContext } from "../../../../store/context/adminContext";
 import adminActionType from "../../../../store/actionType/adminActionType";
-import type { Group } from "../../../../types/group";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useCreateGroup from "../../../../hooks/useCreateGroup";

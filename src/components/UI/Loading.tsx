@@ -26,10 +26,6 @@ const LoadingIamge = styled.img`
       filter: grayscale(50%);
     }
 
-    /* 20% {
-      filter: grayscale(50%);
-    } */
-
     100% {
       filter: grayscale(0%);
     }

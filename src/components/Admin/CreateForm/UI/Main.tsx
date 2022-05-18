@@ -16,10 +16,9 @@ const Layout = styled.main`
 
 interface MainProps {
   children: ReactNode;
-  onClick?: MouseEventHandler;
 }
 
-const Main: FC<MainProps> = ({ children, onClick }: MainProps) => {
+const Main: FC<MainProps> = ({ children }: MainProps) => {
   return <Layout>{children}</Layout>;
 };
 

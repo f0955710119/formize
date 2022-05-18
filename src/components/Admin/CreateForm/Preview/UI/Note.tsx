@@ -27,8 +27,6 @@ const CustomTextField = styled(TextField)`
 
   & input {
     color: ${(props) => props.theme.note};
-    /* padding-top: 1.8rem;
-    padding-bottom: 1.8rem; */
     width: 100%;
     font-size: 1.6rem;
     line-break: strict;

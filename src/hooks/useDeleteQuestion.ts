@@ -24,7 +24,6 @@ const useDeleteQuestion = () => {
       const deletingPageQuestionPage = deletingPageQuestion.page;
 
       if (deletingPageQuestionPage === 1 && pageQuantity === 1) return;
-      // BUG: 之後可以改成用KEY去找對應的ARRAY INDEX
 
       const pageHasOtherQuestions =
         questions.filter(

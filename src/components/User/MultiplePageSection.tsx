@@ -156,7 +156,6 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
 
   useEffect(() => {
     if (questionContainerRef.current === null) return;
-    //  BUG:是否需要去記錄每頁停留的位置
     questionContainerRef.current.scrollTop = 0;
   }, [questionPage]);
 

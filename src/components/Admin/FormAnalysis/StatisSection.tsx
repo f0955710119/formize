@@ -185,8 +185,6 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
 
   const titleIndex = useRef<number>(0);
   const currentQuestionId = useRef<string>("default");
-  // let currentQuestionId = "1";
-  // console.log(currentQuestionId);
   return statisData ? (
     <>
       <StatisSectionContainer hasData>

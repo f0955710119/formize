@@ -1,8 +1,6 @@
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { FC, useContext } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import FormHelperText from "@mui/material/FormHelperText";
-import Swal from "sweetalert2";
 
 import useInitNewForm from "../../../../hooks/useInitNewForm";
 import { adminContext } from "../../../../store/context/adminContext";
@@ -83,29 +81,6 @@ const DeleteButtonWrapper = styled(ButtonWrapper)`
 
 const DeleteButtonText = styled(ButtonText)`
   font-weight: normal;
-`;
-
-const CustomFormHelperText = styled(FormHelperText)`
-  font-family: inherit;
-  transform: translateX(-1rem);
-`;
-
-const CustomSelect = styled.select`
-  height: 3rem;
-  width: 12rem;
-  margin-right: 1rem;
-  font-family: inherit;
-  padding: 0.4rem;
-  color: #777;
-  border-radius: 3px;
-
-  @media ${breakpointConfig.tabletS} {
-    width: 18rem;
-  }
-
-  @media ${breakpointConfig.mobileL} {
-    max-width: 12rem;
-  }
 `;
 
 const DashboardSubHeader: FC = () => {

@@ -5,9 +5,7 @@ import styled from "styled-components";
 import { TextField } from "@mui/material";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import sweetAlert from "../../../../../utils/sweetAlert";
-import { AlertCircle } from "@styled-icons/ionicons-outline/AlertCircle";
-import { useAppSelector } from "../../../../../hooks/useAppSelector";
-import helper from "../../../../../utils/helper";
+
 import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 import textUnderline from "../../../../UI/textUnderline";
 

@@ -1,6 +1,5 @@
-import { FC, useContext, useState } from "react";
+import { FC, useState } from "react";
 
-import useCheckUid from "../../../../../hooks/useCheckUid";
 import useStyleHandler from "../../../../../hooks/useStyleHandler";
 import useDeployForm from "../../../../../hooks/useDeployForm";
 
@@ -18,7 +17,6 @@ import breakpointConfig from "../../../../../configs/breakpointConfig";
 
 import type { Styles } from "../../../../../types/form";
 import type { Question } from "../../../../../types/question";
-import { adminContext } from "../../../../../store/context/adminContext";
 import { SettingContext } from "../../../../../store/context/settingContext";
 import styleConfig from "../../../../../configs/styleConfig";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
@@ -92,24 +90,6 @@ const BackgroundCardContainer = styled.div`
       width: 0.5rem;
       height: 0.5rem;
     }
-  }
-`;
-
-const BackgroundContainerTitle = styled.span`
-  display: inline-block;
-  width: 7rem;
-  margin-bottom: 2rem;
-  padding-bottom: 0.5rem;
-  font-size: 1.4rem;
-  color: #c9ab59;
-  border-bottom: 2px solid #c9ab59;
-
-  @media ${breakpointConfig.laptopM} {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    margin-right: 1rem;
-    height: 100%;
   }
 `;
 

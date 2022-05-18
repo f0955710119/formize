@@ -1,5 +1,4 @@
-import { useRouter } from "next/router";
-import { FC, useContext, useState } from "react";
+import { FC, useContext } from "react";
 import styled from "styled-components";
 import breakpointConfig from "../../../configs/breakpointConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
@@ -10,10 +9,8 @@ import SideBarButton from "../../UI/SideBarButton";
 const SideBar = styled.div`
   display: flex;
   flex-direction: column;
-
   width: 23rem;
   height: 100%;
-  /* background-color: #ffec9a; */
   background-color: #ffc652c2;
   background-image: url("/images/group.svg");
   background-repeat: no-repeat;

@@ -2,7 +2,6 @@ import { FC, useRef, useEffect } from "react";
 import styled from "styled-components";
 import breakpointConfig from "../../configs/breakpointConfig";
 
-import Logo from "../UI/Logo";
 import PageCTAButton from "./PageCTAButton";
 import PageParagraph from "./PageParagraph";
 
@@ -46,8 +45,6 @@ const PageImageWrapper = styled.div<PageImageWrapperProps>`
   width: 100%;
   height: 55vh;
   ${(props: PageImageWrapperProps) => `background-image: url(${props.img});`}
-  /* background-image: url("/images/start-page-default.svg");
-  background-image: url("/images/nick-morrison-FHnnjk1Yj7Y-unsplash.jpg"); */
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -73,13 +70,6 @@ const FormTitle = styled.div`
   color: ${(props) => props.theme.title};
   color: #555;
   margin: 2rem 0;
-`;
-
-const PageLogo = styled(Logo)`
-  position: absolute;
-  top: 2rem;
-  left: 4rem;
-  color: #fff;
 `;
 
 const defaultSinglePageStartPageParagraph =
@@ -122,7 +112,6 @@ const PageSection: FC<PageSectionProps> = ({
       isMultiplePage={mode === "1"}
       isLoad={isLoaded.current}
     >
-      {/* <PageLogo /> */}
       {isStartPage && (
         <PageImageWrapper
           img={imageUrl ? imageUrl : "/images/start-page-default.svg"}

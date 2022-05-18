@@ -17,8 +17,6 @@ const SinglePageContainer = styled.section`
   align-items: center;
   padding: 4rem;
   width: 100%;
-  /* height: 100%; */
-
   overflow-y: scroll;
   ${scrollBar}
 
@@ -40,7 +38,6 @@ const SinglePageFormContainer = styled.div<SinglePageFormContainerProps>`
   width: 100%;
   min-height: 100vh;
   height: 100%;
-  /* height: 100vh; */
 `;
 
 const SinglePageSubmitButton = styled(PageCTAButton)`

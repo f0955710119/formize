@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction, useState } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import UISlider from "@mui/material/Slider";
 import useCheckValidTimer from "../../../hooks/useCheckValidTimer";
@@ -34,7 +34,6 @@ interface SliderProps {
   interval?: number;
 }
 
-// 之後做這塊的取值不要用state的方式拿，寫ref去取，不然太耗能(畢竟state跟ref分開)
 const Slider: FC<SliderProps> = ({
   questionId,
   min,

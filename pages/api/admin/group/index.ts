@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import firestoreCollectionConfig from "../../../../src/configs/firestoreCollectionConfig";
 import firebase from "../../../../src/utils/firebase";
 import type { DocumentData } from "firebase/firestore";
-import { Forms } from "../../../../src/types/form";
 
 interface Data {
   status: string;
@@ -104,7 +103,6 @@ export default async function handler(
         createdTime,
       };
 
-      // BUG:用泛型判斷時，用|還是沒辦法自動去知道它可能屬於哪一種
       const createNewGroupAjaxList = [
         firebase.updateUserGroupsIdArray(uid, groupDoc.id, true).catch(() => {
           throw new Error("fail to update new group in users");

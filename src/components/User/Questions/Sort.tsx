@@ -1,11 +1,4 @@
-import {
-  FC,
-  Dispatch,
-  SetStateAction,
-  useState,
-  useRef,
-  useEffect,
-} from "react";
+import { FC, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { useAppSelector } from "../../../hooks/useAppSelector";

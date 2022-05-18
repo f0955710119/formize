@@ -121,7 +121,6 @@ const QuestionPage: FC<QuestionPageProps> = ({
         {!isExpanded && (
           <ExpandMoreIcon
             sx={{ width: "10%", height: "2rem" }}
-            // BUG: 該怎麼使用prevState
             onClick={() => setIsExpanded(true)}
           />
         )}

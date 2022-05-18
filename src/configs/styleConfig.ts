@@ -1,15 +1,7 @@
-// BUG: 好奇差異，因為這個可以解決能把參數帶入key的問題
 interface StyleConfig {
   [key: string]: string;
 }
 
-// const styleConfig = {
-//   MAIN: "main",
-//   YELLOW: 'yellow',
-//   BLACK: 'black'
-// };
-
-// 用來存取對應的 key 值 跟 呈現名稱
 const styleConfig: StyleConfig = {
   MAIN: "main",
   YELLOW: "yellow",

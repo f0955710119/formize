@@ -91,7 +91,6 @@ const Form: FC<FormProps> = ({
   const { formId } = router.query;
   const { answers } = useAppSelector((state) => state.user);
   const [navigatePage, setNavigatePage] = useState<number>(0);
-  // const [questionPage, setQuestionPage] = useState<number>(0);
 
   const clickStartPageButtonHandler = () => setNavigatePage(1);
   const sendResponses = async () => {

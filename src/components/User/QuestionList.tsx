@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 import { Question } from "../../types/question";
 
@@ -110,22 +110,6 @@ const ErrorReminder = styled.p`
 const EmptyErrorMessage = styled.div`
   margin: 2rem 0;
   height: 2rem;
-`;
-
-const ResetAnswerButton = styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  width: 10rem;
-  height: 2.4rem;
-  font-size: 1.4rem;
-  text-align: center;
-  line-height: 2rem;
-  border-radius: 30px;
-  background-color: ${(props) => props.theme.title};
-  color: #fff;
-  cursor: pointer;
 `;
 
 interface QuestionListProps {

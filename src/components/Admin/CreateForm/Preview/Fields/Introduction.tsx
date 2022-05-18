@@ -5,7 +5,6 @@ import questionActionType from "../../../../../store/actionType/questionActionTy
 import styled from "styled-components";
 import Field from "../UI/Field";
 import { TextareaAutosize } from "@mui/material";
-import { ButtonWrapper, ButtonText } from "../UI/Button";
 
 const Heading = styled.div`
   width: 100%;
@@ -33,7 +32,6 @@ const CustomTextareaAutosize = styled(TextareaAutosize)`
   border-radius: 3px;
   font-size: 1.8rem;
   resize: none;
-  /* background-color: transparent; */
 
   &:focus {
     outline: none;

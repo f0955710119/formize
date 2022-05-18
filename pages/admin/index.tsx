@@ -13,8 +13,6 @@ import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
 import useCheckUid from "../../src/hooks/useCheckUid";
 import useRouterLoaded from "../../src/hooks/useRouterLoaded";
 
-import { useAppSelector } from "../../src/hooks/useAppSelector";
-
 const Admin: NextPage = () => {
   const context = useContext(adminContext);
   const router = useRouter();

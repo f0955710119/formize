@@ -56,12 +56,6 @@ const CustomShareSharpIcon = styled(ShareSharpIcon)`
   margin-right: 1rem;
 `;
 
-const CustomFolderCopySharpIcon = styled(FolderCopySharpIcon)`
-  width: 2rem;
-  height: 2rem;
-  margin-right: 1rem;
-`;
-
 const SubHeadingText = styled.span`
   font-size: 2.2rem;
 `;
@@ -161,31 +155,6 @@ const DeployFormSection: FC = () => {
         >
           複製問卷連結
         </CopyLinkButton>
-        {/* <SubHeading>
-          <CustomFolderCopySharpIcon />
-          <SubHeadingText>問卷結果</SubHeadingText>
-        </SubHeading>
-        <Button
-          clickHandler={() => {
-            router.push(`/admin/analysis/${formId}/`);
-          }}
-        >
-          統計分析
-        </Button>
-        <Button
-          clickHandler={() => {
-            router.push(`/admin/analysis/${formId}/export`);
-          }}
-        >
-          明細匯出
-        </Button>
-        <Button
-          clickHandler={() => {
-            router.push(`/admin/analysis/${formId}/record`);
-          }}
-        >
-          訪問紀錄
-        </Button> */}
       </Container>
     </Main>
   );
