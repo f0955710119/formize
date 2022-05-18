@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { KeyboardArrowDown } from "@styled-icons/material-rounded/KeyboardArrowDown";
 import FormItemExpand from "./FormItemExpand/FormItemExpand";
 import helper from "../../../../../utils/helper";
 
@@ -49,12 +49,17 @@ const ResponsedTime = styled.span`
   text-align: center;
 `;
 
-const ExpandMore = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 4.5rem;
+interface ExpandMoreProps {
+  hasClickExpand: boolean;
+}
+
+const ExpandMore = styled(KeyboardArrowDown)<ExpandMoreProps>`
+  width: 2.2rem;
   height: 100%;
+  fill: inherit;
+  cursor: pointer;
+  transform: ${(props) => `rotate(${props.hasClickExpand ? "180deg" : "0"})`};
+  transition: transform 0.3s;
 `;
 
 interface FormItemProps {
@@ -88,17 +93,8 @@ const FormItem: FC<FormItemProps> = ({
         </ResponsedTime>
         <ExpandMore
           onClick={() => setHasClickExpand((prevState) => !prevState)}
-        >
-          <ExpandMoreIcon
-            sx={{
-              width: "55%",
-              height: "100%",
-              cursor: "pointer",
-              transform: `rotate(${hasClickExpand ? "180deg" : "0"})`,
-              transition: "transform 0.3s",
-            }}
-          />
-        </ExpandMore>
+          hasClickExpand={hasClickExpand}
+        ></ExpandMore>
       </ItemWrapper>
       <FormItemExpand isExpand={hasClickExpand} formId={formId} />
     </ItemContainer>

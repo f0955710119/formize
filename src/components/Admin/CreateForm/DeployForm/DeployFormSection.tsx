@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { useAppSelector } from "../../../../hooks/useAppSelector";
 import styled from "styled-components";
 import { TextField } from "@mui/material";
-import ShareSharpIcon from "@mui/icons-material/ShareSharp";
-import FolderCopySharpIcon from "@mui/icons-material/FolderCopySharp";
+import { ShareFill } from "@styled-icons/bootstrap/ShareFill";
+
 import Main from "../UI/Main";
 import SectionHeading from "../UI/SectionHeading";
 
@@ -50,7 +50,7 @@ const SubHeading = styled.div`
   width: 50%;
 `;
 
-const CustomShareSharpIcon = styled(ShareSharpIcon)`
+const CustomShareSharpIcon = styled(ShareFill)`
   width: 2rem;
   height: 2rem;
   margin-right: 1rem;

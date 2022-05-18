@@ -1,6 +1,6 @@
 import { FC, ReactNode, useState } from "react";
 import styled from "styled-components";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { KeyboardArrowDown } from "@styled-icons/material-rounded/KeyboardArrowDown";
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
@@ -80,6 +80,17 @@ const Title = styled.div`
   width: 90%;
   cursor: pointer;
 `;
+interface ExpandMoreProps {
+  isExpand: boolean;
+}
+
+const ExpandMore = styled(KeyboardArrowDown)<ExpandMoreProps>`
+  width: 10%;
+  height: 2rem;
+  cursor: pointer;
+  transform: ${(props) => `rotate(${props.isExpand ? "-180deg" : ""})`};
+  transition: transform 0.3s;
+`;
 
 interface QuestionPageProps {
   title: string;
@@ -118,18 +129,11 @@ const QuestionPage: FC<QuestionPageProps> = ({
       <SwitchPageReminder>點擊能切換編輯的分頁</SwitchPageReminder>
       <TitleWrapper>
         <Title>{title}</Title>
-        {!isExpanded && (
-          <ExpandMoreIcon
-            sx={{ width: "10%", height: "2rem" }}
-            onClick={() => setIsExpanded(true)}
-          />
-        )}
-        {isExpanded && (
-          <ExpandMoreIcon
-            sx={{ width: "10%", height: "2rem", transform: "rotate(-180deg)" }}
-            onClick={() => setIsExpanded(false)}
-          />
-        )}
+
+        <ExpandMore
+          isExpand={isExpanded}
+          onClick={() => setIsExpanded((prev) => !prev)}
+        />
       </TitleWrapper>
       {isExpanded && children}
     </PageWrapper>
