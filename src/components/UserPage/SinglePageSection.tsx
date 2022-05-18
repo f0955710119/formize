@@ -2,7 +2,7 @@ import { FC, useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Question } from "../../types/question";
 
-import QuestionList from "./QuestionList";
+import QuestionList from "../Questions/QuestionList";
 import PageCTAButton from "./PageCTAButton";
 
 import helper from "../../utils/helper";

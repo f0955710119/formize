@@ -2,9 +2,9 @@ import { FC } from "react";
 import styled from "styled-components";
 
 import AddOptionButton from "../UI/AddOptionButton";
-import ChoiceOptionItem from "./ChoiceOptionItem";
-import AddMatrixButton from "./Matrix/AddMatrixButton";
-import MatrixTitle from "./Matrix/MatrixTitle";
+import ChoiceOptionItem from "./QuestionContentItem/ChoiceOptionItem";
+import AddMatrixButton from "./QuestionContentItem/AddMatrixButton";
+import MatrixTitle from "./QuestionContentItem/MatrixTitle";
 
 const MatrixWrapper = styled.div`
   display: flex;

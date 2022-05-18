@@ -5,9 +5,9 @@ import { useContext, useEffect, useState } from "react";
 import type { StatisResponse } from "../../../../src/types/statis";
 
 import Main from "../../../../src/components/UI/Main";
-import FormAnalysisSideBar from "../../../../src/components/Admin/FormAnalysis/FormAnalysisSideBar";
+import FormAnalysisSideBar from "../../../../src/components/AdminPage/FormAnalysis/FormAnalysisSideBar";
 import { adminContext } from "../../../../src/store/context/adminContext";
-import StatisSection from "../../../../src/components/Admin/FormAnalysis/StatisSection";
+import StatisSection from "../../../../src/components/AdminPage/FormAnalysis/StatisSection";
 import Loading from "../../../../src/components/UI/Loading";
 
 const Analysis: NextPage = () => {

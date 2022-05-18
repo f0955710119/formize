@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import type { UserForm } from "../../src/types/userForm";
 
-import Form from "../../src/components/User/Form";
+import Form from "../../src/components/UserPage/Form";
 import userFormConfig from "../../src/configs/userFormConfig";
 import helper from "../../src/utils/helper";
 import themes from "../../src/store/theme/theme";

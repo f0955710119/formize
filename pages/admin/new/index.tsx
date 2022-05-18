@@ -10,11 +10,11 @@ import {
 } from "@mui/material/styles";
 
 import Header from "../../../src/components/UI/Header";
-import StepHeader from "../../../src/components/Admin/CreateForm/StepHeader";
-import SettingForm from "../../../src/components/Admin/CreateForm/Setting/SettingForm";
-import QuestionDesign from "../../../src/components/Admin/CreateForm/QuestionDesign/QuestionDesign";
-import StyleDesign from "../../../src/components/Admin/CreateForm/StyleDesign/StyleDesign";
-import DeployFormSection from "../../../src/components/Admin/CreateForm/DeployForm/DeployFormSection";
+import StepHeader from "../../../src/components/AdminPage/CreateForm/StepHeader";
+import SettingForm from "../../../src/components/AdminPage/CreateForm/Setting/SettingForm";
+import QuestionDesign from "../../../src/components/AdminPage/CreateForm/QuestionDesign/QuestionDesign";
+import StyleDesign from "../../../src/components/AdminPage/CreateForm/StyleDesign/StyleDesign";
+import DeployFormSection from "../../../src/components/AdminPage/CreateForm/DeployForm/DeployFormSection";
 
 import helper from "../../../src/utils/helper";
 import themes from "../../../src/store/theme/theme";

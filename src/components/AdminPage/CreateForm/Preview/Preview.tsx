@@ -8,7 +8,7 @@ import Layout from "../UI/Layout";
 import helper from "../../../../utils/helper";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
-import QuestionList from "../../../User/QuestionList";
+import QuestionList from "../../../Questions/QuestionList";
 import scrollBar from "../../../UI/scrollBar";
 
 interface PreviewLayoutProps {

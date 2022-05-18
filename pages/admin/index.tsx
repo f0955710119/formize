@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import Main from "../../src/components/UI/Main";
-import GroupSideBar from "../../src/components/Admin/FormManagement/SideBar/GroupSideBar";
-import Dashboard from "../../src/components/Admin/FormManagement/Dashboard/Dashboard";
+import GroupSideBar from "../../src/components/AdminPage/FormManagement/SideBar/GroupSideBar";
+import Dashboard from "../../src/components/AdminPage/FormManagement/Dashboard/Dashboard";
 import Loading from "../../src/components/UI/Loading";
 
 import { adminContext } from "../../src/store/context/adminContext";

@@ -1,9 +1,8 @@
-import { FC, useState, useContext } from "react";
+import { FC, useState, useContext, ChangeEvent } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import firebase from "../../utils/firebase";
 import { SignFunctionType } from "../../types/login";
-import { ChangeHandler } from "../../types/common";
 import { adminContext } from "../../store/context/adminContext";
 import loginConfig from "../../configs/loginConfig";
 
@@ -230,6 +229,8 @@ const Button = styled.button`
     font-size: 1.4rem;
   }
 `;
+
+type ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => void;
 
 const LoginForm: FC = () => {
   const router = useRouter();

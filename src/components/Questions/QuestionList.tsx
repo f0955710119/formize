@@ -2,15 +2,15 @@ import { FC } from "react";
 import styled from "styled-components";
 import { Question } from "../../types/question";
 
-import OneLineText from "./Questions/OneLineText";
-import MultipleLineText from "./Questions/MultipleLineText";
-import Introduction from "./Questions/Introdction";
-import OneChoice from "./Questions/OneChoice";
-import MultiChoice from "./Questions/MultipleChoice";
-import Matrix from "./Questions/Matrix";
-import Slider from "./Questions/Slider";
-import Sort from "./Questions/Sort";
-import Date from "./Questions/Date";
+import OneLineText from "./QuestionType/OneLineText";
+import MultipleLineText from "./QuestionType/MultipleLineText";
+import Introduction from "./QuestionType/Introdction";
+import OneChoice from "./QuestionType/OneChoice";
+import MultiChoice from "./QuestionType/MultipleChoice";
+import Matrix from "./QuestionType/Matrix";
+import Slider from "./QuestionType/Slider";
+import Sort from "./QuestionType/Sort";
+import Date from "./QuestionType/Date";
 
 import helper from "../../utils/helper";
 import { useAppSelector } from "../../hooks/useAppSelector";

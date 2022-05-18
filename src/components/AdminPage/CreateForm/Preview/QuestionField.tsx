@@ -9,9 +9,9 @@ import EditableTitle from "./UI/EditableTitle";
 import Note from "./UI/Note";
 import type { Question } from "../../../../types/question";
 
-import Introduction from "./Fields/Introduction";
-import Choice from "./Fields/OneChoice";
-import Matrix from "./Fields/Matrix";
+import Introduction from "./QuestionContent/Introduction";
+import Choice from "./QuestionContent/Choice";
+import Matrix from "./QuestionContent/Matrix";
 
 import QuestionDeleteButton from "./QuestionDeleteButton";
 import useDeleteQuestion from "../../../../hooks/useDeleteQuestion";
