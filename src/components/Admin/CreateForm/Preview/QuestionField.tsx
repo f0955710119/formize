@@ -11,7 +11,6 @@ import type { Question } from "../../../../types/question";
 
 import Introduction from "./Fields/Introduction";
 import Choice from "./Fields/OneChoice";
-
 import Matrix from "./Fields/Matrix";
 
 import QuestionDeleteButton from "./QuestionDeleteButton";

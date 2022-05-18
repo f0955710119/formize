@@ -7,13 +7,9 @@ import styled from "styled-components";
 import { TextField } from "@mui/material";
 import helper from "../../../../../utils/helper";
 
-import breakpointConfig from "../../../../../configs/breakpointConfig";
-import Icons from "../../QuestionDesign/QuestionIcon";
 import { Delete } from "@styled-icons/material/Delete";
 import sweetAlert from "../../../../../utils/sweetAlert";
-import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 import { useAppSelector } from "../../../../../hooks/useAppSelector";
-import useGetQuestionTitleIndex from "../../../../../hooks/useGetQuestionTitleIndex";
 import useCheckEditingStateOfTextEditingField from "../../../../../hooks/useCheckEditingStateOfTextEditingField";
 
 export const ChoiceWrapper = styled.div`

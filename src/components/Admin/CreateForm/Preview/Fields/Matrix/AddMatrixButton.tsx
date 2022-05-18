@@ -14,15 +14,6 @@ interface MatrixButtonProps {
 
 const MatrixButton = styled(ButtonWrapper)<MatrixButtonProps>`
   margin-bottom: 0;
-
-  /* ${(props) =>
-    props.isEditingField
-      ? ""
-      : `
-  &:hover {
-    background-color:${props.theme.title};  
-  }
-  `} */
 `;
 
 interface AddMatrixButtonProps {

@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import FormOptionList from "./FormOptionList";
 import FormItemExpand from "./FormItemExpand/FormItemExpand";
 import helper from "../../../../../utils/helper";
 

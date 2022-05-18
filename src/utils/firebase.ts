@@ -26,7 +26,6 @@ import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import type { DocumentReference, DocumentData } from "firebase/firestore";
 import type { StorageReference } from "firebase/storage";
 import type { UserInfoType } from "../types/login";
-import type { Users } from "../types/firebase/usersType";
 import type { Forms } from "../types/form";
 import type { Questions } from "../types/question";
 
@@ -128,7 +127,7 @@ export default {
   async createUser(uid: string) {
     const newUserRef = doc(db, "users", uid);
     const { id } = newUserRef;
-    const defalutUsers: Users = {
+    const defalutUsers = {
       id,
       groupId: [],
     };
