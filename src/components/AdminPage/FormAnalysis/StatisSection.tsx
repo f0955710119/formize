@@ -1,3 +1,4 @@
+import { DateRangeDimensions } from "@styled-icons/material/DateRange";
 import { FC, useContext, useRef } from "react";
 
 import styled from "styled-components";
@@ -186,7 +187,8 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
 
   const titleIndex = useRef<number>(0);
   const currentQuestionId = useRef<string>("default");
-  return statisData ? (
+  const hasStatisData = statisData !== null && statisData !== undefined;
+  return hasStatisData ? (
     <>
       <StatisSectionContainer hasData>
         <StatisHeaderForNonDesktop>
@@ -212,7 +214,6 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
         </StatisHeaderForNonDesktop>
         <StatisSectionHeading>問卷標題: {formData?.title}</StatisSectionHeading>
         {statisData.map((data, i) => {
-          console.log(currentQuestionId.current);
           if (!data.id.split("_")[0].includes(currentQuestionId.current)) {
             currentQuestionId.current = data.id.split("_")[0];
             titleIndex.current++;

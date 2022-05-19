@@ -53,7 +53,6 @@ interface TableProps {
 }
 
 const Table: FC<TableProps> = ({ title, children, isTextContent }) => {
-  console.log(document.body.clientWidth);
   return (
     <TableWrapper isTextContent={isTextContent}>
       <TableTitle>{title}</TableTitle>
