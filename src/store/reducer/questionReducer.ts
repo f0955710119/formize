@@ -11,7 +11,7 @@ const initQuestion: CaseReducer<QuestionState> = (state) => {
   state.accumulatedInValidInputError = [{ id: "", message: "" }];
   state.currentStep = 1;
   state.editingFormPage = 1;
-  state.editingQuestion = null;
+  state.editingQuestionId = null;
   state.questions = [];
   state.willSwitcEditinghQuestion = false;
 };
@@ -155,9 +155,9 @@ const initRangeDateOfDateQuestion: CaseReducer<
 
 const switchEditingQuestion: CaseReducer<
   QuestionState,
-  PayloadAction<Question | null>
+  PayloadAction<string | null>
 > = (state, action) => {
-  state.editingQuestion = action.payload;
+  state.editingQuestionId = action.payload;
 };
 
 const willChangeLimitationValue: CaseReducer<
@@ -253,7 +253,7 @@ const addNewFormPage: CaseReducer<
     page: action.payload.newPage,
   };
 
-  state.editingQuestion = defaultQuestion;
+  state.editingQuestionId = defaultQuestion.id;
   state.questions.push(defaultQuestion);
   state.questions = state.questions.sort((a, b) => a.page - b.page);
   state.editingFormPage = action.payload.newPage;

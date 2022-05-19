@@ -28,12 +28,14 @@ const AddMatrixButton: FC<AddMatrixButtonProps> = ({
   matrixs,
 }: AddMatrixButtonProps) => {
   const dispatch = useAppDispatch();
-  const { editingQuestion } = useAppSelector((state) => state.question);
+  const { editingQuestionId } = useAppSelector((state) => state.question);
   const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
 
-  const hasEditingQuestion = editingQuestion !== null ? editingQuestion.id : "";
+  const hasEditingQuestion =
+    editingQuestionId !== null ? editingQuestionId : "";
   const isEditingField = hasEditingQuestion === id;
-  const addNewMatrixHandler = () => {
+
+  const addNewMatrixHandler = (matrixs: string[]) => {
     if (matrixs.length > 4) {
       sweetAlert.errorReminderAlert(
         "【 新增失敗 】\n欄位數量目前最多只能5個！"
@@ -53,9 +55,9 @@ const AddMatrixButton: FC<AddMatrixButtonProps> = ({
   return (
     <MatrixButton
       isEditingField={isEditingField}
-      onClick={() => {
-        checkOpenEditingTextHandler(addNewMatrixHandler, id);
-      }}
+      onClick={() =>
+        checkOpenEditingTextHandler(() => addNewMatrixHandler(matrixs), id)
+      }
     >
       <ButtonText>新增欄位</ButtonText>
       <AddButtonIcon />

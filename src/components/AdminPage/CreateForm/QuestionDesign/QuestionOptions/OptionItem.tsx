@@ -3,7 +3,6 @@ import { FC } from "react";
 import { AddComment } from "@styled-icons/material-sharp/AddComment";
 import styled from "styled-components";
 
-
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import questionDefaultConfig from "../../../../../configs/questionDefaultConfig";
 import useAppDispatch from "../../../../../hooks/useAppDispatch";
@@ -154,7 +153,7 @@ const OptionItem: FC<OptionItemProps> = ({
     };
     dispatch(questionActions.willChangeLimitationValue(true));
     dispatch(questionActions.addNewQuestion(newQuestion));
-    dispatch(questionActions.switchEditingQuestion(newQuestion));
+    dispatch(questionActions.switchEditingQuestion(newQuestion.id));
   };
   return (
     <OptionWrapper onClick={() => addNewQuestionHandler(questionType)}>

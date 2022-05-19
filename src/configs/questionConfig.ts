@@ -34,5 +34,9 @@ const questionConfig: QuestionConfig = {
   "7": "滑桿",
   "8": "排序",
   "9": "日期",
+  MIN_OPTIONS_LENGTH: "2",
+  MIN_MATRIXS_LENGTH: "2",
+  OPTION_NAME: "選項",
+  MATRIX_NAME: "欄位",
 };
 export default questionConfig;

@@ -99,7 +99,6 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
         onClick={() => {
           setHasClickedNote(false);
           const text = editingNote.trim().length !== 0 ? editingNote : " ";
-          console.log(text);
           dispatch(
             questionActions.updateSiglePropOfQuestion({
               id,

@@ -11,6 +11,7 @@ import questionActionType from "../../../../../../store/actionType/questionActio
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 import helper from "../../../../../../utils/helper";
 import sweetAlert from "../../../../../../utils/sweetAlert";
+import useDeleteQuestionContentItem from "../../../../../../hooks/useDeleteQuestionContentItem";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
@@ -66,7 +67,7 @@ const CustomTextField = styled(TextField)`
   width: 100%;
   height: 100%;
 
-  & [class*="-MuiInputBase-root-MuiOutlinedInput-root"] {
+  & .MuiOutlinedInput-root {
     font-size: 1.8rem;
     width: 100%;
     height: 100%;
@@ -103,55 +104,31 @@ const EditingButton = styled.button`
 interface OptionItemProps {
   id: string;
   index: number;
-  option: string;
   options: string[];
 }
 
 const OptionItem: FC<OptionItemProps> = ({
   id,
   index,
-  option,
   options,
 }: OptionItemProps) => {
   const dispatch = useAppDispatch();
-  const {
-    editingQuestion,
-    isEditingOption,
-    isSwitchingEditingOption,
-    editingOptionQuantity,
-  } = useAppSelector((state) => state.question);
+  const { editingQuestionId, isSwitchingEditingOption } = useAppSelector(
+    (state) => state.question
+  );
 
+  const [editingOptionText, setEditingOptionText] = useState<string>(
+    options[index]
+  );
   const [hasClickedOptionText, setHasClickedOptionText] =
     useState<boolean>(false);
-  const [editingOptionText, setEditingOptionText] = useState<string>(option);
   const isLoading = useRef<boolean>(true);
+
   const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
+  const deleteQuestionContentItemHandler =
+    useDeleteQuestionContentItem("option");
 
-  const deleteOptionHandler = (index: number) => {
-    if (isEditingOption && editingQuestion?.id === id) {
-      sweetAlert.errorReminderAlert(
-        "【 刪除失敗 】\n請先完成所有正在編輯的選項"
-      );
-      return;
-    }
-
-    if (editingOptionQuantity > 0) {
-      sweetAlert.errorReminderAlert(
-        "【 刪除失敗 】\n請先完成所有正在編輯的選項"
-      );
-      return;
-    }
-    const updateOptinos = options.filter((_, i) => i !== index);
-    dispatch(
-      questionActions.updateSiglePropOfQuestion({
-        id,
-        actionType: questionActionType.OPTIONS,
-        stringArr: updateOptinos,
-      })
-    );
-  };
-
-  const saveEditedTextHandler = () => {
+  const saveEditedTextHandler = (editingOptionText: string) => {
     if (editingOptionText.trim().length === 0) {
       sweetAlert.errorReminderAlert("【儲存失敗】\n選項不能留空");
       return;
@@ -198,9 +175,9 @@ const OptionItem: FC<OptionItemProps> = ({
 
   useEffect(() => {
     if (!isLoading.current) {
-      if (editingQuestion === null) return;
+      if (editingQuestionId === null) return;
 
-      if (editingQuestion.id !== id) {
+      if (editingQuestionId !== id) {
         setHasClickedOptionText(false);
 
         !isSwitchingEditingOption &&
@@ -216,7 +193,11 @@ const OptionItem: FC<OptionItemProps> = ({
       return;
     }
     isLoading.current = false;
-  }, [editingQuestion]);
+  }, [editingQuestionId]);
+
+  useEffect(() => {
+    setEditingOptionText(options[index]);
+  }, [options]);
 
   return hasClickedOptionText ? (
     <EditingOptionItemWrapper>
@@ -227,7 +208,9 @@ const OptionItem: FC<OptionItemProps> = ({
         onChange={(event) => setEditingOptionText(event.target.value)}
       />
 
-      <EditingButton onClick={saveEditedTextHandler}>儲存</EditingButton>
+      <EditingButton onClick={() => saveEditedTextHandler(editingOptionText)}>
+        儲存
+      </EditingButton>
       <EditingButton
         onClick={() => {
           setHasClickedOptionText(false);
@@ -246,11 +229,10 @@ const OptionItem: FC<OptionItemProps> = ({
     <OptionItemWrapper>
       <DeleteButton
         onClick={() => {
-          if (options.length < 3) {
-            sweetAlert.errorReminderAlert("【刪除失敗】\n至少要維持兩個選項！");
-            return;
-          }
-          deleteOptionHandler(index);
+          deleteQuestionContentItemHandler(
+            { id, index, willEditArray: options },
+            questionActionType.OPTIONS
+          );
         }}
       />
 
@@ -259,7 +241,7 @@ const OptionItem: FC<OptionItemProps> = ({
           checkOpenEditingTextHandler(openEditingInputHandler, id);
         }}
       >
-        {option}
+        {options[index]}
       </OptionItemText>
     </OptionItemWrapper>
   );

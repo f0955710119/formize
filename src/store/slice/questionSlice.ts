@@ -9,7 +9,7 @@ export interface ErrorMessage {
 
 export interface QuestionState {
   questions: Question[];
-  editingQuestion: Question | null;
+  editingQuestionId: string | null;
   willSwitcEditinghQuestion: boolean;
   accumulatedInValidInputError: ErrorMessage[];
   currentStep: number;
@@ -24,7 +24,7 @@ export interface QuestionState {
 
 const initialState: QuestionState = {
   questions: [],
-  editingQuestion: null,
+  editingQuestionId: null,
   willSwitcEditinghQuestion: false,
   accumulatedInValidInputError: [{ id: "", message: "" }],
   currentStep: 1,

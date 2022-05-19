@@ -473,9 +473,9 @@ export default {
       }
     }
   },
-  checkHasSameArrStringName(editingQuestion: Question, questions: Question[]) {
+  checkHasSameArrStringName(editingQuestionId: string, questions: Question[]) {
     const haseditingQuestion = questions.find(
-      (question) => question.id === editingQuestion.id
+      (question) => question.id === editingQuestionId
     );
 
     if (!haseditingQuestion) {

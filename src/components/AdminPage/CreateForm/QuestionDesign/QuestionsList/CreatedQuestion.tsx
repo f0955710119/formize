@@ -2,8 +2,6 @@ import { FC } from "react";
 
 import styled from "styled-components";
 
-
-
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import questionConfig from "../../../../../configs/questionConfig";
 import useAppSelector from "../../../../../hooks/useAppSelector";
@@ -108,10 +106,11 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
   questionType,
   index,
 }: CreatedQuestionProps) => {
-  const { editingQuestion } = useAppSelector((state) => state.question);
+  const { editingQuestionId } = useAppSelector((state) => state.question);
   const noteTextRaw = questionType === "2" ? "引言沒有註解" : note;
   const noteText = noteTextRaw.trim().length === 0 ? "暫無註解" : noteTextRaw;
-  const hasEditingQuestion = editingQuestion !== null ? editingQuestion.id : "";
+  const hasEditingQuestion =
+    editingQuestionId !== null ? editingQuestionId : "";
   return (
     <QuestionWrapper isActive={hasEditingQuestion === id}>
       <IconWrapper>

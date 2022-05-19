@@ -10,7 +10,6 @@ import useAppSelector from "../../../../hooks/useAppSelector";
 import Main from "../UI/Main";
 import SectionHeading from "../UI/SectionHeading";
 
-
 const Container = styled.div`
   margin: 4rem auto;
   width: 62.6rem;
@@ -73,7 +72,7 @@ const URLWrapper = styled.div`
 const CustomTextDisableField = styled(TextField)`
   width: 100%;
   cursor: pointer;
-  & .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-disabled {
+  & .Mui-disabled {
     cursor: pointer;
     width: 100%;
   }
@@ -92,19 +91,19 @@ const DeploySectionHeading = styled(SectionHeading)`
 `;
 
 const goDifferentRouteLinkStyle = `
-display: block;
-width: 45%;
-height: 3rem;
-line-height: 3rem;
-text-align: center;
-border-radius: 5px;
-background-color: #aaa;
-transition: background-color 0.3s ease-in-out;
+  display: block;
+  width: 45%;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #aaa;
+  transition: background-color 0.3s ease-in-out;
 
-&:hover {
-  color:#fff;
-  background-color:#555;
-}
+  &:hover {
+    color:#fff;
+    background-color:#555;
+  }
 `;
 
 const FormBlankLink = styled.a`
@@ -129,16 +128,17 @@ const DeployFormSection: FC = () => {
   const router = useRouter();
   const formId = useAppSelector((state) => state.admin.newFormId);
   const newFormPath = `/s/${formId}`;
-  const newFormHref = `${process.env.NEXT_PUBLIC_ORIGIN}${newFormPath}`;
+  const webOrigin = process.env.NEXT_PUBLIC_ORIGIN;
+  const newFormHref = `${webOrigin}${newFormPath}`;
+  const deployDecoratorImageSrc = `${webOrigin}/images/deploy-img.svg`;
   return (
     <Main>
       <Container>
         <DeploySectionHeading>發佈成功囉~問卷已上線!</DeploySectionHeading>
         <ImageWrapper>
           <DeployDecoratorImage
-            width="100%"
-            height="100%"
-            src={process.env.NEXT_PUBLIC_ORIGIN + "/" + "images/deploy-img.svg"}
+            src={deployDecoratorImageSrc}
+            alt="FORMiZE問卷產生工具-發佈成功"
           />
         </ImageWrapper>
         <SubHeading>
@@ -146,15 +146,13 @@ const DeployFormSection: FC = () => {
           <SubHeadingText>分享問卷 ( 點擊連結前往 )</SubHeadingText>
         </SubHeading>
         <URLWrapper onClick={() => router.push(newFormPath)}>
-          <CustomTextDisableField defaultValue={newFormHref} disabled sx={{}} />
+          <CustomTextDisableField defaultValue={newFormHref} disabled />
         </URLWrapper>
         <FormBlankLink href={newFormHref} target="_blank" rel="noreferrer">
           開啟問卷分頁
         </FormBlankLink>
         <CopyLinkButton
-          onClick={() => {
-            navigator.clipboard.writeText(newFormHref);
-          }}
+          onClick={() => navigator.clipboard.writeText(newFormHref)}
         >
           複製問卷連結
         </CopyLinkButton>

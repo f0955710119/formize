@@ -15,14 +15,8 @@ const OneChoice: FC<OneChoiceProps> = ({ id, options }: OneChoiceProps) => {
     <>
       <AddOptionButton id={id} options={options} />
       <ChoiceWrapper>
-        {options.map((option, i) => (
-          <ChoiceOptionItem
-            key={i}
-            id={id}
-            index={i}
-            option={option}
-            options={options}
-          />
+        {options.map((_, i) => (
+          <ChoiceOptionItem key={i} id={id} index={i} options={options} />
         ))}
       </ChoiceWrapper>
     </>

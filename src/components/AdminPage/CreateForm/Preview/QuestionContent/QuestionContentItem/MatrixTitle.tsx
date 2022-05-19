@@ -13,6 +13,7 @@ import { questionActions } from "../../../../../../store/slice/questionSlice";
 import helper from "../../../../../../utils/helper";
 import sweetAlert from "../../../../../../utils/sweetAlert";
 import textUnderline from "../../../../../UI/textUnderline";
+import useDeleteQuestionContentItem from "../../../../../../hooks/useDeleteQuestionContentItem";
 
 const MatrixTitleWrapper = styled.div`
   display: flex;
@@ -62,7 +63,7 @@ const CustomTextField = styled(TextField)`
   width: 50%;
   height: 100%;
 
-  & [class*="-MuiInputBase-root-MuiOutlinedInput-root"] {
+  & .MuiOutlinedInput-root {
     font-size: 1.8rem;
     width: 100%;
     height: 100%;
@@ -116,38 +117,16 @@ interface matrixTitleProps {
 const MatrixTitle: FC<matrixTitleProps> = ({
   id,
   index,
-  matrix,
   matrixs,
 }: matrixTitleProps) => {
   const dispatch = useAppDispatch();
-  const { editingQuestion, isEditingMatrix, isSwitchingEditingMatrix } =
-    useAppSelector((state) => state.question);
+  const { editingQuestionId } = useAppSelector((state) => state.question);
   const [hasClickedMatrix, setHasClickedMatrix] = useState<boolean>(false);
   const [editingMatrix, setEditingMatrix] = useState<string>(matrixs[index]);
   const isLoading = useRef<boolean>(false);
   const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
-
-  const deleteMatrixTitleHandler = () => {
-    if (isEditingMatrix && editingQuestion?.id === id) {
-      sweetAlert.errorReminderAlert(
-        "【 刪除失敗 】\n請先完成所有正在編輯的欄位"
-      );
-      return;
-    }
-    if (matrixs.length < 3) {
-      sweetAlert.errorReminderAlert("【 刪除失敗 】\n欄位數量不可以低於2個");
-      return;
-    }
-
-    const updateMatrix = matrixs.filter((_, i) => i !== index);
-    dispatch(
-      questionActions.updateSiglePropOfQuestion({
-        id,
-        actionType: questionActionType.MATRIXS,
-        stringArr: updateMatrix,
-      })
-    );
-  };
+  const deleteQuestionContentItemHandler =
+    useDeleteQuestionContentItem("matrix");
 
   const saveMatrixTitleHandler = () => {
     if (editingMatrix.trim().length === 0) {
@@ -195,25 +174,26 @@ const MatrixTitle: FC<matrixTitleProps> = ({
 
   useEffect(() => {
     if (!isLoading.current) {
-      if (editingQuestion === null) return;
+      if (editingQuestionId === null) return;
 
-      if (editingQuestion.id !== id) {
+      if (editingQuestionId !== id) {
         setHasClickedMatrix(false);
-        console.log(isSwitchingEditingMatrix);
-        // !isSwitchingEditingMatrix &&
         dispatch(
           questionActions.setIsEditingMatrix({
             setEditingState: false,
             isReset: true,
           })
         );
-        // dispatch(questionActions.setIsSwitchingEditingMatrix(false));
         return;
       }
       return;
     }
     isLoading.current = false;
-  }, [editingQuestion]);
+  }, [editingQuestionId]);
+
+  useEffect(() => {
+    setEditingMatrix(matrixs[index]);
+  }, [matrixs]);
 
   return hasClickedMatrix ? (
     <EditingTextWrapper>
@@ -257,7 +237,14 @@ const MatrixTitle: FC<matrixTitleProps> = ({
       >
         {matrixs[index]}
       </MatrixTitleText>
-      <MatrixTitleDeleteButton onClick={deleteMatrixTitleHandler} />
+      <MatrixTitleDeleteButton
+        onClick={() =>
+          deleteQuestionContentItemHandler(
+            { id, index, willEditArray: matrixs },
+            questionActionType.MATRIXS
+          )
+        }
+      />
     </MatrixTitleWrapper>
   );
 };

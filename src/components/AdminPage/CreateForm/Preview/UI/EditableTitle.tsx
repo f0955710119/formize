@@ -32,8 +32,8 @@ const CustomTextField = styled(TextField)`
     }
   }
 
-  & .MuiFilledInput-root.Mui-focused,
-  & .MuiFilledInput-root.Mui-focused:hover {
+  & .MuiFilledInput-root,
+  & .Mui-focused:hover {
     background-color: transparent;
   }
 
@@ -90,6 +90,29 @@ const EditableTitle: FC<EditableTitleProps> = ({
   const [editingTitle, setEditingTitle] = useState<string>(title);
   const checkHasNoSameArrayStringNameHandler =
     useCheckQuestionArraySameString();
+
+  const saveEditingTitle = (editingTitle: string) => {
+    if (editingTitle === "") {
+      sweetAlert.errorReminderAlert("標題不能空白！");
+      return;
+    }
+    setHasClickedTitle(false);
+    dispatch(
+      questionActions.updateSiglePropOfQuestion({
+        id,
+        actionType: questionActionType.TITLE,
+        text: editingTitle,
+      })
+    );
+  };
+
+  const openEditingTitle = () => {
+    const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
+    if (!hasNoSameStringName) return;
+    setEditingTitle(title);
+    setHasClickedTitle(true);
+  };
+
   return hasClickedTitle ? (
     <TitleInputWrapper>
       <CustomTextField
@@ -98,22 +121,7 @@ const EditableTitle: FC<EditableTitleProps> = ({
         value={editingTitle}
         onChange={(event) => setEditingTitle(event.target.value)}
       />
-      <EditingButton
-        onClick={() => {
-          if (editingTitle === "") {
-            sweetAlert.errorReminderAlert("標題不能空白！");
-            return;
-          }
-          setHasClickedTitle(false);
-          dispatch(
-            questionActions.updateSiglePropOfQuestion({
-              id,
-              actionType: questionActionType.TITLE,
-              text: editingTitle,
-            })
-          );
-        }}
-      >
+      <EditingButton onClick={() => saveEditingTitle(editingTitle)}>
         <EditingButtonText>完成編輯</EditingButtonText>
       </EditingButton>
       <EditingButton onClick={() => setHasClickedTitle(false)}>
@@ -121,16 +129,7 @@ const EditableTitle: FC<EditableTitleProps> = ({
       </EditingButton>
     </TitleInputWrapper>
   ) : (
-    <Heading
-      onClick={() => {
-        const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
-        if (!hasNoSameStringName) return;
-        setEditingTitle(title);
-        setHasClickedTitle(true);
-      }}
-    >
-      {title}
-    </Heading>
+    <Heading onClick={() => openEditingTitle()}>{title}</Heading>
   );
 };
 

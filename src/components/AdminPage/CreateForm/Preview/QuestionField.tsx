@@ -2,8 +2,6 @@ import { FC } from "react";
 
 import styled from "styled-components";
 
-
-
 import useAppDispatch from "../../../../hooks/useAppDispatch";
 import useAppSelector from "../../../../hooks/useAppSelector";
 import useCheckQuestionArraySameString from "../../../../hooks/useCheckQuestionArraySameString";
@@ -117,7 +115,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
   titleIndex,
 }: QuestionFieldProps) => {
   const dispatch = useAppDispatch();
-  const { editingQuestion, isEditingOption, isEditingMatrix, questions } =
+  const { editingQuestionId, isEditingOption, isEditingMatrix, questions } =
     useAppSelector((state) => state.question);
   const checkHasNoSameArrayStringNameHandler =
     useCheckQuestionArraySameString();
@@ -125,7 +123,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
   const getTitleIndexHandler = useGetQuestionTitleIndex();
 
   const editingFieldHandler = (question: Question, target: Element) => {
-    const hasSwitched = editingQuestion && editingQuestion.id === question.id;
+    const hasSwitched = editingQuestionId && editingQuestionId === question.id;
     if (hasSwitched) return;
     const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
     if (!hasNoSameStringName) return;
@@ -138,7 +136,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
         dispatch(questionActions.switchEditingQuestion(null));
         return;
       }
-      dispatch(questionActions.switchEditingQuestion(question));
+      dispatch(questionActions.switchEditingQuestion(question.id));
 
       if (target.classList[0].includes("ChoiceOptionItem")) {
         dispatch(questionActions.setIsSwitchingEditingOption(true));
@@ -155,10 +153,10 @@ const QuestionField: FC<QuestionFieldProps> = ({
       return;
     }
 
-    if (editingQuestion === null) return;
-    const questionTitleIndex = getTitleIndexHandler(editingQuestion.id);
+    if (editingQuestionId === null) return;
+    const questionTitleIndex = getTitleIndexHandler(editingQuestionId);
     const responseQuestion = questions.find(
-      (question) => question.id === editingQuestion.id
+      (question) => question.id === editingQuestionId
     );
 
     sweetAlert.clickToConfirmAlert(
@@ -183,7 +181,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
         const { target } = event;
         editingFieldHandler(question, target as Element);
       }}
-      isActive={question.id === editingQuestion?.id}
+      isActive={question.id === editingQuestionId}
     >
       <SwitchFieldReminder>點擊切換編輯中的題目</SwitchFieldReminder>
       <QuestionDeleteButton

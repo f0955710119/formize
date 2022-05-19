@@ -3,16 +3,16 @@ import useAppSelector from "./useAppSelector";
 import useGetQuestionTitleIndex from "./useGetQuestionTitleIndex";
 
 const useCheckQuestionArraySameString = () => {
-  const { editingQuestion, questions } = useAppSelector(
+  const { editingQuestionId, questions } = useAppSelector(
     (state) => state.question
   );
   const getTitleIndexHandler = useGetQuestionTitleIndex();
 
   const checkHasNoSameArrayStringNameHandler = () => {
-    if (editingQuestion === null) return true;
-    let questionTitleIndex = getTitleIndexHandler(editingQuestion.id);
+    if (editingQuestionId === null) return true;
+    let questionTitleIndex = getTitleIndexHandler(editingQuestionId);
     const haseditingQuestion = questions.find(
-      (question) => question.id === editingQuestion.id
+      (question) => question.id === editingQuestionId
     );
 
     if (!haseditingQuestion) {
