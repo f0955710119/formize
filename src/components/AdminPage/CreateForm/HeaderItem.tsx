@@ -1,12 +1,12 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
-import useAppSelector from "../../../hooks/useAppSelector";
 import useDeployForm from "../../../hooks/useDeployForm";
 import useFormData from "../../../hooks/useFormData";
 import useSwitchCurrentStep from "../../../hooks/useSwitchCurrentStep";
+import { settingContext } from "../../../store/context/settingContext";
 import sweetAlert from "../../../utils/sweetAlert";
 
 interface ItemWrapperProps {
@@ -97,7 +97,7 @@ const HeaderItem: FC<HeaderItemProps> = ({
   isLastItem,
   currentStep,
 }: HeaderItemProps) => {
-  const setting = useAppSelector((state) => state.setting);
+  const settingContextData = useContext(settingContext);
   const switchStepHandler = useSwitchCurrentStep();
   const sendingFormData = useFormData();
   const sendFormDataHandler = useDeployForm();
@@ -105,7 +105,7 @@ const HeaderItem: FC<HeaderItemProps> = ({
     <ItemWrapper number={number} currentStep={currentStep}>
       <OptionWrapper
         onClick={async () => {
-          if (setting.title === "") {
+          if (settingContextData.title === "") {
             sweetAlert.errorReminderAlert("請一定要填寫問卷的標題！");
             return;
           }

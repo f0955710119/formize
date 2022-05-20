@@ -1,20 +1,5 @@
-export interface Settings {
-  title: string;
-  status: string;
-  mode: string;
-  limitedAnswerTime: number | null;
-  limitedResponseQuantity: number | null;
-  startPageImageFile: string | null;
-  startPageParagraph: string;
-  endPageImageFile: string | null;
-  endPageParagraph: string;
-  pageQuantity: number;
-}
-export interface Styles {
-  theme: string;
-  font: string;
-  backgroundImages: string[];
-}
+import type { Settings } from "./setting";
+import type { Styles } from "./style";
 export interface Forms {
   id: string;
   title: string;

@@ -1,16 +1,16 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 import styled from "styled-components";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import useAppSelector from "../../../../../hooks/useAppSelector";
 import useDeleteQuestion from "../../../../../hooks/useDeleteQuestion";
+import { settingContext } from "../../../../../store/context/settingContext";
 import helper from "../../../../../utils/helper";
 import scrollBar from "../../../../UI/scrollBar";
 import Layout from "../../UI/Layout";
 import MultiPage from "./MultiPage";
 import SinglePage from "./SinglePage";
-
 
 interface ListLayoutProps {
   isMultiplePage: boolean;
@@ -103,7 +103,7 @@ const NoQuestionsReminder = styled.div`
 `;
 
 const QuestionsList: FC = () => {
-  const { mode, pageQuantity } = useAppSelector((state) => state.setting);
+  const { mode, pageQuantity } = useContext(settingContext);
   const { questions } = useAppSelector((state) => state.question);
 
   const deleteQuestionHandler = useDeleteQuestion();

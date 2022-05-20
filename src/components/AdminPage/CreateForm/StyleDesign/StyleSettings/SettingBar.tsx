@@ -10,7 +10,7 @@ import useDeployForm from "../../../../../hooks/useDeployForm";
 import useFormData from "../../../../../hooks/useFormData";
 import useStyleHandler from "../../../../../hooks/useStyleHandler";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
-import { SettingContext } from "../../../../../store/context/settingContext";
+import type { SettingContext } from "../../../../../types/setting";
 import type { Styles } from "../../../../../types/form";
 import type { Question } from "../../../../../types/question";
 import helper from "../../../../../utils/helper";
@@ -115,8 +115,6 @@ const defaultBackgroundUrlList = helper.generateConfigKeys(
   backgroundConfig
 );
 
-console.log(defaultBackgroundNameList);
-
 const SettingBar: FC = () => {
   const { theme, font, backgroundImages } = useAppSelector(
     (state) => state.style
@@ -131,7 +129,6 @@ const SettingBar: FC = () => {
   const clickToSendForm = async (sendingFormData: {
     uid: string;
     groupId: string;
-    settings: any;
     questions: Question[];
     styles: Styles;
     settingContextData: SettingContext;
@@ -184,19 +181,16 @@ const SettingBar: FC = () => {
       )}
       {stylingOption === 2 && (
         <CardContainer>
-          {defaultBackgroundNameList.map((background, i) => {
-            console.log(defaultBackgroundUrlList[i]);
-            return (
-              <Card
-                isActive={defaultBackgroundUrlList[i] === backgroundImages[0]}
-                title={background}
-                key={i}
-                dispatchHandler={switchStyleHandler}
-                imageUrl={defaultBackgroundUrlList[i]}
-                isBackground
-              />
-            );
-          })}
+          {defaultBackgroundNameList.map((background, i) => (
+            <Card
+              isActive={defaultBackgroundUrlList[i] === backgroundImages[0]}
+              title={background}
+              key={i}
+              dispatchHandler={switchStyleHandler}
+              imageUrl={defaultBackgroundUrlList[i]}
+              isBackground
+            />
+          ))}
         </CardContainer>
       )}
       <ButtonWrapper

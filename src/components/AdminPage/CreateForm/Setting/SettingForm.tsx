@@ -1,13 +1,12 @@
 import { useRouter } from "next/router";
 
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 import styled from "styled-components";
 
-
 import breakpointConfig from "../../../../configs/breakpointConfig";
-import useAppSelector from "../../../../hooks/useAppSelector";
 import useSwitchCurrentStep from "../../../../hooks/useSwitchCurrentStep";
+import { settingContext } from "../../../../store/context/settingContext";
 import sweetAlert from "../../../../utils/sweetAlert";
 import scrollBar from "../../../UI/scrollBar";
 import SectionBanner from "./SectionBanner";
@@ -97,7 +96,7 @@ const ButtonText = styled.span`
 
 const SettingForm: FC = () => {
   const router = useRouter();
-  const { title } = useAppSelector((state) => state.setting);
+  const { title } = useContext(settingContext);
   const switchStepHandler = useSwitchCurrentStep();
 
   const backToAdminIndexPage = (): void => {

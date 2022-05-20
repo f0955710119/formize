@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
-import type { Settings, Styles } from "../../../src/types/form";
+import type { Settings } from "../../../src/types/setting";
+import type { Styles } from "../../../src/types/style";
 import type { Question } from "../../../src/types/question";
 import firebase from "../../../src/utils/firebase";
 

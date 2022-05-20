@@ -1,13 +1,14 @@
+import { useContext } from "react";
 import settingActinoType from "../store/actionType/settingActionType";
+import { settingContext } from "../store/context/settingContext";
 import { questionActions } from "../store/slice/questionSlice";
-import { settingActions } from "../store/slice/settingSlice";
 import sweetAlert from "../utils/sweetAlert";
 import useAppDispatch from "./useAppDispatch";
 import useAppSelector from "./useAppSelector";
 
 const useDeleteQuestion = () => {
   const { questions } = useAppSelector((state) => state.question);
-  const { pageQuantity } = useAppSelector((state) => state.setting);
+  const { pageQuantity, setField } = useContext(settingContext);
   const dispatch = useAppDispatch();
 
   const deleteQuestionHandler = (questionId: string) => {
@@ -30,15 +31,10 @@ const useDeleteQuestion = () => {
           (question) => question.page === deletingPageQuestionPage
         ).length > 1;
 
-      console.log(pageHasOtherQuestions);
       if (pageHasOtherQuestions) return;
 
-      dispatch(
-        settingActions.updateSingleSettingInput({
-          actionType: settingActinoType.PAGE_QUANTITY,
-          value: pageQuantity - 1,
-        })
-      );
+      setField(settingActinoType.PAGE_QUANTITY, pageQuantity - 1);
+
       dispatch(
         questionActions.updateQuestionPage({ page: deletingPageQuestionPage })
       );

@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 
 import styled from "styled-components";
 
-
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useAppSelector from "../../../../hooks/useAppSelector";
+import { settingContext } from "../../../../store/context/settingContext";
 import helper from "../../../../utils/helper";
 import QuestionList from "../../../Questions/QuestionList";
 import scrollBar from "../../../UI/scrollBar";
@@ -126,7 +126,7 @@ const Preview: FC = () => {
   const { questions, editingFormPage, currentStep } = useAppSelector(
     (state) => state.question
   );
-  const { mode, pageQuantity } = useAppSelector((state) => state.setting);
+  const { mode, pageQuantity } = useContext(settingContext);
   const { font, backgroundImages } = useAppSelector((state) => state.style);
   const fontTheme = helper.generateResposneThemeFontFamily(font);
   const indexArr = helper.generateQuestionIndexArr(questions);

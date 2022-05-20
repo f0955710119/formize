@@ -5,7 +5,6 @@ import type { Forms } from "../../../../src/types/form";
 import type { Answer, Table } from "../../../../src/types/responses";
 import firebase from "../../../../src/utils/firebase";
 import { generateResponseTableInfoArr } from "../../../../src/utils/formApiUtils";
-import helper from "../../../../src/utils/helper";
 
 const dotenv = require("dotenv");
 

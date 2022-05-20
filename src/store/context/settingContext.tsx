@@ -1,16 +1,10 @@
 import { createContext, FC, ReactNode, useReducer } from "react";
-
-type SetFieldHandler = (fieldKey: string, value: File | string | null) => void;
-
-export interface SettingContext {
-  startPageImageFile: File | null;
-  startPageImageObjectUrl: string | null;
-  endPageImageFile: File | null;
-  endPageImageObjectUrl: string | null;
-  setField: SetFieldHandler;
-}
+import type { SetFieldHandler, SettingContext } from "../../types/setting";
 
 const initialContextState: SettingContext = {
+  title: "空白問卷",
+  mode: "0",
+  pageQuantity: 1,
   startPageImageFile: null,
   startPageImageObjectUrl: "",
   endPageImageFile: null,
@@ -22,7 +16,7 @@ export const settingContext = createContext(initialContextState);
 
 interface settingAction {
   type: string;
-  payload: File | string | null;
+  payload: File | string | null | number;
 }
 
 const reducer = (state: SettingContext, action: settingAction) => {
@@ -45,6 +39,9 @@ export const SettingContextProvider: FC<SettingContextProviderProps> = ({
   };
 
   const initialValue: SettingContext = {
+    title: settingInfo.title,
+    mode: settingInfo.mode,
+    pageQuantity: settingInfo.pageQuantity,
     startPageImageFile: settingInfo.startPageImageFile,
     startPageImageObjectUrl: settingInfo.startPageImageObjectUrl,
     endPageImageFile: settingInfo.endPageImageFile,

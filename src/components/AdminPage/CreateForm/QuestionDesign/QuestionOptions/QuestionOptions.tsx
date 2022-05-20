@@ -1,8 +1,6 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 import styled from "styled-components";
-
-
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import questionConfig from "../../../../../configs/questionConfig";
@@ -10,8 +8,8 @@ import useAppDispatch from "../../../../../hooks/useAppDispatch";
 import useAppSelector from "../../../../../hooks/useAppSelector";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 import settingActinoType from "../../../../../store/actionType/settingActionType";
+import { settingContext } from "../../../../../store/context/settingContext";
 import { questionActions } from "../../../../../store/slice/questionSlice";
-import { settingActions } from "../../../../../store/slice/settingSlice";
 import sweetAlert from "../../../../../utils/sweetAlert";
 import scrollBar from "../../../../UI/scrollBar";
 import Layout from "../../UI/Layout";
@@ -131,8 +129,7 @@ interface OptionItem {
 const QuestionOptions: FC = () => {
   const dispatch = useAppDispatch();
   const { questions } = useAppSelector((state) => state.question);
-  const { pageQuantity } = useAppSelector((state) => state.setting);
-  const { mode } = useAppSelector((state) => state.setting);
+  const { pageQuantity, mode, setField } = useContext(settingContext);
   const switchStepHandler = useSwitchCurrentStep();
 
   const addNewFormPageHandler = (selectedNewQuestion: string) => {
@@ -142,12 +139,7 @@ const QuestionOptions: FC = () => {
         newPage: pageQuantity + 1,
       })
     );
-    dispatch(
-      settingActions.updateSingleSettingInput({
-        actionType: settingActinoType.PAGE_QUANTITY,
-        value: pageQuantity + 1,
-      })
-    );
+    setField(settingActinoType.PAGE_QUANTITY, pageQuantity + 1);
   };
 
   return (

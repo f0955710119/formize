@@ -1,13 +1,54 @@
 import { useRouter } from "next/router";
 
-import { SettingContext } from "../store/context/settingContext";
 import { adminActions } from "../store/slice/adminSlice";
 import { Styles } from "../types/form";
 import { Question } from "../types/question";
+import { SettingContext } from "../types/setting";
 import firebase from "../utils/firebase";
 import sweetAlert from "../utils/sweetAlert";
 import useAppDispatch from "./useAppDispatch";
 import useSwitchCurrentStep from "./useSwitchCurrentStep";
+
+const checkHasUid = (uid: string, callback: () => void) => {
+  if (uid === "") {
+    sweetAlert.clickToConfirmAlert(
+      {
+        title: "OOPS...",
+        text: "非登入中的會員無法發佈問卷，若看到此訊息，請嘗試重新登入",
+        cancelButtonText: "關閉視窗",
+        confirmButtonText: "重回首頁",
+      },
+      callback
+    );
+    return false;
+  }
+  return true;
+};
+
+const checkHasQuestion = (questions: Question[]) => {
+  if (questions.length === 0) {
+    const imageUrl = `${process.env.NEXT_PUBLIC_ORIGIN}/images/send-empty-form.svg`;
+    sweetAlert.onlyConfirmAlert({
+      title: "OOPS...",
+      text: "FORMiZE發現您還沒設定問題，\n趕緊關閉此視窗去設定題目，再來發佈吧!",
+      confirmButtonText: "關閉視窗",
+      imageUrl,
+    });
+    return false;
+  }
+  return true;
+};
+
+const createUploadedImages = async (imageFile: File | null) => {
+  let newImageFile = null;
+  if (imageFile !== null) {
+    const { name } = imageFile;
+    const imageRef = firebase.getStorageRef(name);
+    await firebase.uploadImage(imageRef, imageFile);
+    newImageFile = await firebase.getStoredImages(imageRef);
+  }
+  return newImageFile;
+};
 
 const useDeployForm = () => {
   const router = useRouter();
@@ -16,75 +57,37 @@ const useDeployForm = () => {
   const sendFormDataHandler = async (sendingObj: {
     uid: string;
     groupId: string;
-    settings: any;
     questions: Question[];
     styles: Styles;
     settingContextData: SettingContext;
   }) => {
-    const { uid, settings, questions, settingContextData } = sendingObj;
+    const { uid, groupId, styles, questions, settingContextData } = sendingObj;
+    const { title, mode, startPageImageFile, endPageImageFile } =
+      settingContextData;
 
-    if (uid === "") {
-      sweetAlert.clickToConfirmAlert(
-        {
-          title: "OOPS...",
-          text: "非登入中的會員無法發佈問卷，若看到此訊息，請嘗試重新登入",
-          cancelButtonText: "關閉視窗",
-          confirmButtonText: "重回首頁",
-        },
-        () => {
-          router.replace("/");
-        }
-      );
-      return;
-    }
+    const hasUid = checkHasUid(uid, () => router.replace("/"));
+    if (!hasUid) return;
 
-    if (questions.length === 0) {
-      sweetAlert.onlyConfirmAlert({
-        title: "OOPS...",
-        text: "FORMiZE發現您還沒設定問題，\n趕緊關閉此視窗去設定題目，再來發佈吧!",
-        confirmButtonText: "關閉視窗",
-        imageUrl: `${process.env.NEXT_PUBLIC_ORIGIN}/images/send-empty-form.svg`,
-      });
-      return;
-    }
+    const hasQuestion = checkHasQuestion(questions);
+    if (!hasQuestion) return;
 
     const postDataHandler = async () => {
       try {
         sweetAlert.loadingReminderAlert("正在發佈問卷中...");
-        let startPageImageFile = null;
-        let endPageImageFile = null;
-
-        if (settingContextData.startPageImageFile !== null) {
-          const startPageImageRef = firebase.getStorageRef(
-            settingContextData.startPageImageFile.name
-          );
-          await firebase.uploadImage(
-            startPageImageRef,
-            settingContextData.startPageImageFile
-          );
-
-          startPageImageFile = await firebase.getStoredImages(
-            startPageImageRef
-          );
-        }
-
-        if (settingContextData.endPageImageFile !== null) {
-          const endPageImageRef = firebase.getStorageRef(
-            settingContextData.endPageImageFile.name
-          );
-          await firebase.uploadImage(
-            endPageImageRef,
-            settingContextData.endPageImageFile
-          );
-          endPageImageFile = await firebase.getStoredImages(endPageImageRef);
-        }
-
+        const uploadList = [startPageImageFile, endPageImageFile];
+        const [newStartPageImageFile, newEndPageImageFile] = await Promise.all(
+          uploadList.map((file) => createUploadedImages(file))
+        );
         const newSendingObj = {
-          ...sendingObj,
+          uid,
+          groupId,
+          styles,
+          questions,
           settings: {
-            ...settings,
-            startPageImageFile,
-            endPageImageFile,
+            title,
+            mode,
+            startPageImageFile: newStartPageImageFile,
+            endPageImageFile: newEndPageImageFile,
           },
         };
 

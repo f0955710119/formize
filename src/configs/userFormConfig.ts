@@ -1,5 +1,6 @@
-import type { Settings, Styles } from "../types/form";
-import { Question } from "../types/question";
+import type { Settings } from "../types/setting";
+import type { Styles } from "../types/style";
+import type { Question } from "../types/question";
 
 interface UserFormConfig {
   initQuestions: Question[];
@@ -11,10 +12,7 @@ const userFormConfig: UserFormConfig = {
   initQuestions: [],
   initSettings: {
     title: "",
-    status: "",
     mode: "",
-    limitedAnswerTime: null,
-    limitedResponseQuantity: null,
     startPageImageFile: null,
     startPageParagraph: "",
     endPageImageFile: null,

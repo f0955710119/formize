@@ -46,15 +46,6 @@ export default async function handler(
         return;
       }
 
-      if (data.settings.status !== "0") {
-        res.status(403).json({
-          status: "fail",
-          status_code: 403,
-          message: `you can not send responses to this form since the form has not been launched or has been closed`,
-        });
-        return;
-      }
-
       const idForArrayUnqine = helper.generateId(8);
 
       const fetchList = [

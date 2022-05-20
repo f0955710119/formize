@@ -1,5 +1,5 @@
-import { Settings } from "./form";
-import { Question } from "./question";
+import type { Settings } from "./setting";
+import type { Question } from "./question";
 
 export interface UserAnswer {
   questionId: string;

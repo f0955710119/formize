@@ -5,7 +5,7 @@ import { settingContext } from "../store/context/settingContext";
 import useAppSelector from "./useAppSelector";
 
 const useFormData = () => {
-  const { setting, style, question } = useAppSelector((state) => state);
+  const { style, question } = useAppSelector((state) => state);
   const context = useContext(adminContext);
   const settingContextData = useContext(settingContext);
   const { uid, editingGroupId } = context;
@@ -13,7 +13,6 @@ const useFormData = () => {
   const sendingFormData = {
     uid,
     groupId: editingGroupId,
-    settings: { ...setting },
     questions: [...question.questions],
     styles: { ...style },
     settingContextData: { ...settingContextData },

@@ -4,11 +4,8 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { Image as ImageIcon } from "@styled-icons/evil/Image";
 import styled from "styled-components";
 
-
-import useAppDispatch from "../../../../hooks/useAppDispatch";
 import settingActionType from "../../../../store/actionType/settingActionType";
 import { settingContext } from "../../../../store/context/settingContext";
-import { settingActions } from "../../../../store/slice/settingSlice";
 import sweetAlert from "../../../../utils/sweetAlert";
 import scrollBar from "../../../UI/scrollBar";
 import Field from "../UI/Field";
@@ -117,9 +114,8 @@ const ParagraphLabel = ({
 };
 
 const SectionBanner: FC = () => {
-  const settingContextData = useContext(settingContext);
-  const dispatch = useAppDispatch();
-  console.log(settingContextData);
+  const { startPageImageObjectUrl, endPageImageObjectUrl, setField } =
+    useContext(settingContext);
 
   return (
     <SectionWrapper>
@@ -129,8 +125,8 @@ const SectionBanner: FC = () => {
           reminderText={`上限5MB\n比例建議4:3`}
         />
         <ImageLabel htmlFor="welcome-banner">
-          {settingContextData.startPageImageObjectUrl ? (
-            <Image src={settingContextData.startPageImageObjectUrl} />
+          {startPageImageObjectUrl ? (
+            <Image src={startPageImageObjectUrl} />
           ) : (
             <UploadImage />
           )}
@@ -150,14 +146,8 @@ const SectionBanner: FC = () => {
 
             const url = URL.createObjectURL(file);
 
-            settingContextData.setField(
-              settingActionType.START_PAGE_IMAGE_OBJECT_URL,
-              url
-            );
-            settingContextData.setField(
-              settingActionType.START_PAGE_IMAGE_FILE,
-              file
-            );
+            setField(settingActionType.START_PAGE_IMAGE_OBJECT_URL, url);
+            setField(settingActionType.START_PAGE_IMAGE_FILE, file);
           }}
         />
       </BannerField>
@@ -167,16 +157,12 @@ const SectionBanner: FC = () => {
           minRows={6}
           maxRows={6}
           onChange={(event) => {
-            if (event.target.value.length > 250) {
+            const { value } = event.target;
+            if (value.length > 250) {
               sweetAlert.errorReminderAlert("不可超過250字");
               return;
             }
-            dispatch(
-              settingActions.updateSingleSettingInput({
-                actionType: settingActionType.START_PAGE_PARAGRAPH,
-                value: event.target.value,
-              })
-            );
+            setField(settingActionType.START_PAGE_PARAGRAPH, value);
           }}
         />
       </BannerField>
@@ -186,8 +172,8 @@ const SectionBanner: FC = () => {
           reminderText={`上限5MB\n比例建議4:3`}
         />
         <ImageLabel htmlFor="end-banner">
-          {settingContextData.endPageImageObjectUrl ? (
-            <Image src={settingContextData.endPageImageObjectUrl} />
+          {endPageImageObjectUrl ? (
+            <Image src={endPageImageObjectUrl} />
           ) : (
             <UploadImage />
           )}
@@ -207,14 +193,8 @@ const SectionBanner: FC = () => {
 
             const url = URL.createObjectURL(file);
 
-            settingContextData.setField(
-              settingActionType.END_PAGE_IMAGE_OBJECT_URL,
-              url
-            );
-            settingContextData.setField(
-              settingActionType.END_PAGE_IMAGE_FILE,
-              file
-            );
+            setField(settingActionType.END_PAGE_IMAGE_OBJECT_URL, url);
+            setField(settingActionType.END_PAGE_IMAGE_FILE, file);
           }}
         />
       </BannerField>
@@ -224,16 +204,12 @@ const SectionBanner: FC = () => {
           minRows={6}
           maxRows={6}
           onChange={(event) => {
-            if (event.target.value.length > 250) {
+            const { value } = event.target;
+            if (value.length > 250) {
               sweetAlert.errorReminderAlert("不可超過250字");
               return;
             }
-            dispatch(
-              settingActions.updateSingleSettingInput({
-                actionType: settingActionType.END_PAGE_PARAGRAPH,
-                value: event.target.value,
-              })
-            );
+            setField(settingActionType.END_PAGE_PARAGRAPH, value);
           }}
         />
       </BannerField>

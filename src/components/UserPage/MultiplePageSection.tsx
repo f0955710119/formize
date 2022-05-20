@@ -11,8 +11,8 @@ import styled from "styled-components";
 
 import useAppSelector from "../../hooks/useAppSelector";
 import useWholePageAnswersValidCheck from "../../hooks/useWholePageAnswersValidCheck";
-import { Settings } from "../../types/form";
-import { Question } from "../../types/question";
+import type { Settings } from "../../types/setting";
+import type { Question } from "../../types/question";
 import helper from "../../utils/helper";
 import QuestionList from "../Questions/QuestionList";
 import scrollBar from "../UI/scrollBar";
@@ -160,12 +160,13 @@ const MultiplePageSection: FC<MultiplePageSectionProps> = ({
     questionContainerRef.current.scrollTop = 0;
   }, [questionPage]);
 
+  const { pageQuantity } = settings;
   const indexInDifferentPageArr = helper.generateQuestionMultiPageIndexArr(
-    settings.pageQuantity,
+    pageQuantity,
     questions
   );
   const questionsInDiffernetPageArr = helper.generateDifferentPageQuestionsArr(
-    settings.pageQuantity,
+    pageQuantity,
     questions
   );
 
