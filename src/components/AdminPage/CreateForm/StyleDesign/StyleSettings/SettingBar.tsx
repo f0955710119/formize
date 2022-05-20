@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 
 import styled from "styled-components";
 
-
 import backgroundConfig from "../../../../../configs/backgroundConfig";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import styleConfig from "../../../../../configs/styleConfig";
@@ -45,51 +44,6 @@ const Header = styled.header`
   width: 100%;
   height: 4rem;
   border-bottom: 1px solid #c8c8c8;
-`;
-
-const BackGroundContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 1rem 0 2rem;
-  width: 100%;
-  height: calc(100% - 18rem);
-
-  @media ${breakpointConfig.laptopM} {
-    height: calc(100% - 20rem);
-    margin-bottom: 3rem;
-    flex-direction: row;
-    padding: 0;
-  } ;
-`;
-
-const BackgroundCardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 5rem;
-  width: 100%;
-  height: 25rem;
-  overflow-y: scroll;
-  padding-right: 1rem;
-
-  ${scrollBar}
-
-  @media ${breakpointConfig.laptopM} {
-    flex-direction: row;
-    padding-right: 0;
-    height: 18rem;
-    overflow-y: hidden;
-    overflow-x: scroll;
-    margin-bottom: 0;
-    &:not(:last-child) {
-      margin-right: 2rem;
-    }
-
-    &::-webkit-scrollbar {
-      width: 0.5rem;
-      height: 0.5rem;
-    }
-  }
 `;
 
 const CardContainer = styled.div`
@@ -146,24 +100,22 @@ const ButtonText = styled.span`
 `;
 
 const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
-const defaultThemeList = helper.generateStyleKeys("_NAME");
-const defaultThemeImages = [
-  process.env.NEXT_PUBLIC_ORIGIN + "/images/peace-ground.svg",
-  process.env.NEXT_PUBLIC_ORIGIN + "/images/happy-yellow.svg",
-  process.env.NEXT_PUBLIC_ORIGIN + "/images/fall-forest.svg",
-];
-const defaultFontList = helper.generateStyleKeys("_FONT");
-const defaultFont = [
-  styleConfig.OPENHUNNINN,
-  styleConfig.HANAMINA,
-  styleConfig.TAIPEISANSTCBOLD,
-];
-const defaultBackgroundList = Object.keys(backgroundConfig)
-  .filter((key) => key.includes("_"))
-  .map((key) => backgroundConfig[key]);
-const defaultBackgroundUrl = Object.keys(backgroundConfig)
-  .filter((key) => !key.includes("_"))
-  .map((key) => backgroundConfig[key]);
+const defaultThemeList = helper.generateConfigKeys("_NAME", styleConfig);
+const defaultThemeImages = helper
+  .generateConfigKeys("THEME_IMAGE_", styleConfig)
+  .map((path) => `${process.env.NEXT_PUBLIC_ORIGIN}${path}`);
+const defaultFontList = helper.generateConfigKeys("_FONT", styleConfig);
+const defaultFont = helper.generateConfigKeys("_CSS", styleConfig);
+const defaultBackgroundNameList = helper.generateConfigKeys(
+  "_BG",
+  backgroundConfig
+);
+const defaultBackgroundUrlList = helper.generateConfigKeys(
+  "_URL",
+  backgroundConfig
+);
+
+console.log(defaultBackgroundNameList);
 
 const SettingBar: FC = () => {
   const { theme, font, backgroundImages } = useAppSelector(
@@ -232,14 +184,15 @@ const SettingBar: FC = () => {
       )}
       {stylingOption === 2 && (
         <CardContainer>
-          {defaultBackgroundList.map((background, i) => {
+          {defaultBackgroundNameList.map((background, i) => {
+            console.log(defaultBackgroundUrlList[i]);
             return (
               <Card
-                isActive={defaultBackgroundUrl[i] === backgroundImages[0]}
+                isActive={defaultBackgroundUrlList[i] === backgroundImages[0]}
                 title={background}
                 key={i}
                 dispatchHandler={switchStyleHandler}
-                imageUrl={defaultBackgroundUrl[i]}
+                imageUrl={defaultBackgroundUrlList[i]}
                 isBackground
               />
             );

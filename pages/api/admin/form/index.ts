@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-
 import firestoreCollectionCongfig from "../../../../src/configs/firestoreCollectionConfig";
 import type { Forms } from "../../../../src/types/form";
 import type { Answer, Table } from "../../../../src/types/responses";
 import firebase from "../../../../src/utils/firebase";
+import { generateResponseTableInfoArr } from "../../../../src/utils/formApiUtils";
 import helper from "../../../../src/utils/helper";
 
 const dotenv = require("dotenv");
@@ -47,7 +47,6 @@ export default async function handler(
     );
 
     const url = `'${process.env.NEXT_PUBLIC_ORIGIN}/s/${formDocRef.id}`;
-    const newHandledQuestions = helper.generateNewHandledQuestion(questions);
     const newFormDocData: Forms = {
       id: formDocRef.id,
       title: settings.title,
@@ -63,10 +62,10 @@ export default async function handler(
       latestResponsedTime: null,
     };
     const newQuestionDocData = {
-      questions: newHandledQuestions,
+      questions,
     };
 
-    const tableInfo = helper.generateResponseTableInfoArr(questions);
+    const tableInfo = generateResponseTableInfoArr(questions);
 
     const newDefaultResponssDocData: {
       [key: string]: string | Date[] | Answer[] | Table[] | never[];

@@ -38,5 +38,6 @@ const questionConfig: QuestionConfig = {
   MIN_MATRIXS_LENGTH: "2",
   OPTION_NAME: "選項",
   MATRIX_NAME: "欄位",
+  QUESTION_TYPE_QUANTITY: "10",
 };
 export default questionConfig;

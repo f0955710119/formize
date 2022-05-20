@@ -211,7 +211,7 @@ const renderResponseItemContent = (
           <Table title={title} isTextContent={false}>
             <NonTextContent
               count={countForOptionType}
-              headerNames={helper.generateheaderName(type)}
+              headerNames={helper.generateColumnName(type)}
             />
           </Table>
           <WordCloudWrapper>
@@ -239,7 +239,7 @@ const renderResponseItemContent = (
           <Table title={title} isTextContent={false}>
             <NonTextContent
               count={countForOptionType}
-              headerNames={helper.generateheaderName(type)}
+              headerNames={helper.generateColumnName(type)}
             />
           </Table>
           <PieWrapper>

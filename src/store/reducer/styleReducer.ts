@@ -8,7 +8,7 @@ import type { StyleState } from "../slice/styleSlice";
 const initStyle: CaseReducer<StyleState> = (state) => {
   state.theme = styleConfig.MAIN_CODE;
   state.font = styleConfig.OPENHUNNINN_CODE;
-  state.backgroundImages = [backgroundConfig.YELLOW1];
+  state.backgroundImages = [backgroundConfig.YELLOW1_URL];
 };
 
 const changeStyle: CaseReducer<

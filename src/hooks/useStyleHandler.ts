@@ -72,7 +72,7 @@ const useStyleHandler = () => {
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.BACKGROUND_IMAGES,
-            backgroundImages: [backgroundConfig.YELLOW1],
+            backgroundImages: [backgroundConfig.YELLOW1_URL],
           })
         );
         break;
@@ -82,7 +82,7 @@ const useStyleHandler = () => {
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.BACKGROUND_IMAGES,
-            backgroundImages: [backgroundConfig.YELLOW2],
+            backgroundImages: [backgroundConfig.YELLOW2_URL],
           })
         );
         break;
@@ -92,7 +92,7 @@ const useStyleHandler = () => {
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.BACKGROUND_IMAGES,
-            backgroundImages: [backgroundConfig.GREEN1],
+            backgroundImages: [backgroundConfig.GREEN1_URL],
           })
         );
         break;
@@ -102,7 +102,7 @@ const useStyleHandler = () => {
         dispatch(
           styleActions.changeStyle({
             actionType: styleActionType.BACKGROUND_IMAGES,
-            backgroundImages: [backgroundConfig.GRAY1],
+            backgroundImages: [backgroundConfig.GRAY1_URL],
           })
         );
         break;

@@ -6,6 +6,7 @@ import questionConfig from "../../configs/questionConfig";
 import useAppSelector from "../../hooks/useAppSelector";
 import { Question } from "../../types/question";
 import helper from "../../utils/helper";
+import { generateQuestionLimitationTagText } from "../../utils/questionListUtils";
 import Date from "./QuestionType/Date";
 import Introduction from "./QuestionType/Introdction";
 import Matrix from "./QuestionType/Matrix";
@@ -128,7 +129,7 @@ const QuestionList: FC<QuestionListProps> = ({
   );
   const errorMessage = errorMessages[errorMessagesIdKeys[question.id]];
   const hasErrorMessage = errorMessage !== "";
-  const limitationTagText = helper.generateQuestionLimitationTagText(question);
+  const limitationTagText = generateQuestionLimitationTagText(question);
 
   const isNotIntroduction =
     errorMessage !== "" ? (
@@ -137,35 +138,32 @@ const QuestionList: FC<QuestionListProps> = ({
       <EmptyErrorMessage />
     );
 
+  const { title, type, note, validations, id } = question;
+  const questionTitle = titleIndex === "" ? title : `${titleIndex}. ${title}`;
+
   return (
     <>
       <QuestionWrapper
         hasErrorMessage={hasErrorMessage}
-        style={{ marginBottom: question.type === "2" ? "4rem" : "2rem" }}
+        style={{ marginBottom: type === "2" ? "4rem" : "2rem" }}
         isCreatingProcess={isCreatingProcess}
       >
-        {question.type !== "2" && (
+        {type !== "2" && (
           <>
-            <Heading>
-              {helper.generateUserFormQuestionTitle(titleIndex, question.title)}
-            </Heading>
-            <QuestionTypeTag>
-              {questionConfig[question.type] + "題"}
-            </QuestionTypeTag>
+            <Heading>{questionTitle}</Heading>
+            <QuestionTypeTag>{questionConfig[type] + "題"}</QuestionTypeTag>
             {limitationTagText !== "" && (
               <LimitationQuestionTag>{limitationTagText}</LimitationQuestionTag>
             )}
-            {question.note.trim().length !== 0 && (
-              <NoteText>{question.note}</NoteText>
-            )}
+            {note.trim().length !== 0 && <NoteText>{note}</NoteText>}
           </>
         )}
 
-        {question.type === "0" && (
+        {type === "0" && (
           <OneLineText
             textType="text"
-            length={question.validations.length}
-            questionId={question.id}
+            length={validations.length}
+            questionId={id}
           />
         )}
 

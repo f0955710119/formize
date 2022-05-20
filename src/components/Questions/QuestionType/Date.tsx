@@ -6,7 +6,6 @@ import { zhTW } from "react-date-range/dist/locale";
 import { addDays } from "date-fns";
 import styled from "styled-components";
 
-
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import useAppDispatch from "../../../hooks/useAppDispatch";
@@ -105,22 +104,22 @@ const Date: FC<DateProps> = ({
     ? answers[questionIdIndexForSignleDate].input
     : null;
 
-  const currentDate = helper.generateNewDate();
+  const currentDate = helper.generateNewDateObj();
   const startDateObject =
-    startDate !== null ? helper.generateNewDate(startDate) : currentDate;
+    startDate !== null ? helper.generateNewDateObj(startDate) : currentDate;
   const endDateObject =
     endDate !== null
-      ? helper.generateNewDate(endDate)
+      ? helper.generateNewDateObj(endDate)
       : addDays(startDateObject, 1);
 
   const initRangeState: Range = {
     startDate:
       inputForMultipleDateStart !== null
-        ? helper.generateNewDate(inputForMultipleDateStart)
+        ? helper.generateNewDateObj(inputForMultipleDateStart)
         : currentDate,
     endDate:
       inputForMultipleDateEnd !== null
-        ? helper.generateNewDate(inputForMultipleDateEnd)
+        ? helper.generateNewDateObj(inputForMultipleDateEnd)
         : currentDate,
     key: "selection",
   };
@@ -128,7 +127,7 @@ const Date: FC<DateProps> = ({
   const [timeRange, setTimeRange] = useState<Range[]>([initRangeState]);
   const [selectedDate, setSelectedDate] = useState<Date>(() =>
     inputForSingleDate !== null
-      ? helper.generateNewDate(inputForSingleDate)
+      ? helper.generateNewDateObj(inputForSingleDate)
       : currentDate
   );
 
@@ -137,13 +136,13 @@ const Date: FC<DateProps> = ({
     currentDate,
     startDateObject
   );
-
   const endInterval = helper.generateDateInterval(endDateObject, currentDate);
+
   return isMultipleDate ? (
     <CalendarWrapper>
       <CustomedRangeCalendar
         locale={zhTW}
-        date={helper.generateNewDate()}
+        date={helper.generateNewDateObj()}
         onChange={(item) => {
           setTimeRange([item.selection]);
           if (item.selection.startDate) {
