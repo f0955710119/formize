@@ -6,6 +6,7 @@ import { createGlobalStyle } from "styled-components";
 
 import { store } from "../src/store";
 import { AdminProvider } from "../src/store/context/adminContext";
+import { StyleContextProvider } from "../src/store/context/styleContext";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -144,8 +145,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <AdminProvider>
-        <GlobalStyle />
-        <Component {...pageProps} />
+        <StyleContextProvider>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </StyleContextProvider>
       </AdminProvider>
     </Provider>
   );

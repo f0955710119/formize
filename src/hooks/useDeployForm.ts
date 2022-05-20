@@ -1,12 +1,10 @@
 import { useRouter } from "next/router";
 
-import { adminActions } from "../store/slice/adminSlice";
-import { Styles } from "../types/form";
-import { Question } from "../types/question";
+import type { Style } from "../types/style";
+import type { Question } from "../types/question";
 import { SettingContext } from "../types/setting";
 import firebase from "../utils/firebase";
 import sweetAlert from "../utils/sweetAlert";
-import useAppDispatch from "./useAppDispatch";
 import useSwitchCurrentStep from "./useSwitchCurrentStep";
 
 const checkHasUid = (uid: string, callback: () => void) => {
@@ -52,16 +50,15 @@ const createUploadedImages = async (imageFile: File | null) => {
 
 const useDeployForm = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const switchStepHanlder = useSwitchCurrentStep();
   const sendFormDataHandler = async (sendingObj: {
     uid: string;
     groupId: string;
     questions: Question[];
-    styles: Styles;
+    style: Style;
     settingContextData: SettingContext;
   }) => {
-    const { uid, groupId, styles, questions, settingContextData } = sendingObj;
+    const { uid, groupId, style, questions, settingContextData } = sendingObj;
     const { title, mode, startPageImageFile, endPageImageFile } =
       settingContextData;
 
@@ -81,7 +78,7 @@ const useDeployForm = () => {
         const newSendingObj = {
           uid,
           groupId,
-          styles,
+          style,
           questions,
           settings: {
             title,
@@ -104,7 +101,6 @@ const useDeployForm = () => {
         setTimeout(() => {
           sweetAlert.closeAlert();
         }, 1500);
-        dispatch(adminActions.createNewFormId(data.data.formId));
         switchStepHanlder(4);
       } catch (error: any) {
         console.error(error.message);

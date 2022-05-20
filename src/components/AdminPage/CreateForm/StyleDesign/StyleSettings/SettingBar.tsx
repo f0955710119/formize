@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 
 import styled from "styled-components";
 
@@ -11,13 +11,14 @@ import useFormData from "../../../../../hooks/useFormData";
 import useStyleHandler from "../../../../../hooks/useStyleHandler";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 import type { SettingContext } from "../../../../../types/setting";
-import type { Styles } from "../../../../../types/form";
+import type { Style } from "../../../../../types/style";
 import type { Question } from "../../../../../types/question";
 import helper from "../../../../../utils/helper";
 import scrollBar from "../../../../UI/scrollBar";
 import Layout from "../../UI/Layout";
 import HeaderItem from "./HeaderItem";
 import Card from "./UI/Card";
+import { styleContext } from "../../../../../store/context/styleContext";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -116,9 +117,7 @@ const defaultBackgroundUrlList = helper.generateConfigKeys(
 );
 
 const SettingBar: FC = () => {
-  const { theme, font, backgroundImages } = useAppSelector(
-    (state) => state.style
-  );
+  const { theme, font, backgroundImage } = useContext(styleContext);
   const [stylingOption, setStylingOption] = useState<number>(0);
 
   const switchStepHanlder = useSwitchCurrentStep();
@@ -130,7 +129,7 @@ const SettingBar: FC = () => {
     uid: string;
     groupId: string;
     questions: Question[];
-    styles: Styles;
+    style: Style;
     settingContextData: SettingContext;
   }) => {
     try {
@@ -161,7 +160,7 @@ const SettingBar: FC = () => {
               imageUrl={defaultThemeImages[i]}
               title={themeTitle}
               key={i}
-              dispatchHandler={switchStyleHandler}
+              dispatchHandler={() => switchStyleHandler(themeTitle, "theme")}
             />
           ))}
         </CardContainer>
@@ -174,7 +173,7 @@ const SettingBar: FC = () => {
               title={fontTitle}
               key={i}
               font={defaultFont[i]}
-              dispatchHandler={switchStyleHandler}
+              dispatchHandler={() => switchStyleHandler(fontTitle, "font")}
             />
           ))}
         </CardContainer>
@@ -183,10 +182,12 @@ const SettingBar: FC = () => {
         <CardContainer>
           {defaultBackgroundNameList.map((background, i) => (
             <Card
-              isActive={defaultBackgroundUrlList[i] === backgroundImages[0]}
+              isActive={defaultBackgroundUrlList[i] === backgroundImage}
               title={background}
               key={i}
-              dispatchHandler={switchStyleHandler}
+              dispatchHandler={() =>
+                switchStyleHandler(background, "backgroundImage")
+              }
               imageUrl={defaultBackgroundUrlList[i]}
               isBackground
             />

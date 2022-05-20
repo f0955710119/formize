@@ -1,11 +1,11 @@
 import type { Settings } from "../types/setting";
-import type { Styles } from "../types/style";
+import type { Style } from "../types/style";
 import type { Question } from "../types/question";
 
 interface UserFormConfig {
   initQuestions: Question[];
   initSettings: Settings;
-  initStyles: Styles;
+  initStyles: Style;
 }
 
 const userFormConfig: UserFormConfig = {
@@ -22,7 +22,7 @@ const userFormConfig: UserFormConfig = {
   initStyles: {
     theme: "",
     font: "",
-    backgroundImages: [""],
+    backgroundImage: "",
   },
 };
 

@@ -123,13 +123,9 @@ export default {
   },
   generateEnumConfig(keys: string[]) {
     return keys.reduce(
-      (
-        newThemeConfig: { [key: string]: string },
-        objectKey: string,
-        i: number
-      ) => {
-        newThemeConfig[i] = objectKey;
-        return newThemeConfig;
+      (newConfig: { [key: string]: string }, objectKey: string, i: number) => {
+        newConfig[i] = objectKey;
+        return newConfig;
       },
       {}
     );

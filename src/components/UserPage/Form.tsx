@@ -121,7 +121,7 @@ const Form: FC<FormProps> = ({
           <SinglePageMain
             hasImage={settings.startPageImageFile ? true : false}
             font={styles.font}
-            backgroundImage={styles.backgroundImages[0]}
+            backgroundImage={styles.backgroundImage}
           >
             {navigatePage === 0 ? (
               <>
@@ -152,7 +152,7 @@ const Form: FC<FormProps> = ({
           <MultiPageMain
             hasImage={settings.startPageImageFile ? true : false}
             font={styles.font}
-            backgroundImage={styles.backgroundImages[0]}
+            backgroundImage={styles.backgroundImage}
           >
             {navigatePage === 0 && (
               <PageSection

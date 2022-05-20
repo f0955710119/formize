@@ -1,7 +1,8 @@
-import useAppSelector from "./useAppSelector";
+import { useContext } from "react";
+import { styleContext } from "../store/context/styleContext";
 
 const useGetTheme = () => {
-  const { theme } = useAppSelector((state) => state.style);
+  const { theme } = useContext(styleContext);
   return theme;
 };
 

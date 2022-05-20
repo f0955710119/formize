@@ -1,5 +1,5 @@
 import type { Settings } from "./setting";
-import type { Styles } from "./style";
+import type { Style } from "./style";
 export interface Forms {
   id: string;
   title: string;
@@ -9,7 +9,7 @@ export interface Forms {
   responsedTimes: number;
   openTimes: number;
   settings: Settings;
-  styles: Styles;
+  styles: Style;
   questionDocId: string;
   responseDocId: string;
   groupId: string;

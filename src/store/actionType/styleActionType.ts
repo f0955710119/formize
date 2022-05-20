@@ -1,5 +1,5 @@
 export default {
   THEME: "theme",
   FONT: "font",
-  BACKGROUND_IMAGES: "backgroundImages",
+  BACKGROUND_IMAGE: "backgroundImage",
 };

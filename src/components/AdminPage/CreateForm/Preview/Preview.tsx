@@ -5,6 +5,7 @@ import styled from "styled-components";
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useAppSelector from "../../../../hooks/useAppSelector";
 import { settingContext } from "../../../../store/context/settingContext";
+import { styleContext } from "../../../../store/context/styleContext";
 import helper from "../../../../utils/helper";
 import QuestionList from "../../../Questions/QuestionList";
 import scrollBar from "../../../UI/scrollBar";
@@ -120,14 +121,15 @@ const NoQuestionReminderText = styled.div`
 `;
 
 const Preview: FC = () => {
+  const { mode, pageQuantity } = useContext(settingContext);
+  const { font, backgroundImage } = useContext(styleContext);
   const [width, setWidth] = useState<string>("");
   const [reminderText, setReminderText] =
     useState<string>("尚無題目，點擊右欄題目來創建題型吧!");
   const { questions, editingFormPage, currentStep } = useAppSelector(
     (state) => state.question
   );
-  const { mode, pageQuantity } = useContext(settingContext);
-  const { font, backgroundImages } = useAppSelector((state) => state.style);
+
   const fontTheme = helper.generateResposneThemeFontFamily(font);
   const indexArr = helper.generateQuestionIndexArr(questions);
   const multiPageQuestionIndexArr = helper.generateQuestionMultiPageIndexArr(
@@ -191,7 +193,7 @@ const Preview: FC = () => {
   return (
     <PreviewLayout fontFamily={fontTheme}>
       <QuestionWrapper
-        backgroundImageURL={backgroundImages[0]}
+        backgroundImageURL={backgroundImage}
         hasQuestion={hasQuestions}
         width={width}
       >

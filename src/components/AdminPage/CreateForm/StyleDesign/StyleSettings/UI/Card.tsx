@@ -89,7 +89,7 @@ interface CardProps {
   imageUrl?: string;
   font?: string;
   isBackground?: boolean;
-  dispatchHandler?: (title: string, url?: string) => void;
+  dispatchHandler?: () => void;
 }
 
 const Card: FC<CardProps> = ({
@@ -103,9 +103,7 @@ const Card: FC<CardProps> = ({
   return (
     <CardWrapper
       isActive={isActive}
-      onClick={() => {
-        dispatchHandler && dispatchHandler(title);
-      }}
+      onClick={() => dispatchHandler && dispatchHandler()}
     >
       <CardItem
         imageUrl={imageUrl ? imageUrl : ""}

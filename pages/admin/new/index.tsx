@@ -27,6 +27,7 @@ import { SettingContextProvider } from "../../../src/store/context/settingContex
 import themes from "../../../src/store/theme/theme";
 import helper from "../../../src/utils/helper";
 import sweetAlert from "../../../src/utils/sweetAlert";
+import { StyleContextProvider } from "../../../src/store/context/styleContext";
 
 const CreateNewPageContainer = styled.div`
   width: 100vw;

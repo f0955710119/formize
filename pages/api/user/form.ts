@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
 import type { Settings } from "../../../src/types/setting";
-import type { Styles } from "../../../src/types/style";
+import type { Style } from "../../../src/types/style";
 import type { Question } from "../../../src/types/question";
 import firebase from "../../../src/utils/firebase";
 
@@ -14,7 +14,7 @@ interface Data {
     questions: Question[];
     responseDocId: string;
     settings: Settings;
-    styles: Styles;
+    style: Style;
   };
 }
 
@@ -65,7 +65,7 @@ export default async function handler(
 
     const existedQuestion = [...questions.questions];
     const existedSettings = settings as Settings;
-    const existedStyles = styles as Styles;
+    const existedStyles = styles as Style;
 
     await firebase.updateExistedDoc(
       firestoreCollectionConfig.FORMS,
@@ -82,7 +82,7 @@ export default async function handler(
         questions: existedQuestion,
         responseDocId,
         settings: existedSettings,
-        styles: existedStyles,
+        style: existedStyles,
       },
     });
   }
