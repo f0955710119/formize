@@ -11,7 +11,7 @@ interface Data {
   message: string;
   data?: {
     groups?: DocumentData[];
-    forms?: DocumentData[];
+    forms?: (DocumentData | undefined)[];
     groupId?: string;
     createdTime?: Date;
   };
@@ -96,9 +96,10 @@ export default async function handler(
       const uid = uidRaw.split(" ")[1];
 
       const groupDoc = firebase.generateDocRef("groups");
+      const groupDocId = groupDoc.id;
       const createdTime = new Date();
       const newGroupData = {
-        id: groupDoc.id,
+        id: groupDocId,
         adminId: uid,
         name: newGroupName,
         forms: [],
@@ -106,9 +107,15 @@ export default async function handler(
       };
 
       const createNewGroupAjaxList = [
-        firebase.updateUserGroupsIdArray(uid, groupDoc.id, true).catch(() => {
-          throw new Error("fail to update new group in users");
-        }),
+        firebase
+          .updateFieldArrayValue({
+            docPath: `${firestoreCollectionConfig.USERS}/${uid}`,
+            fieldKey: "groupId",
+            updateData: groupDocId,
+          })
+          .catch(() => {
+            throw new Error("fail to update new group in users");
+          }),
         firebase.setNewDoc(groupDoc, newGroupData).catch(() => {
           throw new Error("fail to create new group in groups");
         }),
@@ -140,7 +147,7 @@ export default async function handler(
       const uidRaw = req.headers.authorization;
       if (!uidRaw) throw new Error("使用者必須登入才能刪除群組");
       const { groupId } = req.body;
-      if (!groupId) throw new Error("缺乏群組資料");
+      if (!groupId) throw new Error("找不到群組資料，請重新嘗試");
 
       const uid = uidRaw.split(" ")[1];
 
@@ -149,7 +156,9 @@ export default async function handler(
         groupId
       );
 
-      if (groupData.forms.length === 0) {
+      if (!groupData) throw new Error("找不到群組資料，請重新嘗試");
+
+      if (groupData && groupData.forms.length === 0) {
         const promiseList = [
           firebase
             .updateFieldArrayValue(

@@ -31,6 +31,7 @@ import type { UserInfoType } from "../types/login";
 import type { Questions } from "../types/question";
 import type { Responses } from "../types/responses";
 import helper from "./helper";
+import firestoreCollectionConfig from "../configs/firestoreCollectionConfig";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -67,40 +68,60 @@ const storage = getStorage(app);
 
 export const user = auth.currentUser;
 
+const throwNewError = (message: string) => {
+  throw new Error(message);
+};
+
+const setUserData = async (uid: string) => {
+  const newUserRef = doc(db, "users", uid);
+  const { id } = newUserRef;
+  const defalutUsers = {
+    id,
+    groupId: [],
+  };
+  await setDoc(newUserRef, defalutUsers).catch(() =>
+    throwNewError("fail to set up user doc in firebase")
+  );
+  return id;
+};
+
 export default {
   async createNativeUser(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
-
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      const id = this.createUser(userCredential.user.uid);
-      return id;
+      const { uid } = userCredential.user;
+      await setUserData(uid);
+      return uid;
     } catch (error: any) {
       const { message } = error;
       const errorMessage = checkSignupErrorCase(message);
-      if (!errorMessage) throw new Error(message);
+      if (!errorMessage) {
+        console.error(message);
+        throw new Error("創建帳號失敗，請重新整理頁面");
+      }
       throw new Error(errorMessage);
     }
   },
   async nativeLogin(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
-
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      const data = await this.getUser(userCredential.user.uid);
+      const { uid } = userCredential.user;
+      const data = await this.getDocData(firestoreCollectionConfig.USERS, uid);
       return data;
     } catch (error: any) {
       const { message } = error;
       console.error(message);
-      throw new Error(message);
+      throw new Error("登入失敗，請重整頁面或稍後再試");
     }
   },
   async nativeSignOut() {
@@ -111,7 +132,7 @@ export default {
     }
   },
   checkAuthState() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           resolve(user.uid);
@@ -121,28 +142,6 @@ export default {
       });
       unsubscribe();
     });
-  },
-  // FOR_USER
-  async createUser(uid: string) {
-    const newUserRef = doc(db, "users", uid);
-    const { id } = newUserRef;
-    const defalutUsers = {
-      id,
-      groupId: [],
-    };
-
-    await setDoc(newUserRef, defalutUsers);
-    return id;
-  },
-  async getUser(uid: string) {
-    const userDocRef = doc(db, "users", uid);
-    const docSnap = await getDoc(userDocRef);
-
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      console.log("No such document!");
-    }
   },
   // FOR_DOC
   async updateExistedDoc(
@@ -163,26 +162,12 @@ export default {
     id: string
   ) {
     const docRef = doc(db, collectionName, docId);
-
     const updateObj: { [key: string]: FieldValue } = {};
     dataArr.forEach((d: { questionId: string; input: string }) => {
       const key = d.questionId as string;
       updateObj[key] = arrayUnion({ [id]: d.input });
     });
-
     await updateDoc(docRef, updateObj);
-  },
-  async updateUserGroupsIdArray(
-    uid: string,
-    groupId: string,
-    isAddNewGroup: boolean
-  ) {
-    const userDocRef = doc(db, "users", uid);
-    await setDoc(
-      userDocRef,
-      { groupId: isAddNewGroup ? arrayUnion(groupId) : arrayRemove(groupId) },
-      { merge: true }
-    );
   },
   // FOR_FILTER
   async getAllEqualDoc(
@@ -204,18 +189,21 @@ export default {
     return docRef;
   },
   // prettier-ignore
-  async setNewDoc<T extends Forms| Questions | Group |Responses  >(docRef: DocumentReference<DocumentData>, data: T) {
+  async setNewDoc<T extends Forms | Questions | Group | Responses>(docRef: DocumentReference<DocumentData>, data: T) {
     try {
       await setDoc(docRef, data);
       return "成功發送資料";
     } catch (error: any) {
-      throw error.message;
+      const {message} = error
+      console.error(message)
+      throwNewError('新增資料失敗，請稍後再嘗試')
     }
   },
   async getDocData(collectionName: string, docId: string) {
     const docRef = doc(db, collectionName, docId);
     const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) throw "沒有找到文件，確認一下拼字跟帶入的值";
+    if (!docSnap.exists())
+      throwNewError("fail to get user data since the doc does not exist");
     return docSnap.data();
   },
   async updateFieldArrayValue<T>(
@@ -255,7 +243,6 @@ export default {
       `gs://${process.env.NEXT_PUBLIC_STORAGE_BUCKET}/${photoName}`
     );
   },
-
   async uploadImage(ref: StorageReference, file: Blob) {
     await uploadBytes(ref, file).catch((error) => console.error(error.message));
   },
@@ -267,7 +254,6 @@ export default {
       console.error(error.message);
     }
   },
-
   async generateImageUrl(file: File) {
     try {
       const ref = this.getStorageRef(file.name);
