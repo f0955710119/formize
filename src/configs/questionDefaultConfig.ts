@@ -9,7 +9,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增題目標題",
     note: "",
-    placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
     page: 1,
     type: "0",
     validations: {
@@ -22,7 +21,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增題目標題",
     note: "",
-    placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
     page: 1,
     type: "1",
     validations: {
@@ -35,7 +33,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增引言內容",
     note: "",
-    placeholder: "",
     page: 1,
     type: "2",
     validations: {
@@ -47,7 +44,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增題目標題",
     note: "",
-    placeholder: "",
     page: 1,
     type: "3",
     options: ["選項1", "選項2", "選項3"],
@@ -60,7 +56,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增題目標題",
     note: "",
-    placeholder: "",
     page: 1,
     type: "4",
     options: ["選項1", "選項2", "選項3"],
@@ -73,7 +68,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增題目標題",
     note: "",
-    placeholder: "",
     page: 1,
     type: "5",
     options: ["選項1", "選項2"],
@@ -87,7 +81,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增題目標題",
     note: "",
-    placeholder: "新增題目填入文字的預設提醒，若不需要則留白",
     page: 1,
     type: "6",
     validations: {
@@ -103,7 +96,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增題目標題",
     note: "",
-    placeholder: "",
+
     page: 1,
     type: "7",
     validations: {
@@ -119,7 +112,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增題目標題",
     note: "",
-    placeholder: "",
     page: 1,
     type: "8",
     options: ["選項1", "選項2", "選項3"],
@@ -132,7 +124,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     id: "",
     title: "新增題目標題",
     note: "",
-    placeholder: "",
     page: 1,
     type: "9",
     validations: {

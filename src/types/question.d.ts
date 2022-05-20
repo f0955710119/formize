@@ -5,7 +5,6 @@ export interface Question {
   page: number;
   title: string;
   note: string;
-  placeholder?: string;
   type: string;
   options?: string[];
   matrixs?: string[];

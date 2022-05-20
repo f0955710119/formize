@@ -66,15 +66,6 @@ const updateSiglePropOfQuestion: CaseReducer<
             };
           }
         }
-        case questionActionType.PLACEHOLDER: {
-          if (action.payload.text) {
-            return {
-              ...question,
-              placeholder: action.payload.text,
-            };
-          }
-        }
-
         case questionActionType.TYPE: {
           if (action.payload.text) {
             return {

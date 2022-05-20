@@ -7,7 +7,7 @@ import {
   generateTableCounts,
   generateExtraDataOfNumberInputToDisplayStatis,
   generateTableStatis,
-} from "../../../../../src/utils/controllerHelper";
+} from "../../../../../src/utils/statisApiUtils";
 
 interface Data {
   status: string;

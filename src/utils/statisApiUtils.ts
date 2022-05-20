@@ -9,7 +9,6 @@ import type {
   MatrixTableInfo,
 } from "../types/table";
 
-// GET: api/admin/analysis/statis/[formId]
 const updateResponsedTimesOfDiffernetAnswers = (
   tableIndex: number,
   responsedTimesOfDiffernetAnswers: number[]

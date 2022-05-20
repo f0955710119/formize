@@ -31,7 +31,7 @@ const CustomTextInput = styled(TextField)`
     opacity: 1;
   }
 
-  & [class*="-MuiInputBase-input-MuiOutlinedInput-input"] {
+  & .MuiOutlinedInput-input {
     font-size: 1.4rem;
     cursor: text;
   }
@@ -45,7 +45,6 @@ interface TextInputProps {
   id: string;
   validationType: string;
   label?: string;
-  placeholder?: string;
   inputType?: string;
   defaultValue?: string;
   dispatchHandler: (value: string, errorMessage?: string) => void;
@@ -55,7 +54,6 @@ const TextInput: FC<TextInputProps> = ({
   id,
   validationType,
   label,
-  placeholder,
   inputType,
   defaultValue,
   dispatchHandler,
@@ -123,7 +121,6 @@ const TextInput: FC<TextInputProps> = ({
     <CustomTextInput
       value={inputValue}
       label={label}
-      placeholder={placeholder}
       type={inputType}
       onChange={(event) => {
         setInputValue(event.target.value);
