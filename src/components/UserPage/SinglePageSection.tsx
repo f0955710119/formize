@@ -26,14 +26,14 @@ const SinglePageContainer = styled.section`
 `;
 
 interface SinglePageFormContainerProps {
-  isHigherThan800: boolean;
+  isHigherThan1200: boolean;
 }
 
 const SinglePageFormContainer = styled.div<SinglePageFormContainerProps>`
   display: flex;
   flex-direction: column;
   ${(props) =>
-    props.isHigherThan800 ? "" : "justify-content:center;align-items:center;"}
+    props.isHigherThan1200 ? "" : "justify-content:center;align-items:center;"}
   max-width: 90rem;
   width: 100%;
   min-height: 100vh;
@@ -49,6 +49,22 @@ const SinglePageSubmitButton = styled(PageCTAButton)`
   transform: translateX(50%);
 `;
 
+const renderQuestionList = (questions: Question[]) => {
+  const indexArr = helper.generateQuestionIndexArr(questions);
+  return (
+    <>
+      {questions.map((question, i) => (
+        <QuestionList
+          titleIndex={indexArr[i]}
+          question={question}
+          key={question.id}
+          isCreatingProcess={false}
+        />
+      ))}
+    </>
+  );
+};
+
 interface SinglePageSectionProps {
   questions: Question[];
   sendResponses: () => Promise<void>;
@@ -60,7 +76,6 @@ const SinglePageSection: FC<SinglePageSectionProps> = ({
 }) => {
   const { answers } = useAppSelector((state) => state.user);
   const wholePageValidHandler = useWholePageAnswersValidCheck();
-  const indexArr = helper.generateQuestionIndexArr(questions);
   const singlePageFormContainerRef = useRef<HTMLDivElement | null>(null);
   const [containerHeight, setContainerHeight] = useState<number>(0);
 
@@ -69,22 +84,15 @@ const SinglePageSection: FC<SinglePageSectionProps> = ({
     setContainerHeight(singlePageFormContainerRef.current?.clientHeight);
   }, []);
 
+  console.log(containerHeight);
+
   return (
     <SinglePageContainer>
       <SinglePageFormContainer
-        isHigherThan800={containerHeight > 800}
+        isHigherThan1200={containerHeight > 1200}
         ref={singlePageFormContainerRef}
       >
-        {questions.map((question, i) => {
-          return (
-            <QuestionList
-              titleIndex={indexArr[i]}
-              question={question}
-              key={question.id}
-              isCreatingProcess={false}
-            />
-          );
-        })}
+        {renderQuestionList(questions)}
         <SinglePageSubmitButton
           text="送出填答回覆"
           clickHandler={() => {

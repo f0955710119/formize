@@ -40,7 +40,6 @@ const CardColumnTitle = styled.span`
 
 const FeatureColumnTitle = styled(CardColumnTitle)`
   position: relative;
-  /* color: #646665; */
   &::after {
     content: "";
     position: absolute;
@@ -174,19 +173,9 @@ const FormCard: FC<FormCardProps> = ({
           clickHandler={() => deleteFormHandler(formId, deleteFormTitle)}
         />
         <FeatureLink href={`/s/${formId}`} target="_blank" rel="noreferrer">
-          <FeatureButton
-            text="開啟"
-            // styleText={featureButtonStyleTextGeneral}
-          />
+          <FeatureButton text="開啟" />
         </FeatureLink>
-        {/* <FeatureButton text="預覽" styleText={featureButtonStyleTextGeneral} /> */}
       </CardField>
-      {/* <CardField>
-        <FeatureColumnTitle>修改問卷</FeatureColumnTitle>
-        <FeatureButton text="編輯" styleText={featureButtonStyleTextGeneral} />
-        <FeatureButton text="複製" styleText={featureButtonStyleTextGeneral} />
-        <FeatureButton text="移動" styleText={featureButtonStyleTextGeneral} />
-      </CardField> */}
       <CardField>
         <FeatureColumnTitle>數據查看</FeatureColumnTitle>
         <FeatureButton
@@ -194,54 +183,9 @@ const FormCard: FC<FormCardProps> = ({
           styleText={featureButtonStyleTextAnalysis}
           clickHandler={() => goToAnalysisPageHandler(0, formId)}
         />
-        {/* <FeatureButton
-          text="明細匯出"
-          styleText={featureButtonStyleTextAnalysis}
-          clickHandler={() => goToAnalysisPageHandler(1, formId)}
-        />
-        <FeatureButton
-          text="訪問紀錄"
-          styleText={featureButtonStyleTextAnalysis}
-          clickHandler={() => goToAnalysisPageHandler(2, formId)}
-        /> */}
       </CardField>
     </CardContainer>
   );
 };
 
 export default FormCard;
-
-/*
- <FeatureButton text="刪除" />
-        <FeatureButton text="開啟" />
-        <FeatureButton text="預覽" />
-        <FeatureButton text="編輯" />
-        <FeatureButton text="複製" />
-        <FeatureButton text="移動" />
-        <FeatureButton
-          text="統計分析"
-          clickHandler={() => {
-            context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 0);
-            context.setField(adminActionType.EDITING_FORM_ID, formId);
-            pushRouterHandler(`/admin/analysis/${formId}`);
-          }}
-        />
-        <FeatureButton
-          text="明細匯出"
-          clickHandler={() => {
-            context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 1);
-            context.setField(adminActionType.EDITING_FORM_ID, formId);
-            pushRouterHandler(`/admin/analysis/${formId}`);
-          }}
-        />
-        <FeatureButton
-          text="訪問紀錄"
-          clickHandler={() => {
-            context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, 2);
-            context.setField(adminActionType.EDITING_FORM_ID, formId);
-            pushRouterHandler(`/admin/analysis/${formId}`);
-          }}
-        />
-        <FeatureButton text="建立子問卷" />
-
-*/
