@@ -78,11 +78,11 @@ const IconWrapper = styled.div`
   cursor: default;
 `;
 
-const customIconStyleString = `
+const CustomQuestionIcon = styled(QuestionIcon)`
   transform: translateY(0);
-  width:1.4rem;
-  height:1.4rem;
-  margin-right:0.6rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-right: 0.6rem;
   fill: #fff;
 `;
 
@@ -114,7 +114,7 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
   return (
     <QuestionWrapper isActive={hasEditingQuestion === id}>
       <IconWrapper>
-        <QuestionIcon type={questionType} style={customIconStyleString} />
+        <CustomQuestionIcon type={questionType} />
         <QuestionTypeName>{questionConfig[questionType]}</QuestionTypeName>
       </IconWrapper>
       <TitleWrapper>

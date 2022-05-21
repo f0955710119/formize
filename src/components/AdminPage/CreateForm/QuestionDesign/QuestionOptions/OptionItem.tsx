@@ -106,7 +106,11 @@ const OptionWrapper = styled.div`
   }
 `;
 
-const customIconStyleString = `
+const CustomQuestionIcon = styled(QuestionIcon)`
+  margin-right: 0.3rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  fill: #aaa;
   transform: translateY(-0.5rem);
   cursor: pointer;
 `;
@@ -160,7 +164,7 @@ const OptionItem: FC<OptionItemProps> = ({
       <Option>
         <OptionText>{title}</OptionText>
         <OptionTypeIconWrapper>
-          <QuestionIcon type={questionType} style={customIconStyleString} />
+          <CustomQuestionIcon type={questionType} />
         </OptionTypeIconWrapper>
       </Option>
       <AddCommentSharpIconWrapper>

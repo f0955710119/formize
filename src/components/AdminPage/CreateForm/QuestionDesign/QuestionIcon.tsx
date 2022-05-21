@@ -10,112 +10,28 @@ import { TooltipQuote } from "@styled-icons/fluentui-system-filled/TooltipQuote"
 import { NumberRow } from "@styled-icons/fluentui-system-regular/NumberRow";
 import { TextSortAscending } from "@styled-icons/fluentui-system-regular/TextSortAscending";
 import { DateRange } from "@styled-icons/material/DateRange";
-import styled from "styled-components";
 
-interface Icon {
-  customStyle: string;
-}
-
-const iconStyle = `
-  width: 1.8rem;
-  height: 1.8rem;
-  fill:#aaa;
-  transform: translateY(-0.2rem);
-  marginRight: 0.3rem;
-`;
-
-const TextIcon = styled(Text)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
-
-const CardTextIcon = styled(CardText)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
-
-const TooltipQuoteIcon = styled(TooltipQuote)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
-
-const Check2CircleIcon = styled(Check2Circle)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
-
-const CardChecklistIcon = styled(CardChecklist)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
-
-const TableFreezeColumnAndRowIcon = styled(TableFreezeColumnAndRow)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
-
-const NumberRowIcon = styled(NumberRow)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
-const SliderAltIcon = styled(SliderAlt)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
-const TextSortAscendingIcon = styled(TextSortAscending)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
-const DateRangeIcon = styled(DateRange)<Icon>`
-  ${iconStyle}
-  ${(props) => props.customStyle}
-`;
+const iconConfig: { [key: string]: any } = {
+  "0": Text,
+  "1": CardText,
+  "2": TooltipQuote,
+  "3": Check2Circle,
+  "4": CardChecklist,
+  "5": TableFreezeColumnAndRow,
+  "6": NumberRow,
+  "7": SliderAlt,
+  "8": TextSortAscending,
+  "9": DateRange,
+};
 
 interface IconProps {
   type: string;
-  style?: string;
+  className?: string;
 }
 
-const QuestionIcon: FC<IconProps> = ({ type, style }) => {
-  const incomingStyle = style ? style : "";
-  switch (type) {
-    case "0": {
-      return <TextIcon customStyle={incomingStyle} />;
-    }
-
-    case "1": {
-      return <CardTextIcon customStyle={incomingStyle} />;
-    }
-
-    case "2": {
-      return <TooltipQuoteIcon customStyle={incomingStyle} />;
-    }
-    case "3": {
-      return <Check2CircleIcon customStyle={incomingStyle} />;
-    }
-    case "4": {
-      return <CardChecklistIcon customStyle={incomingStyle} />;
-    }
-    case "5": {
-      return <TableFreezeColumnAndRowIcon customStyle={incomingStyle} />;
-    }
-    case "6": {
-      return <NumberRowIcon customStyle={incomingStyle} />;
-    }
-    case "7": {
-      return <SliderAltIcon customStyle={incomingStyle} />;
-    }
-    case "8": {
-      return <TextSortAscendingIcon customStyle={incomingStyle} />;
-    }
-    case "9": {
-      return <DateRangeIcon customStyle={incomingStyle} />;
-    }
-
-    default: {
-      return <></>;
-    }
-  }
+const QuestionIcon: FC<IconProps> = ({ type, className }) => {
+  const Icon = iconConfig[type];
+  return <Icon className={className} />;
 };
 
 export default QuestionIcon;
