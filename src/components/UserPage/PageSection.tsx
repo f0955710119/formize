@@ -45,7 +45,7 @@ interface PageImageWrapperProps {
 const PageImageWrapper = styled.div<PageImageWrapperProps>`
   width: 100%;
   height: 55vh;
-  ${(props: PageImageWrapperProps) => `background-image: url(${props.img});`}
+  ${(props) => `background-image: url(${props.img});`}
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -80,6 +80,33 @@ const defaultMultiPageStartPageParagraph =
 const defaultEndPageTitle = "您已完成本問卷的填答!";
 const defaultEndPageParagraph = "感謝你的填答，我們會好好保存您的回覆!";
 
+const showImage = (
+  isStartPage: boolean,
+  imageUrl: string | null | undefined
+) => {
+  const pageDefalutImage = isStartPage
+    ? "/images/start-page-default.svg"
+    : "/images/side-bar-pic.svg";
+  const pageImage = imageUrl ? `'${imageUrl}'` : pageDefalutImage;
+  return pageImage;
+};
+
+const showParagraph = (
+  mode: string | undefined,
+  isStartPage: boolean,
+  paragraph: string | undefined
+) => {
+  const startDefaultParagraph =
+    mode === "0"
+      ? defaultSinglePageStartPageParagraph
+      : defaultMultiPageStartPageParagraph;
+  const pageDefalutParagrpah = isStartPage
+    ? startDefaultParagraph
+    : defaultEndPageParagraph;
+  const pageParagraph = paragraph ? paragraph : pageDefalutParagrpah;
+  return pageParagraph;
+};
+
 interface PageSectionProps {
   isStartPage: boolean;
   clickHandler?: () => void;
@@ -98,14 +125,13 @@ const PageSection: FC<PageSectionProps> = ({
   paragraph,
 }) => {
   const isLoaded = useRef<boolean>(false);
-  const startDefaultParagraph =
-    mode === "0"
-      ? defaultSinglePageStartPageParagraph
-      : defaultMultiPageStartPageParagraph;
 
   useEffect(() => {
     isLoaded.current = true;
   }, []);
+
+  const startPageTitle = isStartPage ? title : defaultEndPageTitle;
+  const showStartButton = mode === "1" && isStartPage;
 
   return (
     <PageContainer
@@ -113,29 +139,13 @@ const PageSection: FC<PageSectionProps> = ({
       isMultiplePage={mode === "1"}
       isLoad={isLoaded.current}
     >
-      {isStartPage && (
-        <PageImageWrapper
-          img={imageUrl ? imageUrl : "/images/start-page-default.svg"}
-        />
-      )}
-      {!isStartPage && (
-        <PageImageWrapper
-          img={imageUrl ? imageUrl : "/images/side-bar-pic.svg"}
-        />
-      )}
+      <PageImageWrapper img={showImage(isStartPage, imageUrl)} />
       <PageInfoWrapper>
-        <FormTitle>{isStartPage ? title : defaultEndPageTitle}</FormTitle>
-        {isStartPage && (
-          <PageParagraph
-            paragraph={paragraph ? paragraph : startDefaultParagraph}
-          />
-        )}
-        {!isStartPage && (
-          <PageParagraph
-            paragraph={paragraph ? paragraph : defaultEndPageParagraph}
-          />
-        )}
-        {mode === "1" && isStartPage && (
+        <FormTitle>{startPageTitle}</FormTitle>
+        <PageParagraph
+          paragraph={showParagraph(mode, isStartPage, paragraph)}
+        />
+        {showStartButton && (
           <PageCTAButton text="開始" clickHandler={clickHandler} />
         )}
 
