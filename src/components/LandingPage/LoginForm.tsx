@@ -1,16 +1,9 @@
-import { useRouter } from "next/router";
-
-import { FC, useState, useContext, ChangeEvent } from "react";
+import { FC, useState } from "react";
 
 import styled from "styled-components";
 
 import breakpointConfig from "../../configs/breakpointConfig";
-import loginConfig from "../../configs/loginConfig";
-import adminActionType from "../../store/actionType/adminActionType";
-import { adminContext } from "../../store/context/adminContext";
-import { SignFunctionType } from "../../types/login";
-import firebase from "../../utils/firebase";
-import sweetAlert from "../../utils/sweetAlert";
+import SignButton from "./SignButton";
 
 const Form = styled.form`
   position: absolute;
@@ -207,138 +200,39 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled.button`
-  margin: 0 auto;
-  margin-top: 1rem;
-
-  padding: 1rem;
-  width: 72.9%;
-  height: 4rem;
-
-  color: #fff;
-  font-family: inherit;
-  font-size: 1.6rem;
-  background-color: #333a42;
-  border-radius: 3px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #1b375a;
-  }
-
-  @media ${breakpointConfig.desktopS} {
-    width: 60.9%;
-    font-size: 1.4rem;
-  }
-`;
-
-type ChangeHandler = (event: ChangeEvent<HTMLInputElement>) => void;
-
 const LoginForm: FC = () => {
-  const router = useRouter();
-  const context = useContext(adminContext);
   const [userInfo, setUserInfo] = useState<{ [key: string]: string }>({
-    email: "",
-    password: "",
+    email: "test123@test.com",
+    password: "test123",
     errorMessage: "",
   });
 
-  const changeAccountHandler: ChangeHandler = (event) => {
-    const { value } = event.target;
+  const { email, password, errorMessage } = userInfo;
+
+  const changeLoginInput = (value: string, stateFieldKey: string) => {
     setUserInfo((prevState) => {
       return {
         ...prevState,
-        email: value,
-        errorMessage: "",
-      };
-    });
-  };
-  const changePasswordHandler: ChangeHandler = (event) => {
-    const { value } = event.target;
-    setUserInfo((prevState) => {
-      return {
-        ...prevState,
-        password: value,
+        [stateFieldKey]: value,
         errorMessage: "",
       };
     });
   };
 
-  const checkSignInput = (email: string, password: string) => {
-    const emailRegex = loginConfig.EMAIL_REG;
-    const passwordRegex = loginConfig.PASSWORD_REG;
-    const invalidEmail = !emailRegex.test(email);
-    const invalidPassword = !passwordRegex.test(password);
-
-    if (invalidEmail) return "請輸入正確的Email格式";
-
-    if (invalidPassword)
-      return "密碼請輸入至少6個字元的英文字母或數字，且不得包含特殊符號";
-
-    return null;
+  const updateErrorMessage = (errorMessage: string) => {
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        errorMessage,
+      };
+    });
   };
 
-  const signinHandler: SignFunctionType = async (email, password) => {
-    try {
-      const errorMessage = checkSignInput(email, password);
-      if (errorMessage) throw new Error(errorMessage);
-
-      const adminInfo = await firebase
-        .nativeLogin({ email, password })
-        .catch(() => {
-          throw new Error(
-            "帳號密碼的輸入可能有錯別字，請再確認一次您的帳號密碼"
-          );
-        });
-
-      if (!adminInfo)
-        throw new Error("帳號密碼的輸入可能有錯別字，請再確認一次您的帳號密碼");
-
-      const uid = "" + adminInfo.id;
-
-      context.setField(adminActionType.UID, uid);
-
-      sweetAlert.loadedReminderAlert("登入成功，將前往問卷管理頁面!");
-      setTimeout(() => {
-        sweetAlert.closeAlert();
-      }, 1500);
-      router.push("/admin");
-    } catch (error: any) {
-      setUserInfo((prevState) => {
-        return {
-          ...prevState,
-          errorMessage: error.message,
-        };
-      });
-    }
+  const signUserInfo = {
+    email,
+    password,
   };
 
-  const signupHandler: SignFunctionType = async (email, password) => {
-    try {
-      const errorMessage = checkSignInput(email, password);
-      if (errorMessage) throw new Error(errorMessage);
-      const uid = await firebase
-        .createNativeUser({ email, password })
-        .catch(() => {
-          throw new Error("帳號密碼已存在，請嘗試其他排序組合");
-        });
-
-      if (!uid) throw new Error("帳號密碼已存在，請嘗試其他排序組合");
-      context.setField(adminActionType.UID, uid);
-      router.push("/admin");
-      sweetAlert.loadedReminderAlert("註冊成功，將前往問卷管理頁面!");
-      setTimeout(() => {
-        sweetAlert.closeAlert();
-      }, 1500);
-    } catch (error: any) {
-      setUserInfo((prevState) => {
-        return {
-          ...prevState,
-          errorMessage: error.message,
-        };
-      });
-    }
-  };
   return (
     <Form>
       <LogoImageWrapper>
@@ -352,16 +246,17 @@ const LoginForm: FC = () => {
         <EnglishText>FORMiZE</EnglishText>
       </DefaultLandingTitle>
       <SubTitle>您製作問卷的最佳幫手</SubTitle>
-      {userInfo.errorMessage !== "" && (
-        <ErrorMessage>{userInfo.errorMessage}</ErrorMessage>
-      )}
+      {errorMessage !== "" && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <Field>
         <Input
           type="text"
           name="account"
           autoComplete="off"
           id="account"
-          onChange={changeAccountHandler}
+          onChange={(event) => {
+            const { value } = event.target;
+            changeLoginInput(value, "email");
+          }}
           required
         />
         <Label htmlFor="account">帳號</Label>
@@ -372,23 +267,24 @@ const LoginForm: FC = () => {
           name="password"
           autoComplete="off"
           id="password"
-          onChange={changePasswordHandler}
+          onChange={(event) => {
+            const { value } = event.target;
+            changeLoginInput(value, "password");
+          }}
           required
         />
         <Label htmlFor="password">密碼</Label>
       </Field>
-      <Button
-        type="button"
-        onClick={() => signinHandler(userInfo.email, userInfo.password)}
-      >
-        登入
-      </Button>
-      <Button
-        type="button"
-        onClick={() => signupHandler(userInfo.email, userInfo.password)}
-      >
-        註冊
-      </Button>
+      <SignButton
+        userInfo={{ ...signUserInfo }}
+        isSignIn
+        updateErrorMessage={updateErrorMessage}
+      />
+      <SignButton
+        userInfo={{ ...signUserInfo }}
+        isSignIn={false}
+        updateErrorMessage={updateErrorMessage}
+      />
     </Form>
   );
 };

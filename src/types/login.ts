@@ -1,7 +1,7 @@
 export type SignFunctionType = (
   email: string,
   password: string
-) => Promise<void>;
+) => Promise<string>;
 
 export interface UserInfoType {
   email: string;
