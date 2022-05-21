@@ -10,7 +10,7 @@ import { adminContext } from "../../../store/context/adminContext";
 import type { StatisResponse } from "../../../types/statis";
 import Logo from "../../UI/Logo";
 import scrollBar from "../../UI/scrollBar";
-import StatisResponseItem from "./StatisResponseItem";
+import StatisResponseItem from "./StatisResponsedItem";
 
 const hasDataBackgroundStyle = `
   background-image: linear-gradient(

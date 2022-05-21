@@ -26,25 +26,30 @@ interface TextContentProps {
 }
 
 const TextContent: FC<TextContentProps> = ({ count, isCountRepeat }) => {
+  const oneLineTextContent = Object.keys(count);
+  const multipleTextContent = Object.values(count);
+  const oneLineTextResponsedCount = Object.values(count);
+  const multipleTextResponsedCount = Object.keys(count);
+
   const inputContentArr = isCountRepeat
-    ? Object.keys(count)
-    : Object.values(count);
+    ? oneLineTextContent
+    : multipleTextContent;
   const sameContentTimesArr = isCountRepeat
-    ? Object.values(count)
-    : Object.keys(count);
+    ? oneLineTextResponsedCount
+    : multipleTextResponsedCount;
 
   return (
     <ContentWrapper>
-      {inputContentArr.map((content, i) => (
-        <Row key={i} isOdd={Number.isInteger((i + 1) / 2)}>
-          {isCountRepeat ? (
-            <Times>{`(${sameContentTimesArr[i]})`}</Times>
-          ) : (
-            <Times>{`${sameContentTimesArr[i]}.`}</Times>
-          )}
-          {content}
-        </Row>
-      ))}
+      {inputContentArr.map((content, i) => {
+        const times = sameContentTimesArr[i];
+        const timesRenderText = isCountRepeat ? `(${times})` : `${times}.`;
+        return (
+          <Row key={i} isOdd={Number.isInteger((i + 1) / 2)}>
+            <Times>{timesRenderText}</Times>
+            {content}
+          </Row>
+        );
+      })}
     </ContentWrapper>
   );
 };

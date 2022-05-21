@@ -1,7 +1,3 @@
-interface StringKeyObject {
-  [key: string]: string;
-}
-
 const size = {
   mobileS: "360px",
   mobileL: "425px",
@@ -14,7 +10,9 @@ const size = {
   desktopM: "1746px",
 };
 
-const breakpointConfig: StringKeyObject = {
+const breakpointConfig: {
+  [key: string]: string;
+} = {
   mobileS: `(max-width: ${size.mobileS})`,
   mobileL: `(max-width: ${size.mobileL})`,
   tabletS: `(max-width: ${size.tabletS})`,
