@@ -1,9 +1,8 @@
-import { FC, useContext } from "react";
+import { FC } from "react";
 
 import styled from "styled-components";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
-import { adminContext } from "../../../../store/context/adminContext";
 import scrollBar from "../../../UI/scrollBar";
 import ChangeEditingGroupSelect from "./ChangeEditingGroupSelect";
 import DashboardAddGroupBar from "./DashboardAddGroupBar";
@@ -18,10 +17,7 @@ const DashboardWrapper = styled.div`
   width: calc(100vw - 23rem);
   height: 100%;
 
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
     url("/images/dashboard-background.svg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -58,8 +54,6 @@ const ChangeEditingGroupSelectForSmallDevice = styled(ChangeEditingGroupSelect)`
 `;
 
 const Dashboard: FC = () => {
-  const context = useContext(adminContext);
-  const isShowAllGroup = context.editingGroupId === "0";
   return (
     <DashboardWrapper>
       <DashboardMainHeader />

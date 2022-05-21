@@ -30,9 +30,7 @@ const generateParseNumberTime = (value: string, isStart: boolean = true) => {
   return Number.parseInt(value.replaceAll("-", "") + timer);
 };
 
-const DateLimitation: FC<DateLimitationProps> = ({
-  id,
-}: DateLimitationProps) => {
+const DateLimitation: FC<DateLimitationProps> = ({ id }: DateLimitationProps) => {
   const question = useGetQuestion(id) as Question;
   const dispatch = useAppDispatch();
   const startDate = questionConfig.START_DATE;
@@ -103,9 +101,7 @@ const DateLimitation: FC<DateLimitationProps> = ({
   useEffect(() => {
     if (!didUpdateMultipleDate.current) return;
     didUpdateMultipleDate.current = false;
-    const initMaxSelectedDateQuantity = question.validations.multipleDate
-      ? 2
-      : null;
+    const initMaxSelectedDateQuantity = question.validations.multipleDate ? 2 : null;
 
     dispatch(
       questionActions.updateSiglePropOfQuestion({

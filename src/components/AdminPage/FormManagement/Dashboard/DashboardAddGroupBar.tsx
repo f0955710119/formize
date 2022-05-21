@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import useCreateGroup from "../../../../hooks/useCreateGroup";
-import useWindow from "../../../../hooks/useWindow";
+import useResizeWindow from "../../../../hooks/useResizeWindow";
 
 const AddGroupWrapper = styled.div`
   display: flex;
@@ -54,21 +54,16 @@ const AddGroupInput = styled.input`
 
 const DashboardAddGroupBar: FC = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const windowObj = useWindow();
-  const hasWindow = windowObj !== undefined && windowObj !== null;
-  const addGroupPlaceholderText =
-    hasWindow && windowObj?.innerWidth < 425
-      ? "於此輸入群組名稱後"
-      : "於此輸入群組名稱後，點擊右方新增";
+  const isSmallerThanMobileL = useResizeWindow(425);
+
+  const addGroupPlaceholderText = isSmallerThanMobileL
+    ? "於此輸入群組名稱後"
+    : "於此輸入群組名稱後，點擊右方新增";
 
   const createNewGroupHandler = useCreateGroup();
   return (
     <AddGroupWrapper>
-      <AddGroupInput
-        type="text"
-        placeholder={addGroupPlaceholderText}
-        ref={inputRef}
-      />
+      <AddGroupInput type="text" placeholder={addGroupPlaceholderText} ref={inputRef} />
       <AddGroupButton
         type="button"
         onClick={() => {

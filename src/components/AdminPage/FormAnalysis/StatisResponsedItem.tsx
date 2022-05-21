@@ -100,8 +100,7 @@ const renderResponseItemContent = (
   const countForNonTextTable = count as NonTextCount[];
   const countForTextTable = count as TextCount;
 
-  // prettier-ignore
-  const countForTextChart = creatSortedCountForChart(countForTextTable).slice(0,5);
+  const countForTextChart = creatSortedCountForChart(countForTextTable).slice(0, 5);
   const countForNumericChart = creatSortedCountForChart(numericData);
 
   const countForDifferentTypeConfig: { [key: string]: NonTextCount[] } = {
@@ -156,10 +155,7 @@ const StatisResponsedItem: FC<StatisResponsedItemProps> = (props) => {
     <ItemContainer>
       <Table title={title} isTextContent={isTextContent}>
         {isTextContent ? (
-          <TextContent
-            count={count as TextCount}
-            isCountRepeat={type !== "1"}
-          />
+          <TextContent count={count as TextCount} isCountRepeat={type !== "1"} />
         ) : (
           <NonTextContent
             count={count as NonTextCount[]}

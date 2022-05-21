@@ -164,15 +164,14 @@ const StatisHeaderItemForNonDesktop = styled.div<StatisHeaderItemForNonDesktopPr
   font-size: 1.6rem;
   padding: 1rem 0;
 
-  color: ${(props: StatisHeaderItemForNonDesktopProps) =>
-    props.isActive ? "#333" : "#aaa"};
+  color: ${(props: StatisHeaderItemForNonDesktopProps) => (props.isActive ? "#333" : "#aaa")};
 
   background-color: ${(props: StatisHeaderItemForNonDesktopProps) =>
     props.isActive ? "#b4bcb7" : "#fff"};
   border-radius: 5px;
 `;
 
-const analysisFeatureList = ["統計分析", "明細匯出", "訪問紀錄"];
+const analysisFeatureList = ["統計分析"];
 
 interface StatisSectionProps {
   statisData?: StatisResponse[] | null;
@@ -181,9 +180,7 @@ interface StatisSectionProps {
 const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
   const context = useContext(adminContext);
 
-  const formData = context.forms.find(
-    (form) => form.id === context.editingFormId
-  );
+  const formData = context.forms.find((form) => form.id === context.editingFormId);
 
   const titleIndex = useRef<number>(0);
   const currentQuestionId = useRef<string>("default");
@@ -198,9 +195,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
           {analysisFeatureList.map((item, i) => (
             <StatisHeaderItemForNonDesktop
               key={i}
-              onClick={() =>
-                context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)
-              }
+              onClick={() => context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)}
               isActive={i === context.currentAnalysisPage}
             >
               {item}
@@ -218,9 +213,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
             currentQuestionId.current = data.id.split("_")[0];
             titleIndex.current++;
           }
-          const questionTypeTitle = `${titleIndex.current}.${
-            questionConfig[data.type]
-          }題 - `;
+          const questionTypeTitle = `${titleIndex.current}.${questionConfig[data.type]}題 - `;
           if (data.numericData) {
             return (
               <StatisResponseItem
@@ -228,11 +221,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
                 key={data.id}
                 id={data.id}
                 title={
-                  questionTypeTitle +
-                  data.title +
-                  " " +
-                  " " +
-                  `(${data.hasAnswerQuantityText})`
+                  questionTypeTitle + data.title + " " + " " + `(${data.hasAnswerQuantityText})`
                 }
                 type={data.type}
                 count={data.count}
@@ -246,11 +235,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
               key={data.id}
               id={data.id}
               title={
-                questionTypeTitle +
-                data.title +
-                " " +
-                " " +
-                `(${data.hasAnswerQuantityText})`
+                questionTypeTitle + data.title + " " + " " + `(${data.hasAnswerQuantityText})`
               }
               type={data.type}
               count={data.count}
@@ -268,9 +253,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
         {analysisFeatureList.map((item, i) => (
           <StatisHeaderItemForNonDesktop
             key={i}
-            onClick={() =>
-              context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)
-            }
+            onClick={() => context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)}
             isActive={i === context.currentAnalysisPage}
           >
             {item}

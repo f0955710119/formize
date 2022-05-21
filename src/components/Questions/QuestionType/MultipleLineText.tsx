@@ -11,7 +11,6 @@ import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import useResetInputValue from "../../../hooks/useResetInputValue";
 import { userActions } from "../../../store/slice/userSlice";
 
-// prettier-ignore
 const CustomTextareaAutosize = styled(TextField)`
   margin-top: 2rem;
   padding: 1rem;
@@ -58,8 +57,7 @@ const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
         const input = event.target.value;
         setInputDisplay(input);
         validTimerHandler(() => {
-          const hasMaxLengthInvalid =
-            maxLength && event.target.value.length > maxLength;
+          const hasMaxLengthInvalid = maxLength && event.target.value.length > maxLength;
 
           if (input === "") {
             resetInputHandler(questionIdIndex);

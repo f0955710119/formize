@@ -1,13 +1,6 @@
 import { FC, useState, useCallback, useMemo } from "react";
 
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Sector,
-  Legend,
-} from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Sector, Legend } from "recharts";
 
 import type { NonTextCount } from "../../../../types/statis";
 
@@ -23,16 +16,7 @@ const generateLabelPoisitionValue = (setting: { [key: string]: number }) => {
 };
 
 const renderCustomizedLabel = (props: any) => {
-  const {
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-    index,
-    payload,
-  } = props;
+  const { cx, cy, midAngle, innerRadius, outerRadius, percent, index, payload } = props;
 
   const settings = {
     cx,
@@ -42,7 +26,6 @@ const renderCustomizedLabel = (props: any) => {
     midAngle,
   };
 
-  // prettier-ignore
   const [xLotText, yLotText] = generateLabelPoisitionValue({ ...settings, percentage: 0.4 });
   const [x, y] = generateLabelPoisitionValue({ ...settings, percentage: 0.3 });
 
@@ -84,17 +67,8 @@ const renderCustomizedLabel = (props: any) => {
 
 const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180;
-  const {
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    startAngle,
-    endAngle,
-    fill,
-    value,
-  } = props;
+  const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, value } =
+    props;
   const sin = Math.sin(-RADIAN * midAngle);
   const cos = Math.cos(-RADIAN * midAngle);
   const sx = cx + (outerRadius + 5) * cos;
@@ -125,11 +99,7 @@ const renderActiveShape = (props: any) => {
         outerRadius={outerRadius + 10}
         fill={fill}
       />
-      <path
-        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
-        stroke={fill}
-        fill="none"
-      />
+      <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}

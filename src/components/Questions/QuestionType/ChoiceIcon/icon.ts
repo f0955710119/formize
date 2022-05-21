@@ -38,19 +38,19 @@ export const CustomCheckedIcon = styled(CustomIcon)`
 interface CustomFormLabel {
   active: string;
 }
-// prettier-ignore
 export const CustomFormLabel = styled(FormControlLabel)<CustomFormLabel>`
   margin-bottom: 1rem;
   padding: 0.8rem 0;
   width: 97.96%;
   font-family: inherit;
-  border: 
-    ${(props) =>
-      props.active === 'true' ? `2px solid ${props.theme.title}` : `2px solid ${props.theme.title}4d;`};
+  border: ${(props) =>
+    props.active === "true"
+      ? `2px solid ${props.theme.title}`
+      : `2px solid ${props.theme.title}4d;`};
   border-radius: 5px;
   transition: border 0.2s;
-  color: ${props=>props.active === 'true' ? props.theme.title : `${props.theme.title}cc`};
-  & .css-ahj2mt-MuiTypography-root {
+  color: ${(props) => (props.active === "true" ? props.theme.title : `${props.theme.title}cc`)};
+  & .MuiTypography-root {
     font-size: 1.8rem;
     font-family: inherit;
     margin-left: 1rem;

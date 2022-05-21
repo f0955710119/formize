@@ -22,7 +22,6 @@ const HeaderWrapper = styled.div`
   width: 100%;
 `;
 
-// prettier-ignore
 const ChangeEditingGroupSelectForBiggerDevice = styled(ChangeEditingGroupSelect)`
   @media ${breakpointConfig.tabletS} {
     display: none;

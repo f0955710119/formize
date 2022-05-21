@@ -38,7 +38,6 @@ const OptionTypeIconWrapper = styled(IconWrapper)`
   width: 2rem;
 `;
 
-// prettier-ignore
 const AddCommentSharpIconWrapper = styled(IconWrapper)`
   transform: translateY(2px);
   height: 2rem;
@@ -134,15 +133,11 @@ interface OptionItemProps {
   dragStartHandler?: (event: DragEvent) => void;
 }
 
-const OptionItem: FC<OptionItemProps> = ({
-  title,
-  questionType,
-}: OptionItemProps) => {
+const OptionItem: FC<OptionItemProps> = ({ title, questionType }: OptionItemProps) => {
   const dispatch = useAppDispatch();
 
   const { editingFormPage } = useAppSelector((state) => state.question);
-  const checkHasNoSameArrayStringNameHandler =
-    useCheckQuestionArraySameString();
+  const checkHasNoSameArrayStringNameHandler = useCheckQuestionArraySameString();
 
   const addNewQuestionHandler = (questionType: string) => {
     const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();

@@ -2,9 +2,8 @@ import { FC, useState } from "react";
 
 import { KeyboardArrowDown } from "@styled-icons/material-rounded/KeyboardArrowDown";
 import styled from "styled-components";
-
-import helper from "../../../../../utils/helper";
-import FormItemExpand from "./FormItemExpand/FormItemExpand";
+import helper from "../../../../../../utils/helper";
+import FormItemExpand from "../FormItemExpand/FormItemExpand";
 
 interface ItemContainerProps {
   isExpand: boolean;
@@ -85,13 +84,9 @@ const FormItem: FC<FormItemProps> = ({
       <ItemWrapper>
         <Title>{title}</Title>
         <ResponsedQuantity>{responsedTimes}</ResponsedQuantity>
-        <CreatedTime>
-          {helper.convertDateToLocaleString(dateCreated)}
-        </CreatedTime>
+        <CreatedTime>{helper.convertDateToLocaleString(dateCreated)}</CreatedTime>
         <ResponsedTime>
-          {dateResponsed
-            ? helper.convertDateToLocaleString(dateResponsed)
-            : "尚無回應"}
+          {dateResponsed ? helper.convertDateToLocaleString(dateResponsed) : "尚無回應"}
         </ResponsedTime>
         <ExpandMore
           onClick={() => setHasClickExpand((prevState) => !prevState)}

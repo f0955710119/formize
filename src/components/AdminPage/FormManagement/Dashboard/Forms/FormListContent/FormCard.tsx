@@ -2,12 +2,12 @@ import { FC, useContext } from "react";
 
 import styled from "styled-components";
 
-import breakpointConfig from "../../../../../configs/breakpointConfig";
-import useDeleteForm from "../../../../../hooks/useDeleteForm";
-import usePushToAnalysisPage from "../../../../../hooks/usePushToAnalysisPage";
-import { adminContext } from "../../../../../store/context/adminContext";
-import helper from "../../../../../utils/helper";
-import FeatureButton from "./FormItemExpand/FeatureButton";
+import breakpointConfig from "../../../../../../configs/breakpointConfig";
+import useDeleteForm from "../../../../../../hooks/useDeleteForm";
+import usePushToAnalysisPage from "../../../../../../hooks/usePushToAnalysisPage";
+import { adminContext } from "../../../../../../store/context/adminContext";
+import helper from "../../../../../../utils/helper";
+import FeatureButton from "../FormItemExpand/FeatureButton";
 
 const CardContainer = styled.div`
   display: flex;
@@ -153,16 +153,12 @@ const FormCard: FC<FormCardProps> = ({
       </CardField>
       <CardField>
         <CardColumnTitle>創建日期</CardColumnTitle>
-        <CardColumnValue>
-          {helper.convertDateToLocaleString(dateCreated)}
-        </CardColumnValue>
+        <CardColumnValue>{helper.convertDateToLocaleString(dateCreated)}</CardColumnValue>
       </CardField>
       <CardField>
         <CardColumnTitle>最新回應日期</CardColumnTitle>
         <CardColumnValue>
-          {dateResponsed !== null
-            ? helper.convertDateToLocaleString(dateCreated)
-            : null}
+          {dateResponsed !== null ? helper.convertDateToLocaleString(dateCreated) : null}
         </CardColumnValue>
       </CardField>
       <CardField>
