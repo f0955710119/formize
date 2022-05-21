@@ -6,6 +6,9 @@ import { SettingContext } from "../types/setting";
 import firebase from "../utils/firebase";
 import sweetAlert from "../utils/sweetAlert";
 import useSwitchCurrentStep from "./useSwitchCurrentStep";
+import { useContext } from "react";
+import { adminContext } from "../store/context/adminContext";
+import adminActionType from "../store/actionType/adminActionType";
 
 const checkHasUid = (uid: string, callback: () => void) => {
   if (uid === "") {
@@ -49,6 +52,7 @@ const createUploadedImages = async (imageFile: File | null) => {
 };
 
 const useDeployForm = () => {
+  const { setField } = useContext(adminContext);
   const router = useRouter();
   const switchStepHanlder = useSwitchCurrentStep();
   const sendFormDataHandler = async (sendingObj: {
@@ -71,10 +75,11 @@ const useDeployForm = () => {
     const postDataHandler = async () => {
       try {
         sweetAlert.loadingReminderAlert("正在發佈問卷中...");
-        const uploadList = [startPageImageFile, endPageImageFile];
-        const [newStartPageImageFile, newEndPageImageFile] = await Promise.all(
-          uploadList.map((file) => createUploadedImages(file))
-        );
+        const [newStartPageImageFile, newEndPageImageFile] = await Promise.all([
+          createUploadedImages(startPageImageFile),
+          createUploadedImages(endPageImageFile),
+        ]);
+        console.log(newStartPageImageFile);
         const newSendingObj = {
           uid,
           groupId,
@@ -102,6 +107,7 @@ const useDeployForm = () => {
           sweetAlert.closeAlert();
         }, 1500);
         switchStepHanlder(4);
+        setField(adminActionType.NEW_FORM_ID, data.data.formId);
       } catch (error: any) {
         console.error(error.message);
       }

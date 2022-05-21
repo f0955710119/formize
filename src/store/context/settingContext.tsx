@@ -5,8 +5,10 @@ const initialContextState: SettingContext = {
   title: "空白問卷",
   mode: "0",
   pageQuantity: 1,
+  startPageParagraph: null,
   startPageImageFile: null,
   startPageImageObjectUrl: "",
+  endPageParagraph: null,
   endPageImageFile: null,
   endPageImageObjectUrl: "",
   setField: () => {},
@@ -38,14 +40,28 @@ export const SettingContextProvider: FC<SettingContextProviderProps> = ({
     dispatch({ type: fieldKey, payload: value });
   };
 
+  const {
+    title,
+    mode,
+    pageQuantity,
+    startPageParagraph,
+    startPageImageFile,
+    startPageImageObjectUrl,
+    endPageParagraph,
+    endPageImageFile,
+    endPageImageObjectUrl,
+  } = settingInfo;
+
   const initialValue: SettingContext = {
-    title: settingInfo.title,
-    mode: settingInfo.mode,
-    pageQuantity: settingInfo.pageQuantity,
-    startPageImageFile: settingInfo.startPageImageFile,
-    startPageImageObjectUrl: settingInfo.startPageImageObjectUrl,
-    endPageImageFile: settingInfo.endPageImageFile,
-    endPageImageObjectUrl: settingInfo.endPageImageObjectUrl,
+    title,
+    mode,
+    pageQuantity,
+    startPageParagraph,
+    startPageImageFile,
+    startPageImageObjectUrl,
+    endPageParagraph,
+    endPageImageFile,
+    endPageImageObjectUrl,
     setField: setFieldHandler,
   };
 

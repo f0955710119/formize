@@ -52,6 +52,10 @@ const signupErrors = [
     case: "auth/user-not-found",
     errorMessage: "此帳號不存在，請重新輸入再嘗試",
   },
+  {
+    case: "auth/configuration-not-found",
+    errorMessage: "無法建立帳號，請稍後再試",
+  },
 ];
 
 const checkSignupErrorCase = (message: string) => {
@@ -202,9 +206,11 @@ export default {
   async getDocData(collectionName: string, docId: string) {
     const docRef = doc(db, collectionName, docId);
     const docSnap = await getDoc(docRef);
-    if (!docSnap.exists())
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
       throwNewError("fail to get user data since the doc does not exist");
-    return docSnap.data();
+    }
   },
   async updateFieldArrayValue<T>(
     {

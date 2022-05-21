@@ -9,7 +9,7 @@ export interface Forms {
   responsedTimes: number;
   openTimes: number;
   settings: Settings;
-  styles: Style;
+  style: Style;
   questionDocId: string;
   responseDocId: string;
   groupId: string;

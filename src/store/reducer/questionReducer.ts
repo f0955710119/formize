@@ -1,11 +1,24 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 
 import questionDefaultConfig from "../../configs/questionDefaultConfig";
-import type { Question } from "../../types/question";
+import type { Question, UpdateValue } from "../../types/question";
 import type { Validation } from "../../types/validation";
 import helper from "../../utils/helper";
 import questionActionType from "../actionType/questionActionType";
 import type { QuestionState } from "../slice/questionSlice";
+
+const questionActionTypeKeys = Object.keys(questionActionType);
+const updateNewQuestions = (
+  question: Question,
+  updateKeyName: string,
+  updateValue: UpdateValue
+) => {
+  if (updateValue === undefined) return question;
+  return {
+    ...question,
+    [updateKeyName]: updateValue,
+  };
+};
 
 const initQuestion: CaseReducer<QuestionState> = (state) => {
   state.accumulatedInValidInputError = [{ id: "", message: "" }];
@@ -46,10 +59,12 @@ const updateSiglePropOfQuestion: CaseReducer<
     validations?: Validation;
   }>
 > = (state, action) => {
+  const { id, actionType } = action.payload;
   try {
     state.questions = state.questions.map((question) => {
-      if (question.id !== action.payload.id) return question;
-      switch (action.payload.actionType) {
+      if (question.id !== id) return question;
+
+      switch (actionType) {
         case questionActionType.TITLE: {
           if (action.payload.text) {
             return {

@@ -15,3 +15,12 @@ export interface Question {
 export interface Questions {
   questions: Question[];
 }
+
+export type UpdateValue =
+  | string
+  | number
+  | boolean
+  | Date
+  | string[]
+  | Validation
+  | undefined;

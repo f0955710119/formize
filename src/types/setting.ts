@@ -17,8 +17,10 @@ export interface SettingContext {
   title: string;
   mode: string;
   pageQuantity: number;
+  startPageParagraph: string | null;
   startPageImageFile: File | null;
   startPageImageObjectUrl: string | null;
+  endPageParagraph: string | null;
   endPageImageFile: File | null;
   endPageImageObjectUrl: string | null;
   setField: SetFieldHandler;

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 import { TextField } from "@mui/material";
 import { ShareFill } from "@styled-icons/bootstrap/ShareFill";
@@ -9,6 +9,7 @@ import styled from "styled-components";
 import useAppSelector from "../../../../hooks/useAppSelector";
 import Main from "../UI/Main";
 import SectionHeading from "../UI/SectionHeading";
+import { adminContext } from "../../../../store/context/adminContext";
 
 const Container = styled.div`
   margin: 4rem auto;
@@ -126,10 +127,12 @@ const CopyLinkButton = styled.div`
 
 const DeployFormSection: FC = () => {
   const router = useRouter();
-  const formId = useAppSelector((state) => state.admin.newFormId);
-  const newFormPath = `/s/${formId}`;
+  const { newFormId } = useContext(adminContext);
+
+  const newFormPath = `/s/${newFormId}`;
   const webOrigin = process.env.NEXT_PUBLIC_ORIGIN;
   const newFormHref = `${webOrigin}${newFormPath}`;
+
   const deployDecoratorImageSrc = `${webOrigin}/images/deploy-img.svg`;
   return (
     <Main>
@@ -146,7 +149,7 @@ const DeployFormSection: FC = () => {
           <SubHeadingText>分享問卷 ( 點擊連結前往 )</SubHeadingText>
         </SubHeading>
         <URLWrapper onClick={() => router.push(newFormPath)}>
-          <CustomTextDisableField defaultValue={newFormHref} disabled />
+          <CustomTextDisableField value={newFormHref} disabled />
         </URLWrapper>
         <FormBlankLink href={newFormHref} target="_blank" rel="noreferrer">
           開啟問卷分頁

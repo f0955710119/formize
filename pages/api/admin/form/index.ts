@@ -24,7 +24,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   if (req.method === "POST") {
-    const { uid, settings, questions, styles, groupId } = req.body;
+    const { uid, settings, questions, style, groupId } = req.body;
 
     if (uid === "") {
       res.status(400).json({
@@ -54,7 +54,7 @@ export default async function handler(
       responsedTimes: 0,
       openTimes: 0,
       settings,
-      styles,
+      style,
       questionDocId: questionDocRef.id,
       responseDocId: responseDocRef.id,
       groupId,

@@ -10,7 +10,6 @@ import QuestionList from "../Questions/QuestionList";
 import scrollBar from "../UI/scrollBar";
 import PageCTAButton from "./PageCTAButton";
 
-
 const SinglePageContainer = styled.section`
   position: relative;
   display: flex;

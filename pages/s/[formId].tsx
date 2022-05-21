@@ -28,7 +28,7 @@ const FormId: NextPage = () => {
     responseDocId: "",
     questions: userFormConfig.initQuestions,
     settings: userFormConfig.initSettings,
-    styles: userFormConfig.initStyles,
+    style: userFormConfig.initStyles,
   });
 
   const [hasFetchedData, setHasFetchedData] = useState<boolean>(false);
@@ -50,14 +50,15 @@ const FormId: NextPage = () => {
       body: JSON.stringify(router.query),
     });
     const data = await response.json();
-    const { responseDocId, questions, settings, styles } = data.data;
+
+    const { responseDocId, questions, settings, style } = data.data;
     initUserForm.current = {
       responseDocId,
       questions,
       settings,
-      styles,
+      style,
     };
-    const themeKey = initUserForm.current.styles.theme;
+    const themeKey = initUserForm.current.style.theme;
     const colorTheme = themes[helper.generateResponseThemePalette(themeKey)];
     setColorTheme(colorTheme);
     setHasFetchedData(true);
@@ -94,7 +95,7 @@ const FormId: NextPage = () => {
           responseDocId={initUserForm.current.responseDocId}
           questions={initUserForm.current.questions}
           settings={initUserForm.current.settings}
-          styles={initUserForm.current.styles}
+          style={initUserForm.current.style}
         />
       ) : (
         <MUIThemeProvider theme={muiTheme}>
@@ -103,7 +104,7 @@ const FormId: NextPage = () => {
               responseDocId={initUserForm.current.responseDocId}
               questions={initUserForm.current.questions}
               settings={initUserForm.current.settings}
-              styles={initUserForm.current.styles}
+              style={initUserForm.current.style}
             />
           </ThemeProvider>
         </MUIThemeProvider>

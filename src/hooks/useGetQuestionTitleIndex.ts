@@ -31,14 +31,14 @@ const getQuestionTitleIndexOfMultiplePageMode = (
   const filteredQuestions = questions.filter(
     (question) => question.page === editingFormPage
   );
-  for (let i = 0; i < filteredQuestions.length; i++) {
+
+  filteredQuestions.forEach((_, i) => {
     if (questions[i].id !== currentQuestionId) return;
     questionTitleIndex = helper.generateQuestionMultiPageIndexArr(
       pageQuantity,
       questions
     )[editingFormPage - 1][i];
-    break;
-  }
+  });
 
   return questionTitleIndex;
 };

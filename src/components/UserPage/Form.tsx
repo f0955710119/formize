@@ -34,10 +34,7 @@ const SinglePageMain = styled.main<MainProps>`
   margin: 2.5vh auto 0 auto;
   border-radius: 9px;
 
-  font-family: ${(props) => {
-    const fontKey = styleConfig[`${props.font}_KEYFONT`];
-    return `${styleConfig[fontKey]}`;
-  }};
+  font-family: ${(props) => props.font};
 
   background-image: ${(props) => `url(${props.backgroundImage})`};
   background-size: cover;
@@ -70,10 +67,7 @@ const MultiPageMain = styled.main<MainProps>`
   margin: 2.5vh auto 0 auto;
   border-radius: 9px;
 
-  font-family: ${(props) => {
-    const fontKey = styleConfig[`${props.font}_KEYFONT`];
-    return `${styleConfig[fontKey]}`;
-  }};
+  font-family: ${(props) => props.font};
 
   background-image: ${(props) => `url(${props.backgroundImage})`};
   background-size: cover;
@@ -85,14 +79,23 @@ const Form: FC<FormProps> = ({
   responseDocId,
   questions,
   settings,
-  styles,
+  style,
 }: FormProps) => {
   const router = useRouter();
   const { formId } = router.query;
   const { answers } = useAppSelector((state) => state.user);
   const [navigatePage, setNavigatePage] = useState<number>(0);
-
   const clickStartPageButtonHandler = () => setNavigatePage(1);
+
+  const {
+    mode,
+    title,
+    startPageParagraph,
+    startPageImageFile,
+    endPageParagraph,
+    endPageImageFile,
+  } = settings;
+
   const sendResponses = async () => {
     try {
       const response = await fetch("/api/user/response", {
@@ -114,23 +117,25 @@ const Form: FC<FormProps> = ({
     }
   };
 
+  const fontCodeName = styleConfig[`${style.font}_KEYFONT`];
+  const font = styleConfig[`${fontCodeName}_CSS`];
   return (
     <>
-      {settings.mode === "0" && (
+      {mode === "0" && (
         <UserFormBodyContainerForMultiPage>
           <SinglePageMain
-            hasImage={settings.startPageImageFile ? true : false}
-            font={styles.font}
-            backgroundImage={styles.backgroundImage}
+            hasImage={startPageImageFile ? true : false}
+            font={font}
+            backgroundImage={style.backgroundImage}
           >
             {navigatePage === 0 ? (
               <>
                 <PageSection
                   isStartPage
-                  title={settings.title}
-                  imageUrl={settings.startPageImageFile}
-                  paragraph={settings.startPageParagraph}
-                  mode={settings.mode}
+                  title={title}
+                  imageUrl={startPageImageFile}
+                  paragraph={startPageParagraph}
+                  mode={mode}
                 />
                 <SinglePageSection
                   questions={questions}
@@ -140,27 +145,27 @@ const Form: FC<FormProps> = ({
             ) : (
               <PageSection
                 isStartPage={false}
-                paragraph={settings.endPageParagraph}
-                imageUrl={settings.endPageImageFile}
+                paragraph={endPageParagraph}
+                imageUrl={endPageImageFile}
               />
             )}
           </SinglePageMain>
         </UserFormBodyContainerForMultiPage>
       )}
-      {settings.mode === "1" && (
+      {mode === "1" && (
         <UserFormBodyContainerForMultiPage>
           <MultiPageMain
-            hasImage={settings.startPageImageFile ? true : false}
-            font={styles.font}
-            backgroundImage={styles.backgroundImage}
+            hasImage={startPageImageFile ? true : false}
+            font={font}
+            backgroundImage={style.backgroundImage}
           >
             {navigatePage === 0 && (
               <PageSection
                 isStartPage
-                title={settings.title}
-                imageUrl={settings.startPageImageFile}
-                paragraph={settings.startPageParagraph}
-                mode={settings.mode}
+                title={title}
+                imageUrl={startPageImageFile}
+                paragraph={startPageParagraph}
+                mode={mode}
                 clickHandler={clickStartPageButtonHandler}
               />
             )}
@@ -177,8 +182,8 @@ const Form: FC<FormProps> = ({
             {navigatePage === 2 && (
               <PageSection
                 isStartPage={false}
-                paragraph={settings.endPageParagraph}
-                imageUrl={settings.endPageImageFile}
+                paragraph={endPageParagraph}
+                imageUrl={endPageImageFile}
               />
             )}
           </MultiPageMain>

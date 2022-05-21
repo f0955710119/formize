@@ -66,6 +66,7 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
+  cursor: pointer;
 `;
 
 const UploadImageWrapper = styled.div`
@@ -73,6 +74,7 @@ const UploadImageWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 const UploadImageIcon = styled(ImageIcon)`
   width: 10.6rem;
@@ -114,8 +116,13 @@ const ParagraphLabel = ({
 };
 
 const SectionBanner: FC = () => {
-  const { startPageImageObjectUrl, endPageImageObjectUrl, setField } =
-    useContext(settingContext);
+  const {
+    startPageParagraph,
+    endPageParagraph,
+    startPageImageObjectUrl,
+    endPageImageObjectUrl,
+    setField,
+  } = useContext(settingContext);
 
   return (
     <SectionWrapper>
@@ -154,6 +161,7 @@ const SectionBanner: FC = () => {
       <BannerField style={{ height: "13rem" }}>
         <ParagraphLabel labelText="歡迎頁文字" reminderText="限250字" />
         <CustomTextareaAutosize
+          value={startPageParagraph ? startPageParagraph : ""}
           minRows={6}
           maxRows={6}
           onChange={(event) => {
@@ -201,6 +209,7 @@ const SectionBanner: FC = () => {
       <BannerField style={{ height: "13rem" }}>
         <ParagraphLabel labelText="結束頁文字" reminderText="限250字" />
         <CustomTextareaAutosize
+          value={endPageParagraph ? endPageParagraph : ""}
           minRows={6}
           maxRows={6}
           onChange={(event) => {

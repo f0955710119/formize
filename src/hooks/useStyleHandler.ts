@@ -16,15 +16,16 @@ const createConfigWithCustomKey = (arr: string[]) =>
     return config;
   }, {});
 
+const themeKeys = helper.generateConfigKeys("_NAME", styleConfig);
+const fontKeys = helper.generateConfigKeys("_FONT", styleConfig);
+const bakcgroundImageKey = helper.generateConfigKeys("_BG", backgroundConfig);
+const allStyleNameKeys = [...themeKeys, ...fontKeys, ...bakcgroundImageKey];
+
+const styleConfigForSwitchNewInput =
+  createConfigWithCustomKey(allStyleNameKeys);
+
 const useStyleHandler = () => {
   const { setField } = useContext(styleContext);
-  const themeKeys = helper.generateConfigKeys("_NAME", styleConfig);
-  const fontKeys = helper.generateConfigKeys("_FONT", styleConfig);
-  const bakcgroundImageKey = helper.generateConfigKeys("_BG", backgroundConfig);
-
-  const allStyleNameKeys = [...themeKeys, ...fontKeys, ...bakcgroundImageKey];
-  const styleConfigForSwitchNewInput =
-    createConfigWithCustomKey(allStyleNameKeys);
 
   const switchThemeHandler = (title: string, styleType: string) => {
     const newStyleForUpdate = styleConfigForSwitchNewInput[title];

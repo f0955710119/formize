@@ -33,6 +33,7 @@ export default async function handler(
       });
       return;
     }
+
     const data = await firebase.getDocData(
       firestoreCollectionConfig.FORMS,
       formId
@@ -47,25 +48,25 @@ export default async function handler(
       return;
     }
 
-    const { questionDocId, responseDocId, settings, styles, openTimes } = data;
+    const { questionDocId, responseDocId, settings, style, openTimes } = data;
 
     const questions = await firebase.getDocData(
       firestoreCollectionConfig.QUESTIONS,
       questionDocId
     );
 
-    if (!questions || !responseDocId || !settings || !styles) {
+    if (!questions || !responseDocId || !settings || !style) {
       res.status(400).json({
         status: "fail",
         status_code: 400,
-        message: "no such data exists",
+        message: "no such data exists with multiple params",
       });
       return;
     }
 
     const existedQuestion = [...questions.questions];
     const existedSettings = settings as Settings;
-    const existedStyles = styles as Style;
+    const existedStyles = style as Style;
 
     await firebase.updateExistedDoc(
       firestoreCollectionConfig.FORMS,

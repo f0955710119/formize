@@ -13,5 +13,5 @@ export interface UserForm {
   responseDocId: string;
   questions: Question[];
   settings: Settings;
-  styles: Style;
+  style: Style;
 }
