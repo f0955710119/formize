@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import Logo from "../../../UI/Logo";
-import LogoutButton from "../../../UI/LogoutButton";
+import LogOutButton from "../../../UI/LogOutButton";
 import ChangeEditingGroupSelect from "./ChangeEditingGroupSelect";
 
 const HeaderContainer = styled.header`
@@ -66,7 +66,7 @@ const DashboardMainHeader: FC = () => {
         />
         <ChangeEditingGroupSelectForBiggerDevice />
       </HeaderWrapper>
-      <LogoutButton />
+      <LogOutButton />
     </HeaderContainer>
   );
 };

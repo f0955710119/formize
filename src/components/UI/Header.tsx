@@ -7,7 +7,7 @@ import styled from "styled-components";
 import useAppSelector from "../../hooks/useAppSelector";
 import sweetAlert from "../../utils/sweetAlert";
 import Logo from "./Logo";
-import LogoutButton from "./LogoutButton";
+import LogOutButton from "./LogOutButton";
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -59,7 +59,7 @@ const Header: FC<HeaderProps> = ({ children }) => {
         imageMediaSetting={logoImageStyle}
       />
       {children}
-      <LogoutButton />
+      <LogOutButton />
     </HeaderWrapper>
   );
 };
