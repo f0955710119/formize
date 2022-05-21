@@ -36,7 +36,7 @@ const TextLimitation: FC<TextLimitationProps> = ({
       return;
     }
 
-    if (+value > 100) {
+    if (question.type === "0" && +value > 100) {
       sweetAlert.errorReminderAlert("該題的字數上限為100字");
       return;
     }

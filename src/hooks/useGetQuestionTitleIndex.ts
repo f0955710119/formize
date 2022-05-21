@@ -10,11 +10,11 @@ const getQuestionTitleIndexOfSinglePageMode = (
 ) => {
   let questionTitleIndex = "";
 
-  for (let i = 0; i < questions.length; i++) {
+  questions.forEach((_, i) => {
     if (questions[i].id !== currentQuestionId) return;
     questionTitleIndex = helper.generateQuestionIndexArr(questions)[i];
-    break;
-  }
+  });
+
   return questionTitleIndex;
 };
 
@@ -57,6 +57,7 @@ const useGetQuestionTitleIndex = () => {
         id
       ),
     };
+
     return modeConfig[mode];
   };
 

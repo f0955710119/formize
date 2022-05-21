@@ -10,14 +10,10 @@ import useGetQuestionTitleIndex from "../../../../hooks/useGetQuestionTitleIndex
 import { questionActions } from "../../../../store/slice/questionSlice";
 import type { Question } from "../../../../types/question";
 import sweetAlert from "../../../../utils/sweetAlert";
-import ChoiceLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/ChoiceLimitation";
-import DateLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/DateLimitation";
-import NumberLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/NumberLimitation";
-import TextLimitation from "../QuestionDesign/QuestionOptions/OptionLimitation/TextLimitation";
+
 import SectionHeading from "../UI/SectionHeading";
-import Choice from "./QuestionContent/Choice";
-import Introduction from "./QuestionContent/Introduction";
-import Matrix from "./QuestionContent/Matrix";
+
+import QuestionContent from "./QuestionContent/QuestionContent";
 import QuestionDeleteButton from "./QuestionDeleteButton";
 import EditableTitle from "./UI/EditableTitle";
 import Field, { SwitchFieldReminder } from "./UI/Field";
@@ -44,71 +40,6 @@ interface QuestionFieldProps {
   question: Question;
   titleIndex: string;
 }
-
-const renderResponseQuestion = (type: string, question: Question) => {
-  switch (type) {
-    case "0":
-    case "1":
-      return (
-        <>
-          <QuestionHeading>限制設定</QuestionHeading>
-          <TextLimitation id={question.id} />
-        </>
-      );
-    case "2":
-      return <Introduction id={question.id} title={question.title} />;
-    case "3":
-    case "4":
-    case "8":
-      if (question.options) {
-        return (
-          <>
-            <QuestionHeading>限制設定</QuestionHeading>
-            <ChoiceLimitation id={question.id} type={type} />
-            <QuestionHeading>內容設定</QuestionHeading>
-            <Choice id={question.id} options={question.options} />
-          </>
-        );
-      }
-
-    case "5":
-      if (question.options && question.matrixs) {
-        return (
-          <>
-            <QuestionHeading>限制設定</QuestionHeading>
-            <ChoiceLimitation id={question.id} type={type} />
-            <QuestionHeading>內容設定</QuestionHeading>
-            <Matrix
-              id={question.id}
-              options={question.options}
-              matrixs={question.matrixs}
-            />
-          </>
-        );
-      }
-
-    case "6":
-    case "7": {
-      return (
-        <>
-          <QuestionHeading>限制設定</QuestionHeading>
-          <NumberLimitation
-            id={question.id}
-            validations={question.validations}
-          />
-        </>
-      );
-    }
-
-    case "9":
-      return (
-        <>
-          <QuestionHeading>限制設定</QuestionHeading>
-          <DateLimitation id={question.id} />
-        </>
-      );
-  }
-};
 
 const QuestionField: FC<QuestionFieldProps> = ({
   question,
@@ -201,7 +132,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
           <Note id={question.id} note={question.note} />
         </>
       )}
-      {renderResponseQuestion(question.type, question)}
+      <QuestionContent type={question.type} question={question} />
     </Field>
   );
 };

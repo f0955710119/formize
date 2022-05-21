@@ -14,7 +14,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     validations: {
       required: false,
       length: 50,
-      textType: "0",
     },
   },
   MULTIPLE_LINE_TEXT_DEFAULT: <Question>{
@@ -26,7 +25,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     validations: {
       required: false,
       length: 200,
-      textType: "0",
     },
   },
   INTRODUCTION_DEFAULT: <Question>{

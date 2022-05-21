@@ -5,12 +5,12 @@ import ChoiceOptionItem, {
   ChoiceWrapper,
 } from "./QuestionContentItem/ChoiceOptionItem";
 
-interface OneChoiceProps {
+interface ChoiceProps {
   id: string;
   options: string[];
 }
 
-const OneChoice: FC<OneChoiceProps> = ({ id, options }: OneChoiceProps) => {
+const Choice: FC<ChoiceProps> = ({ id, options }) => {
   return (
     <>
       <AddOptionButton id={id} options={options} />
@@ -23,4 +23,4 @@ const OneChoice: FC<OneChoiceProps> = ({ id, options }: OneChoiceProps) => {
   );
 };
 
-export default OneChoice;
+export default Choice;

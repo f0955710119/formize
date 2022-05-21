@@ -1,4 +1,5 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+import { text } from "stream/consumers";
 
 import questionDefaultConfig from "../../configs/questionDefaultConfig";
 import type { Question, UpdateValue } from "../../types/question";
@@ -6,19 +7,6 @@ import type { Validation } from "../../types/validation";
 import helper from "../../utils/helper";
 import questionActionType from "../actionType/questionActionType";
 import type { QuestionState } from "../slice/questionSlice";
-
-const questionActionTypeKeys = Object.keys(questionActionType);
-const updateNewQuestions = (
-  question: Question,
-  updateKeyName: string,
-  updateValue: UpdateValue
-) => {
-  if (updateValue === undefined) return question;
-  return {
-    ...question,
-    [updateKeyName]: updateValue,
-  };
-};
 
 const initQuestion: CaseReducer<QuestionState> = (state) => {
   state.accumulatedInValidInputError = [{ id: "", message: "" }];
@@ -53,89 +41,37 @@ const updateSiglePropOfQuestion: CaseReducer<
     actionType: string;
     text?: string;
     number?: number;
-    booleanOption?: boolean;
-    date?: Date;
     stringArr?: string[];
     validations?: Validation;
   }>
 > = (state, action) => {
-  const { id, actionType } = action.payload;
-  try {
-    state.questions = state.questions.map((question) => {
-      if (question.id !== id) return question;
+  const { id, actionType, text, number, stringArr, validations } =
+    action.payload;
 
-      switch (actionType) {
-        case questionActionType.TITLE: {
-          if (action.payload.text) {
-            return {
-              ...question,
-              title: action.payload.text,
-            };
-          }
-        }
-        case questionActionType.NOTE: {
-          if (action.payload.text) {
-            return {
-              ...question,
-              note: action.payload.text,
-            };
-          }
-        }
-        case questionActionType.TYPE: {
-          if (action.payload.text) {
-            return {
-              ...question,
-              type: action.payload.text,
-            };
-          }
-        }
+  const responsedActionTypeConfig: { [key: string]: string } = {
+    ...questionActionType,
+  };
 
-        case questionActionType.PAGE: {
-          if (action.payload.number) {
-            return {
-              ...question,
-              page: action.payload.number,
-            };
-          }
-        }
+  const updateValueConfig: { [key: string]: UpdateValue } = {
+    title: text,
+    note: text,
+    type: text,
+    page: number,
+    options: stringArr,
+    matrixs: stringArr,
+    validations: validations,
+  };
 
-        case questionActionType.OPTIONS: {
-          if (action.payload.stringArr) {
-            return {
-              ...question,
-              options: action.payload.stringArr,
-            };
-          }
-        }
+  const updateStateKey = responsedActionTypeConfig[actionType.toUpperCase()];
+  const updateStateValue = updateValueConfig[updateStateKey];
 
-        case questionActionType.MATRIXS: {
-          if (action.payload.stringArr) {
-            return {
-              ...question,
-              matrixs: action.payload.stringArr,
-            };
-          }
-        }
-
-        case questionActionType.VALIDATIONS: {
-          if (action.payload.validations) {
-            return {
-              ...question,
-              validations: action.payload.validations,
-            };
-          }
-        }
-
-        default: {
-          throw new Error(
-            "updateQuestionDisplayText只能用來更新題目內容是文字類的欄位"
-          );
-        }
-      }
-    });
-  } catch (error: any) {
-    console.error(error.message);
-  }
+  state.questions = state.questions.map((question) => {
+    if (question.id !== id) return question;
+    return {
+      ...question,
+      [updateStateKey]: updateStateValue,
+    };
+  });
 };
 
 const initRangeDateOfDateQuestion: CaseReducer<
@@ -219,7 +155,6 @@ const setIsEditingMatrix: CaseReducer<
   PayloadAction<{ setEditingState: boolean; isReset: boolean }>
 > = (state, action) => {
   if (action.payload.isReset) {
-    console.log("test");
     state.editingMatrixQuantity = 0;
     state.isEditingMatrix = false;
     return;
