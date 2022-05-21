@@ -1,11 +1,8 @@
-import { FC, useContext, useRef } from "react";
+import { FC, useContext } from "react";
 
 import styled from "styled-components";
 
-
-
 import breakpointConfig from "../../../../configs/breakpointConfig";
-import useCreateGroup from "../../../../hooks/useCreateGroup";
 import adminActionType from "../../../../store/actionType/adminActionType";
 import { adminContext } from "../../../../store/context/adminContext";
 import Logo from "../../../UI/Logo";
@@ -38,11 +35,9 @@ const GroupHeading = styled.span`
 
 const GroupSideBar: FC = () => {
   const context = useContext(adminContext);
-  const newGropuInputRef = useRef<HTMLInputElement | null>(null);
   const switchEditingGroupHandler = (id: string) => {
     context.setField(adminActionType.EDITING_GROUP, id);
   };
-  const createNewGroupHandler = useCreateGroup();
 
   return (
     <BarContainer>

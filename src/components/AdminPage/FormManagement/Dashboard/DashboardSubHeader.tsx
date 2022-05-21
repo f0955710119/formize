@@ -5,7 +5,7 @@ import { FC, useContext } from "react";
 import styled from "styled-components";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
-import useInitAdminInfo from "../../../../hooks/useInitAdminInfo";
+import useDeleteGroup from "../../../../hooks/useDeleteGroup";
 import useInitNewForm from "../../../../hooks/useInitNewForm";
 import { adminContext } from "../../../../store/context/adminContext";
 import sweetAlert from "../../../../utils/sweetAlert";
@@ -87,65 +87,20 @@ const DeleteButtonText = styled(ButtonText)`
 
 const DashboardSubHeader: FC = () => {
   const router = useRouter();
+  const { editingGroupId } = useContext(adminContext);
   const initHandler = useInitNewForm();
-  const initAdminHandler = useInitAdminInfo();
-  const context = useContext(adminContext);
-
+  const deleteGroupHandler = useDeleteGroup();
   const goAddNewFormHandler = (): void => {
     initHandler();
     router.push("/admin/new");
   };
 
-  const deleteExistingGroup = async () => {
-    const willDeleteGroup =
-      context.groups.length > 0
-        ? context.groups.find((group) => group.id === context.editingGroupId)
-        : undefined;
-    const deleteGroupTitle = willDeleteGroup ? willDeleteGroup.name : "";
-    const deleteGroupCallback = async () => {
-      try {
-        sweetAlert.loadingReminderAlert("正在刪除群組...");
-        const response = await fetch("/api/admin/group", {
-          method: "DELETE",
-          headers: {
-            Authorization: `Basic ${context.uid}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ groupId: context.editingGroupId }),
-        });
-        const data = await response.json();
-        await initAdminHandler(context.uid, true);
-        sweetAlert.loadedReminderAlert("刪除成功!");
-        setTimeout(() => {
-          sweetAlert.closeAlert();
-        }, 1500);
-      } catch (error: any) {
-        console.error(error.message);
-      }
-    };
-    const reesponse = await sweetAlert.textInputAlert(
-      {
-        title: `刪除群組\n${
-          deleteGroupTitle !== "" ? `「${deleteGroupTitle}」` : ""
-        }`,
-        text: "刪除群組將遺失其內部的所有問卷，\n會失去大量資料且不可復原，確定要刪除嗎?",
-        cancelButtonText: "取消",
-        confirmButtonText: "刪除",
-        inputLabel: `輸入群組名稱: ${deleteGroupTitle}`,
-      },
-      deleteGroupTitle
-    );
-
-    if (reesponse.value !== deleteGroupTitle) return;
-    await deleteGroupCallback();
-  };
-
   return (
     <HeaderWrapper>
       <FilterWrapper></FilterWrapper>
-      {context.editingGroupId !== "0" && (
+      {editingGroupId !== "0" && (
         <>
-          <DeleteButtonWrapper onClick={() => deleteExistingGroup()}>
+          <DeleteButtonWrapper onClick={() => deleteGroupHandler()}>
             <DeleteButtonText>刪除群組</DeleteButtonText>
           </DeleteButtonWrapper>
           <ButtonWrapper

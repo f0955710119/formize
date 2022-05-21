@@ -5,7 +5,6 @@ import styled from "styled-components";
 import questionConfig from "../../configs/questionConfig";
 import useAppSelector from "../../hooks/useAppSelector";
 import { Question } from "../../types/question";
-import helper from "../../utils/helper";
 import { generateQuestionLimitationTagText } from "../../utils/questionListUtils";
 import Date from "./QuestionType/Date";
 import Introduction from "./QuestionType/Introdction";
@@ -124,19 +123,13 @@ const QuestionList: FC<QuestionListProps> = ({
   question,
   isCreatingProcess = false,
 }) => {
-  const { errorMessages, errorMessagesIdKeys } = useAppSelector(
-    (state) => state.user
-  );
+  const { errorMessages, errorMessagesIdKeys } = useAppSelector((state) => state.user);
   const errorMessage = errorMessages[errorMessagesIdKeys[question.id]];
   const hasErrorMessage = errorMessage !== "";
   const limitationTagText = generateQuestionLimitationTagText(question);
 
   const isNotIntroduction =
-    errorMessage !== "" ? (
-      <ErrorReminder>{errorMessage}</ErrorReminder>
-    ) : (
-      <EmptyErrorMessage />
-    );
+    errorMessage !== "" ? <ErrorReminder>{errorMessage}</ErrorReminder> : <EmptyErrorMessage />;
 
   const { title, type, note, validations, id } = question;
   const questionTitle = titleIndex === "" ? title : `${titleIndex}. ${title}`;
@@ -160,18 +153,11 @@ const QuestionList: FC<QuestionListProps> = ({
         )}
 
         {type === "0" && (
-          <OneLineText
-            textType="text"
-            length={validations.length}
-            questionId={id}
-          />
+          <OneLineText textType="text" length={validations.length} questionId={id} />
         )}
 
         {question.type === "1" && (
-          <MultipleLineText
-            maxLength={question.validations.length}
-            questionId={question.id}
-          />
+          <MultipleLineText maxLength={question.validations.length} questionId={question.id} />
         )}
 
         {question.type === "2" && <Introduction textContent={question.title} />}
@@ -186,9 +172,7 @@ const QuestionList: FC<QuestionListProps> = ({
           <MultiChoice
             options={question.options ? question.options : []}
             maxSelected={
-              question.validations.maxSelected
-                ? question.validations.maxSelected
-                : 1
+              question.validations.maxSelected ? question.validations.maxSelected : 1
             }
             questionId={question.id}
             isCreatingProcess={isCreatingProcess}
@@ -217,9 +201,7 @@ const QuestionList: FC<QuestionListProps> = ({
             max={question.validations.max && question.validations.max}
             min={question.validations.min && question.validations.min}
             unit={question.validations.unit && question.validations.unit}
-            interval={
-              question.validations.interval && question.validations.interval
-            }
+            interval={question.validations.interval && question.validations.interval}
           />
         )}
 
@@ -227,9 +209,7 @@ const QuestionList: FC<QuestionListProps> = ({
           <Sort
             options={question.options ? question.options : []}
             maxSelected={
-              question.validations.maxSelected
-                ? question.validations.maxSelected
-                : 1
+              question.validations.maxSelected ? question.validations.maxSelected : 1
             }
             questionId={question.id}
           />
@@ -242,9 +222,7 @@ const QuestionList: FC<QuestionListProps> = ({
             hasRange={question.validations.hasRange}
             startDate={question.validations.startDate}
             endDate={question.validations.endDate}
-            maxSelectedDateQuantity={
-              question.validations.maxSelectedDateQuantity
-            }
+            maxSelectedDateQuantity={question.validations.maxSelectedDateQuantity}
           />
         )}
 
