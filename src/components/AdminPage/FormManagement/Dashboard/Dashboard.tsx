@@ -1,8 +1,11 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 import styled from "styled-components";
 
 import breakpointConfig from "../../../../configs/breakpointConfig";
+import useResizeWindow from "../../../../hooks/useResizeWindow";
+import { adminContext } from "../../../../store/context/adminContext";
+import { generateNoDataDashBoard } from "../../../UI/noDataDashboard";
 import scrollBar from "../../../UI/scrollBar";
 import ChangeEditingGroupSelect from "./ChangeEditingGroupSelect";
 import DashboardAddGroupBar from "./DashboardAddGroupBar";
@@ -35,10 +38,21 @@ const DashboarMain = styled.main`
   ${scrollBar}
 
   @media ${breakpointConfig.mobileL} {
-    padding: 0;
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    padding: 0 1rem 0 0;
+  }
+`;
+
+const NoGroupDataReminder = styled.div`
+  width: 100%;
+  height: 100%;
+  ${generateNoDataDashBoard("目前尚無群組，\\a趕緊建立一個！\\a來開始問卷創建之旅！")};
+  background-repeat: no-repeat;
+  background-position: 50% 30%;
+  background-image: url("/images/form-management.svg");
+  filter: none;
+
+  &::before {
+    display: none;
   }
 `;
 
@@ -54,6 +68,19 @@ const ChangeEditingGroupSelectForSmallDevice = styled(ChangeEditingGroupSelect)`
 `;
 
 const Dashboard: FC = () => {
+  const { groups, editingGroupId } = useContext(adminContext);
+  const isForDesktop = useResizeWindow(768);
+
+  const isShowAllForm = editingGroupId === "0";
+  const showSingleGroup = () => {
+    const hasResponsedGroup = groups.find((group) => group.id === editingGroupId);
+    if (!hasResponsedGroup) return groups[0];
+    return hasResponsedGroup;
+  };
+
+  const groupListArray = isShowAllForm ? groups : [showSingleGroup()];
+  const hasNoGroup = groupListArray[0] === undefined;
+
   return (
     <DashboardWrapper>
       <DashboardMainHeader />
@@ -61,7 +88,11 @@ const Dashboard: FC = () => {
       <ChangeEditingGroupSelectForSmallDevice />
       <DashboardSubHeader />
       <DashboarMain>
-        <FormList />
+        {hasNoGroup && <NoGroupDataReminder />}
+        {!hasNoGroup &&
+          groupListArray.map((group) => (
+            <FormList key={group.id} group={group} isForDesktop={isForDesktop} />
+          ))}
       </DashboarMain>
     </DashboardWrapper>
   );
