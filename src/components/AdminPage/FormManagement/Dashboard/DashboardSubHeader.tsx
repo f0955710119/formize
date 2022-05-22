@@ -25,16 +25,11 @@ const HeaderWrapper = styled.header`
   }
 `;
 
-const FilterWrapper = styled.div`
+const ButtonContainer = styled.div`
+  justify-content: end;
+  width: 100%;
+  height: 6rem;
   display: flex;
-  align-items: center;
-  width: calc(100% - 12rem);
-  border-radius: 5px;
-
-  transform: translateY(-1rem);
-  @media ${breakpointConfig.tabletS} {
-    width: 100%;
-  }
 `;
 
 const ButtonWrapper = styled.button`
@@ -48,12 +43,24 @@ const ButtonWrapper = styled.button`
   cursor: pointer;
   color: #fff;
   font-family: inherit;
-
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  line-height: 4.6rem;
   border-radius: 3px;
 
   &:hover {
     color: #555;
     background-color: #9dbcb9;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #ddd;
+
+    &:hover {
+      color: #fff;
+      background-color: #ddd;
+    }
   }
 
   @media ${breakpointConfig.tabletS} {
@@ -62,12 +69,6 @@ const ButtonWrapper = styled.button`
       margin-bottom: 1rem;
     }
   }
-`;
-
-const ButtonText = styled.span`
-  letter-spacing: 1px;
-  font-size: 1.4rem;
-  font-weight: bold;
 `;
 
 const DeleteButtonWrapper = styled(ButtonWrapper)`
@@ -79,10 +80,15 @@ const DeleteButtonWrapper = styled(ButtonWrapper)`
     color: #c73030;
     background-color: #b4bcb7;
   }
-`;
 
-const DeleteButtonText = styled(ButtonText)`
-  font-weight: normal;
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #ddd;
+    &:hover {
+      color: #fff;
+      background-color: #ddd;
+    }
+  }
 `;
 
 const DashboardSubHeader: FC = () => {
@@ -97,22 +103,23 @@ const DashboardSubHeader: FC = () => {
 
   return (
     <HeaderWrapper>
-      <FilterWrapper></FilterWrapper>
-      {editingGroupId !== "0" && (
-        <>
-          <DeleteButtonWrapper onClick={() => deleteGroupHandler()}>
-            <DeleteButtonText>刪除群組</DeleteButtonText>
-          </DeleteButtonWrapper>
-          <ButtonWrapper
-            onClick={() => {
-              sweetAlert.loadingReminderAlert("正在準備問卷狀態...");
-              goAddNewFormHandler();
-            }}
-          >
-            <ButtonText>新增問卷</ButtonText>
-          </ButtonWrapper>
-        </>
-      )}
+      <ButtonContainer>
+        <DeleteButtonWrapper
+          onClick={() => deleteGroupHandler()}
+          disabled={editingGroupId === "0"}
+        >
+          刪除群組
+        </DeleteButtonWrapper>
+        <ButtonWrapper
+          onClick={() => {
+            sweetAlert.loadingReminderAlert("正在準備問卷狀態...");
+            goAddNewFormHandler();
+          }}
+          disabled={editingGroupId === "0"}
+        >
+          新增問卷
+        </ButtonWrapper>
+      </ButtonContainer>
     </HeaderWrapper>
   );
 };
