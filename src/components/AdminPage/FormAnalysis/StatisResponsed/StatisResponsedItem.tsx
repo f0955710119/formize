@@ -2,12 +2,12 @@ import { FC } from "react";
 
 import styled from "styled-components";
 
-import breakpointConfig from "../../../configs/breakpointConfig";
-import type { Count, TextCount, NonTextCount } from "../../../types/statis";
-import helper from "../../../utils/helper";
-import NonTextContent from "./StatisTable/NonTextContent";
-import Table from "./StatisTable/Table";
-import TextContent from "./StatisTable/TextContent";
+import breakpointConfig from "../../../../configs/breakpointConfig";
+import type { Count, TextCount, NonTextCount } from "../../../../types/statis";
+import helper from "../../../../utils/helper";
+import NonTextContent from "../StatisTable/NonTextContent";
+import Table from "../StatisTable/Table";
+import TextContent from "../StatisTable/TextContent";
 
 import StatisResponsedItemContent from "./StatisResponsedItemContent";
 

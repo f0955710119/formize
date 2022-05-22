@@ -1,11 +1,10 @@
 import { FC } from "react";
 import styled from "styled-components";
-import breakpointConfig from "../../../configs/breakpointConfig";
-
-import type { NonTextCount } from "../../../types/statis";
-import StatisBar from "./StatisChart/StatisBar";
-import StatisPie from "./StatisChart/StatisPie";
-import StatisWordCloud from "./StatisChart/StatisWordCloud";
+import breakpointConfig from "../../../../configs/breakpointConfig";
+import { NonTextCount } from "../../../../types/statis";
+import StatisBar from "../StatisChart/StatisBar";
+import StatisPie from "../StatisChart/StatisPie";
+import StatisWordCloud from "../StatisChart/StatisWordCloud";
 
 const ChartWrapper = styled.div`
   display: inline-block;
@@ -123,9 +122,7 @@ interface StatisResponsedItemContentProps {
   count: NonTextCount[];
 }
 
-const StatisResponsedItemContent: FC<StatisResponsedItemContentProps> = (
-  props
-) => {
+const StatisResponsedItemContent: FC<StatisResponsedItemContentProps> = (props) => {
   const { type, index, title, count } = props;
   const itemProps = { index, title, count };
   const ResponsedItemContent = chartConfig[type];

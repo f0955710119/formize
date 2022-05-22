@@ -47,18 +47,12 @@ const Analysis: NextPage = () => {
         />
       </Head>
       {isFetchingAdminData ? (
-        <Loading
-          imageSrc={
-            process.env.NEXT_PUBLIC_ORIGIN + "/" + "images/loading-image.svg"
-          }
-        />
+        <Loading imageSrc={process.env.NEXT_PUBLIC_ORIGIN + "/" + "images/loading-image.svg"} />
       ) : (
         <>
           <Main>
             <FormAnalysisSideBar />
-            {currentAnalysisPage === 0 && (
-              <StatisSection statisData={statisData} />
-            )}
+            {currentAnalysisPage === 0 && <StatisSection statisData={statisData} />}
           </Main>
         </>
       )}

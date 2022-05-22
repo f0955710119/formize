@@ -1,10 +1,9 @@
-import { DateRangeDimensions } from "@styled-icons/material/DateRange";
-import { FC, useContext, useRef } from "react";
+import { FC, useContext } from "react";
 
 import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
-import questionConfig from "../../../configs/questionConfig";
+
 import statisFeatureConfig from "../../../configs/statisFeatureConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
 import { adminContext } from "../../../store/context/adminContext";
@@ -12,7 +11,7 @@ import type { StatisResponse } from "../../../types/statis";
 import Logo from "../../UI/Logo";
 import { generateNoDataDashBoard } from "../../UI/noDataDashboard";
 import scrollBar from "../../UI/scrollBar";
-import StatisResponseItem from "./StatisResponsedItem";
+import StatisResponsedList from "./StatisResponsed/StatisResponsedList";
 
 const hasDataBackgroundStyle = `
 background-image: linear-gradient(
@@ -120,85 +119,25 @@ const StatisHeaderItemForNonDesktop = styled.div<StatisHeaderItemForNonDesktopPr
 `;
 
 interface StatisSectionProps {
-  statisData?: StatisResponse[] | null;
+  statisData: StatisResponse[] | null;
 }
 
 const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
   const context = useContext(adminContext);
 
   const formData = context.forms.find((form) => form.id === context.editingFormId);
+  const StatisTitleForForm = `問卷標題: ${formData?.title}`;
+  const hasStatisData = statisData !== null;
 
-  const titleIndex = useRef<number>(0);
-  const currentQuestionId = useRef<string>("default");
-  const hasStatisData = statisData !== null && statisData !== undefined;
-  return hasStatisData ? (
-    <>
-      <StatisSectionContainer hasData>
-        <StatisHeaderForNonDesktop>
-          <Logo />
-        </StatisHeaderForNonDesktop>
-        <StatisHeaderForNonDesktop>
-          {statisFeatureConfig.ANALYSIS_FEATURE_TITLE.map((item, i) => (
-            <StatisHeaderItemForNonDesktop
-              key={i}
-              onClick={() => context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)}
-              isActive={i === context.currentAnalysisPage}
-            >
-              {item}
-            </StatisHeaderItemForNonDesktop>
-          ))}
-        </StatisHeaderForNonDesktop>
-        <StatisHeaderForNonDesktop>
-          <StatisSectionHeadingForNonDesktop>
-            問卷標題: {formData?.title}
-          </StatisSectionHeadingForNonDesktop>
-        </StatisHeaderForNonDesktop>
-        <StatisSectionHeading>問卷標題: {formData?.title}</StatisSectionHeading>
-        {statisData.map((data, i) => {
-          if (!data.id.split("_")[0].includes(currentQuestionId.current)) {
-            currentQuestionId.current = data.id.split("_")[0];
-            titleIndex.current++;
-          }
-          const questionTypeTitle = `${titleIndex.current}.${questionConfig[data.type]}題 - `;
-          if (data.numericData) {
-            return (
-              <StatisResponseItem
-                index={i}
-                key={data.id}
-                id={data.id}
-                title={
-                  questionTypeTitle + data.title + " " + " " + `(${data.hasAnswerQuantityText})`
-                }
-                type={data.type}
-                count={data.count}
-                numericData={data.numericData}
-              />
-            );
-          }
-          return (
-            <StatisResponseItem
-              index={i}
-              key={data.id}
-              id={data.id}
-              title={
-                questionTypeTitle + data.title + " " + " " + `(${data.hasAnswerQuantityText})`
-              }
-              type={data.type}
-              count={data.count}
-            />
-          );
-        })}
-      </StatisSectionContainer>
-    </>
-  ) : (
-    <StatisSectionContainer hasData={false}>
+  return (
+    <StatisSectionContainer hasData={hasStatisData}>
       <StatisHeaderForNonDesktop>
         <Logo />
       </StatisHeaderForNonDesktop>
       <StatisHeaderForNonDesktop>
         {statisFeatureConfig.ANALYSIS_FEATURE_TITLE.map((item, i) => (
           <StatisHeaderItemForNonDesktop
-            key={i}
+            key={item}
             onClick={() => context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)}
             isActive={i === context.currentAnalysisPage}
           >
@@ -206,6 +145,17 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
           </StatisHeaderItemForNonDesktop>
         ))}
       </StatisHeaderForNonDesktop>
+      {hasStatisData && (
+        <>
+          <StatisHeaderForNonDesktop>
+            <StatisSectionHeadingForNonDesktop>
+              {StatisTitleForForm}
+            </StatisSectionHeadingForNonDesktop>
+          </StatisHeaderForNonDesktop>
+          <StatisSectionHeading>{StatisTitleForForm}</StatisSectionHeading>
+          <StatisResponsedList statisData={statisData} />
+        </>
+      )}
     </StatisSectionContainer>
   );
 };
