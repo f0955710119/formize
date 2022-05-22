@@ -20,7 +20,6 @@ const questionConfig: QuestionConfig = {
   MAX: "max",
   UNIT: "unit",
   INTERVAL: "interval",
-  DECIMAL: "decimal",
   START_DATE: "startDate",
   END_DATE: "endDate",
   MAX_SELECTED_DATE_QUANTITY: "maxSelectedDateQuantity",

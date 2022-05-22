@@ -8,67 +8,31 @@ interface CheckStringName {
   editingText: string;
 }
 
-const filterNotIntroductionQuestions = (questions: Question[]) =>
-  questions.filter((question) => question.type !== "2");
-
-const countSpecificQuestionIndex = (
-  questions: Question[],
-  curerntQuestionId: string
-) =>
-  questions.reduce((init, question, i) => {
-    if (question.id === curerntQuestionId) {
-      const newIndex = i + 1;
-      return newIndex;
-    } else return init;
-  }, 0);
-
-const initQuestionQuantityOfDifferentPages = (pageQuantity: number) =>
-  Array(pageQuantity).fill(0);
-
-const updateCountNumbersOfQuestionPage = (
-  questions: Question[],
-  questionQuantityOfDifferentPages: number[]
-) => {
-  questions.forEach((question) => {
-    questionQuantityOfDifferentPages[question.page - 1] =
-      questionQuantityOfDifferentPages[question.page - 1] + 1;
-  });
-};
-
-const createQuestionsIntervalPointsForDifferentPages = (
-  questionQuantityOfDifferentPages: number[]
-) => {
-  const intervalPoints = [0];
-  questionQuantityOfDifferentPages.forEach((number, i) =>
-    intervalPoints.push(number + intervalPoints[i])
-  );
-  return intervalPoints;
-};
-
-const createIndexsForQuestionsInDiffernetPages = (
-  questionQuantityOfDifferentPages: number[],
-  indexsForOnePageMode: string[],
-  intervalPoints: number[]
-) =>
-  questionQuantityOfDifferentPages.map((_, i) =>
-    indexsForOnePageMode.slice(intervalPoints[i], intervalPoints[i + 1])
-  );
-
 export default {
-  generateId(length: number) {
-    let result = "";
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * charactersLength);
-      result += characters.charAt(randomIndex);
-    }
-    return result;
+  updateCountNumbersOfQuestionPage(
+    questions: Question[],
+    questionQuantityOfDifferentPages: number[]
+  ) {
+    questions.forEach((question) => {
+      questionQuantityOfDifferentPages[question.page - 1] =
+        questionQuantityOfDifferentPages[question.page - 1] + 1;
+    });
   },
-  generateQuestionIndex(questionId: string, questions: Question[]) {
-    const notIntroductionQuestions = filterNotIntroductionQuestions(questions);
-    return countSpecificQuestionIndex(notIntroductionQuestions, questionId);
+  createQuestionsIntervalPointsForDifferentPages(questionQuantityOfDifferentPages: number[]) {
+    const intervalPoints = [0];
+    questionQuantityOfDifferentPages.forEach((number, i) =>
+      intervalPoints.push(number + intervalPoints[i])
+    );
+    return intervalPoints;
+  },
+  createIndexsForQuestionsInDiffernetPages(
+    questionQuantityOfDifferentPages: number[],
+    indexsForOnePageMode: string[],
+    intervalPoints: number[]
+  ) {
+    return questionQuantityOfDifferentPages.map((_, i) =>
+      indexsForOnePageMode.slice(intervalPoints[i], intervalPoints[i + 1])
+    );
   },
   generateQuestionIndexArr(questions: Question[]) {
     let index = 0;
@@ -78,22 +42,25 @@ export default {
       return "" + index;
     });
   },
-  generateQuestionMultiPageIndexArr(
-    pageQuantity: number,
-    questions: Question[]
-  ) {
-    const questionQuantityOfDifferentPages =
-      initQuestionQuantityOfDifferentPages(pageQuantity);
-    updateCountNumbersOfQuestionPage(
-      questions,
-      questionQuantityOfDifferentPages
-    );
+  generateId(length: number) {
+    let result = "";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charactersLength);
+      result += characters.charAt(randomIndex);
+    }
+    return result;
+  },
+  generateQuestionMultiPageIndexArr(pageQuantity: number, questions: Question[]) {
+    const questionQuantityOfDifferentPages = Array(pageQuantity).fill(0);
+    this.updateCountNumbersOfQuestionPage(questions, questionQuantityOfDifferentPages);
 
     const indexsForOnePageMode = this.generateQuestionIndexArr(questions);
-    const intervalPoints = createQuestionsIntervalPointsForDifferentPages(
+    const intervalPoints = this.createQuestionsIntervalPointsForDifferentPages(
       questionQuantityOfDifferentPages
     );
-    return createIndexsForQuestionsInDiffernetPages(
+    return this.createIndexsForQuestionsInDiffernetPages(
       questionQuantityOfDifferentPages,
       indexsForOnePageMode,
       intervalPoints
@@ -113,28 +80,19 @@ export default {
       return editingText;
     });
   },
-  generateConfigKeys(
-    includedString: string,
-    config: { [key: string]: string }
-  ) {
+  generateConfigKeys(includedString: string, config: { [key: string]: string }) {
     return Object.keys(config)
       .filter((key) => key.includes(includedString))
       .map((key: string) => config[key]);
   },
   generateEnumConfig(keys: string[]) {
-    return keys.reduce(
-      (newConfig: { [key: string]: string }, objectKey: string, i: number) => {
-        newConfig[i] = objectKey;
-        return newConfig;
-      },
-      {}
-    );
+    return keys.reduce((newConfig: { [key: string]: string }, objectKey: string, i: number) => {
+      newConfig[i] = objectKey;
+      return newConfig;
+    }, {});
   },
   generateResponseThemePalette(themeCode: string) {
-    const themeCodeValueKeys = this.generateConfigKeys(
-      "_CODE_VALUE",
-      styleConfig
-    );
+    const themeCodeValueKeys = this.generateConfigKeys("_CODE_VALUE", styleConfig);
     const themeCofing = this.generateEnumConfig(themeCodeValueKeys);
     return themeCofing[themeCode];
   },
@@ -157,9 +115,7 @@ export default {
     const oneDayMilliseconds = 60 * 60 * 24 * 1000;
     const startDate = new Date(start);
     const endDate = new Date(end);
-    return Math.round(
-      (endDate.getTime() - startDate.getTime()) / oneDayMilliseconds
-    );
+    return Math.round((endDate.getTime() - startDate.getTime()) / oneDayMilliseconds);
   },
   generateResponsedUnitTime(unit: string) {
     const responsedObj: { [key: string]: number } = {
@@ -182,18 +138,7 @@ export default {
     });
   },
   generateChineseNumberString(number: number) {
-    const chineseNumberList = [
-      "一",
-      "二",
-      "三",
-      "四",
-      "五",
-      "六",
-      "七",
-      "八",
-      "九",
-      "十",
-    ];
+    const chineseNumberList = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
     return chineseNumberList[number];
   },
   generateResponsedQuestionDefault(type: string) {
@@ -201,10 +146,7 @@ export default {
     const defaultQuestionConfig = this.generateEnumConfig(defaultQuestionKeys);
     return defaultQuestionConfig[type];
   },
-  generateDifferentPageQuestionsArr(
-    pageQuantity: number,
-    questions: Question[]
-  ) {
+  generateDifferentPageQuestionsArr(pageQuantity: number, questions: Question[]) {
     const differentQuestionsArr = Array(pageQuantity)
       .fill(null)
       .map(() => []);

@@ -72,7 +72,7 @@ const questionDefaultConfig: QuestionDefaultConfig = {
     matrixs: ["欄位1", "欄位2", "欄位3"],
     validations: {
       required: false,
-      maxSelected: 3,
+      maxSelected: 1,
     },
   },
   NUMBER_DEFAULT: <Question>{
@@ -85,7 +85,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
       required: false,
       max: 100,
       min: 1,
-      decimal: 0,
       unit: "",
       interval: 1,
     },
@@ -101,7 +100,6 @@ const questionDefaultConfig: QuestionDefaultConfig = {
       required: false,
       min: 1,
       max: 100,
-      decimal: 0,
       unit: "",
       interval: 1,
     },

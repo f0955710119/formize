@@ -41,8 +41,7 @@ const CustomTextInput = styled(TextField)`
   }
 `;
 
-const { LENGTH, MIN, MAX, UNIT, INTERVAL, DECIMAL, MAX_SELECTED } =
-  questionConfig;
+const { LENGTH, MIN, MAX, UNIT, INTERVAL, DECIMAL, MAX_SELECTED } = questionConfig;
 
 interface TextInputProps {
   id: string;
@@ -64,24 +63,20 @@ const TextInput: FC<TextInputProps> = ({
 }: TextInputProps) => {
   const dispatch = useAppDispatch();
   const question = useGetQuestion(id) as Question;
-  const { willSwitcEditinghQuestion } = useAppSelector(
-    (state) => state.question
-  );
+  const { willSwitcEditinghQuestion } = useAppSelector((state) => state.question);
   const { validations } = question;
+  const { length, min, max, unit, interval, maxSelected } = validations;
 
   const inputValueConfig: { [key: string]: string } = {
-    [LENGTH]: "" + validations.length,
-    [MIN]: "" + validations.min,
-    [MAX]: "" + validations.max,
-    [UNIT]: "" + validations.unit,
-    [INTERVAL]: "" + validations.interval,
-    [DECIMAL]: "" + validations.decimal,
-    [MAX_SELECTED]: "" + validations.maxSelected,
+    [LENGTH]: "" + length,
+    [MIN]: "" + min,
+    [MAX]: "" + max,
+    [UNIT]: "" + unit,
+    [INTERVAL]: "" + interval,
+    [MAX_SELECTED]: "" + maxSelected,
   };
 
-  const [inputValue, setInputValue] = useState<string>(
-    inputValueConfig[validationType]
-  );
+  const [inputValue, setInputValue] = useState<string>(inputValueConfig[validationType]);
   const delayChecking = useRef<NodeJS.Timeout>(
     setTimeout(() => {
       return;

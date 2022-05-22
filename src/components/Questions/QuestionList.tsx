@@ -131,7 +131,9 @@ const QuestionList: FC<QuestionListProps> = ({
   const isNotIntroduction =
     errorMessage !== "" ? <ErrorReminder>{errorMessage}</ErrorReminder> : <EmptyErrorMessage />;
 
-  const { title, type, note, validations, id } = question;
+  const { id, title, type, note, options, matrixs, validations } = question;
+  // prettier-ignore
+  const { length, maxSelected, max, min, unit, interval, multipleDate, hasRange, startDate, endDate, maxSelectedDateQuantity} = validations;
   const questionTitle = titleIndex === "" ? title : `${titleIndex}. ${title}`;
 
   return (
@@ -151,82 +153,62 @@ const QuestionList: FC<QuestionListProps> = ({
             {note.trim().length !== 0 && <NoteText>{note}</NoteText>}
           </>
         )}
-
-        {type === "0" && (
-          <OneLineText textType="text" length={validations.length} questionId={id} />
-        )}
-
-        {question.type === "1" && (
-          <MultipleLineText maxLength={question.validations.length} questionId={question.id} />
-        )}
-
-        {question.type === "2" && <Introduction textContent={question.title} />}
-        {question.type === "3" && (
+        {type === "0" && <OneLineText textType="text" length={length} questionId={id} />}
+        {type === "1" && <MultipleLineText maxLength={length} questionId={id} />}
+        {type === "2" && <Introduction textContent={title} />}
+        {type === "3" && (
           <OneChoice
-            options={question.options ? question.options : []}
-            questionId={question.id}
+            options={options ? options : []}
+            questionId={id}
             isCreatingProcess={isCreatingProcess}
           />
         )}
-        {question.type === "4" && (
+        {type === "4" && (
           <MultiChoice
-            options={question.options ? question.options : []}
-            maxSelected={
-              question.validations.maxSelected ? question.validations.maxSelected : 1
-            }
-            questionId={question.id}
+            options={options ? options : []}
+            maxSelected={maxSelected ? maxSelected : 1}
+            questionId={id}
             isCreatingProcess={isCreatingProcess}
           />
         )}
-        {question.type === "5" && (
+        {type === "5" && (
           <Matrix
-            options={question.options ? question.options : []}
-            matrixs={question.matrixs ? question.matrixs : []}
-            questionId={question.id}
+            options={options ? options : []}
+            matrixs={matrixs ? matrixs : []}
+            questionId={id}
           />
         )}
-        {question.type === "6" && (
-          <OneLineText
-            textType="number"
-            questionId={question.id}
-            max={question.validations.max}
-            min={question.validations.min}
-            decimal={question.validations.decimal}
-          />
-        )}
-
-        {question.type === "7" && (
+        {type === "6" && <OneLineText textType="number" questionId={id} max={max} min={min} />}
+        {type === "7" && (
           <Slider
-            questionId={question.id}
-            max={question.validations.max && question.validations.max}
-            min={question.validations.min && question.validations.min}
-            unit={question.validations.unit && question.validations.unit}
-            interval={question.validations.interval && question.validations.interval}
+            questionId={id}
+            max={max && max}
+            min={min && min}
+            unit={unit && unit}
+            interval={interval && interval}
           />
         )}
 
-        {question.type === "8" && (
+        {type === "8" && (
           <Sort
-            options={question.options ? question.options : []}
-            maxSelected={
-              question.validations.maxSelected ? question.validations.maxSelected : 1
-            }
-            questionId={question.id}
+            options={options ? options : []}
+            maxSelected={maxSelected ? maxSelected : 1}
+            questionId={id}
           />
         )}
 
-        {question.type === "9" && (
+        {type === "9" && (
           <Date
-            questionId={question.id}
-            isMultipleDate={question.validations.multipleDate}
-            hasRange={question.validations.hasRange}
-            startDate={question.validations.startDate}
-            endDate={question.validations.endDate}
-            maxSelectedDateQuantity={question.validations.maxSelectedDateQuantity}
+            questionId={id}
+            isMultipleDate={multipleDate}
+            hasRange={hasRange}
+            startDate={startDate}
+            endDate={endDate}
+            maxSelectedDateQuantity={maxSelectedDateQuantity}
           />
         )}
 
-        {question.type !== "2" ? isNotIntroduction : <></>}
+        {type !== "2" ? isNotIntroduction : <></>}
       </QuestionWrapper>
     </>
   );

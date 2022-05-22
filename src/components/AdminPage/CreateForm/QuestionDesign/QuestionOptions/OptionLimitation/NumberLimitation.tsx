@@ -1,6 +1,5 @@
 import { FC } from "react";
 
-
 import questionConfig from "../../../../../../configs/questionConfig";
 import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
 import useGetQuestion from "../../../../../../hooks/useQuestion";
@@ -17,26 +16,16 @@ interface NumberLimitationProps {
   validations: Validation;
 }
 
-const checkInt = ({
-  max,
-  min,
-  value,
-}: {
-  max: number;
-  min: number;
-  value: string;
-}) => {
+const checkInt = ({ max, min, value }: { max: number; min: number; value: string }) => {
   const isInt = Number.isInteger((+max - +min) / +value);
   console.log(+value);
   if (isInt) return null;
   return "每次能移動的數值區間必須符合設定的最大值和最小值，得符合「最大值 - 最小值」 / 「區間」能整除!";
 };
 
-const NumberLimitation: FC<NumberLimitationProps> = ({
-  id,
-}: NumberLimitationProps) => {
+const NumberLimitation: FC<NumberLimitationProps> = ({ id }: NumberLimitationProps) => {
   const question = useGetQuestion(id) as Question;
-  const { min, max, unit, decimal, interval } = question.validations;
+  const { min, max, unit, interval } = question.validations;
   const minValidationHandler = (value: string) => {
     if (max === undefined || min === undefined) return null;
     if (+value > max) return "最小值不可以超過最大值，請更換數值";
@@ -57,18 +46,11 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
   };
 
   const intervalValidationHandler = (value: string) => {
-    if (interval === undefined || max === undefined || min === undefined)
-      return null;
+    if (interval === undefined || max === undefined || min === undefined) return null;
     if (+value === 0 || +value < 0) return "移動區間值要至少大於0喲";
     return checkInt({ max, min, value });
   };
 
-  const decialValidationHanlder = (value: string) => {
-    if (!decimal) return null;
-    if (+value > 4) return "目前僅開放最多小數點後4位，請重新設定!";
-    if (!Number.isInteger(+value)) return "只能輸入整數喲!";
-    return null;
-  };
   const saveMinHandler = useGenerateValidationHandler(
     id,
     questionConfig.MIN,
@@ -96,13 +78,6 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
     true,
     question,
     intervalValidationHandler
-  );
-  const saveDemcialHandler = useGenerateValidationHandler(
-    id,
-    questionConfig.DECIMAL,
-    true,
-    question,
-    decialValidationHanlder
   );
 
   return (
@@ -147,16 +122,6 @@ const NumberLimitation: FC<NumberLimitationProps> = ({
           />
         </Field>
       )}
-      {/* <Field>
-        <Label>小數點後碼數</Label>
-        <TextInput
-          id={id}
-          placeholder="無則留空"
-          inputType="number"
-          dispatchHandler={saveDemcialHandler}
-          validationType={questionConfig.DECIMAL}
-        />
-      </Field> */}
     </LimitationWrapper>
   );
 };

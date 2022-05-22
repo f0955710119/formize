@@ -27,7 +27,6 @@ interface OneLineTextProps {
   min?: number;
   max?: number;
   unit?: string;
-  decimal?: number;
 }
 
 const OneLineText: FC<OneLineTextProps> = ({
@@ -36,7 +35,6 @@ const OneLineText: FC<OneLineTextProps> = ({
   length,
   max,
   min,
-  decimal,
 }: OneLineTextProps) => {
   const dispatch = useAppDispatch();
 
@@ -80,10 +78,6 @@ const OneLineText: FC<OneLineTextProps> = ({
       const input = event.target.value;
       const hasMaxInvalid = max && +input > max;
       const hasMinInvalid = min && +input < min;
-      const hasDecimalInvalid =
-        typeof decimal === "number" &&
-        input.includes(".") &&
-        input.split(".")[1].length > decimal;
 
       if (input === "") {
         resetInputHandler(questionIdIndex);
@@ -99,13 +93,6 @@ const OneLineText: FC<OneLineTextProps> = ({
 
       if (hasMinInvalid) {
         showInvalidHandler(`數值不能小於${min}`);
-        return;
-      }
-
-      if (hasDecimalInvalid) {
-        const errorMessage =
-          decimal === 0 ? "只能輸入整數" : `最多只能輸入小數點後${decimal}位`;
-        showInvalidHandler(errorMessage);
         return;
       }
       showInvalidHandler("");

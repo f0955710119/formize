@@ -24,7 +24,6 @@ const StatisResponsedList: FC<StatisResponsedListProps> = ({ statisData }) => {
           questionTypeTitle + title + " " + " " + `(${hasAnswerQuantityText})`;
 
         const generalStatisResponsedItemProps = {
-          key: id,
           index,
           id,
           title: statisTitle,
@@ -36,7 +35,7 @@ const StatisResponsedList: FC<StatisResponsedListProps> = ({ statisData }) => {
           ? { ...generalStatisResponsedItemProps, numericData }
           : generalStatisResponsedItemProps;
 
-        return <StatisResponsedItem {...statisResponsedItemProps} />;
+        return <StatisResponsedItem key={id} {...statisResponsedItemProps} />;
       })}
     </>
   );

@@ -4,7 +4,6 @@ export interface Validation {
   textType?: string;
   max?: number;
   min?: number;
-  decimal?: number;
   unit?: string;
   interval?: number;
   maxSelected?: number;
