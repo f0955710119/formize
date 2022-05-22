@@ -3,8 +3,8 @@ import { FC } from "react";
 import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
+import titleConfig from "../../../configs/titleConfig";
 import HeaderItem from "./HeaderItem";
-
 
 const Header = styled.header`
   display: flex;
@@ -20,7 +20,7 @@ const Header = styled.header`
   }
 `;
 
-const defaultTitles = ["設定資訊", "題目設計", "外觀樣式", "發佈問卷"];
+const defaultTitles = titleConfig.CREATE_FORM_STEP_TITLE;
 
 interface StepHeaderProps {
   currentStep: number;
@@ -31,7 +31,7 @@ const StepHeader: FC<StepHeaderProps> = ({ currentStep }: StepHeaderProps) => {
     <Header>
       {defaultTitles.map((title, i) => (
         <HeaderItem
-          key={i}
+          key={title}
           number={i + 1}
           title={title}
           isLastItem={i === defaultTitles.length - 1}

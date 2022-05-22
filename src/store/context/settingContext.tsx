@@ -2,7 +2,7 @@ import { createContext, FC, ReactNode, useReducer } from "react";
 import type { SetFieldHandler, SettingContext } from "../../types/setting";
 
 const initialContextState: SettingContext = {
-  title: "空白問卷",
+  title: "",
   mode: "0",
   pageQuantity: 1,
   startPageParagraph: null,
@@ -32,9 +32,7 @@ interface SettingContextProviderProps {
   children: ReactNode;
 }
 
-export const SettingContextProvider: FC<SettingContextProviderProps> = ({
-  children,
-}) => {
+export const SettingContextProvider: FC<SettingContextProviderProps> = ({ children }) => {
   const [settingInfo, dispatch] = useReducer(reducer, initialContextState);
   const setFieldHandler: SetFieldHandler = (fieldKey, value) => {
     dispatch({ type: fieldKey, payload: value });
@@ -65,9 +63,5 @@ export const SettingContextProvider: FC<SettingContextProviderProps> = ({
     setField: setFieldHandler,
   };
 
-  return (
-    <settingContext.Provider value={initialValue}>
-      {children}
-    </settingContext.Provider>
-  );
+  return <settingContext.Provider value={initialValue}>{children}</settingContext.Provider>;
 };

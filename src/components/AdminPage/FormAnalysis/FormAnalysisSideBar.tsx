@@ -3,7 +3,7 @@ import { FC, useContext } from "react";
 import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
-import statisFeatureConfig from "../../../configs/statisFeatureConfig";
+import titleConfig from "../../../configs/titleConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
 import { adminContext } from "../../../store/context/adminContext";
 import Logo from "../../UI/Logo";
@@ -30,7 +30,7 @@ const FormAnalysisSideBar: FC = () => {
   return (
     <SideBar>
       <Logo style={{ margin: "2rem 0 1rem 1rem", justifyContent: "start" }} />
-      {statisFeatureConfig.ANALYSIS_FEATURE_TITLE.map((feature, i) => (
+      {titleConfig.ANALYSIS_FEATURE_TITLE.map((feature, i) => (
         <SideBarButton
           key={i}
           buttonText={feature}

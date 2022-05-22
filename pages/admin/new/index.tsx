@@ -4,10 +4,7 @@ import { useRouter } from "next/router";
 
 import { useContext, useState } from "react";
 
-import {
-  createTheme,
-  ThemeProvider as MUIThemeProvider,
-} from "@mui/material/styles";
+import { createTheme, ThemeProvider as MUIThemeProvider } from "@mui/material/styles";
 import styled, { ThemeProvider } from "styled-components";
 
 import DeployFormSection from "../../../src/components/AdminPage/CreateForm/DeployForm/DeployFormSection";
@@ -77,18 +74,14 @@ const New: NextPage = () => {
         <meta name="description" content="FORMiZE - 問卷進行式" />
       </Head>
       {isFetchingAdminData ? (
-        <Loading
-          imageSrc={
-            process.env.NEXT_PUBLIC_ORIGIN + "/" + "images/loading-image.svg"
-          }
-        />
+        <Loading imageSrc={process.env.NEXT_PUBLIC_ORIGIN + "/" + "images/loading-image.svg"} />
       ) : (
         <MUIThemeProvider theme={muiTheme}>
           <CreateNewPageContainer>
-            <Header>
-              <StepHeader currentStep={currentStep} />
-            </Header>
             <SettingContextProvider>
+              <Header>
+                <StepHeader currentStep={currentStep} />
+              </Header>
               {currentStep === 1 && <SettingForm />}
               <ThemeProvider theme={colorTheme}>
                 {currentStep === 2 && <QuestionDesign />}

@@ -17,8 +17,7 @@ interface ItemWrapperProps {
 const ItemWrapper = styled.div<ItemWrapperProps>`
   display: flex;
   align-items: center;
-  color: ${(props) =>
-    props.currentStep === props.number ? "#e9b014" : "#333"};
+  color: ${(props) => (props.currentStep === props.number ? "#e9b014" : "#333")};
   font-weight: normal;
   transition: color 0.3s;
 `;
@@ -97,25 +96,29 @@ const HeaderItem: FC<HeaderItemProps> = ({
   isLastItem,
   currentStep,
 }: HeaderItemProps) => {
-  const settingContextData = useContext(settingContext);
+  const { title: formTitle } = useContext(settingContext);
   const switchStepHandler = useSwitchCurrentStep();
   const sendingFormData = useFormData();
   const sendFormDataHandler = useDeployForm();
+
+  const clickToSwitchStepOfCreatingForm = async (title: string, step: number) => {
+    if (title === "") {
+      sweetAlert.errorReminderAlert("請一定要填寫問卷的標題！");
+      return;
+    }
+
+    if (step === 4) {
+      await sendFormDataHandler(sendingFormData);
+      return;
+    }
+
+    switchStepHandler(number);
+  };
+
   return (
     <ItemWrapper number={number} currentStep={currentStep}>
       <OptionWrapper
-        onClick={async () => {
-          if (settingContextData.title === "") {
-            sweetAlert.errorReminderAlert("請一定要填寫問卷的標題！");
-            return;
-          }
-
-          if (number === 4) {
-            await sendFormDataHandler(sendingFormData);
-            return;
-          }
-          switchStepHandler(number);
-        }}
+        onClick={async () => await clickToSwitchStepOfCreatingForm(formTitle, number)}
       >
         <NumberIconWrapper>
           <NumberIcon>{number}</NumberIcon>

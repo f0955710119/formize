@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
 
-import statisFeatureConfig from "../../../configs/statisFeatureConfig";
+import titleConfig from "../../../configs/titleConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
 import { adminContext } from "../../../store/context/adminContext";
 import type { StatisResponse } from "../../../types/statis";
@@ -135,7 +135,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
         <Logo />
       </StatisHeaderForNonDesktop>
       <StatisHeaderForNonDesktop>
-        {statisFeatureConfig.ANALYSIS_FEATURE_TITLE.map((item, i) => (
+        {titleConfig.ANALYSIS_FEATURE_TITLE.map((item, i) => (
           <StatisHeaderItemForNonDesktop
             key={item}
             onClick={() => context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)}
