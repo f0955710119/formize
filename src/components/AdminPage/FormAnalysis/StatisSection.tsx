@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
 import questionConfig from "../../../configs/questionConfig";
+import statisFeatureConfig from "../../../configs/statisFeatureConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
 import { adminContext } from "../../../store/context/adminContext";
 import type { StatisResponse } from "../../../types/statis";
@@ -171,8 +172,6 @@ const StatisHeaderItemForNonDesktop = styled.div<StatisHeaderItemForNonDesktopPr
   border-radius: 5px;
 `;
 
-const analysisFeatureList = ["統計分析"];
-
 interface StatisSectionProps {
   statisData?: StatisResponse[] | null;
 }
@@ -192,7 +191,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
           <Logo />
         </StatisHeaderForNonDesktop>
         <StatisHeaderForNonDesktop>
-          {analysisFeatureList.map((item, i) => (
+          {statisFeatureConfig.ANALYSIS_FEATURE_TITLE.map((item, i) => (
             <StatisHeaderItemForNonDesktop
               key={i}
               onClick={() => context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)}
@@ -250,7 +249,7 @@ const StatisSection: FC<StatisSectionProps> = ({ statisData }) => {
         <Logo />
       </StatisHeaderForNonDesktop>
       <StatisHeaderForNonDesktop>
-        {analysisFeatureList.map((item, i) => (
+        {statisFeatureConfig.ANALYSIS_FEATURE_TITLE.map((item, i) => (
           <StatisHeaderItemForNonDesktop
             key={i}
             onClick={() => context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, i)}

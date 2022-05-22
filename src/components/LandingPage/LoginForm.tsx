@@ -249,6 +249,7 @@ const LoginForm: FC = () => {
       {errorMessage !== "" && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <Field>
         <Input
+          value={email}
           type="text"
           name="account"
           autoComplete="off"
@@ -263,6 +264,7 @@ const LoginForm: FC = () => {
       </Field>
       <Field>
         <Input
+          value={password}
           type="password"
           name="password"
           autoComplete="off"
