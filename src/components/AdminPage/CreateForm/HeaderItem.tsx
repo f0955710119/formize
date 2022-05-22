@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
 import useDeployForm from "../../../hooks/useDeployForm";
-import useFormData from "../../../hooks/useFormData";
 import useSwitchCurrentStep from "../../../hooks/useSwitchCurrentStep";
 import { settingContext } from "../../../store/context/settingContext";
 import sweetAlert from "../../../utils/sweetAlert";
@@ -98,8 +97,7 @@ const HeaderItem: FC<HeaderItemProps> = ({
 }: HeaderItemProps) => {
   const { title: formTitle } = useContext(settingContext);
   const switchStepHandler = useSwitchCurrentStep();
-  const sendingFormData = useFormData();
-  const sendFormDataHandler = useDeployForm();
+  const sendFormDataCallback = useDeployForm();
 
   const clickToSwitchStepOfCreatingForm = async (title: string, step: number) => {
     if (title === "") {
@@ -108,7 +106,7 @@ const HeaderItem: FC<HeaderItemProps> = ({
     }
 
     if (step === 4) {
-      await sendFormDataHandler(sendingFormData);
+      await sendFormDataCallback();
       return;
     }
 

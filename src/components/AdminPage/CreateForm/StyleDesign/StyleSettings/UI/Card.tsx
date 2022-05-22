@@ -100,16 +100,15 @@ const Card: FC<CardProps> = ({
   isBackground,
   dispatchHandler,
 }: CardProps) => {
+  const cardItemProps = {
+    imageUrl: imageUrl ? imageUrl : "",
+    font: font ? font : "",
+    isBackground: isBackground ? true : false,
+  };
+
   return (
-    <CardWrapper
-      isActive={isActive}
-      onClick={() => dispatchHandler && dispatchHandler()}
-    >
-      <CardItem
-        imageUrl={imageUrl ? imageUrl : ""}
-        font={font ? font : ""}
-        isBackground={isBackground ? true : false}
-      />
+    <CardWrapper isActive={isActive} onClick={() => dispatchHandler && dispatchHandler()}>
+      <CardItem {...cardItemProps} />
       <CardTitle>{title}</CardTitle>
     </CardWrapper>
   );

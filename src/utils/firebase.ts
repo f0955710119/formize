@@ -22,7 +22,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import type { DocumentReference, DocumentData } from "firebase/firestore";
-import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { getStorage, ref, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
 import type { StorageReference } from "firebase/storage";
 
 import type { Forms } from "../types/form";
@@ -93,11 +93,7 @@ export default {
   async createNativeUser(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const { uid } = userCredential.user;
       await setUserData(uid);
       return uid;
@@ -114,11 +110,7 @@ export default {
   async nativeLogin(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const { uid } = userCredential.user;
       const data = await this.getDocData(firestoreCollectionConfig.USERS, uid);
       return data;
@@ -174,11 +166,7 @@ export default {
     await updateDoc(docRef, updateObj);
   },
   // FOR_FILTER
-  async getAllEqualDoc(
-    collectionName: string,
-    fieldKey: string,
-    equalValue: string
-  ) {
+  async getAllEqualDoc(collectionName: string, fieldKey: string, equalValue: string) {
     const collectionRef = collection(db, collectionName);
     const fields = query(collectionRef, where(fieldKey, "==", equalValue));
 
@@ -213,11 +201,7 @@ export default {
     }
   },
   async updateFieldArrayValue<T>(
-    {
-      docPath,
-      fieldKey,
-      updateData,
-    }: { docPath: string; fieldKey: string; updateData: T },
+    { docPath, fieldKey, updateData }: { docPath: string; fieldKey: string; updateData: T },
     isAddNewValue: boolean = true
   ) {
     const docRef = doc(db, docPath);
@@ -225,9 +209,7 @@ export default {
       await setDoc(
         docRef,
         {
-          [fieldKey]: isAddNewValue
-            ? arrayUnion(updateData)
-            : arrayRemove(updateData),
+          [fieldKey]: isAddNewValue ? arrayUnion(updateData) : arrayRemove(updateData),
         },
         { merge: true }
       );
@@ -244,10 +226,7 @@ export default {
     return ref(storage, refName);
   },
   getStorageRef(photoName: string) {
-    return ref(
-      storage,
-      `gs://${process.env.NEXT_PUBLIC_STORAGE_BUCKET}/${photoName}`
-    );
+    return ref(storage, `gs://${process.env.NEXT_PUBLIC_STORAGE_BUCKET}/${photoName}`);
   },
   async uploadImage(ref: StorageReference, file: Blob) {
     await uploadBytes(ref, file).catch((error) => console.error(error.message));
@@ -268,6 +247,17 @@ export default {
       return url;
     } catch (error: any) {
       console.error(error.message);
+      return null;
     }
+  },
+  async deleteImage(url: string | null | undefined) {
+    if (url === null || url === undefined) return;
+    const imageRef = ref(storage, `${url}`);
+    await deleteObject(imageRef);
+  },
+  async createUploadedImages(imageFile: File | null) {
+    if (imageFile === null) return null;
+    const newImageFileUrl = await this.generateImageUrl(imageFile);
+    return newImageFileUrl !== undefined ? newImageFileUrl : null;
   },
 };

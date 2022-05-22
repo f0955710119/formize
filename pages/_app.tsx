@@ -7,6 +7,7 @@ import { createGlobalStyle } from "styled-components";
 import { store } from "../src/store";
 import { AdminProvider } from "../src/store/context/adminContext";
 import { StyleContextProvider } from "../src/store/context/styleContext";
+import firebase from "../src/utils/firebase";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {

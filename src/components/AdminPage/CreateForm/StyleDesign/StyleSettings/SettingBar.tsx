@@ -5,9 +5,7 @@ import styled from "styled-components";
 import backgroundConfig from "../../../../../configs/backgroundConfig";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import styleConfig from "../../../../../configs/styleConfig";
-import useAppSelector from "../../../../../hooks/useAppSelector";
 import useDeployForm from "../../../../../hooks/useDeployForm";
-import useFormData from "../../../../../hooks/useFormData";
 import useStyleHandler from "../../../../../hooks/useStyleHandler";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 import type { SettingContext } from "../../../../../types/setting";
@@ -16,9 +14,11 @@ import type { Question } from "../../../../../types/question";
 import helper from "../../../../../utils/helper";
 import scrollBar from "../../../../UI/scrollBar";
 import Layout from "../../UI/Layout";
-import HeaderItem from "./HeaderItem";
+import SettingHeaderItem from "./SettingHeaderItem";
 import Card from "./UI/Card";
 import { styleContext } from "../../../../../store/context/styleContext";
+import sweetAlert from "../../../../../utils/sweetAlert";
+import titleConfig from "../../../../../configs/titleConfig";
 
 const SettingLayout = styled(Layout)`
   padding: 0;
@@ -100,21 +100,14 @@ const ButtonText = styled.span`
   font-size: 1.4rem;
 `;
 
-const styleTitleList = ["顏色主題", "字體樣式", "問卷背景"];
 const defaultThemeList = helper.generateConfigKeys("_NAME", styleConfig);
 const defaultThemeImages = helper
   .generateConfigKeys("THEME_IMAGE_", styleConfig)
   .map((path) => `${process.env.NEXT_PUBLIC_ORIGIN}${path}`);
 const defaultFontList = helper.generateConfigKeys("_FONT", styleConfig);
 const defaultFont = helper.generateConfigKeys("_CSS", styleConfig);
-const defaultBackgroundNameList = helper.generateConfigKeys(
-  "_BG",
-  backgroundConfig
-);
-const defaultBackgroundUrlList = helper.generateConfigKeys(
-  "_URL",
-  backgroundConfig
-);
+const defaultBackgroundNameList = helper.generateConfigKeys("_BG", backgroundConfig);
+const defaultBackgroundUrlList = helper.generateConfigKeys("_URL", backgroundConfig);
 
 const SettingBar: FC = () => {
   const { theme, font, backgroundImage } = useContext(styleContext);
@@ -122,28 +115,22 @@ const SettingBar: FC = () => {
 
   const switchStepHanlder = useSwitchCurrentStep();
   const switchStyleHandler = useStyleHandler();
-  const sendingFormData = useFormData();
   const sendFormDataHandler = useDeployForm();
 
-  const clickToSendForm = async (sendingFormData: {
-    uid: string;
-    groupId: string;
-    questions: Question[];
-    style: Style;
-    settingContextData: SettingContext;
-  }) => {
+  const clickToSendForm = async () => {
     try {
-      await sendFormDataHandler(sendingFormData);
-    } catch (error) {
-      console.error(error);
+      await sendFormDataHandler();
+    } catch (error: any) {
+      console.error(error.message);
+      sweetAlert.errorReminderAlert("新增問卷時發生異常，請稍後再嘗試");
     }
   };
 
   return (
     <SettingLayout>
       <Header>
-        {styleTitleList.map((title, i) => (
-          <HeaderItem
+        {titleConfig.STYLE_TITLE.map((title, i) => (
+          <SettingHeaderItem
             key={i}
             title={title}
             option={i}
@@ -152,15 +139,16 @@ const SettingBar: FC = () => {
           />
         ))}
       </Header>
+
       {stylingOption === 0 && (
         <CardContainer>
           {defaultThemeList.map((themeTitle, i) => (
             <Card
               isActive={+theme === i}
-              imageUrl={defaultThemeImages[i]}
               title={themeTitle}
               key={i}
               dispatchHandler={() => switchStyleHandler(themeTitle, "theme")}
+              imageUrl={defaultThemeImages[i]}
             />
           ))}
         </CardContainer>
@@ -172,8 +160,8 @@ const SettingBar: FC = () => {
               isActive={+font === i}
               title={fontTitle}
               key={i}
-              font={defaultFont[i]}
               dispatchHandler={() => switchStyleHandler(fontTitle, "font")}
+              font={defaultFont[i]}
             />
           ))}
         </CardContainer>
@@ -185,19 +173,14 @@ const SettingBar: FC = () => {
               isActive={defaultBackgroundUrlList[i] === backgroundImage}
               title={background}
               key={i}
-              dispatchHandler={() =>
-                switchStyleHandler(background, "backgroundImage")
-              }
+              dispatchHandler={() => switchStyleHandler(background, "backgroundImage")}
               imageUrl={defaultBackgroundUrlList[i]}
               isBackground
             />
           ))}
         </CardContainer>
       )}
-      <ButtonWrapper
-        onClick={() => clickToSendForm(sendingFormData)}
-        style={{ backgroundColor: "#ffc652c2" }}
-      >
+      <ButtonWrapper onClick={() => clickToSendForm()} style={{ backgroundColor: "#ffc652c2" }}>
         <ButtonText>點我發佈問卷</ButtonText>
       </ButtonWrapper>
       <ButtonWrapper onClick={() => switchStepHanlder(2)}>

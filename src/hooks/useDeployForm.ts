@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 
-import type { Style } from "../types/style";
 import type { Question } from "../types/question";
-import { SettingContext } from "../types/setting";
 import firebase from "../utils/firebase";
 import sweetAlert from "../utils/sweetAlert";
 import useSwitchCurrentStep from "./useSwitchCurrentStep";
@@ -10,20 +8,25 @@ import { useContext } from "react";
 import { adminContext } from "../store/context/adminContext";
 import adminActionType from "../store/actionType/adminActionType";
 
+import useAppSelector from "./useAppSelector";
+import { styleContext } from "../store/context/styleContext";
+import { settingContext } from "../store/context/settingContext";
+import { SendingFormData } from "../types/form";
+
+type Image = string | null;
+
 const checkHasUid = (uid: string, callback: () => void) => {
-  if (uid === "") {
-    sweetAlert.clickToConfirmAlert(
-      {
-        title: "OOPS...",
-        text: "非登入中的會員無法發佈問卷，若看到此訊息，請嘗試重新登入",
-        cancelButtonText: "關閉視窗",
-        confirmButtonText: "重回首頁",
-      },
-      callback
-    );
-    return false;
-  }
-  return true;
+  if (uid !== "") return true;
+  sweetAlert.clickToConfirmAlert(
+    {
+      title: "OOPS...",
+      text: "非登入中的會員無法發佈問卷，若看到此訊息，請嘗試重新登入",
+      cancelButtonText: "關閉視窗",
+      confirmButtonText: "重回首頁",
+    },
+    callback
+  );
+  return false;
 };
 
 const checkHasQuestion = (questions: Question[]) => {
@@ -40,76 +43,86 @@ const checkHasQuestion = (questions: Question[]) => {
   return true;
 };
 
-const createUploadedImages = async (imageFile: File | null) => {
-  let newImageFile = null;
-  if (imageFile !== null) {
-    const { name } = imageFile;
-    const imageRef = firebase.getStorageRef(name);
-    await firebase.uploadImage(imageRef, imageFile);
-    newImageFile = await firebase.getStoredImages(imageRef);
-  }
-  return newImageFile;
+const getUploadImages = async (
+  startPageImageFile: File | null,
+  endPageImageFile: File | null
+) => {
+  const [newStartPageImageFile, newEndPageImageFile] = await Promise.all([
+    firebase.createUploadedImages(startPageImageFile),
+    firebase.createUploadedImages(endPageImageFile),
+  ]);
+
+  const startPageImage = newStartPageImageFile !== undefined ? newStartPageImageFile : null;
+  const endPageImage = newEndPageImageFile !== undefined ? newEndPageImageFile : null;
+  return [startPageImage, endPageImage] as Image[];
+};
+
+const sendFormRequest = async (formData: SendingFormData) => {
+  const response = await fetch("/api/admin/form", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+  const data = await response.json();
+  if (data.status !== "success") throw new Error("上傳資料失敗,沒接收到成功的data回傳狀態");
+  const { formId } = data.data;
+  return "" + formId;
 };
 
 const useDeployForm = () => {
-  const { setField } = useContext(adminContext);
   const router = useRouter();
-  const switchStepHanlder = useSwitchCurrentStep();
-  const sendFormDataHandler = async (sendingObj: {
-    uid: string;
-    groupId: string;
-    questions: Question[];
-    style: Style;
-    settingContextData: SettingContext;
-  }) => {
-    const { uid, groupId, style, questions, settingContextData } = sendingObj;
-    const { title, mode, startPageImageFile, endPageImageFile } =
-      settingContextData;
+  const { questions } = useAppSelector((state) => state.question);
+  const { uid, editingGroupId: groupId, setField } = useContext(adminContext);
+  const style = useContext(styleContext);
+  const settingContextData = useContext(settingContext);
+  const { startPageImageFile, endPageImageFile } = settingContextData;
 
+  const switchStepHanlder = useSwitchCurrentStep();
+
+  const sendFormDataHandler = async () => {
     const hasUid = checkHasUid(uid, () => router.replace("/"));
     if (!hasUid) return;
 
     const hasQuestion = checkHasQuestion(questions);
     if (!hasQuestion) return;
 
+    const successSendCallback = (formId: string) => {
+      sweetAlert.loadedReminderAlert("成功發佈問卷!");
+      setTimeout(() => {
+        sweetAlert.closeAlert();
+      }, 1500);
+      switchStepHanlder(4);
+      setField(adminActionType.NEW_FORM_ID, formId);
+    };
+
     const postDataHandler = async () => {
+      sweetAlert.loadingReminderAlert("正在發佈問卷中...");
+
       try {
-        sweetAlert.loadingReminderAlert("正在發佈問卷中...");
-        const [newStartPageImageFile, newEndPageImageFile] = await Promise.all([
-          createUploadedImages(startPageImageFile),
-          createUploadedImages(endPageImageFile),
-        ]);
-        console.log(newStartPageImageFile);
-        const newSendingObj = {
+        const [startPageImage, endPageImage] = await getUploadImages(
+          startPageImageFile,
+          endPageImageFile
+        );
+
+        const newSendingObj: SendingFormData = {
           uid,
           groupId,
           style,
           questions,
           settings: {
-            title,
-            mode,
-            startPageImageFile: newStartPageImageFile,
-            endPageImageFile: newEndPageImageFile,
+            ...settingContextData,
+            startPageImageFile: startPageImage,
+            endPageImageFile: endPageImage,
           },
         };
 
-        const response = await fetch("/api/admin/form", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(newSendingObj),
-        });
-        const data = await response.json();
-        if (data.status !== "success") throw "上傳資料失敗";
-        sweetAlert.loadedReminderAlert("成功發佈問卷!");
-        setTimeout(() => {
-          sweetAlert.closeAlert();
-        }, 1500);
-        switchStepHanlder(4);
-        setField(adminActionType.NEW_FORM_ID, data.data.formId);
+        const formId = await sendFormRequest(newSendingObj);
+        successSendCallback(formId);
       } catch (error: any) {
         console.error(error.message);
+        sweetAlert.errorReminderAlert("發佈問卷發生問題，請稍後再試");
       }
     };
 

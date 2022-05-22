@@ -12,17 +12,12 @@ const HeaderItemWrapper = styled.div<HeaderItemWrapperProps>`
   flex-grow: 1;
   display: flex;
   align-items: center;
-  color: ${(props: HeaderItemWrapperProps) =>
-    props.isActive ? "#fff" : "inherit"};
+  color: ${(props) => (props.isActive ? "#fff" : "inherit")};
 
   border-right: 1px solid #c9ab59;
   cursor: pointer;
-  transition: color 0.3s;
-
-  background-color: ${(props: HeaderItemWrapperProps) =>
-    props.isActive ? "#c9ab59" : "#fff"};
-
-  transition: background-color 0.3s;
+  background-color: ${(props) => (props.isActive ? "#c9ab59" : "#fff")};
+  transition: background-color 0.3s, color 0.3s;
 
   @media ${breakpointConfig.laptopM} {
     border-right: none;
@@ -43,7 +38,7 @@ interface HeaderItemProps {
   setStylingOption(option: number): void;
 }
 
-const HeaderItem: FC<HeaderItemProps> = ({
+const SettingHeaderItem: FC<HeaderItemProps> = ({
   title,
   option,
   stylingOption,
@@ -59,4 +54,4 @@ const HeaderItem: FC<HeaderItemProps> = ({
   );
 };
 
-export default HeaderItem;
+export default SettingHeaderItem;

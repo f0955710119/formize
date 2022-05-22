@@ -4,6 +4,12 @@ import type { DocumentData } from "firebase/firestore";
 
 import firestoreCollectionConfig from "../../../../src/configs/firestoreCollectionConfig";
 import firebase from "../../../../src/utils/firebase";
+import {
+  generatePromiseOfDeleteGroupWithForms,
+  generatePromiseOfDeleteGroupWithNoForms,
+} from "../../../../src/utils/groupApiUtils";
+
+const { GROUPS, FORMS, USERS } = firestoreCollectionConfig;
 
 interface Data {
   status: string;
@@ -17,28 +23,22 @@ interface Data {
   };
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   if (req.method === "GET") {
     try {
       const uidRaw = req.headers.authorization;
       if (!uidRaw) throw new Error("need admin's id to get group data back");
       const uid = uidRaw.split(" ")[1];
+      const groupData = await firebase.getAllEqualDoc(GROUPS, "adminId", uid).catch(() => {
+        throw new Error("取得群組資料失敗");
+      });
 
-      const groupData = await firebase
-        .getAllEqualDoc(firestoreCollectionConfig.GROUPS, "adminId", uid)
-        .catch(() => {
-          throw new Error("取得群組資料失敗");
-        });
-
-      if (groupData.length === 0) {
+      const hasNoGroup = groupData && groupData.length === 0;
+      if (hasNoGroup) {
         res.status(200).json({
           status: "success",
           status_code: 200,
-          message:
-            "return emtpy group list and forms since admin have not created groups yet",
+          message: "return emtpy group list and forms since admin have not created groups yet",
         });
         return;
       }
@@ -48,7 +48,8 @@ export default async function handler(
         formsList.push(...d.forms);
       });
 
-      if (formsList[0] === "") {
+      const hasNoForms = formsList[0] === "";
+      if (hasNoForms) {
         res.status(200).json({
           status: "success",
           status_code: 200,
@@ -60,9 +61,7 @@ export default async function handler(
         return;
       }
 
-      const fetchFormsList = formsList.map((formId) =>
-        firebase.getDocData(firestoreCollectionConfig.FORMS, formId)
-      );
+      const fetchFormsList = formsList.map((formId) => firebase.getDocData(FORMS, formId));
       const forms = await Promise.all(fetchFormsList);
 
       res.status(200).json({
@@ -87,14 +86,10 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const uidRaw = req.headers.authorization;
-      console.log(uidRaw);
       if (!uidRaw) throw new Error("使用者必須登入才能新增群組");
       const { newGroupName } = req.body;
-      if (!newGroupName)
-        throw new Error("fail to add a group, need new group name");
-
+      if (!newGroupName) throw new Error("fail to add a group, need new group name");
       const uid = uidRaw.split(" ")[1];
-
       const groupDoc = firebase.generateDocRef("groups");
       const groupDocId = groupDoc.id;
       const createdTime = new Date();
@@ -109,7 +104,7 @@ export default async function handler(
       const createNewGroupAjaxList = [
         firebase
           .updateFieldArrayValue({
-            docPath: `${firestoreCollectionConfig.USERS}/${uid}`,
+            docPath: `${USERS}/${uid}`,
             fieldKey: "groupId",
             updateData: groupDocId,
           })
@@ -148,107 +143,21 @@ export default async function handler(
       if (!uidRaw) throw new Error("使用者必須登入才能刪除群組");
       const { groupId } = req.body;
       if (!groupId) throw new Error("找不到群組資料，請重新嘗試");
-
       const uid = uidRaw.split(" ")[1];
-
-      const groupData = await firebase.getDocData(
-        firestoreCollectionConfig.GROUPS,
-        groupId
-      );
-
+      const groupData = await firebase.getDocData(GROUPS, groupId);
       if (!groupData) throw new Error("找不到群組資料，請重新嘗試");
+      const hasNoForms = groupData && groupData.forms.length === 0;
 
-      if (groupData && groupData.forms.length === 0) {
-        const promiseList = [
-          firebase
-            .updateFieldArrayValue(
-              {
-                docPath: `${firestoreCollectionConfig.USERS}/${uid}`,
-                fieldKey: "groupId",
-                updateData: groupId,
-              },
-              false
-            )
-            .catch(() => {
-              throw new Error("刪除使用者資料失敗");
-            }),
-          firebase.deleteDocDate(firestoreCollectionConfig.GROUPS, groupId),
-        ];
-        await Promise.all(promiseList);
-        res.status(200).json({
-          status: "fail",
-          status_code: 200,
-          message: "成功刪除問卷的資料!",
-        });
-        return;
-      }
-
-      const formList = await Promise.all(
-        groupData.forms.map((form: string) =>
-          firebase.getDocData(firestoreCollectionConfig.FORMS, form)
-        )
-      );
-
-      const generateFirebasePromise = () => {
-        const promiseList = [];
-        formList.forEach((form, i) => {
-          promiseList.push(
-            firebase
-              .deleteDocDate(firestoreCollectionConfig.FORMS, form.id)
-              .catch(() => {
-                throw new Error("刪除問卷資料失敗");
-              })
-          );
-          promiseList.push(
-            firebase
-              .deleteDocDate(
-                firestoreCollectionConfig.QUESTIONS,
-                form.questionDocId
-              )
-              .catch(() => {
-                throw new Error("刪除題型資料失敗");
-              })
-          );
-          promiseList.push(
-            firebase
-              .deleteDocDate(
-                firestoreCollectionConfig.RESPONSES,
-                form.responseDocId
-              )
-              .catch(() => {
-                throw new Error("刪除回應資料失敗");
-              })
-          );
-
-          if (i === formList.length - 1) {
-            promiseList.push(
-              firebase
-                .deleteDocDate(firestoreCollectionConfig.GROUPS, groupId)
-                .catch(() => {
-                  throw new Error("刪除群組資料失敗");
-                })
-            );
-          }
-        });
-
-        promiseList.push(
-          firebase
-            .updateFieldArrayValue(
-              {
-                docPath: `${firestoreCollectionConfig.USERS}/${uid}`,
-                fieldKey: "groupId",
-                updateData: groupId,
-              },
-              false
-            )
-            .catch(() => {
-              throw new Error("刪除使用者資料失敗");
-            })
+      let promiseList: Promise<void>[] | [] = [];
+      if (hasNoForms) {
+        promiseList = generatePromiseOfDeleteGroupWithNoForms(uid, groupId);
+      } else {
+        const { forms } = groupData;
+        const formList = await Promise.all(
+          forms.map((form: string) => firebase.getDocData(FORMS, form))
         );
-        return promiseList;
-      };
-
-      const promiseList = generateFirebasePromise();
+        promiseList = generatePromiseOfDeleteGroupWithForms(uid, groupId, formList);
+      }
 
       await Promise.all(promiseList).catch(() => {
         throw new Error("刪除群組內部所有資料時發生錯誤");
