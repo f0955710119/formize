@@ -22,11 +22,7 @@ const Header = styled.header`
 
 const defaultTitles = titleConfig.CREATE_FORM_STEP_TITLE;
 
-interface StepHeaderProps {
-  currentStep: number;
-}
-
-const StepHeader: FC<StepHeaderProps> = ({ currentStep }: StepHeaderProps) => {
+const StepHeader: FC = () => {
   return (
     <Header>
       {defaultTitles.map((title, i) => (
@@ -35,7 +31,6 @@ const StepHeader: FC<StepHeaderProps> = ({ currentStep }: StepHeaderProps) => {
           number={i + 1}
           title={title}
           isLastItem={i === defaultTitles.length - 1}
-          currentStep={currentStep}
         />
       ))}
     </Header>

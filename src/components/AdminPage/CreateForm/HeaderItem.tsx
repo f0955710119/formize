@@ -3,6 +3,7 @@ import { FC, useContext } from "react";
 import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
+import useAppSelector from "../../../hooks/useAppSelector";
 import useDeployForm from "../../../hooks/useDeployForm";
 import useSwitchCurrentStep from "../../../hooks/useSwitchCurrentStep";
 import { settingContext } from "../../../store/context/settingContext";
@@ -86,20 +87,19 @@ interface HeaderItemProps {
   number: number;
   title: string;
   isLastItem: boolean;
-  currentStep: number;
 }
 
-const HeaderItem: FC<HeaderItemProps> = ({
-  number,
-  title,
-  isLastItem,
-  currentStep,
-}: HeaderItemProps) => {
+const HeaderItem: FC<HeaderItemProps> = ({ number, title, isLastItem }: HeaderItemProps) => {
+  const { currentStep } = useAppSelector((state) => state.question);
   const { title: formTitle } = useContext(settingContext);
   const switchStepHandler = useSwitchCurrentStep();
   const sendFormDataCallback = useDeployForm();
 
   const clickToSwitchStepOfCreatingForm = async (title: string, step: number) => {
+    if (currentStep === 4) {
+      sweetAlert.errorReminderAlert("問卷已發佈，回不到修改階段了唷!");
+      return;
+    }
     if (title === "") {
       sweetAlert.errorReminderAlert("請一定要填寫問卷的標題！");
       return;

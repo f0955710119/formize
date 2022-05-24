@@ -24,7 +24,6 @@ import { SettingContextProvider } from "../../../src/store/context/settingContex
 import themes from "../../../src/store/theme/theme";
 import helper from "../../../src/utils/helper";
 import sweetAlert from "../../../src/utils/sweetAlert";
-import { StyleContextProvider } from "../../../src/store/context/styleContext";
 
 const CreateNewPageContainer = styled.div`
   width: 100vw;
@@ -67,6 +66,8 @@ const New: NextPage = () => {
 
   useRouterLoaded(() => fetchAdminData(context.uid));
 
+  const loadingImageSrc = `${process.env.NEXT_PUBLIC_ORIGIN}/images/loading-image.svg`;
+
   return (
     <>
       <Head>
@@ -74,13 +75,13 @@ const New: NextPage = () => {
         <meta name="description" content="FORMiZE - 問卷進行式" />
       </Head>
       {isFetchingAdminData ? (
-        <Loading imageSrc={process.env.NEXT_PUBLIC_ORIGIN + "/" + "images/loading-image.svg"} />
+        <Loading imageSrc={loadingImageSrc} />
       ) : (
         <MUIThemeProvider theme={muiTheme}>
           <CreateNewPageContainer>
             <SettingContextProvider>
               <Header>
-                <StepHeader currentStep={currentStep} />
+                <StepHeader />
               </Header>
               {currentStep === 1 && <SettingForm />}
               <ThemeProvider theme={colorTheme}>
