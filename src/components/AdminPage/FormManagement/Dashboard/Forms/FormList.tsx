@@ -5,6 +5,7 @@ import { adminContext } from "../../../../../store/context/adminContext";
 
 import { Forms } from "../../../../../types/form";
 import { Group } from "../../../../../types/group";
+import helper from "../../../../../utils/helper";
 import FormsInGroup from "./FormListContent/FormsInGroup";
 import GroupListColumn from "./FormListContent/GroupListColumn";
 
@@ -92,7 +93,7 @@ const FormList: FC<FormListProps> = (props) => {
         {groupForms.map((form) => {
           const isEmptyGroup = form === "1" || typeof form === "string";
           return isEmptyGroup ? (
-            <EmptyListContainer>
+            <EmptyListContainer key={helper.generateId(8)}>
               <EmptyListContainerText>此群組還沒有問卷唷</EmptyListContainerText>
             </EmptyListContainer>
           ) : (
