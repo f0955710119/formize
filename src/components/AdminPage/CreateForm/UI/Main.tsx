@@ -18,10 +18,11 @@ const Layout = styled.main`
 
 interface MainProps {
   children: ReactNode;
+  className?: string;
 }
 
-const Main: FC<MainProps> = ({ children }: MainProps) => {
-  return <Layout>{children}</Layout>;
+const Main: FC<MainProps> = ({ children, className }: MainProps) => {
+  return <Layout className={className}>{children}</Layout>;
 };
 
 export default Main;

@@ -6,19 +6,25 @@ import { TextField } from "@mui/material";
 import { ShareFill } from "@styled-icons/bootstrap/ShareFill";
 import styled from "styled-components";
 
-import useAppSelector from "../../../../hooks/useAppSelector";
 import Main from "../UI/Main";
 import SectionHeading from "../UI/SectionHeading";
 import { adminContext } from "../../../../store/context/adminContext";
+import breakpointConfig from "../../../../configs/breakpointConfig";
+
+const DeployFormMain = styled(Main)`
+  @media ${breakpointConfig.laptopM} {
+    height: calc(100vh - 6rem);
+  }
+`;
 
 const Container = styled.div`
-  margin: 4rem auto;
+  margin: 0 auto 0 auto;
   width: 62.6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(100% - 8rem);
+  height: 100%;
   animation: moveInBottom 0.3s ease-in-out;
 
   @keyframes moveInBottom {
@@ -30,6 +36,10 @@ const Container = styled.div`
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  @media ${breakpointConfig.tablet} {
+    width: 100%;
   }
 `;
 
@@ -51,6 +61,10 @@ const SubHeading = styled.div`
   align-items: center;
   margin-bottom: 1rem;
   width: 50%;
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+  }
 `;
 
 const CustomShareSharpIcon = styled(ShareFill)`
@@ -68,6 +82,14 @@ const URLWrapper = styled.div`
   align-items: center;
   margin-bottom: 1rem;
   width: 45.5%;
+
+  @media ${breakpointConfig.tabletS} {
+    width: 55.5%;
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    width: 75.5%;
+  }
 `;
 
 const CustomTextDisableField = styled(TextField)`
@@ -94,8 +116,8 @@ const DeploySectionHeading = styled(SectionHeading)`
 const goDifferentRouteLinkStyle = `
   display: block;
   width: 45%;
-  height: 3rem;
-  line-height: 3rem;
+  height: 4rem;
+  line-height: 4rem;
   text-align: center;
   border-radius: 5px;
   background-color: #aaa;
@@ -104,6 +126,15 @@ const goDifferentRouteLinkStyle = `
   &:hover {
     color:#fff;
     background-color:#555;
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    width: 55.5%;
+    
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    width: 75.5%;
   }
 `;
 
@@ -135,7 +166,7 @@ const DeployFormSection: FC = () => {
 
   const deployDecoratorImageSrc = `${webOrigin}/images/deploy-img.svg`;
   return (
-    <Main>
+    <DeployFormMain>
       <Container>
         <DeploySectionHeading>發佈成功囉~問卷已上線!</DeploySectionHeading>
         <ImageWrapper>
@@ -154,13 +185,11 @@ const DeployFormSection: FC = () => {
         <FormBlankLink href={newFormHref} target="_blank" rel="noreferrer">
           開啟問卷分頁
         </FormBlankLink>
-        <CopyLinkButton
-          onClick={() => navigator.clipboard.writeText(newFormHref)}
-        >
+        <CopyLinkButton onClick={() => navigator.clipboard.writeText(newFormHref)}>
           複製問卷連結
         </CopyLinkButton>
       </Container>
-    </Main>
+    </DeployFormMain>
   );
 };
 
