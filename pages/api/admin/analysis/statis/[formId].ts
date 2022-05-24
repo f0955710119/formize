@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import firestoreCollectionCongfig from "../../../../../src/configs/firestoreCollectionConfig";
 import firebase from "../../../../../src/utils/firebase";
-
 import {
   generateTableCounts,
   generateExtraDataOfNumberInputToDisplayStatis,

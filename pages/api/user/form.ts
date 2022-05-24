@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
+import type { Question } from "../../../src/types/question";
 import type { Settings } from "../../../src/types/setting";
 import type { Style } from "../../../src/types/style";
-import type { Question } from "../../../src/types/question";
 import firebase from "../../../src/utils/firebase";
 
 interface Data {

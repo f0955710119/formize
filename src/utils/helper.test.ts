@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom";
-import helper from "./helper";
 import {
   testQuestionForSinglePage,
   testQuestionForMultiplePage,
@@ -9,6 +8,7 @@ import {
   testIntervalPoints,
 } from "../configs/testConfig";
 import { Question } from "../types/question";
+import helper from "./helper";
 
 const {
   updateCountNumbersOfQuestionPage,

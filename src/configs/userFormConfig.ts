@@ -1,6 +1,6 @@
+import type { Question } from "../types/question";
 import type { Settings } from "../types/setting";
 import type { Style } from "../types/style";
-import type { Question } from "../types/question";
 
 interface UserFormConfig {
   initQuestions: Question[];

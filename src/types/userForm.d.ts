@@ -1,5 +1,5 @@
-import type { Settings } from "./setting";
 import type { Question } from "./question";
+import type { Settings } from "./setting";
 
 export interface UserAnswer {
   questionId: string;

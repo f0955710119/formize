@@ -4,6 +4,7 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { Image as ImageIcon } from "@styled-icons/evil/Image";
 import styled from "styled-components";
 
+import breakpointConfig from "../../../../configs/breakpointConfig";
 import settingActionType from "../../../../store/actionType/settingActionType";
 import { settingContext } from "../../../../store/context/settingContext";
 import sweetAlert from "../../../../utils/sweetAlert";
@@ -12,7 +13,6 @@ import Field from "../UI/Field";
 import Input from "../UI/Input";
 import Label from "../UI/Label";
 import SectionWrapper from "../UI/Section";
-import breakpointConfig from "../../../../configs/breakpointConfig";
 
 const BannerField = styled(Field)`
   height: 39rem;

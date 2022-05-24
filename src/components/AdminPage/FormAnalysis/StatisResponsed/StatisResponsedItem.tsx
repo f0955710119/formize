@@ -8,7 +8,6 @@ import helper from "../../../../utils/helper";
 import NonTextContent from "../StatisTable/NonTextContent";
 import Table from "../StatisTable/Table";
 import TextContent from "../StatisTable/TextContent";
-
 import StatisResponsedItemContent from "./StatisResponsedItemContent";
 
 const ItemContainer = styled.div`

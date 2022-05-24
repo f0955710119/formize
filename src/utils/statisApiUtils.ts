@@ -1,5 +1,6 @@
-import { max, min, mean, median, mode } from "mathjs";
 import { DocumentData } from "firebase/firestore";
+import { max, min, mean, median, mode } from "mathjs";
+
 import type {
   TableInfoItem,
   TableCounts,

@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { FC, useState } from "react";
 
 import styled from "styled-components";
-import breakpointConfig from "../../configs/breakpointConfig";
 
+import breakpointConfig from "../../configs/breakpointConfig";
 import styleConfig from "../../configs/styleConfig";
 import useAppSelector from "../../hooks/useAppSelector";
 import type { UserForm } from "../../types/userForm";

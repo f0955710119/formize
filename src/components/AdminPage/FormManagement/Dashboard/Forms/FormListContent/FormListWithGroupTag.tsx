@@ -1,10 +1,11 @@
 import { FC } from "react";
+
 import styled from "styled-components";
+
 import breakpointConfig from "../../../../../../configs/breakpointConfig";
 import { Forms } from "../../../../../../types/form";
 import { Group } from "../../../../../../types/group";
 import FormsInGroup from "./FormsInGroup";
-
 import GroupListColumn from "./GroupListColumn";
 
 const GroupTag = styled.div`

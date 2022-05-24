@@ -2,14 +2,14 @@ import { FC, Dispatch, SetStateAction, useState, useEffect, useRef } from "react
 
 import styled from "styled-components";
 
+import breakpointConfig from "../../configs/breakpointConfig";
 import useAppSelector from "../../hooks/useAppSelector";
 import useWholePageAnswersValidCheck from "../../hooks/useWholePageAnswersValidCheck";
-import type { Settings } from "../../types/setting";
 import type { Question } from "../../types/question";
+import type { Settings } from "../../types/setting";
 import helper from "../../utils/helper";
 import QuestionList from "../Questions/QuestionList";
 import scrollBar from "../UI/scrollBar";
-import breakpointConfig from "../../configs/breakpointConfig";
 
 const moveInRightAnimation = `
   animation: moveInRight 0.3s ease-in-out;

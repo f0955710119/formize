@@ -3,7 +3,6 @@ import { FC, useContext } from "react";
 import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
-
 import titleConfig from "../../../configs/titleConfig";
 import adminActionType from "../../../store/actionType/adminActionType";
 import { adminContext } from "../../../store/context/adminContext";

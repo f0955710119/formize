@@ -6,10 +6,10 @@ import { TextField } from "@mui/material";
 import { ShareFill } from "@styled-icons/bootstrap/ShareFill";
 import styled from "styled-components";
 
+import breakpointConfig from "../../../../configs/breakpointConfig";
+import { adminContext } from "../../../../store/context/adminContext";
 import Main from "../UI/Main";
 import SectionHeading from "../UI/SectionHeading";
-import { adminContext } from "../../../../store/context/adminContext";
-import breakpointConfig from "../../../../configs/breakpointConfig";
 
 const DeployFormMain = styled(Main)`
   @media ${breakpointConfig.laptopM} {

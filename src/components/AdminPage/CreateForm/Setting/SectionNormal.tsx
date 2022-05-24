@@ -1,13 +1,13 @@
 import { FC, ChangeEvent, useContext } from "react";
 
 import settingActionType from "../../../../store/actionType/settingActionType";
+import { settingContext } from "../../../../store/context/settingContext";
 import Field from "../UI/Field";
 import Label from "../UI/Label";
 import SectionWrapper from "../UI/Section";
 import SectionHeading from "../UI/SectionHeading";
-import NormalTextInput from "./SectionNormal/NormalTextInput";
-import { settingContext } from "../../../../store/context/settingContext";
 import ModeSelect from "./SectionNormal/ModeSelect";
+import NormalTextInput from "./SectionNormal/NormalTextInput";
 
 const SectionNormal: FC = () => {
   const settingContextData = useContext(settingContext);

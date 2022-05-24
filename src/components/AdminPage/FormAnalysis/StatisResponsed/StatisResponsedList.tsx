@@ -1,8 +1,8 @@
 import { FC } from "react";
+
 import questionConfig from "../../../../configs/questionConfig";
 import useGetStatisTitleIndex from "../../../../hooks/useGetStatisTitleIndex";
 import { StatisResponse } from "../../../../types/statis";
-
 import StatisResponsedItem from "./StatisResponsedItem";
 
 interface StatisResponsedListProps {

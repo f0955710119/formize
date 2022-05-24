@@ -5,20 +5,20 @@ import styled from "styled-components";
 import backgroundConfig from "../../../../../configs/backgroundConfig";
 import breakpointConfig from "../../../../../configs/breakpointConfig";
 import styleConfig from "../../../../../configs/styleConfig";
+import titleConfig from "../../../../../configs/titleConfig";
 import useDeployForm from "../../../../../hooks/useDeployForm";
 import useStyleHandler from "../../../../../hooks/useStyleHandler";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
+import { styleContext } from "../../../../../store/context/styleContext";
+import type { Question } from "../../../../../types/question";
 import type { SettingContext } from "../../../../../types/setting";
 import type { Style } from "../../../../../types/style";
-import type { Question } from "../../../../../types/question";
 import helper from "../../../../../utils/helper";
+import sweetAlert from "../../../../../utils/sweetAlert";
 import scrollBar from "../../../../UI/scrollBar";
 import Layout from "../../UI/Layout";
 import SettingHeaderItem from "./SettingHeaderItem";
 import Card from "./UI/Card";
-import { styleContext } from "../../../../../store/context/styleContext";
-import sweetAlert from "../../../../../utils/sweetAlert";
-import titleConfig from "../../../../../configs/titleConfig";
 
 const SettingLayout = styled(Layout)`
   padding: 0;

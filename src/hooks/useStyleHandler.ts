@@ -1,4 +1,5 @@
 import { useContext } from "react";
+
 import backgroundConfig from "../configs/backgroundConfig";
 import styleConfig from "../configs/styleConfig";
 import styleActionType from "../store/actionType/styleActionType";

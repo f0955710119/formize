@@ -1,8 +1,8 @@
 import { FC, useState, useRef, useEffect } from "react";
 
 import styled from "styled-components";
-import breakpointConfig from "../../../configs/breakpointConfig";
 
+import breakpointConfig from "../../../configs/breakpointConfig";
 import useAppDispatch from "../../../hooks/useAppDispatch";
 import useAppSelector from "../../../hooks/useAppSelector";
 import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";

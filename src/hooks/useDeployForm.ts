@@ -1,17 +1,17 @@
 import { useRouter } from "next/router";
 
+import { useContext } from "react";
+
+import adminActionType from "../store/actionType/adminActionType";
+import { adminContext } from "../store/context/adminContext";
+import { settingContext } from "../store/context/settingContext";
+import { styleContext } from "../store/context/styleContext";
+import { SendingFormData } from "../types/form";
 import type { Question } from "../types/question";
 import firebase from "../utils/firebase";
 import sweetAlert from "../utils/sweetAlert";
-import useSwitchCurrentStep from "./useSwitchCurrentStep";
-import { useContext } from "react";
-import { adminContext } from "../store/context/adminContext";
-import adminActionType from "../store/actionType/adminActionType";
-
 import useAppSelector from "./useAppSelector";
-import { styleContext } from "../store/context/styleContext";
-import { settingContext } from "../store/context/settingContext";
-import { SendingFormData } from "../types/form";
+import useSwitchCurrentStep from "./useSwitchCurrentStep";
 
 type Image = string | null;
 

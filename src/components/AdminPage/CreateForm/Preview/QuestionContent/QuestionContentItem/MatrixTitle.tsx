@@ -8,12 +8,12 @@ import breakpointConfig from "../../../../../../configs/breakpointConfig";
 import useAppDispatch from "../../../../../../hooks/useAppDispatch";
 import useAppSelector from "../../../../../../hooks/useAppSelector";
 import useCheckEditingStateOfTextEditingField from "../../../../../../hooks/useCheckEditingStateOfTextEditingField";
+import useDeleteQuestionContentItem from "../../../../../../hooks/useDeleteQuestionContentItem";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 import helper from "../../../../../../utils/helper";
 import sweetAlert from "../../../../../../utils/sweetAlert";
 import textUnderline from "../../../../../UI/textUnderline";
-import useDeleteQuestionContentItem from "../../../../../../hooks/useDeleteQuestionContentItem";
 
 const MatrixTitleWrapper = styled.div`
   display: flex;

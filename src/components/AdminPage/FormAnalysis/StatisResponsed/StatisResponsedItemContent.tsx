@@ -1,5 +1,7 @@
 import { FC } from "react";
+
 import styled from "styled-components";
+
 import breakpointConfig from "../../../../configs/breakpointConfig";
 import { NonTextCount } from "../../../../types/statis";
 import StatisBar from "../StatisChart/StatisBar";

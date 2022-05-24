@@ -10,9 +10,7 @@ import useGetQuestionTitleIndex from "../../../../hooks/useGetQuestionTitleIndex
 import { questionActions } from "../../../../store/slice/questionSlice";
 import type { Question } from "../../../../types/question";
 import sweetAlert from "../../../../utils/sweetAlert";
-
 import SectionHeading from "../UI/SectionHeading";
-
 import QuestionContent from "./QuestionContent/QuestionContent";
 import QuestionDeleteButton from "./QuestionDeleteButton";
 import EditableTitle from "./UI/EditableTitle";

@@ -1,4 +1,5 @@
 import { createContext, FC, ReactNode, useReducer } from "react";
+
 import backgroundConfig from "../../configs/backgroundConfig";
 import type { SetFieldHandler, StyleContext } from "../../types/style";
 

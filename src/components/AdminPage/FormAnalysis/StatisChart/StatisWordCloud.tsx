@@ -1,7 +1,7 @@
 import { FC } from "react";
 import WordCloud from "react-d3-cloud";
-import useResizeWindow from "../../../../hooks/useResizeWindow";
 
+import useResizeWindow from "../../../../hooks/useResizeWindow";
 import { NonTextCount } from "../../../../types/statis";
 
 const COLORS = ["#19160b", "#332b17", "#7f6c39", "#988244", "#988244"];

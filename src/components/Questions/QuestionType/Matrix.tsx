@@ -5,15 +5,15 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import styled from "styled-components";
 
+import breakpointConfig from "../../../configs/breakpointConfig";
 import useAppDispatch from "../../../hooks/useAppDispatch";
 import useAppSelector from "../../../hooks/useAppSelector";
 import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
+import useResizeWindow from "../../../hooks/useResizeWindow";
 import { userActions } from "../../../store/slice/userSlice";
 import helper from "../../../utils/helper";
 import { CustomIcon, CustomCheckedIcon } from "./ChoiceIcon/icon";
-import breakpointConfig from "../../../configs/breakpointConfig";
-import useResizeWindow from "../../../hooks/useResizeWindow";
 
 const MatrixWrapper = styled.div`
   display: flex;
@@ -159,12 +159,11 @@ const MatrixRadio: FC<MatrixRadioProps> = ({
         }}
       >
         {matrixs.map((matrix) => (
-          <RadioWrapper>
+          <RadioWrapper key={helper.generateId(8)}>
             <Radio
               disableRipple
               icon={<CustomIcon />}
               checkedIcon={<CustomCheckedIcon />}
-              key={helper.generateId(8)}
               value={matrix}
               name="question-radio-buttons"
               inputProps={{ "aria-label": `value-${matrix}` }}
@@ -188,13 +187,13 @@ const Matrix: FC<MatrixProps> = ({ options, matrixs, questionId }: MatrixProps) 
   return (
     <MatrixWrapper>
       <MatrixTitleWrapper>
-        {matrixs.map((matrix, i) => (
-          <MartixTitle key={i}>{matrix}</MartixTitle>
+        {matrixs.map((matrix) => (
+          <MartixTitle key={helper.generateId(8)}>{matrix}</MartixTitle>
         ))}
       </MatrixTitleWrapper>
       {options.map((option, i) => (
-        <MatrixOptions key={i}>
-          <MatrixOption key={i}>{option}</MatrixOption>
+        <MatrixOptions key={helper.generateId(8)}>
+          <MatrixOption>{option}</MatrixOption>
           <MatrixRadio optionIndex={i} matrixs={matrixs} questionId={questionId} />
         </MatrixOptions>
       ))}
