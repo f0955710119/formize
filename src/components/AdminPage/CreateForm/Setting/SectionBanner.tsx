@@ -12,6 +12,7 @@ import Field from "../UI/Field";
 import Input from "../UI/Input";
 import Label from "../UI/Label";
 import SectionWrapper from "../UI/Section";
+import breakpointConfig from "../../../../configs/breakpointConfig";
 
 const BannerField = styled(Field)`
   height: 39rem;
@@ -20,6 +21,16 @@ const BannerField = styled(Field)`
 
   &:not(:last-child) {
     margin-bottom: 1.4rem;
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    flex-direction: column;
+  }
+`;
+
+const BannerLabel = styled(Label)`
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
   }
 `;
 
@@ -34,6 +45,10 @@ const ImageLabel = styled(Label)`
   cursor: pointer;
   background-color: #eee;
   z-index: 1;
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+  }
 `;
 
 const CustomTextareaAutosize = styled(TextareaAutosize)`
@@ -49,12 +64,26 @@ const CustomTextareaAutosize = styled(TextareaAutosize)`
   &:focus {
     outline: none;
   }
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+  }
+`;
+
+const TextareaLabelSpace = styled.br`
+  @media ${breakpointConfig.tabletS} {
+    display: none;
+  }
 `;
 
 const TextareaLabelText = styled.span`
   font-size: 1.4rem;
   color: #c9ab59;
   white-space: pre-line;
+
+  @media ${breakpointConfig.tabletS} {
+    white-space: normal;
+  }
 `;
 
 const ImageInput = styled(Input)`
@@ -107,11 +136,11 @@ const ParagraphLabel = ({
   reminderText: string;
 }) => {
   return (
-    <Label>
+    <BannerLabel>
       {labelText}
-      <br />
+      <TextareaLabelSpace />
       <TextareaLabelText>{reminderText}</TextareaLabelText>
-    </Label>
+    </BannerLabel>
   );
 };
 
@@ -127,16 +156,9 @@ const SectionBanner: FC = () => {
   return (
     <SectionWrapper>
       <BannerField>
-        <ParagraphLabel
-          labelText="歡迎頁圖檔"
-          reminderText={`上限5MB\n比例建議4:3`}
-        />
+        <ParagraphLabel labelText="歡迎頁圖檔" reminderText={`上限5MB\n比例建議4:3`} />
         <ImageLabel htmlFor="welcome-banner">
-          {startPageImageObjectUrl ? (
-            <Image src={startPageImageObjectUrl} />
-          ) : (
-            <UploadImage />
-          )}
+          {startPageImageObjectUrl ? <Image src={startPageImageObjectUrl} /> : <UploadImage />}
         </ImageLabel>
         <ImageInput
           type="file"
@@ -175,16 +197,9 @@ const SectionBanner: FC = () => {
         />
       </BannerField>
       <BannerField>
-        <ParagraphLabel
-          labelText="結束頁圖檔"
-          reminderText={`上限5MB\n比例建議4:3`}
-        />
+        <ParagraphLabel labelText="結束頁圖檔" reminderText={`上限5MB\n比例建議4:3`} />
         <ImageLabel htmlFor="end-banner">
-          {endPageImageObjectUrl ? (
-            <Image src={endPageImageObjectUrl} />
-          ) : (
-            <UploadImage />
-          )}
+          {endPageImageObjectUrl ? <Image src={endPageImageObjectUrl} /> : <UploadImage />}
         </ImageLabel>
         <ImageInput
           type="file"
