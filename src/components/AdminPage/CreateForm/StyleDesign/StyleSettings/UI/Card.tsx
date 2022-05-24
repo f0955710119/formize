@@ -27,7 +27,12 @@ const CardWrapper = styled.div<CardWrapperProps>`
     min-width: 12rem;
     min-height: 10rem;
     margin-right: 1rem;
-  } ;
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+    min-width: auto;
+  }
 `;
 
 interface CardItemProps {
@@ -53,7 +58,6 @@ const CardItem = styled.div<CardItemProps>`
       background-repeat:no-repeat;
       background-size:${props.isBackground ? "155%" : "cover"};
       ${props.isBackground ? "" : "background-position: center;"}
-      
     `
       : "";
   }}
