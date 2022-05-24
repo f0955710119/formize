@@ -33,31 +33,25 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   &:not(:last-child) {
     margin-bottom: 2rem;
   }
+
   border-radius: 7px;
   border: 3px solid transparent;
   transition: border 0.3s ease-in-out;
 
   ${(props) =>
-    !props.hasErrorMessage
-      ? ""
-      : `
-    border: 3px solid ${props.theme.titleContrast};
-  `}
+    !props.hasErrorMessage ? "" : `border: 3px solid ${props.theme.titleContrast};`}
+  ${(props) => (props.isCreatingProcess ? "border:none" : "")};
 
-  ${(props) => (props.isCreatingProcess ? "border:none" : "")}
+  & .MuiFormControl-root {
+    margin-top: 2rem;
+  }
 `;
 
 const Heading = styled.div`
   display: inline-block;
   font-size: 2rem;
   line-break: strict;
-  color: ${(props) => {
-    return props.theme.title;
-  }};
-
-  &:not(:last-child) {
-    margin-bottom: 3rem;
-  }
+  color: ${(props) => props.theme.title};
 `;
 
 const NoteText = styled.div`

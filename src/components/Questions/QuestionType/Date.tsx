@@ -14,11 +14,14 @@ import useCheckAnswerValid from "../../../hooks/useCheckAnswerValid";
 import useGetQuestionIdIndex from "../../../hooks/useGetQuestionIdIndex";
 import { userActions } from "../../../store/slice/userSlice";
 import helper from "../../../utils/helper";
+import breakpointConfig from "../../../configs/breakpointConfig";
 
 const CalendarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2rem;
+
   width: 100%;
 
   & .rdrCalendarWrapper {
@@ -58,6 +61,10 @@ const CalendarWrapper = styled.div`
   & .rdrMonthsVertical {
     background-color: ${(props) => `${props.theme.option}33`};
   }
+
+  @media ${breakpointConfig.tabletS} {
+    transform: scale(80%);
+  }
 `;
 
 const CustomedCalendar = styled(Calendar)`
@@ -89,9 +96,7 @@ const Date: FC<DateProps> = ({
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const showInvalidHandler = useCheckAnswerValid(questionId);
-  const questionIdIndexForMultipleDate = useGetQuestionIdIndex(
-    `${questionId}_start`
-  );
+  const questionIdIndexForMultipleDate = useGetQuestionIdIndex(`${questionId}_start`);
   const questionIdIndexForSignleDate = useGetQuestionIdIndex(`${questionId}_0`);
 
   const inputForMultipleDateStart = answers[questionIdIndexForMultipleDate]
@@ -108,9 +113,7 @@ const Date: FC<DateProps> = ({
   const startDateObject =
     startDate !== null ? helper.generateNewDateObj(startDate) : currentDate;
   const endDateObject =
-    endDate !== null
-      ? helper.generateNewDateObj(endDate)
-      : addDays(startDateObject, 1);
+    endDate !== null ? helper.generateNewDateObj(endDate) : addDays(startDateObject, 1);
 
   const initRangeState: Range = {
     startDate:
@@ -126,16 +129,11 @@ const Date: FC<DateProps> = ({
 
   const [timeRange, setTimeRange] = useState<Range[]>([initRangeState]);
   const [selectedDate, setSelectedDate] = useState<Date>(() =>
-    inputForSingleDate !== null
-      ? helper.generateNewDateObj(inputForSingleDate)
-      : currentDate
+    inputForSingleDate !== null ? helper.generateNewDateObj(inputForSingleDate) : currentDate
   );
 
   const hasRangeValidation = hasRange ? true : false;
-  const startInterval = helper.generateDateInterval(
-    currentDate,
-    startDateObject
-  );
+  const startInterval = helper.generateDateInterval(currentDate, startDateObject);
   const endInterval = helper.generateDateInterval(endDateObject, currentDate);
 
   return isMultipleDate ? (
@@ -146,9 +144,7 @@ const Date: FC<DateProps> = ({
         onChange={(item) => {
           setTimeRange([item.selection]);
           if (item.selection.startDate) {
-            const startDate = helper.generateDateFormatString(
-              item.selection.startDate
-            );
+            const startDate = helper.generateDateFormatString(item.selection.startDate);
 
             dispatch(
               userActions.updateFormAnswer({
@@ -158,9 +154,7 @@ const Date: FC<DateProps> = ({
             );
           }
           if (item.selection.endDate) {
-            const endDate = helper.generateDateFormatString(
-              item.selection.endDate
-            );
+            const endDate = helper.generateDateFormatString(item.selection.endDate);
 
             dispatch(
               userActions.updateFormAnswer({
@@ -173,16 +167,12 @@ const Date: FC<DateProps> = ({
           const incomingStartDate = item.selection.startDate;
           const incomingEndDate = item.selection.endDate;
           if (incomingStartDate && incomingEndDate && maxSelectedDateQuantity) {
-            const maxRangeNumber =
-              1000 * 60 * 60 * 24 * (maxSelectedDateQuantity - 1);
+            const maxRangeNumber = 1000 * 60 * 60 * 24 * (maxSelectedDateQuantity - 1);
             const isInvalidSelectedDateRange =
-              incomingEndDate.getTime() - incomingStartDate.getTime() >
-              maxRangeNumber;
+              incomingEndDate.getTime() - incomingStartDate.getTime() > maxRangeNumber;
 
             if (isInvalidSelectedDateRange) {
-              showInvalidHandler(
-                `不能選擇超過${maxSelectedDateQuantity}天的範圍`
-              );
+              showInvalidHandler(`不能選擇超過${maxSelectedDateQuantity}天的範圍`);
               return;
             }
             showInvalidHandler("");
@@ -190,12 +180,8 @@ const Date: FC<DateProps> = ({
         }}
         moveRangeOnFirstSelection={false}
         ranges={timeRange}
-        minDate={
-          hasRangeValidation ? addDays(currentDate, startInterval) : undefined
-        }
-        maxDate={
-          hasRangeValidation ? addDays(currentDate, -endInterval) : undefined
-        }
+        minDate={hasRangeValidation ? addDays(currentDate, startInterval) : undefined}
+        maxDate={hasRangeValidation ? addDays(currentDate, -endInterval) : undefined}
       />
     </CalendarWrapper>
   ) : (
@@ -214,12 +200,8 @@ const Date: FC<DateProps> = ({
         }}
         date={selectedDate}
         locale={zhTW}
-        minDate={
-          hasRangeValidation ? addDays(currentDate, startInterval) : undefined
-        }
-        maxDate={
-          hasRangeValidation ? addDays(currentDate, -endInterval) : undefined
-        }
+        minDate={hasRangeValidation ? addDays(currentDate, startInterval) : undefined}
+        maxDate={hasRangeValidation ? addDays(currentDate, -endInterval) : undefined}
       />
     </CalendarWrapper>
   );

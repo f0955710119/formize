@@ -14,12 +14,13 @@ const SliderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 2rem;
   width: 100%;
 `;
 const CustomSlider = styled(UISlider)`
   width: 80%;
   color: ${(props) => props.theme.title};
-  & .css-187mznn-MuiSlider-root {
+  & .MuiSlider-root {
     color: ${(props) => props.theme.title};
   }
   & .MuiSlider-rail {
@@ -36,13 +37,7 @@ interface SliderProps {
   interval?: number;
 }
 
-const Slider: FC<SliderProps> = ({
-  questionId,
-  min,
-  max,
-  unit,
-  interval,
-}: SliderProps) => {
+const Slider: FC<SliderProps> = ({ questionId, min, max, unit, interval }: SliderProps) => {
   const dispatch = useAppDispatch();
   const { answers } = useAppSelector((state) => state.user);
   const questionIdIndex = useGetQuestionIdIndex(questionId);
@@ -73,9 +68,7 @@ const Slider: FC<SliderProps> = ({
 
   return (
     <SliderWrapper>
-      <span style={{ marginRight: "2rem" }}>
-        {unit ? hasMin + unit : hasMin}
-      </span>
+      <span style={{ marginRight: "2rem" }}>{unit ? hasMin + unit : hasMin}</span>
       <CustomSlider
         value={inputDispaly}
         step={interval ? interval : 1}
@@ -84,9 +77,7 @@ const Slider: FC<SliderProps> = ({
         valueLabelDisplay="auto"
         onChange={changeSliderHandler}
       />
-      <span style={{ marginLeft: "2rem" }}>
-        {unit ? hasMax + unit : hasMax}
-      </span>
+      <span style={{ marginLeft: "2rem" }}>{unit ? hasMax + unit : hasMax}</span>
     </SliderWrapper>
   );
 };

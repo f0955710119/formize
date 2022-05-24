@@ -13,6 +13,7 @@ import { userActions } from "../../../store/slice/userSlice";
 
 const CustomedTextField = styled(TextField)`
   width: 100%;
+
   & div,
   & input {
     font-size: 2rem;

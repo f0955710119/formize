@@ -1,6 +1,7 @@
 import { FC, useState, useRef, useEffect } from "react";
 
 import styled from "styled-components";
+import breakpointConfig from "../../../configs/breakpointConfig";
 
 import useAppDispatch from "../../../hooks/useAppDispatch";
 import useAppSelector from "../../../hooks/useAppSelector";
@@ -10,10 +11,10 @@ import { userActions } from "../../../store/slice/userSlice";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
-
   align-items: center;
   flex-direction: column;
   width: 100%;
+  margin-top: 2rem;
 `;
 
 const OptionItemWrapper = styled.div`
@@ -26,6 +27,10 @@ const OptionItemWrapper = styled.div`
   height: 6rem;
   border: 2px solid ${(props) => props.theme.optionText};
   border-radius: 5px;
+
+  @media ${breakpointConfig.tablet} {
+    width: 100%;
+  }
 `;
 
 const OptionItemText = styled.div`
@@ -67,15 +72,12 @@ const Sort: FC<SortProps> = ({ options, maxSelected, questionId }) => {
         (answer) => answer.questionId === `${questionId}_${i}`
       );
       if (!responsedIdAnswer) return;
-      if (responsedIdAnswer?.input === null || responsedIdAnswer?.input === "0")
-        return;
+      if (responsedIdAnswer?.input === null || responsedIdAnswer?.input === "0") return;
       sortedArray[+responsedIdAnswer.input - 1] = option;
     });
     return sortedArray;
   });
-  const questionIndexForFirstOption = useGetQuestionIdIndex(
-    `${questionId}_${0}`
-  );
+  const questionIndexForFirstOption = useGetQuestionIdIndex(`${questionId}_${0}`);
 
   const questionIdIndexList = Array(options.length)
     .fill(null)
