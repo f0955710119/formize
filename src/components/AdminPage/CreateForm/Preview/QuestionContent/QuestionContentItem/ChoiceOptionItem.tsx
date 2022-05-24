@@ -12,6 +12,7 @@ import { questionActions } from "../../../../../../store/slice/questionSlice";
 import helper from "../../../../../../utils/helper";
 import sweetAlert from "../../../../../../utils/sweetAlert";
 import useDeleteQuestionContentItem from "../../../../../../hooks/useDeleteQuestionContentItem";
+import breakpointConfig from "../../../../../../configs/breakpointConfig";
 
 export const ChoiceWrapper = styled.div`
   display: flex;
@@ -99,6 +100,10 @@ const EditingButton = styled.button`
     color: #fff;
     background-color: #333;
   }
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+  }
 `;
 
 interface OptionItemProps {
@@ -107,26 +112,18 @@ interface OptionItemProps {
   options: string[];
 }
 
-const OptionItem: FC<OptionItemProps> = ({
-  id,
-  index,
-  options,
-}: OptionItemProps) => {
+const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps) => {
   const dispatch = useAppDispatch();
   const { editingQuestionId, isSwitchingEditingOption } = useAppSelector(
     (state) => state.question
   );
 
-  const [editingOptionText, setEditingOptionText] = useState<string>(
-    options[index]
-  );
-  const [hasClickedOptionText, setHasClickedOptionText] =
-    useState<boolean>(false);
+  const [editingOptionText, setEditingOptionText] = useState<string>(options[index]);
+  const [hasClickedOptionText, setHasClickedOptionText] = useState<boolean>(false);
   const isLoading = useRef<boolean>(true);
 
   const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
-  const deleteQuestionContentItemHandler =
-    useDeleteQuestionContentItem("option");
+  const deleteQuestionContentItemHandler = useDeleteQuestionContentItem("option");
 
   const saveEditedTextHandler = (editingOptionText: string) => {
     if (editingOptionText.trim().length === 0) {

@@ -86,6 +86,10 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   @media ${breakpointConfig.tablet} {
     width: 100%;
   }
+
+  @media ${breakpointConfig.tabletS} {
+    padding: 1rem;
+  }
 `;
 
 const NoQuestionReminder = styled.div`
@@ -126,9 +130,7 @@ const Preview: FC = () => {
   const [width, setWidth] = useState<string>("");
   const [reminderText, setReminderText] =
     useState<string>("尚無題目，點擊右欄題目來創建題型吧!");
-  const { questions, editingFormPage, currentStep } = useAppSelector(
-    (state) => state.question
-  );
+  const { questions, editingFormPage, currentStep } = useAppSelector((state) => state.question);
 
   const fontTheme = helper.generateResposneThemeFontFamily(font);
   const indexArr = helper.generateQuestionIndexArr(questions);
@@ -159,11 +161,7 @@ const Preview: FC = () => {
             />
           ))
       : questions.map((question, i) => (
-          <QuestionField
-            question={question}
-            key={question.id}
-            titleIndex={indexArr[i]}
-          />
+          <QuestionField question={question} key={question.id} titleIndex={indexArr[i]} />
         ));
 
   const stylingQuestions =
@@ -187,8 +185,7 @@ const Preview: FC = () => {
           />
         ));
 
-  const previewQuestions =
-    currentStep === 2 ? editingQuestions : stylingQuestions;
+  const previewQuestions = currentStep === 2 ? editingQuestions : stylingQuestions;
 
   return (
     <PreviewLayout fontFamily={fontTheme}>

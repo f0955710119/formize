@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpointConfig from "../../../../../configs/breakpointConfig";
 
 export const SwitchFieldReminder = styled.div`
   position: absolute;
@@ -65,6 +66,10 @@ const Field = styled.div<FieldProps>`
 
   &:hover ${SwitchFieldReminder} {
     ${(props) => (props.isActive ? "" : showFieldReminderAnimation)}
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    padding: 2rem;
   }
 `;
 

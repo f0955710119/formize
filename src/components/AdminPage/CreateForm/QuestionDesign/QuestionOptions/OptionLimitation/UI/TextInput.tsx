@@ -15,11 +15,6 @@ const CustomTextInput = styled(TextField)`
   height: 100%;
   border-radius: 0px;
 
-  & div {
-    border-radius: 3px;
-    height: 100%;
-  }
-
   & label {
     font-size: 1.4rem;
     display: none;

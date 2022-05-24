@@ -1,7 +1,7 @@
 import { FC } from "react";
 
+import styled from "@emotion/styled";
 import { Switch } from "@mui/material";
-
 
 import useAppDispatch from "../../../../../../../hooks/useAppDispatch";
 import useGetQuestion from "../../../../../../../hooks/useQuestion";
@@ -11,34 +11,40 @@ import { Question } from "../../../../../../../types/question";
 import Field from "./Field";
 import Label from "./Label";
 
+const RequiredLabel = styled(Label)`
+  width: auto;
+`;
+
 interface RequiredSwitchProps {
   id: string;
 }
 
-const RequiredSwitch: FC<RequiredSwitchProps> = ({
-  id,
-}: RequiredSwitchProps) => {
+const RequiredSwitch: FC<RequiredSwitchProps> = ({ id }: RequiredSwitchProps) => {
   const dispatch = useAppDispatch();
   const question = useGetQuestion(id) as Question;
 
+  const toggleRequireButton = (value: boolean) => {
+    if (!question) return;
+    dispatch(
+      questionActions.updateSiglePropOfQuestion({
+        id: question.id,
+        actionType: questionActionType.VALIDATIONS,
+        validations: {
+          ...question.validations,
+          required: value,
+        },
+      })
+    );
+  };
+
   return (
     <Field>
-      <Label>必填</Label>
+      <RequiredLabel>必填</RequiredLabel>
       {question && (
         <Switch
           checked={question.validations.required}
           onChange={(event) => {
-            if (!question) return;
-            dispatch(
-              questionActions.updateSiglePropOfQuestion({
-                id: question.id,
-                actionType: questionActionType.VALIDATIONS,
-                validations: {
-                  ...question.validations,
-                  required: event.target.checked,
-                },
-              })
-            );
+            toggleRequireButton(event.target.checked);
           }}
         />
       )}

@@ -22,7 +22,7 @@ const MatrixTitleWrapper = styled.div`
   border: 1px solid transparent;
 
   @media ${breakpointConfig.tabletS} {
-    display: none;
+    /* display: none; */
   }
 `;
 
@@ -57,6 +57,10 @@ const EditingTextWrapper = styled.div`
   display: flex;
   align-items: center;
   margin: 1rem 0;
+
+  @media ${breakpointConfig.tabletS} {
+    flex-direction: column;
+  }
 `;
 
 const CustomTextField = styled(TextField)`
@@ -68,12 +72,17 @@ const CustomTextField = styled(TextField)`
     width: 100%;
     height: 100%;
     color: ${(props) => props.theme.optionText};
+    margin-bottom: 0.5rem;
   }
 
   & input {
     font-size: inherit;
     width: 100%;
     height: 100%;
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
   }
 `;
 
@@ -82,6 +91,11 @@ const EditingButtonWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin-left: 1rem;
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+    margin-left: 0;
+  }
 `;
 
 const EditingButton = styled.button`
@@ -105,6 +119,14 @@ const EditingButton = styled.button`
     color: #fff;
     background-color: #333;
   }
+
+  @media ${breakpointConfig.tabletS} {
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+  }
 `;
 
 interface matrixTitleProps {
@@ -114,19 +136,14 @@ interface matrixTitleProps {
   matrixs: string[];
 }
 
-const MatrixTitle: FC<matrixTitleProps> = ({
-  id,
-  index,
-  matrixs,
-}: matrixTitleProps) => {
+const MatrixTitle: FC<matrixTitleProps> = ({ id, index, matrixs }: matrixTitleProps) => {
   const dispatch = useAppDispatch();
   const { editingQuestionId } = useAppSelector((state) => state.question);
   const [hasClickedMatrix, setHasClickedMatrix] = useState<boolean>(false);
   const [editingMatrix, setEditingMatrix] = useState<string>(matrixs[index]);
   const isLoading = useRef<boolean>(false);
   const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
-  const deleteQuestionContentItemHandler =
-    useDeleteQuestionContentItem("matrix");
+  const deleteQuestionContentItemHandler = useDeleteQuestionContentItem("matrix");
 
   const saveMatrixTitleHandler = () => {
     if (editingMatrix.trim().length === 0) {
