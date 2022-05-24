@@ -17,8 +17,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   align-items: center;
   padding: 1rem 0.7rem 1rem 1rem;
   width: 81%;
-  border: 2px solid
-    ${(props) => (props.isActive ? props.theme.note : "#c8c8c8")};
+  border: 2px solid ${(props) => (props.isActive ? props.theme.note : "#c8c8c8")};
   border-radius: 3px;
 
   transition: border 0.3s;
@@ -36,7 +35,7 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
   @media ${breakpointConfig.mobileL} {
     min-width: 20rem;
     width: 100%;
-    margin-right: 0;
+    margin-right: 1rem;
   }
 `;
 
@@ -109,8 +108,7 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
   const { editingQuestionId } = useAppSelector((state) => state.question);
   const noteTextRaw = questionType === "2" ? "引言沒有註解" : note;
   const noteText = noteTextRaw.trim().length === 0 ? "暫無註解" : noteTextRaw;
-  const hasEditingQuestion =
-    editingQuestionId !== null ? editingQuestionId : "";
+  const hasEditingQuestion = editingQuestionId !== null ? editingQuestionId : "";
   return (
     <QuestionWrapper isActive={hasEditingQuestion === id}>
       <IconWrapper>
@@ -121,9 +119,7 @@ const CreatedQuestion: FC<CreatedQuestionProps> = ({
         {questionType !== "2" && <TitleIndex>{index}.</TitleIndex>}
         <Title>{title.length > 10 ? `${title.slice(0, 11)}...` : title}</Title>
       </TitleWrapper>
-      <Note>
-        {noteText.length > 12 ? `${noteText.slice(0, 13)}...` : noteText}
-      </Note>
+      <Note>{noteText.length > 12 ? `${noteText.slice(0, 13)}...` : noteText}</Note>
     </QuestionWrapper>
   );
 };

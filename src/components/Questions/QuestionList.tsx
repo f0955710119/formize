@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import styled from "styled-components";
+import breakpointConfig from "../../configs/breakpointConfig";
 
 import questionConfig from "../../configs/questionConfig";
 import useAppSelector from "../../hooks/useAppSelector";
@@ -48,7 +49,6 @@ const QuestionWrapper = styled.div<QuestionWrapperProps>`
 `;
 
 const Heading = styled.div`
-  display: inline-block;
   font-size: 2rem;
   line-break: strict;
   color: ${(props) => props.theme.title};
@@ -65,6 +65,7 @@ const NoteText = styled.div`
 const QuestionTypeTag = styled.div`
   display: inline-block;
   margin-left: 1rem;
+  margin-top: 2rem;
   padding: 0 1.6rem;
   height: 2.4rem;
   font-size: 1.6rem;
@@ -74,6 +75,10 @@ const QuestionTypeTag = styled.div`
   line-height: 2.4rem;
   color: #fff;
   transform: translateY(-0.1rem);
+
+  @media ${breakpointConfig.tablet} {
+    font-size: 1.4rem;
+  }
 `;
 
 const LimitationQuestionTag = styled(QuestionTypeTag)`
@@ -130,6 +135,8 @@ const QuestionList: FC<QuestionListProps> = ({
   const { length, maxSelected, max, min, unit, interval, multipleDate, hasRange, startDate, endDate, maxSelectedDateQuantity} = validations;
   const questionTitle = titleIndex === "" ? title : `${titleIndex}. ${title}`;
 
+  const limitationTags = limitationTagText.split("/");
+
   return (
     <>
       <QuestionWrapper
@@ -141,9 +148,10 @@ const QuestionList: FC<QuestionListProps> = ({
           <>
             <Heading>{questionTitle}</Heading>
             <QuestionTypeTag>{questionConfig[type] + "題"}</QuestionTypeTag>
-            {limitationTagText !== "" && (
-              <LimitationQuestionTag>{limitationTagText}</LimitationQuestionTag>
-            )}
+            {limitationTagText !== "" &&
+              limitationTags.map((tag) => (
+                <LimitationQuestionTag key={tag}>{tag}</LimitationQuestionTag>
+              ))}
             {note.trim().length !== 0 && <NoteText>{note}</NoteText>}
           </>
         )}

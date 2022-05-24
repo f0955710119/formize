@@ -32,8 +32,7 @@ interface SinglePageFormContainerProps {
 const SinglePageFormContainer = styled.div<SinglePageFormContainerProps>`
   display: flex;
   flex-direction: column;
-  ${(props) =>
-    props.isHigherThan1200 ? "" : "justify-content:center;align-items:center;"}
+  ${(props) => (props.isHigherThan1200 ? "" : "justify-content:center;align-items:center;")}
   max-width: 90rem;
   width: 100%;
   min-height: 100vh;
@@ -70,10 +69,7 @@ interface SinglePageSectionProps {
   sendResponses: () => Promise<void>;
 }
 
-const SinglePageSection: FC<SinglePageSectionProps> = ({
-  questions,
-  sendResponses,
-}) => {
+const SinglePageSection: FC<SinglePageSectionProps> = ({ questions, sendResponses }) => {
   const { answers } = useAppSelector((state) => state.user);
   const wholePageValidHandler = useWholePageAnswersValidCheck();
   const singlePageFormContainerRef = useRef<HTMLDivElement | null>(null);

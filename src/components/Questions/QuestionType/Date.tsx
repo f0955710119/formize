@@ -63,7 +63,8 @@ const CalendarWrapper = styled.div`
   }
 
   @media ${breakpointConfig.tabletS} {
-    transform: scale(80%);
+    margin-top: 1rem;
+    transform: scale(90%);
   }
 `;
 

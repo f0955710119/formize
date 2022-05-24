@@ -23,11 +23,7 @@ interface PageCTAButtonProps {
   className?: string;
 }
 
-const PageCTAButton: FC<PageCTAButtonProps> = ({
-  text,
-  clickHandler,
-  className,
-}) => {
+const PageCTAButton: FC<PageCTAButtonProps> = ({ text, clickHandler, className }) => {
   return (
     <ButtonWrapper onClick={clickHandler} className={className}>
       {text}

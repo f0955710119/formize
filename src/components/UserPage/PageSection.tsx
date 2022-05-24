@@ -20,16 +20,11 @@ const PageContainer = styled.section<PageContainerProps>`
   flex-direction: column;
   background-color: #fff;
 
-  ${(props) =>
-    !props.isLoad &&
-    props.isMultiplePage &&
-    "animation: moveIn 0.3s ease-in-out;"}
+  ${(props) => !props.isLoad && props.isMultiplePage && "animation: moveIn 0.3s ease-in-out;"}
   @keyframes moveIn {
     0% {
       opacity: 0.3;
-      transform: translateX(
-        ${(props) => (props.isStartPage ? "-6rem" : "6rem")}
-      );
+      transform: translateX(${(props) => (props.isStartPage ? "-6rem" : "6rem")});
     }
     100% {
       opacity: 1;
@@ -58,10 +53,6 @@ const PageInfoWrapper = styled.div`
   align-items: stretch;
   padding: 1rem 4rem 1rem 4rem;
   height: 45vh;
-
-  @media ${breakpointConfig.tablet} {
-    transform: translateY(-2rem);
-  }
 `;
 
 const FormTitle = styled.div`
@@ -73,6 +64,12 @@ const FormTitle = styled.div`
   margin: 2rem 0;
 `;
 
+const StartPageCTAButton = styled(PageCTAButton)`
+  @media ${breakpointConfig.deployForm} {
+    bottom: 2rem;
+  }
+`;
+
 const defaultSinglePageStartPageParagraph =
   "我們很歡迎來到本畫面，希望您有最舒適的中文問卷填答體驗。期待收到您的回覆!往下滑動開始你的填答吧!";
 const defaultMultiPageStartPageParagraph =
@@ -80,10 +77,7 @@ const defaultMultiPageStartPageParagraph =
 const defaultEndPageTitle = "您已完成本問卷的填答!";
 const defaultEndPageParagraph = "感謝你的填答，我們會好好保存您的回覆!";
 
-const showImage = (
-  isStartPage: boolean,
-  imageUrl: string | null | undefined
-) => {
+const showImage = (isStartPage: boolean, imageUrl: string | null | undefined) => {
   const pageDefalutImage = isStartPage
     ? "/images/start-page-default.svg"
     : "/images/side-bar-pic.svg";
@@ -97,12 +91,8 @@ const showParagraph = (
   paragraph: string | undefined
 ) => {
   const startDefaultParagraph =
-    mode === "0"
-      ? defaultSinglePageStartPageParagraph
-      : defaultMultiPageStartPageParagraph;
-  const pageDefalutParagrpah = isStartPage
-    ? startDefaultParagraph
-    : defaultEndPageParagraph;
+    mode === "0" ? defaultSinglePageStartPageParagraph : defaultMultiPageStartPageParagraph;
+  const pageDefalutParagrpah = isStartPage ? startDefaultParagraph : defaultEndPageParagraph;
   const pageParagraph = paragraph ? paragraph : pageDefalutParagrpah;
   return pageParagraph;
 };
@@ -142,19 +132,12 @@ const PageSection: FC<PageSectionProps> = ({
       <PageImageWrapper img={showImage(isStartPage, imageUrl)} />
       <PageInfoWrapper>
         <FormTitle>{startPageTitle}</FormTitle>
-        <PageParagraph
-          paragraph={showParagraph(mode, isStartPage, paragraph)}
-        />
-        {showStartButton && (
-          <PageCTAButton text="開始" clickHandler={clickHandler} />
-        )}
+        <PageParagraph paragraph={showParagraph(mode, isStartPage, paragraph)} />
+        {showStartButton && <StartPageCTAButton text="開始" clickHandler={clickHandler} />}
 
         {!isStartPage && (
           <a href="/" target="_blank">
-            <PageCTAButton
-              text="製作第一份專屬問卷"
-              clickHandler={clickHandler}
-            />
+            <StartPageCTAButton text="製作第一份專屬問卷" clickHandler={clickHandler} />
           </a>
         )}
       </PageInfoWrapper>

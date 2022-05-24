@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { FC, useState } from "react";
 
 import styled from "styled-components";
+import breakpointConfig from "../../configs/breakpointConfig";
 
 import styleConfig from "../../configs/styleConfig";
 import useAppSelector from "../../hooks/useAppSelector";
@@ -27,7 +28,7 @@ interface MainProps {
   hasImage: boolean;
 }
 
-const SinglePageMain = styled.main<MainProps>`
+const PageMain = styled.main<MainProps>`
   max-width: 80rem;
   width: 100%;
   height: 95vh;
@@ -39,6 +40,15 @@ const SinglePageMain = styled.main<MainProps>`
   background-image: ${(props) => `url(${props.backgroundImage})`};
   background-size: cover;
 
+  @media ${breakpointConfig.deployForm} {
+    max-width: auto;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+  }
+`;
+
+const SinglePageMain = styled(PageMain)`
   overflow-y: scroll;
   ${scrollBar}
 
@@ -60,27 +70,11 @@ const SinglePageMain = styled.main<MainProps>`
   }
 `;
 
-const MultiPageMain = styled.main<MainProps>`
-  max-width: 80rem;
-  width: 100%;
-  height: 95vh;
-  margin: 2.5vh auto 0 auto;
-  border-radius: 9px;
-
-  font-family: ${(props) => props.font};
-
-  background-image: ${(props) => `url(${props.backgroundImage})`};
-  background-size: cover;
-
+const MultiPageMain = styled(PageMain)`
   overflow: hidden;
 `;
 
-const Form: FC<FormProps> = ({
-  responseDocId,
-  questions,
-  settings,
-  style,
-}: FormProps) => {
+const Form: FC<FormProps> = ({ responseDocId, questions, settings, style }: FormProps) => {
   const router = useRouter();
   const { formId } = router.query;
   const { answers } = useAppSelector((state) => state.user);
@@ -119,55 +113,42 @@ const Form: FC<FormProps> = ({
 
   const fontCodeName = styleConfig[`${style.font}_KEYFONT`];
   const font = styleConfig[`${fontCodeName}_CSS`];
+
+  const DynamicPageMain = mode === "0" ? SinglePageMain : MultiPageMain;
+  const startPageProps = {
+    isStartPage: true,
+    title,
+    imageUrl: startPageImageFile,
+    paragraph: startPageParagraph,
+    mode,
+  };
+  const endPageProps = {
+    isStartPage: false,
+    imageUrl: endPageImageFile,
+    paragraph: endPageParagraph,
+  };
   return (
-    <>
-      {mode === "0" && (
-        <UserFormBodyContainerForMultiPage>
-          <SinglePageMain
-            hasImage={startPageImageFile ? true : false}
-            font={font}
-            backgroundImage={style.backgroundImage}
-          >
+    <UserFormBodyContainerForMultiPage>
+      <DynamicPageMain
+        hasImage={startPageImageFile ? true : false}
+        font={font}
+        backgroundImage={style.backgroundImage}
+      >
+        {mode === "0" ? (
+          <>
             {navigatePage === 0 ? (
               <>
-                <PageSection
-                  isStartPage
-                  title={title}
-                  imageUrl={startPageImageFile}
-                  paragraph={startPageParagraph}
-                  mode={mode}
-                />
-                <SinglePageSection
-                  questions={questions}
-                  sendResponses={sendResponses}
-                />
+                <PageSection {...startPageProps} />
+                <SinglePageSection questions={questions} sendResponses={sendResponses} />
               </>
             ) : (
-              <PageSection
-                isStartPage={false}
-                paragraph={endPageParagraph}
-                imageUrl={endPageImageFile}
-              />
+              <PageSection {...endPageProps} />
             )}
-          </SinglePageMain>
-        </UserFormBodyContainerForMultiPage>
-      )}
-      {mode === "1" && (
-        <UserFormBodyContainerForMultiPage>
-          <MultiPageMain
-            hasImage={startPageImageFile ? true : false}
-            font={font}
-            backgroundImage={style.backgroundImage}
-          >
+          </>
+        ) : (
+          <>
             {navigatePage === 0 && (
-              <PageSection
-                isStartPage
-                title={title}
-                imageUrl={startPageImageFile}
-                paragraph={startPageParagraph}
-                mode={mode}
-                clickHandler={clickStartPageButtonHandler}
-              />
+              <PageSection {...startPageProps} clickHandler={clickStartPageButtonHandler} />
             )}
 
             {navigatePage === 1 && (
@@ -179,17 +160,11 @@ const Form: FC<FormProps> = ({
               />
             )}
 
-            {navigatePage === 2 && (
-              <PageSection
-                isStartPage={false}
-                paragraph={endPageParagraph}
-                imageUrl={endPageImageFile}
-              />
-            )}
-          </MultiPageMain>
-        </UserFormBodyContainerForMultiPage>
-      )}
-    </>
+            {navigatePage === 2 && <PageSection {...endPageProps} />}
+          </>
+        )}
+      </DynamicPageMain>
+    </UserFormBodyContainerForMultiPage>
   );
 };
 
