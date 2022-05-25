@@ -1,9 +1,7 @@
 import { FC } from "react";
 
 import AddOptionButton from "../UI/AddOptionButton";
-import ChoiceOptionItem, {
-  ChoiceWrapper,
-} from "./QuestionContentItem/ChoiceOptionItem";
+import ChoiceOptionItem, { ChoiceWrapper } from "./QuestionContentItem/ChoiceOptionItem";
 
 interface ChoiceProps {
   id: string;

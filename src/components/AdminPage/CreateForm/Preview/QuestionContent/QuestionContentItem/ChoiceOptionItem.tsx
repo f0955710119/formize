@@ -14,6 +14,8 @@ import { questionActions } from "../../../../../../store/slice/questionSlice";
 import helper from "../../../../../../utils/helper";
 import sweetAlert from "../../../../../../utils/sweetAlert";
 
+import ChoiceOptionEditingButton from "./ChoiceOptionEditingButton";
+
 export const ChoiceWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -106,6 +108,18 @@ const EditingButton = styled.button`
   }
 `;
 
+const closeEditingOptionOfUneditingQuestion = (
+  editingQuestionId: string | null,
+  id: string,
+  closeOptionCallback: () => void
+) => {
+  const hasNoEditingQuestion = editingQuestionId === null;
+  if (hasNoEditingQuestion) return;
+  const hasSwitchEditingQuestion = editingQuestionId !== id;
+  if (hasSwitchEditingQuestion) {
+    closeOptionCallback();
+  }
+};
 interface OptionItemProps {
   id: string;
   index: number;
@@ -114,9 +128,7 @@ interface OptionItemProps {
 
 const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps) => {
   const dispatch = useAppDispatch();
-  const { editingQuestionId, isSwitchingEditingOption } = useAppSelector(
-    (state) => state.question
-  );
+  const { editingQuestionId } = useAppSelector((state) => state.question);
 
   const [editingOptionText, setEditingOptionText] = useState<string>(options[index]);
   const [hasClickedOptionText, setHasClickedOptionText] = useState<boolean>(false);
@@ -124,6 +136,49 @@ const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps
 
   const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
   const deleteQuestionContentItemHandler = useDeleteQuestionContentItem("option");
+
+  useEffect(() => {
+    if (!isLoading.current) {
+      setEditingOptionText(options[index]);
+      return;
+    }
+    isLoading.current = false;
+  }, [options]);
+
+  useEffect(() => {
+    const closeEditingOptionCallback = () => {
+      setHasClickedOptionText(false);
+      dispatch(
+        questionActions.setIsEditingOption({
+          setEditingState: false,
+          isReset: true,
+        })
+      );
+    };
+
+    if (!isLoading.current) {
+      closeEditingOptionOfUneditingQuestion(editingQuestionId, id, closeEditingOptionCallback);
+      return;
+    }
+    isLoading.current = false;
+  }, [editingQuestionId]);
+
+  const updateOptionsCallback = (id: string, options: string[]) => {
+    dispatch(
+      questionActions.updateSiglePropOfQuestion({
+        id,
+        actionType: questionActionType.OPTIONS,
+        stringArr: options,
+      })
+    );
+    setHasClickedOptionText(false);
+    dispatch(
+      questionActions.setIsEditingOption({
+        setEditingState: false,
+        isReset: false,
+      })
+    );
+  };
 
   const saveEditedTextHandler = (editingOptionText: string) => {
     if (editingOptionText.trim().length === 0) {
@@ -136,65 +191,43 @@ const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps
       editingText: editingOptionText,
     };
     const checkHasExistedTitle = helper.checkExistedName(checkNameUtilObj);
-
     if (checkHasExistedTitle) {
       sweetAlert.errorReminderAlert("【儲存失敗】\n有重複的選項名稱存在");
       return;
     }
-
     const updateOptions = helper.generateUpdateNames(checkNameUtilObj);
+    updateOptionsCallback(id, updateOptions);
+  };
 
-    dispatch(
-      questionActions.updateSiglePropOfQuestion({
-        id,
-        actionType: questionActionType.OPTIONS,
-        stringArr: updateOptions,
-      })
-    );
-    setHasClickedOptionText(false);
+  const toggleEditingInputHandler = (open: boolean) => {
+    setHasClickedOptionText(open);
     dispatch(
       questionActions.setIsEditingOption({
-        setEditingState: false,
+        setEditingState: open,
         isReset: false,
       })
     );
   };
 
-  const openEditingInputHandler = () => {
-    setHasClickedOptionText(true);
-    dispatch(
-      questionActions.setIsEditingOption({
-        setEditingState: true,
-        isReset: false,
-      })
-    );
+  const clickOptionTextHandler = (editingQuestionId: string | null, id: string) => {
+    if (editingQuestionId !== id) return;
+    checkOpenEditingTextHandler(() => {
+      toggleEditingInputHandler(true);
+    }, id);
   };
 
-  useEffect(() => {
-    if (!isLoading.current) {
-      if (editingQuestionId === null) return;
-
-      if (editingQuestionId !== id) {
-        setHasClickedOptionText(false);
-
-        !isSwitchingEditingOption &&
-          dispatch(
-            questionActions.setIsEditingOption({
-              setEditingState: false,
-              isReset: true,
-            })
-          );
-        dispatch(questionActions.setIsSwitchingEditingOption(false));
-        return;
-      }
-      return;
-    }
-    isLoading.current = false;
-  }, [editingQuestionId]);
-
-  useEffect(() => {
-    setEditingOptionText(options[index]);
-  }, [options]);
+  const saveEditngButtonProps = {
+    text: "儲存",
+    clickHandler: () => {
+      saveEditedTextHandler(editingOptionText);
+    },
+  };
+  const closeEditingButtonProps = {
+    text: "取消",
+    clickHandler: () => {
+      toggleEditingInputHandler(false);
+    },
+  };
 
   return hasClickedOptionText ? (
     <EditingOptionItemWrapper>
@@ -204,23 +237,8 @@ const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps
         label=""
         onChange={(event) => setEditingOptionText(event.target.value)}
       />
-
-      <EditingButton onClick={() => saveEditedTextHandler(editingOptionText)}>
-        儲存
-      </EditingButton>
-      <EditingButton
-        onClick={() => {
-          setHasClickedOptionText(false);
-          dispatch(
-            questionActions.setIsEditingOption({
-              setEditingState: false,
-              isReset: false,
-            })
-          );
-        }}
-      >
-        取消
-      </EditingButton>
+      <ChoiceOptionEditingButton {...saveEditngButtonProps} />
+      <ChoiceOptionEditingButton {...closeEditingButtonProps} />
     </EditingOptionItemWrapper>
   ) : (
     <OptionItemWrapper>
@@ -233,11 +251,7 @@ const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps
         }}
       />
 
-      <OptionItemText
-        onClick={() => {
-          checkOpenEditingTextHandler(openEditingInputHandler, id);
-        }}
-      >
+      <OptionItemText onClick={() => clickOptionTextHandler(editingQuestionId, id)}>
         {options[index]}
       </OptionItemText>
     </OptionItemWrapper>
