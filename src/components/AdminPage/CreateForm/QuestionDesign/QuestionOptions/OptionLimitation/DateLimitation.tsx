@@ -4,8 +4,8 @@ import { Switch } from "@mui/material";
 
 import questionConfig from "../../../../../../configs/questionConfig";
 import useAppDispatch from "../../../../../../hooks/useAppDispatch";
-import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
-import useGetQuestion from "../../../../../../hooks/useQuestion";
+import useUpdateQuestionValidation from "../../../../../../hooks/useUpdateQuestionValidation";
+import useGetQuestion from "../../../../../../hooks/useGetQuestion";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 import type { Question } from "../../../../../../types/question";
@@ -66,11 +66,11 @@ const DateLimitation: FC<DateLimitationProps> = ({ id }: DateLimitationProps) =>
     return "請填入至少為2的數值";
   };
   // prettier-ignore
-  const startDateHandler = useGenerateValidationHandler(id, startDate, false, question,startDateValidationHandler);
+  const startDateHandler = useUpdateQuestionValidation(id, startDate, false, question,startDateValidationHandler);
   // prettier-ignore
-  const endDateHandler = useGenerateValidationHandler(id, endDate, false, question,endDateValidationHandler);
+  const endDateHandler = useUpdateQuestionValidation(id, endDate, false, question,endDateValidationHandler);
   // prettier-ignore
-  const maxSelectedDateQuantityHandler = useGenerateValidationHandler(id,maxSelectedDateQuantity,true,question,maxSelectedDateQuantityValidationHandler)
+  const maxSelectedDateQuantityHandler = useUpdateQuestionValidation(id,maxSelectedDateQuantity,true,question,maxSelectedDateQuantityValidationHandler)
 
   useEffect(() => {
     if (!didUpdateRange.current) return;

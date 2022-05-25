@@ -8,11 +8,7 @@ import helper from "../utils/helper";
 const useInitAdminInfo = () => {
   const context = useContext(adminContext);
 
-  const initAdminHandler = async (
-    uid: string,
-    isReset: boolean = false,
-    isDeleteGroup: boolean = true
-  ) => {
+  const initAdminHandler = async (uid: string, isDeleteGroup: boolean = true) => {
     const response = await fetch("/api/admin/group", {
       method: "GET",
       headers: {

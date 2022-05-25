@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import questionConfig from "../../../../../../configs/questionConfig";
 import useAppDispatch from "../../../../../../hooks/useAppDispatch";
-import useGetQuestion from "../../../../../../hooks/useQuestion";
+import useGetQuestion from "../../../../../../hooks/useGetQuestion";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 import { Question } from "../../../../../../types/question";
@@ -17,9 +17,7 @@ interface TextLimitationProps {
   id: string;
 }
 
-const TextLimitation: FC<TextLimitationProps> = ({
-  id,
-}: TextLimitationProps) => {
+const TextLimitation: FC<TextLimitationProps> = ({ id }: TextLimitationProps) => {
   const dispatch = useAppDispatch();
   const question = useGetQuestion(id) as Question;
   const numberRegex = /^[0-9]+$/;
@@ -30,8 +28,7 @@ const TextLimitation: FC<TextLimitationProps> = ({
     }
 
     if (!numberRegex.test(value)) {
-      const errorMessage =
-        +value <= 0 ? "字數上限只能是正整數!" : "字數上限只能是數值";
+      const errorMessage = +value <= 0 ? "字數上限只能是正整數!" : "字數上限只能是數值";
       sweetAlert.errorReminderAlert(errorMessage);
       return;
     }

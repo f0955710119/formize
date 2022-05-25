@@ -4,7 +4,7 @@ import type { Question } from "../types/question";
 import sweetAlert from "../utils/sweetAlert";
 import useAppDispatch from "./useAppDispatch";
 
-const useGenerateValidationHandler = (
+const useUpdateQuestionValidation = (
   id: string,
   key: string,
   isNumber: boolean = true,
@@ -55,4 +55,4 @@ const useGenerateValidationHandler = (
   return dispatchHandler;
 };
 
-export default useGenerateValidationHandler;
+export default useUpdateQuestionValidation;

@@ -1,3 +1,4 @@
+import { StringFormat } from "firebase/storage";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -14,11 +15,12 @@ import useRouterLoaded from "../../src/hooks/useRouterLoaded";
 import { adminContext } from "../../src/store/context/adminContext";
 
 const Admin: NextPage = () => {
-  const context = useContext(adminContext);
+  const { uid } = useContext(adminContext);
   const router = useRouter();
   const checkUidInOtherPageHandler = useCheckUid();
   const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);
 
+  const initAdminHandler = useInitAdminInfo();
   const fetchAdminData = async (uid: string) => {
     if (uid === "") {
       const isInvalid = await checkUidInOtherPageHandler();
@@ -33,8 +35,7 @@ const Admin: NextPage = () => {
     setIsFetchingAdminData(false);
   };
 
-  const initAdminHandler = useInitAdminInfo();
-  useRouterLoaded(() => fetchAdminData(context.uid));
+  useRouterLoaded(() => fetchAdminData(uid));
 
   return (
     <>

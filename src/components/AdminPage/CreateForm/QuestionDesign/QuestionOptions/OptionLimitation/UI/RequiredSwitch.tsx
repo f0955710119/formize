@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { Switch } from "@mui/material";
 
 import useAppDispatch from "../../../../../../../hooks/useAppDispatch";
-import useGetQuestion from "../../../../../../../hooks/useQuestion";
+import useGetQuestion from "../../../../../../../hooks/useGetQuestion";
 import questionActionType from "../../../../../../../store/actionType/questionActionType";
 import { questionActions } from "../../../../../../../store/slice/questionSlice";
 import { Question } from "../../../../../../../types/question";

@@ -1,8 +1,8 @@
 import { FC } from "react";
 
 import questionConfig from "../../../../../../configs/questionConfig";
-import useGenerateValidationHandler from "../../../../../../hooks/useGenerateValidationHandler";
-import useGetQuestion from "../../../../../../hooks/useQuestion";
+import useUpdateQuestionValidation from "../../../../../../hooks/useUpdateQuestionValidation";
+import useGetQuestion from "../../../../../../hooks/useGetQuestion";
 import type { Question } from "../../../../../../types/question";
 import type { Validation } from "../../../../../../types/validation";
 import Field from "./UI/Field";
@@ -51,28 +51,28 @@ const NumberLimitation: FC<NumberLimitationProps> = ({ id }: NumberLimitationPro
     return checkInt({ max, min, value });
   };
 
-  const saveMinHandler = useGenerateValidationHandler(
+  const saveMinHandler = useUpdateQuestionValidation(
     id,
     questionConfig.MIN,
     true,
     question,
     minValidationHandler
   );
-  const saveMaxHandler = useGenerateValidationHandler(
+  const saveMaxHandler = useUpdateQuestionValidation(
     id,
     questionConfig.MAX,
     true,
     question,
     maxValidationHandler
   );
-  const saveUnitHandler = useGenerateValidationHandler(
+  const saveUnitHandler = useUpdateQuestionValidation(
     id,
     questionConfig.UNIT,
     false,
     question,
     unitValidationHandler
   );
-  const saveIntervalHandler = useGenerateValidationHandler(
+  const saveIntervalHandler = useUpdateQuestionValidation(
     id,
     questionConfig.INTERVAL,
     true,

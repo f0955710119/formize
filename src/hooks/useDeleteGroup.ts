@@ -26,7 +26,7 @@ const useDeleteGroup = () => {
 
         if (!response.ok) throw new Error("連線異常，請稍後再試");
 
-        await initAdminHandler(uid, true);
+        await initAdminHandler(uid);
         sweetAlert.loadedReminderAlert("刪除成功!");
         setTimeout(() => {
           sweetAlert.closeAlert();

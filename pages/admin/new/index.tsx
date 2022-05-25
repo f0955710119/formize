@@ -17,13 +17,13 @@ import Loading from "../../../src/components/UI/Loading";
 import scrollBar from "../../../src/components/UI/scrollBar";
 import breakpointConfig from "../../../src/configs/breakpointConfig";
 import useAppSelector from "../../../src/hooks/useAppSelector";
-import useGetTheme from "../../../src/hooks/useGetTheme";
 import useRouterLoaded from "../../../src/hooks/useRouterLoaded";
 import { adminContext } from "../../../src/store/context/adminContext";
 import { SettingContextProvider } from "../../../src/store/context/settingContext";
 import themes from "../../../src/store/theme/theme";
 import helper from "../../../src/utils/helper";
 import sweetAlert from "../../../src/utils/sweetAlert";
+import { styleContext } from "../../../src/store/context/styleContext";
 
 const CreateNewPageContainer = styled.div`
   width: 100vw;
@@ -45,11 +45,11 @@ const muiTheme = createTheme({
 
 const New: NextPage = () => {
   const router = useRouter();
-  const context = useContext(adminContext);
+  const { uid } = useContext(adminContext);
+  const { theme } = useContext(styleContext);
   const { currentStep } = useAppSelector((state) => state.question);
   const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);
-  const themeCode = useGetTheme();
-  const colorTheme = themes[helper.generateResponseThemePalette(themeCode)];
+  const colorTheme = themes[helper.generateResponseThemePalette(theme)];
 
   const fetchAdminData = async (uid: string) => {
     if (uid !== "") {
@@ -64,7 +64,7 @@ const New: NextPage = () => {
     router.push("/admin");
   };
 
-  useRouterLoaded(() => fetchAdminData(context.uid));
+  useRouterLoaded(() => fetchAdminData(uid));
 
   const loadingImageSrc = `${process.env.NEXT_PUBLIC_ORIGIN}/images/loading-image.svg`;
 
