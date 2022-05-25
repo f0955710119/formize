@@ -1,29 +1,23 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC } from "react";
 
 import { TextField } from "@mui/material";
 import { DeleteBack2 } from "@styled-icons/remix-fill/DeleteBack2";
 import styled from "styled-components";
 
 import breakpointConfig from "../../../../../../configs/breakpointConfig";
-import useAppDispatch from "../../../../../../hooks/useAppDispatch";
-import useAppSelector from "../../../../../../hooks/useAppSelector";
-import useCheckEditingStateOfTextEditingField from "../../../../../../hooks/useCheckEditingStateOfTextEditingField";
 import useDeleteQuestionContentItem from "../../../../../../hooks/useDeleteQuestionContentItem";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
-import { questionActions } from "../../../../../../store/slice/questionSlice";
-import helper from "../../../../../../utils/helper";
-import sweetAlert from "../../../../../../utils/sweetAlert";
 import textUnderline from "../../../../../UI/textUnderline";
+import useSaveQuestionContentText from "../../../../../../hooks/useSaveQuestionContentText";
+import useEditingQuestionContent from "../../../../../../hooks/useEditingQuestionContent";
+import sweetAlert from "../../../../../../utils/sweetAlert";
+import Button from "../../../../../UI/Button";
 
 const MatrixTitleWrapper = styled.div`
   display: flex;
   align-items: center;
   padding: 1.2rem 0;
   border: 1px solid transparent;
-
-  @media ${breakpointConfig.tabletS} {
-    /* display: none; */
-  }
 `;
 
 const MatrixTitleText = styled.div`
@@ -98,7 +92,7 @@ const EditingButtonWrapper = styled.div`
   }
 `;
 
-const EditingButton = styled.button`
+const EditingButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -137,123 +131,53 @@ interface matrixTitleProps {
 }
 
 const MatrixTitle: FC<matrixTitleProps> = ({ id, index, matrixs }: matrixTitleProps) => {
-  const dispatch = useAppDispatch();
-  const { editingQuestionId } = useAppSelector((state) => state.question);
-  const [hasClickedMatrix, setHasClickedMatrix] = useState<boolean>(false);
-  const [editingMatrix, setEditingMatrix] = useState<string>(matrixs[index]);
-  const isLoading = useRef<boolean>(false);
-  const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
+  const {
+    editingText,
+    setEditingText,
+    hasClickedText,
+    toggleEditingInputHandler,
+    clickTextHandler,
+    saveContentCallback,
+  } = useEditingQuestionContent({ stringArr: matrixs, index, contentType: "matrix" }, id);
   const deleteQuestionContentItemHandler = useDeleteQuestionContentItem("matrix");
+  const saveMatrixTitleHandler = useSaveQuestionContentText();
 
-  const saveMatrixTitleHandler = () => {
-    if (editingMatrix.trim().length === 0) {
-      sweetAlert.errorReminderAlert("【儲存失敗】\n欄位不能留空");
+  const checkMatrixTitleValid = (value: string) => {
+    if (value.length > 16) {
+      sweetAlert.errorReminderAlert("【修改失敗】\n欄位的字數上限為16字");
       return;
     }
-
-    const newMatrixObj = {
-      stringArr: matrixs,
-      index,
-      editingText: editingMatrix,
-    };
-
-    const checkExistedmatrixTitle = helper.checkExistedName(newMatrixObj);
-    if (checkExistedmatrixTitle) {
-      sweetAlert.errorReminderAlert("【儲存失敗】\n不能存取重複的欄位名稱");
-      return;
-    }
-    const updateMatrixTitle = helper.generateUpdateNames(newMatrixObj);
-    dispatch(
-      questionActions.updateSiglePropOfQuestion({
-        id,
-        actionType: questionActionType.MATRIXS,
-        stringArr: updateMatrixTitle,
-      })
-    );
-    setHasClickedMatrix(false);
-    dispatch(
-      questionActions.setIsEditingMatrix({
-        setEditingState: false,
-        isReset: false,
-      })
-    );
+    setEditingText(value);
   };
 
-  const openEditingInputHandler = () => {
-    dispatch(
-      questionActions.setIsEditingMatrix({
-        setEditingState: true,
-        isReset: false,
-      })
-    );
-    setHasClickedMatrix(true);
-  };
-
-  useEffect(() => {
-    if (!isLoading.current) {
-      if (editingQuestionId === null) return;
-
-      if (editingQuestionId !== id) {
-        setHasClickedMatrix(false);
-        dispatch(
-          questionActions.setIsEditingMatrix({
-            setEditingState: false,
-            isReset: true,
-          })
-        );
-        return;
-      }
-      return;
-    }
-    isLoading.current = false;
-  }, [editingQuestionId]);
-
-  useEffect(() => {
-    setEditingMatrix(matrixs[index]);
-  }, [matrixs]);
-
-  return hasClickedMatrix ? (
+  return hasClickedText ? (
     <EditingTextWrapper>
       <CustomTextField
-        value={editingMatrix}
+        value={editingText}
         placeholder=""
         label=""
         onChange={(event) => {
           const { value } = event.target;
-
-          if (value.length > 16) {
-            sweetAlert.errorReminderAlert("【修改失敗】\n欄位的字數上限為16字");
-            return;
-          }
-          setEditingMatrix(value);
+          checkMatrixTitleValid(value);
         }}
       />
       <EditingButtonWrapper>
-        <EditingButton onClick={saveMatrixTitleHandler}>儲存</EditingButton>
         <EditingButton
-          onClick={() => {
-            setHasClickedMatrix(false);
-            dispatch(
-              questionActions.setIsEditingMatrix({
-                setEditingState: false,
-                isReset: false,
-              })
-            );
-          }}
-        >
-          取消
-        </EditingButton>
+          text="儲存"
+          clickHandler={() =>
+            saveMatrixTitleHandler(
+              { stringArr: matrixs, index, editingText },
+              "欄位",
+              saveContentCallback
+            )
+          }
+        />
+        <EditingButton text="取消" clickHandler={() => toggleEditingInputHandler(false)} />
       </EditingButtonWrapper>
     </EditingTextWrapper>
   ) : (
     <MatrixTitleWrapper>
-      <MatrixTitleText
-        onClick={() => {
-          checkOpenEditingTextHandler(openEditingInputHandler, id);
-        }}
-      >
-        {matrixs[index]}
-      </MatrixTitleText>
+      <MatrixTitleText onClick={() => clickTextHandler(id)}>{matrixs[index]}</MatrixTitleText>
       <MatrixTitleDeleteButton
         onClick={() =>
           deleteQuestionContentItemHandler(
