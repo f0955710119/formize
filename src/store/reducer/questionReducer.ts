@@ -1,5 +1,4 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
-import { text } from "stream/consumers";
 
 import questionDefaultConfig from "../../configs/questionDefaultConfig";
 import type { Question, UpdateValue } from "../../types/question";
@@ -9,7 +8,6 @@ import questionActionType from "../actionType/questionActionType";
 import type { QuestionState } from "../slice/questionSlice";
 
 const initQuestion: CaseReducer<QuestionState> = (state) => {
-  state.accumulatedInValidInputError = [{ id: "", message: "" }];
   state.currentStep = 1;
   state.editingFormPage = 1;
   state.editingQuestionId = null;
@@ -17,21 +15,16 @@ const initQuestion: CaseReducer<QuestionState> = (state) => {
   state.willSwitcEditinghQuestion = false;
 };
 
-const addNewQuestion: CaseReducer<QuestionState, PayloadAction<Question>> = (
-  state,
-  action
-) => {
+const addNewQuestion: CaseReducer<QuestionState, PayloadAction<Question>> = (state, action) => {
   state.questions.push(action.payload);
   state.questions = state.questions.sort((a, b) => a.page - b.page);
 };
 
-const deleteExistedQuestion: CaseReducer<
-  QuestionState,
-  PayloadAction<string>
-> = (state, action) => {
-  state.questions = state.questions.filter(
-    (question) => question.id !== action.payload
-  );
+const deleteExistedQuestion: CaseReducer<QuestionState, PayloadAction<string>> = (
+  state,
+  action
+) => {
+  state.questions = state.questions.filter((question) => question.id !== action.payload);
 };
 
 const updateSiglePropOfQuestion: CaseReducer<
@@ -45,8 +38,7 @@ const updateSiglePropOfQuestion: CaseReducer<
     validations?: Validation;
   }>
 > = (state, action) => {
-  const { id, actionType, text, number, stringArr, validations } =
-    action.payload;
+  const { id, actionType, text, number, stringArr, validations } = action.payload;
 
   const responsedActionTypeConfig: { [key: string]: string } = {
     ...questionActionType,
@@ -95,31 +87,31 @@ const initRangeDateOfDateQuestion: CaseReducer<
   });
 };
 
-const switchEditingQuestion: CaseReducer<
-  QuestionState,
-  PayloadAction<string | null>
-> = (state, action) => {
+const switchEditingQuestion: CaseReducer<QuestionState, PayloadAction<string | null>> = (
+  state,
+  action
+) => {
   state.editingQuestionId = action.payload;
 };
 
-const willChangeLimitationValue: CaseReducer<
-  QuestionState,
-  PayloadAction<boolean>
-> = (state, action) => {
+const willChangeLimitationValue: CaseReducer<QuestionState, PayloadAction<boolean>> = (
+  state,
+  action
+) => {
   state.willSwitcEditinghQuestion = action.payload;
 };
 
-const switchCreatingFormStep: CaseReducer<
-  QuestionState,
-  PayloadAction<number>
-> = (state, action) => {
+const switchCreatingFormStep: CaseReducer<QuestionState, PayloadAction<number>> = (
+  state,
+  action
+) => {
   state.currentStep = action.payload;
 };
 
-const switchEditingFormPage: CaseReducer<
-  QuestionState,
-  PayloadAction<number>
-> = (state, action) => {
+const switchEditingFormPage: CaseReducer<QuestionState, PayloadAction<number>> = (
+  state,
+  action
+) => {
   state.editingFormPage = action.payload;
 };
 
@@ -143,20 +135,13 @@ const setIsEditingOption: CaseReducer<
   state.isEditingOption = setEditingOption;
 };
 
-const setIsSwitchingEditingOption: CaseReducer<
-  QuestionState,
-  PayloadAction<boolean>
-> = (state, action) => {
-  state.isSwitchingEditingOption = action.payload;
-};
-
 const setIsEditingMatrix: CaseReducer<
   QuestionState,
   PayloadAction<{ setEditingState: boolean; isReset: boolean }>
 > = (state, action) => {
   if (action.payload.isReset) {
-    state.editingMatrixQuantity = 0;
     state.isEditingMatrix = false;
+    state.editingMatrixQuantity = 0;
     return;
   }
 
@@ -168,13 +153,6 @@ const setIsEditingMatrix: CaseReducer<
 
   const setEditingMatrix = upateEditingMatrixQuantity > 0 ? true : false;
   state.isEditingMatrix = setEditingMatrix;
-};
-
-const setIsSwitchingEditingMatrix: CaseReducer<
-  QuestionState,
-  PayloadAction<boolean>
-> = (state, action) => {
-  state.isSwitchingEditingMatrix = action.payload;
 };
 
 const addNewFormPage: CaseReducer<
@@ -235,9 +213,7 @@ export default {
   switchCreatingFormStep,
   switchEditingFormPage,
   setIsEditingOption,
-  setIsSwitchingEditingOption,
   setIsEditingMatrix,
-  setIsSwitchingEditingMatrix,
   addNewFormPage,
   updateQuestionPage,
 };

@@ -44,10 +44,10 @@ const QuestionField: FC<QuestionFieldProps> = ({
   titleIndex,
 }: QuestionFieldProps) => {
   const dispatch = useAppDispatch();
-  const { editingQuestionId, isEditingOption, isEditingMatrix, questions } =
-    useAppSelector((state) => state.question);
-  const checkHasNoSameArrayStringNameHandler =
-    useCheckQuestionArraySameString();
+  const { editingQuestionId, isEditingOption, isEditingMatrix, questions } = useAppSelector(
+    (state) => state.question
+  );
+  const checkHasNoSameArrayStringNameHandler = useCheckQuestionArraySameString();
 
   const getTitleIndexHandler = useGetQuestionTitleIndex();
 
@@ -66,15 +66,6 @@ const QuestionField: FC<QuestionFieldProps> = ({
         return;
       }
       dispatch(questionActions.switchEditingQuestion(question.id));
-
-      if (target.classList[0].includes("ChoiceOptionItem")) {
-        dispatch(questionActions.setIsSwitchingEditingOption(true));
-        return;
-      }
-
-      if (target.classList[0].includes("MatrixTitle")) {
-        dispatch(questionActions.setIsSwitchingEditingMatrix(true));
-      }
     };
 
     if (!isEditingOption && !isEditingMatrix) {
@@ -84,9 +75,7 @@ const QuestionField: FC<QuestionFieldProps> = ({
 
     if (editingQuestionId === null) return;
     const questionTitleIndex = getTitleIndexHandler(editingQuestionId);
-    const responseQuestion = questions.find(
-      (question) => question.id === editingQuestionId
-    );
+    const responseQuestion = questions.find((question) => question.id === editingQuestionId);
 
     sweetAlert.clickToConfirmAlert(
       {

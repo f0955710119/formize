@@ -11,14 +11,11 @@ export interface QuestionState {
   questions: Question[];
   editingQuestionId: string | null;
   willSwitcEditinghQuestion: boolean;
-  accumulatedInValidInputError: ErrorMessage[];
   currentStep: number;
   editingFormPage: number;
   isEditingOption: boolean;
-  isSwitchingEditingOption: boolean;
   editingOptionQuantity: number;
   isEditingMatrix: boolean;
-  isSwitchingEditingMatrix: boolean;
   editingMatrixQuantity: number;
 }
 
@@ -26,14 +23,11 @@ const initialState: QuestionState = {
   questions: [],
   editingQuestionId: null,
   willSwitcEditinghQuestion: false,
-  accumulatedInValidInputError: [{ id: "", message: "" }],
   currentStep: 1,
   editingFormPage: 1,
   isEditingOption: false,
-  isSwitchingEditingOption: false,
   editingOptionQuantity: 0,
   isEditingMatrix: false,
-  isSwitchingEditingMatrix: false,
   editingMatrixQuantity: 0,
 };
 
