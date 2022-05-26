@@ -1,8 +1,8 @@
 import { FC } from "react";
 
 import questionConfig from "../../../../../../configs/questionConfig";
-import useUpdateQuestionValidation from "../../../../../../hooks/useUpdateQuestionValidation";
 import useGetQuestion from "../../../../../../hooks/useGetQuestion";
+import useUpdateQuestionValidation from "../../../../../../hooks/useUpdateQuestionValidation";
 import { Question } from "../../../../../../types/question";
 import Field from "./UI/Field";
 import Label from "./UI/Label";

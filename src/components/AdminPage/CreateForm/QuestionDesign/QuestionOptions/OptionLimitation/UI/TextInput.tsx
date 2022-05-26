@@ -56,9 +56,7 @@ const TextInput: FC<TextInputProps> = ({
   placeholder,
   dispatchHandler,
 }: TextInputProps) => {
-  const dispatch = useAppDispatch();
   const question = useGetQuestion(id) as Question;
-  const { willSwitcEditinghQuestion } = useAppSelector((state) => state.question);
   const { validations } = question;
   const { length, min, max, unit, interval, maxSelected } = validations;
 
@@ -77,12 +75,6 @@ const TextInput: FC<TextInputProps> = ({
       return;
     }, 0)
   );
-
-  useEffect(() => {
-    if (!willSwitcEditinghQuestion) return;
-    setInputValue(inputValueConfig[validationType]);
-    dispatch(questionActions.willChangeLimitationValue(false));
-  }, [willSwitcEditinghQuestion]);
 
   return (
     <CustomTextInput

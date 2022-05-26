@@ -109,6 +109,18 @@ const NoQuestionReminder = styled.div`
   @media ${breakpointConfig.desktopS} {
     background-size: 80%;
   }
+
+  @media ${breakpointConfig.tablet} {
+    background-size: 90%;
+  }
+
+  @media ${breakpointConfig.tabletS} {
+    background-size: 100%;
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    background-size: 120%;
+  }
 `;
 
 const NoQuestionReminderText = styled.div`

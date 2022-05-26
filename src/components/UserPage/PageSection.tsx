@@ -134,7 +134,6 @@ const PageSection: FC<PageSectionProps> = ({
         <FormTitle>{startPageTitle}</FormTitle>
         <PageParagraph paragraph={showParagraph(mode, isStartPage, paragraph)} />
         {showStartButton && <StartPageCTAButton text="開始" clickHandler={clickHandler} />}
-
         {!isStartPage && (
           <a href="/" target="_blank">
             <StartPageCTAButton text="製作第一份專屬問卷" clickHandler={clickHandler} />

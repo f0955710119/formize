@@ -27,10 +27,13 @@ const ItemContainer = styled.div`
     flex-direction: column;
     height: auto;
     padding-bottom: 8rem;
-    padding-top: 3rem;
 
     &:not(:last-child) {
       border-bottom: 1px solid rgba(180, 188, 183, 1);
+    }
+
+    &:not(:first-child) {
+      padding-top: 2rem;
     }
   }
 `;
@@ -66,10 +69,14 @@ interface Chart {
   count: NonTextCount[];
 }
 
-const EmptyChart: FC = () => {
+interface EmptyChartProps {
+  reminderText: string;
+}
+
+const EmptyChart: FC<EmptyChartProps> = ({ reminderText }) => {
   return (
     <MultipleTextReminder>
-      <MultipleTextReminderText>此題型不提供文字統計</MultipleTextReminderText>
+      <MultipleTextReminderText>{reminderText}</MultipleTextReminderText>
     </MultipleTextReminder>
   );
 };
@@ -131,7 +138,7 @@ const renderResponseItemContent = (
           <StatisResponsedItemContent type="bar" {...chartProps} />
         </>
       ) : (
-        <EmptyChart />
+        <EmptyChart reminderText="此題型不提供文字統計" />
       )}
     </>
   );
@@ -150,6 +157,7 @@ const StatisResponsedItem: FC<StatisResponsedItemProps> = (props) => {
   const { index, type, title, count, numericData } = props;
   const isTextContent = type === "0" || type === "1" || type === "9";
   const chartTitle = title.split("- ")[1].split(" ")[0];
+  const hasCount = Object.keys(count).length !== 0;
   return (
     <ItemContainer>
       <Table title={title} isTextContent={isTextContent}>
@@ -162,7 +170,11 @@ const StatisResponsedItem: FC<StatisResponsedItemProps> = (props) => {
           />
         )}
       </Table>
-      {renderResponseItemContent(index, type, chartTitle, count, numericData)}
+      {hasCount ? (
+        renderResponseItemContent(index, type, chartTitle, count, numericData)
+      ) : (
+        <EmptyChart reminderText="暫時還沒有回覆，所以沒有統計圖表" />
+      )}
     </ItemContainer>
   );
 };

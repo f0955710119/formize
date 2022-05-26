@@ -37,6 +37,7 @@ const StatisSectionContainer = styled.section<StatisSectionContainerProps>`
     props.hasData ? hasDataBackgroundStyle : hasNoDataBackgroundStyle}
 
   overflow-y: scroll;
+  overflow-x: hidden;
   ${scrollBar}
 
   &::-webkit-scrollbar {
@@ -62,7 +63,7 @@ const StatisSectionHeadingPesudoElement = `
 const StatisSectionHeading = styled.div`
   position: relative;
   display: inline-block;
-  margin-bottom: 2.8rem;
+  /* margin-bottom: 1.8rem; */
   font-size: 2.2rem;
   z-index: 1;
 

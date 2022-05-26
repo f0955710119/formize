@@ -55,17 +55,17 @@ const Heading = styled.div`
 `;
 
 const NoteText = styled.div`
+  margin: 2rem 0 2rem 0;
   width: 100%;
   color: #aaa;
   font-size: 1.6rem;
-  margin-bottom: 2rem;
   color: ${(props) => props.theme.note}; ;
 `;
 
 const QuestionTypeTag = styled.div`
   display: inline-block;
-  margin-left: 1rem;
   margin-top: 2rem;
+  margin-right: 1rem;
   padding: 0 1.6rem;
   height: 2.4rem;
   font-size: 1.6rem;

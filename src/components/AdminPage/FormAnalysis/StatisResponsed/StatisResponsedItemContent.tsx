@@ -60,12 +60,24 @@ const ChartTitle = styled.div`
   text-align: center;
 
   @media ${breakpointConfig.tabletS} {
+    font-size: 1.6rem;
+  }
+
+  @media ${breakpointConfig.mobileL} {
     font-size: 1.4rem;
   }
 `;
 
 const WordCloudChartTitle = styled(ChartTitle)`
   margin-top: 0.3rem;
+
+  @media ${breakpointConfig.tabletS} {
+    margin-top: 2rem;
+  }
+
+  @media ${breakpointConfig.mobileL} {
+    margin-top: 4rem;
+  }
 `;
 
 const BarChartTitle = styled(ChartTitle)`

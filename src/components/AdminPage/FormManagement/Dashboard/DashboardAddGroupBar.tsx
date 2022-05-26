@@ -54,11 +54,11 @@ const AddGroupInput = styled.input`
 
 const DashboardAddGroupBar: FC = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const isSmallerThanMobileL = useResizeWindow(425);
+  const isWiderThanMobileL = useResizeWindow(425);
 
-  const addGroupPlaceholderText = isSmallerThanMobileL
-    ? "於此輸入群組名稱後"
-    : "於此輸入群組名稱後，點擊右方新增";
+  const addGroupPlaceholderText = isWiderThanMobileL
+    ? "於此輸入群組名稱後，點擊右方新增"
+    : "於此輸入群組名稱後";
 
   const createNewGroupHandler = useCreateGroup();
   return (

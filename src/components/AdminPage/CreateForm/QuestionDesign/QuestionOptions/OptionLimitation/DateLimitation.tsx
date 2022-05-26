@@ -4,8 +4,8 @@ import { Switch } from "@mui/material";
 
 import questionConfig from "../../../../../../configs/questionConfig";
 import useAppDispatch from "../../../../../../hooks/useAppDispatch";
-import useUpdateQuestionValidation from "../../../../../../hooks/useUpdateQuestionValidation";
 import useGetQuestion from "../../../../../../hooks/useGetQuestion";
+import useUpdateQuestionValidation from "../../../../../../hooks/useUpdateQuestionValidation";
 import questionActionType from "../../../../../../store/actionType/questionActionType";
 import { questionActions } from "../../../../../../store/slice/questionSlice";
 import type { Question } from "../../../../../../types/question";

@@ -10,8 +10,8 @@ import useAppSelector from "../../../../../hooks/useAppSelector";
 import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import helper from "../../../../../utils/helper";
-import QuestionIcon from "../QuestionIcon";
 import sweetAlert from "../../../../../utils/sweetAlert";
+import QuestionIcon from "../QuestionIcon";
 
 const Option = styled.div`
   display: flex;

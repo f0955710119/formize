@@ -81,8 +81,7 @@ const Note: FC<NoteProps> = ({ id, note }: NoteProps) => {
   const dispatch = useAppDispatch();
   const [hasClickedNote, setHasClickedNote] = useState<boolean>(false);
   const [editingNote, setEditingNote] = useState<string>(note);
-  const checkHasNoSameArrayStringNameHandler =
-    useCheckQuestionArraySameString();
+  const checkHasNoSameArrayStringNameHandler = useCheckQuestionArraySameString();
 
   return hasClickedNote ? (
     <>

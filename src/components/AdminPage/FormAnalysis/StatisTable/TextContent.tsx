@@ -11,13 +11,22 @@ interface RowProps {
 const Row = styled.div<RowProps>`
   padding: 1rem 1rem;
   font-size: 1.6rem;
-  background-color: ${(props: RowProps) =>
-    props.isOdd ? "#f8f8f8" : "transparent"};
+  background-color: ${(props: RowProps) => (props.isOdd ? "#f8f8f8" : "transparent")};
 `;
 
 const Times = styled.span`
   font-size: 1.5rem;
   margin-right: 0.5rem;
+`;
+
+const EmptyTableContent = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2rem;
+  color: #aaa;
 `;
 
 interface TextContentProps {
@@ -31,25 +40,28 @@ const TextContent: FC<TextContentProps> = ({ count, isCountRepeat }) => {
   const oneLineTextResponsedCount = Object.values(count);
   const multipleTextResponsedCount = Object.keys(count);
 
-  const inputContentArr = isCountRepeat
-    ? oneLineTextContent
-    : multipleTextContent;
+  const inputContentArr = isCountRepeat ? oneLineTextContent : multipleTextContent;
   const sameContentTimesArr = isCountRepeat
     ? oneLineTextResponsedCount
     : multipleTextResponsedCount;
 
   return (
     <ContentWrapper>
-      {inputContentArr.map((content, i) => {
-        const times = sameContentTimesArr[i];
-        const timesRenderText = isCountRepeat ? `(${times})` : `${times}.`;
-        return (
-          <Row key={i} isOdd={Number.isInteger((i + 1) / 2)}>
-            <Times>{timesRenderText}</Times>
-            {content}
-          </Row>
-        );
-      })}
+      {inputContentArr.length > 0 ? (
+        inputContentArr.map((content, i) => {
+          const times = sameContentTimesArr[i];
+          const timesRenderText = isCountRepeat ? `(${times})` : `${times}.`;
+
+          return (
+            <Row key={i} isOdd={Number.isInteger((i + 1) / 2)}>
+              <Times>{timesRenderText}</Times>
+              {content}
+            </Row>
+          );
+        })
+      ) : (
+        <EmptyTableContent>本題暫無回覆唷!</EmptyTableContent>
+      )}
     </ContentWrapper>
   );
 };

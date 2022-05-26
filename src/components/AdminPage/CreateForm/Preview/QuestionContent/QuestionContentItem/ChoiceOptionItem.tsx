@@ -4,12 +4,12 @@ import { TextField } from "@mui/material";
 import { Delete } from "@styled-icons/material/Delete";
 import styled from "styled-components";
 
-import useDeleteQuestionContentItem from "../../../../../../hooks/useDeleteQuestionContentItem";
-import questionActionType from "../../../../../../store/actionType/questionActionType";
-import useSaveQuestionContentText from "../../../../../../hooks/useSaveQuestionContentText";
-import useEditingQuestionContent from "../../../../../../hooks/useEditingQuestionContent";
-import Button from "../../../../../UI/Button";
 import breakpointConfig from "../../../../../../configs/breakpointConfig";
+import useDeleteQuestionContentItem from "../../../../../../hooks/useDeleteQuestionContentItem";
+import useEditingQuestionContent from "../../../../../../hooks/useEditingQuestionContent";
+import useSaveQuestionContentText from "../../../../../../hooks/useSaveQuestionContentText";
+import questionActionType from "../../../../../../store/actionType/questionActionType";
+import Button from "../../../../../UI/Button";
 
 export const ChoiceWrapper = styled.div`
   display: flex;

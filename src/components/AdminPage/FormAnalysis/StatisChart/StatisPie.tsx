@@ -2,6 +2,7 @@ import { FC, useState, useCallback, useMemo } from "react";
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector, Legend } from "recharts";
 
+import useResizeWindow from "../../../../hooks/useResizeWindow";
 import type { NonTextCount } from "../../../../types/statis";
 
 const COLORS = ["#caad5b", "#fdd872", "#feecb9", "#fef3d5", "#fff7e3"];

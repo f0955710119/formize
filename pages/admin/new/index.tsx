@@ -20,10 +20,10 @@ import useAppSelector from "../../../src/hooks/useAppSelector";
 import useRouterLoaded from "../../../src/hooks/useRouterLoaded";
 import { adminContext } from "../../../src/store/context/adminContext";
 import { SettingContextProvider } from "../../../src/store/context/settingContext";
+import { styleContext } from "../../../src/store/context/styleContext";
 import themes from "../../../src/store/theme/theme";
 import helper from "../../../src/utils/helper";
 import sweetAlert from "../../../src/utils/sweetAlert";
-import { styleContext } from "../../../src/store/context/styleContext";
 
 const CreateNewPageContainer = styled.div`
   width: 100vw;
