@@ -14,6 +14,7 @@ import useCheckUid from "../../src/hooks/useCheckUid";
 import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
 import useRouterLoaded from "../../src/hooks/useRouterLoaded";
 import { adminContext } from "../../src/store/context/adminContext";
+import sweetAlert from "../../src/utils/sweetAlert";
 
 const Admin: NextPage = () => {
   const { uid } = useContext(adminContext);
@@ -26,7 +27,7 @@ const Admin: NextPage = () => {
     if (uid === "") {
       const isInvalid = await checkUidInOtherPageHandler();
       if (isInvalid) {
-        alert("未登入狀態，將回首頁");
+        sweetAlert.errorReminderAlert("未登入狀態，將回首頁");
         router.push("/");
       }
       setIsFetchingAdminData(false);

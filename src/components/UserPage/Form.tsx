@@ -8,6 +8,7 @@ import breakpointConfig from "../../configs/breakpointConfig";
 import styleConfig from "../../configs/styleConfig";
 import useAppSelector from "../../hooks/useAppSelector";
 import type { UserForm } from "../../types/userForm";
+import sweetAlert from "../../utils/sweetAlert";
 import scrollBar from "../UI/scrollBar";
 import MultiplePageSection from "./MultiplePageSection";
 import PageSection from "./PageSection";
@@ -91,6 +92,7 @@ const Form: FC<FormProps> = ({ responseDocId, questions, settings, style }: Form
   } = settings;
 
   const sendResponses = async () => {
+    sweetAlert.loadingReminderAlert("發送回應...");
     try {
       const response = await fetch("/api/user/response", {
         method: "POST",
@@ -104,7 +106,10 @@ const Form: FC<FormProps> = ({ responseDocId, questions, settings, style }: Form
 
       const data = await response.json();
       if (data.status !== "success") throw new Error(data.message);
-      alert("回應成功!");
+      sweetAlert.loadedReminderAlert("回應成功!");
+      setTimeout(() => {
+        sweetAlert.closeAlert();
+      }, 1500);
       setNavigatePage(2);
     } catch (error) {
       console.error(error);

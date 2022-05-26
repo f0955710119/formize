@@ -18,7 +18,6 @@ const useInitAdminInfo = () => {
 
     const adminInfo = await response.json();
     if (adminInfo.status === "fail") {
-      console.log(adminInfo.message);
       return;
     }
 

@@ -80,8 +80,6 @@ const SinglePageSection: FC<SinglePageSectionProps> = ({ questions, sendResponse
     setContainerHeight(singlePageFormContainerRef.current?.clientHeight);
   }, []);
 
-  console.log(containerHeight);
-
   return (
     <SinglePageContainer>
       <SinglePageFormContainer
