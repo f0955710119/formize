@@ -12,7 +12,6 @@ const initQuestion: CaseReducer<QuestionState> = (state) => {
   state.editingFormPage = 1;
   state.editingQuestionId = null;
   state.questions = [];
-  state.willSwitcEditinghQuestion = false;
 };
 
 const addNewQuestion: CaseReducer<QuestionState, PayloadAction<Question>> = (state, action) => {
@@ -20,11 +19,15 @@ const addNewQuestion: CaseReducer<QuestionState, PayloadAction<Question>> = (sta
   state.questions = state.questions.sort((a, b) => a.page - b.page);
 };
 
-const deleteExistedQuestion: CaseReducer<QuestionState, PayloadAction<string>> = (
-  state,
-  action
-) => {
-  state.questions = state.questions.filter((question) => question.id !== action.payload);
+const deleteExistedQuestion: CaseReducer<
+  QuestionState,
+  PayloadAction<{ id: string; deletingPageQuestionPage: number }>
+> = (state, action) => {
+  const { id, deletingPageQuestionPage } = action.payload;
+  state.questions = state.questions.filter((question) => question.id !== id);
+  state.editingQuestionId = null;
+  state.editingFormPage =
+    deletingPageQuestionPage === 1 ? deletingPageQuestionPage : deletingPageQuestionPage - 1;
 };
 
 const updateSiglePropOfQuestion: CaseReducer<
@@ -87,6 +90,18 @@ const initRangeDateOfDateQuestion: CaseReducer<
   });
 };
 
+const switchEditingField: CaseReducer<
+  QuestionState,
+  PayloadAction<{
+    id: string | null;
+    page: number;
+  }>
+> = (state, action) => {
+  const { id, page } = action.payload;
+  state.editingQuestionId = id;
+  state.editingFormPage = page;
+};
+
 const switchEditingQuestion: CaseReducer<QuestionState, PayloadAction<string | null>> = (
   state,
   action
@@ -94,25 +109,11 @@ const switchEditingQuestion: CaseReducer<QuestionState, PayloadAction<string | n
   state.editingQuestionId = action.payload;
 };
 
-const willChangeLimitationValue: CaseReducer<QuestionState, PayloadAction<boolean>> = (
-  state,
-  action
-) => {
-  state.willSwitcEditinghQuestion = action.payload;
-};
-
 const switchCreatingFormStep: CaseReducer<QuestionState, PayloadAction<number>> = (
   state,
   action
 ) => {
   state.currentStep = action.payload;
-};
-
-const switchEditingFormPage: CaseReducer<QuestionState, PayloadAction<number>> = (
-  state,
-  action
-) => {
-  state.editingFormPage = action.payload;
 };
 
 const setIsEditngQuestionContent: CaseReducer<
@@ -151,13 +152,15 @@ const addNewFormPage: CaseReducer<
     action.payload.questionType
   );
 
+  const id = helper.generateId(8);
+
   const defaultQuestion = {
     ...questionDefaultConfig[defaultQuestionType],
-    id: helper.generateId(8),
+    id,
     page: action.payload.newPage,
   };
 
-  state.editingQuestionId = defaultQuestion.id;
+  state.editingQuestionId = id;
   state.questions.push(defaultQuestion);
   state.questions = state.questions.sort((a, b) => a.page - b.page);
   state.editingFormPage = action.payload.newPage;
@@ -194,9 +197,8 @@ export default {
   updateSiglePropOfQuestion,
   initRangeDateOfDateQuestion,
   switchEditingQuestion,
-  willChangeLimitationValue,
+  switchEditingField,
   switchCreatingFormStep,
-  switchEditingFormPage,
   setIsEditngQuestionContent,
   addNewFormPage,
   updateQuestionPage,

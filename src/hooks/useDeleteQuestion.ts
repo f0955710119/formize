@@ -12,51 +12,31 @@ const useDeleteQuestion = () => {
   const { pageQuantity, setField } = useContext(settingContext);
   const dispatch = useAppDispatch();
 
-  const deleteQuestionHandler = (questionId: string) => {
-    const deletingPageQuestion = questions.find(
-      (question) => question.id === questionId
-    );
+  const deleteQuestionHandler = (id: string) => {
+    const deletingPageQuestion = questions.find((question) => question.id === id);
+    if (!deletingPageQuestion) return;
+    const { page, title } = deletingPageQuestion;
 
     const confirmToDeleteHandler = () => {
-      dispatch(questionActions.deleteExistedQuestion(questionId));
-      dispatch(questionActions.switchEditingQuestion(null));
-      dispatch(questionActions.willChangeLimitationValue(true));
+      const deletingPageQuestionPage = page;
 
-      if (!deletingPageQuestion) throw new Error("沒有對應的題型id");
-      const deletingPageQuestionPage = deletingPageQuestion.page;
-
+      dispatch(questionActions.deleteExistedQuestion({ id, deletingPageQuestionPage }));
       if (deletingPageQuestionPage === 1 && pageQuantity === 1) return;
 
       const pageHasOtherQuestions =
-        questions.filter(
-          (question) => question.page === deletingPageQuestionPage
-        ).length > 1;
+        questions.filter((question) => question.page === deletingPageQuestionPage).length > 1;
 
       if (pageHasOtherQuestions) return;
-
       setField(settingActinoType.PAGE_QUANTITY, pageQuantity - 1);
-
-      dispatch(
-        questionActions.updateQuestionPage({ page: deletingPageQuestionPage })
-      );
-      dispatch(
-        questionActions.switchEditingFormPage(
-          deletingPageQuestionPage === 1
-            ? deletingPageQuestionPage
-            : deletingPageQuestionPage - 1
-        )
-      );
+      dispatch(questionActions.updateQuestionPage({ page: deletingPageQuestionPage }));
     };
 
-    const title =
-      deletingPageQuestion && deletingPageQuestion.title !== ""
-        ? deletingPageQuestion.title
-        : "此題";
+    const handledTitle = deletingPageQuestion && title !== "" ? title : "此題";
 
     sweetAlert.clickToConfirmAlert(
       {
         title: "FORMiZE小提示",
-        text: `確定要刪除「${title}」嗎?`,
+        text: `確定要刪除「${handledTitle}」嗎?`,
         cancelButtonText: "繼續留著",
         confirmButtonText: "確定刪除",
         imageUrl: `${process.env.NEXT_PUBLIC_ORIGIN}/images/confirm-delete.svg`,

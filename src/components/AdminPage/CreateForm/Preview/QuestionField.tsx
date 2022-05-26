@@ -48,24 +48,21 @@ const QuestionField: FC<QuestionFieldProps> = ({
     (state) => state.question
   );
   const checkHasNoSameArrayStringNameHandler = useCheckQuestionArraySameString();
-
   const getTitleIndexHandler = useGetQuestionTitleIndex();
 
   const editingFieldHandler = (question: Question, target: Element) => {
+    const { id, page } = question;
     const hasSwitched = editingQuestionId && editingQuestionId === question.id;
     if (hasSwitched) return;
     const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
     if (!hasNoSameStringName) return;
 
     const confirmToSwitchEditingFieldCallback = () => {
-      dispatch(questionActions.willChangeLimitationValue(true));
-      dispatch(questionActions.switchEditingFormPage(question.page));
       const hasId = target.id ? true : false;
-      if (hasId && target.id === question.id) {
-        dispatch(questionActions.switchEditingQuestion(null));
-        return;
-      }
-      dispatch(questionActions.switchEditingQuestion(question.id));
+      const hasSameId = target.id === id;
+      const staySameQuestion = hasId && hasSameId;
+      const switchQuestionItem = staySameQuestion ? null : id;
+      dispatch(questionActions.switchEditingField({ id: switchQuestionItem, page }));
     };
 
     if (!isEditingOption && !isEditingMatrix) {

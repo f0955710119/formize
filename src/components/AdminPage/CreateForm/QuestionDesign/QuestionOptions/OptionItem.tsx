@@ -158,9 +158,9 @@ const OptionItem: FC<OptionItemProps> = ({ title, questionType }: OptionItemProp
       id,
       page: editingFormPage,
     };
-    dispatch(questionActions.willChangeLimitationValue(true));
+
+    dispatch(questionActions.switchEditingField({ id, page: editingFormPage }));
     dispatch(questionActions.addNewQuestion(newQuestion));
-    dispatch(questionActions.switchEditingQuestion(newQuestion.id));
   };
   return (
     <OptionWrapper onClick={() => addNewQuestionHandler(questionType)}>

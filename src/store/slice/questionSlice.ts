@@ -10,7 +10,6 @@ export interface ErrorMessage {
 export interface QuestionState {
   questions: Question[];
   editingQuestionId: string | null;
-  willSwitcEditinghQuestion: boolean;
   currentStep: number;
   editingFormPage: number;
   isEditingOption: boolean;
@@ -22,7 +21,6 @@ export interface QuestionState {
 const initialState: QuestionState = {
   questions: [],
   editingQuestionId: null,
-  willSwitcEditinghQuestion: false,
   currentStep: 1,
   editingFormPage: 1,
   isEditingOption: false,

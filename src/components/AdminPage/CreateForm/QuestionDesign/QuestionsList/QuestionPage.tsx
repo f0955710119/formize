@@ -111,17 +111,14 @@ const QuestionPage: FC<QuestionPageProps> = ({
   const { editingFormPage } = useAppSelector((state) => state.question);
 
   const switchEditingFormPageHandler = (page: number) => {
-    dispatch(questionActions.switchEditingFormPage(page));
-    dispatch(questionActions.willChangeLimitationValue(true));
-    dispatch(questionActions.switchEditingQuestion(null));
+    dispatch(questionActions.switchEditingField({ id: null, page }));
   };
 
   return (
     <PageWrapper
       isActive={isActive}
       onClick={(event: any) => {
-        if (event.target.nodeName === "svg" || event.target.nodeName === "path")
-          return;
+        if (event.target.nodeName === "svg" || event.target.nodeName === "path") return;
         if (editingFormPage === page) return;
 
         switchEditingFormPageHandler(page);
@@ -131,10 +128,7 @@ const QuestionPage: FC<QuestionPageProps> = ({
       <TitleWrapper>
         <Title>{title}</Title>
 
-        <ExpandMore
-          isExpand={isExpanded}
-          onClick={() => setIsExpanded((prev) => !prev)}
-        />
+        <ExpandMore isExpand={isExpanded} onClick={() => setIsExpanded((prev) => !prev)} />
       </TitleWrapper>
       {isExpanded && children}
     </PageWrapper>
