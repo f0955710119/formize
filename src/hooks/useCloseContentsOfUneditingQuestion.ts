@@ -5,17 +5,16 @@ import useAppSelector from "./useAppSelector";
 const useCloseContentsOfUneditingQuestion = (contentType: string) => {
   const dispatch = useAppDispatch();
   const { editingQuestionId } = useAppSelector((state) => state.question);
-  const { setIsEditingOption, setIsEditingMatrix } = questionActions;
-  const setIsEditingContext =
-    contentType === "option" ? setIsEditingOption : setIsEditingMatrix;
+  const { setIsEditngQuestionContent } = questionActions;
+
   const closeContentHandler = (id: string) => {
     if (editingQuestionId === null) return false;
-
     if (editingQuestionId === id) return false;
     dispatch(
-      setIsEditingContext({
+      setIsEditngQuestionContent({
         setEditingState: false,
         isReset: true,
+        contentType,
       })
     );
     return true;

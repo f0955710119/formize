@@ -11,6 +11,7 @@ import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuesti
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import helper from "../../../../../utils/helper";
 import QuestionIcon from "../QuestionIcon";
+import sweetAlert from "../../../../../utils/sweetAlert";
 
 const Option = styled.div`
   display: flex;
@@ -136,12 +137,19 @@ interface OptionItemProps {
 const OptionItem: FC<OptionItemProps> = ({ title, questionType }: OptionItemProps) => {
   const dispatch = useAppDispatch();
 
-  const { editingFormPage } = useAppSelector((state) => state.question);
+  const { editingFormPage, isEditingOption, isEditingMatrix } = useAppSelector(
+    (state) => state.question
+  );
   const checkHasNoSameArrayStringNameHandler = useCheckQuestionArraySameString();
 
   const addNewQuestionHandler = (questionType: string) => {
     const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
     if (!hasNoSameStringName) return;
+
+    if (isEditingOption || isEditingMatrix) {
+      sweetAlert.errorReminderAlert("請先儲存編輯中的欄位或選項再新增題目！");
+      return;
+    }
 
     const id = helper.generateId(8);
     const defaultQuestion = questionDefaultList[+questionType];

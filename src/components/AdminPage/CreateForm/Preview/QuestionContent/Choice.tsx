@@ -13,8 +13,8 @@ const Choice: FC<ChoiceProps> = ({ id, options }) => {
     <>
       <AddOptionButton id={id} options={options} />
       <ChoiceWrapper>
-        {options.map((_, i) => (
-          <ChoiceOptionItem key={i} id={id} index={i} options={options} />
+        {options.map((option, i) => (
+          <ChoiceOptionItem key={i} id={id} index={i} options={options} option={option} />
         ))}
       </ChoiceWrapper>
     </>

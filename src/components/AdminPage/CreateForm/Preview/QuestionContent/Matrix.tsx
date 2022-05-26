@@ -38,18 +38,12 @@ const Matrix: FC<MatrixProps> = ({ id, options, matrixs }: MatrixProps) => {
       <AddMatrixButton id={id} matrixs={matrixs} />
       <MatrixTitleWrapper>
         {matrixs.map((matrix, i) => (
-          <MatrixTitle
-            key={i}
-            id={id}
-            matrix={matrix}
-            index={i}
-            matrixs={matrixs}
-          />
+          <MatrixTitle key={i} id={id} matrix={matrix} index={i} matrixs={matrixs} />
         ))}
       </MatrixTitleWrapper>
       <AddOptionButton id={id} options={options} />
-      {options.map((_, i) => (
-        <ChoiceOptionItem key={i} id={id} options={options} index={i} />
+      {options.map((option, i) => (
+        <ChoiceOptionItem key={i} id={id} index={i} options={options} option={option} />
       ))}
     </MatrixWrapper>
   );

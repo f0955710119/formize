@@ -130,7 +130,12 @@ interface matrixTitleProps {
   matrixs: string[];
 }
 
-const MatrixTitle: FC<matrixTitleProps> = ({ id, index, matrixs }: matrixTitleProps) => {
+const MatrixTitle: FC<matrixTitleProps> = ({
+  id,
+  index,
+  matrix,
+  matrixs,
+}: matrixTitleProps) => {
   const {
     editingText,
     setEditingText,
@@ -138,7 +143,7 @@ const MatrixTitle: FC<matrixTitleProps> = ({ id, index, matrixs }: matrixTitlePr
     toggleEditingInputHandler,
     clickTextHandler,
     saveContentCallback,
-  } = useEditingQuestionContent({ stringArr: matrixs, index, contentType: "matrix" }, id);
+  } = useEditingQuestionContent({ stringCotent: matrix, contentType: "matrix" }, id);
   const deleteQuestionContentItemHandler = useDeleteQuestionContentItem("matrix");
   const saveMatrixTitleHandler = useSaveQuestionContentText();
 
@@ -177,7 +182,7 @@ const MatrixTitle: FC<matrixTitleProps> = ({ id, index, matrixs }: matrixTitlePr
     </EditingTextWrapper>
   ) : (
     <MatrixTitleWrapper>
-      <MatrixTitleText onClick={() => clickTextHandler(id)}>{matrixs[index]}</MatrixTitleText>
+      <MatrixTitleText onClick={() => clickTextHandler(id)}>{matrix}</MatrixTitleText>
       <MatrixTitleDeleteButton
         onClick={() =>
           deleteQuestionContentItemHandler(

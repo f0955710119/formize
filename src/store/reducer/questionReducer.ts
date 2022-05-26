@@ -115,44 +115,29 @@ const switchEditingFormPage: CaseReducer<QuestionState, PayloadAction<number>> =
   state.editingFormPage = action.payload;
 };
 
-const setIsEditingOption: CaseReducer<
+const setIsEditngQuestionContent: CaseReducer<
   QuestionState,
-  PayloadAction<{ setEditingState: boolean; isReset: boolean }>
+  PayloadAction<{ setEditingState: boolean; isReset: boolean; contentType: string }>
 > = (state, action) => {
-  if (action.payload.isReset) {
-    state.isEditingOption = false;
-    state.editingOptionQuantity = 0;
+  const { setEditingState, isReset, contentType } = action.payload;
+  const isOptionContent = contentType === "option";
+  const editingContent = isOptionContent ? "isEditingOption" : "isEditingMatrix";
+  const editingContentQuantity = isOptionContent
+    ? "editingOptionQuantity"
+    : "editingMatrixQuantity";
+
+  if (isReset) {
+    state[editingContent] = false;
     return;
   }
 
-  const upateEditingOptionQuantity = action.payload.setEditingState
-    ? state.editingOptionQuantity + 1
-    : state.editingOptionQuantity - 1;
+  const upateEditingOptionQuantity = setEditingState
+    ? state[editingContentQuantity] + 1
+    : state[editingContentQuantity] - 1;
 
-  state.editingOptionQuantity = upateEditingOptionQuantity;
-
-  const setEditingOption = upateEditingOptionQuantity > 0 ? true : false;
-  state.isEditingOption = setEditingOption;
-};
-
-const setIsEditingMatrix: CaseReducer<
-  QuestionState,
-  PayloadAction<{ setEditingState: boolean; isReset: boolean }>
-> = (state, action) => {
-  if (action.payload.isReset) {
-    state.isEditingMatrix = false;
-    state.editingMatrixQuantity = 0;
-    return;
-  }
-
-  const upateEditingMatrixQuantity = action.payload.setEditingState
-    ? state.editingMatrixQuantity + 1
-    : state.editingMatrixQuantity - 1;
-
-  state.editingMatrixQuantity = upateEditingMatrixQuantity;
-
-  const setEditingMatrix = upateEditingMatrixQuantity > 0 ? true : false;
-  state.isEditingMatrix = setEditingMatrix;
+  state[editingContentQuantity] = upateEditingOptionQuantity;
+  const setEditingContent = upateEditingOptionQuantity > 0 ? true : false;
+  state[editingContent] = setEditingContent;
 };
 
 const addNewFormPage: CaseReducer<
@@ -212,8 +197,7 @@ export default {
   willChangeLimitationValue,
   switchCreatingFormStep,
   switchEditingFormPage,
-  setIsEditingOption,
-  setIsEditingMatrix,
+  setIsEditngQuestionContent,
   addNewFormPage,
   updateQuestionPage,
 };

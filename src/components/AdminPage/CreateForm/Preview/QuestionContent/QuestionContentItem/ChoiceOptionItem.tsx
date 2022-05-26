@@ -106,10 +106,11 @@ const EditingButton = styled(Button)`
 interface OptionItemProps {
   id: string;
   index: number;
+  option: string;
   options: string[];
 }
 
-const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps) => {
+const OptionItem: FC<OptionItemProps> = ({ id, index, option, options }: OptionItemProps) => {
   const {
     editingText,
     setEditingText,
@@ -117,7 +118,7 @@ const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps
     toggleEditingInputHandler,
     clickTextHandler,
     saveContentCallback,
-  } = useEditingQuestionContent({ stringArr: options, index, contentType: "option" }, id);
+  } = useEditingQuestionContent({ stringCotent: option, contentType: "option" }, id);
   const deleteQuestionContentItemHandler = useDeleteQuestionContentItem("option");
   const saveOptionHandler = useSaveQuestionContentText();
 
@@ -145,7 +146,9 @@ const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps
         value={editingText}
         placeholder=""
         label=""
-        onChange={(event) => setEditingText(event.target.value)}
+        onChange={(event) => {
+          setEditingText(event.target.value);
+        }}
       />
       <EditingButton {...saveEditngButtonProps} />
       <EditingButton {...closeEditingButtonProps} />
@@ -160,7 +163,7 @@ const OptionItem: FC<OptionItemProps> = ({ id, index, options }: OptionItemProps
           );
         }}
       />
-      <OptionItemText onClick={() => clickTextHandler(id)}>{options[index]}</OptionItemText>
+      <OptionItemText onClick={() => clickTextHandler(id)}>{option}</OptionItemText>
     </OptionItemWrapper>
   );
 };

@@ -8,8 +8,7 @@ import useCheckEditingStateOfTextEditingField from "./useCheckEditingStateOfText
 import useCloseContentsOfUneditingQuestion from "./useCloseContentsOfUneditingQuestion";
 
 interface EditingQuestionContentInfo {
-  stringArr: string[];
-  index: number;
+  stringCotent: string;
   contentType: string;
 }
 
@@ -18,31 +17,26 @@ const useEditingQuestionContent = (
   id: string
 ) => {
   const dispatch = useAppDispatch();
-  const { editingQuestionId, editingOptionQuantity, editingMatrixQuantity } = useAppSelector(
-    (state) => state.question
-  );
-  const { stringArr, index, contentType } = EditingQuestionContentInfo;
-  const [editingText, setEditingText] = useState<string>(stringArr[index]);
+  const { editingQuestionId } = useAppSelector((state) => state.question);
+  const { stringCotent, contentType } = EditingQuestionContentInfo;
+  const [editingText, setEditingText] = useState<string>(stringCotent);
   const [hasClickedText, setHasClickedText] = useState<boolean>(false);
   const isLoading = useRef<boolean>(true);
   const checkOpenEditingTextHandler = useCheckEditingStateOfTextEditingField();
   const closeContentHandler = useCloseContentsOfUneditingQuestion(contentType);
 
-  const { setIsEditingOption, setIsEditingMatrix } = questionActions;
+  const { setIsEditngQuestionContent } = questionActions;
   const { OPTIONS, MATRIXS } = questionActionType;
   const isOption = contentType === "option";
-  const setIsEditingContentText = isOption ? setIsEditingOption : setIsEditingMatrix;
   const actionType = isOption ? OPTIONS : MATRIXS;
-  const isEditingContent = isOption ? editingOptionQuantity : editingMatrixQuantity;
-  const editingContentName = isOption ? "選項" : "欄位";
 
   useEffect(() => {
     if (!isLoading.current) {
-      setEditingText(stringArr[index]);
+      setEditingText(stringCotent);
       return;
     }
     isLoading.current = false;
-  }, [stringArr]);
+  }, [stringCotent]);
 
   useEffect(() => {
     if (!isLoading.current) {
@@ -57,19 +51,16 @@ const useEditingQuestionContent = (
   const toggleEditingInputHandler = (open: boolean) => {
     setHasClickedText(open);
     dispatch(
-      setIsEditingContentText({
+      setIsEditngQuestionContent({
         setEditingState: open,
         isReset: false,
+        contentType,
       })
     );
   };
 
   const clickTextHandler = (id: string) => {
     if (editingQuestionId !== id) return;
-    if (isEditingContent >= 1) {
-      sweetAlert.errorReminderAlert(`請先儲存正在編輯的${editingContentName}唷!`);
-      return;
-    }
     checkOpenEditingTextHandler(() => {
       toggleEditingInputHandler(true);
     }, id);
@@ -85,9 +76,10 @@ const useEditingQuestionContent = (
     );
     setHasClickedText(false);
     dispatch(
-      setIsEditingContentText({
+      setIsEditngQuestionContent({
         setEditingState: false,
         isReset: false,
+        contentType,
       })
     );
   };
