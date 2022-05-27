@@ -4,12 +4,11 @@ import { Delete } from "@styled-icons/material/Delete";
 import styled from "styled-components";
 
 import breakpointConfig from "../../../../../configs/breakpointConfig";
-import useAppDispatch from "../../../../../hooks/useAppDispatch";
+
 import useAppSelector from "../../../../../hooks/useAppSelector";
 import helper from "../../../../../utils/helper";
 import CreatedQuestion from "./CreatedQuestion";
 import QuestionPage from "./QuestionPage";
-
 
 const CreatedQuestionWrapper = styled.div`
   display: flex;
@@ -46,14 +45,8 @@ const MultiPage: FC<MultiPageProps> = ({
   titleIndexArr,
   deleteQuestionHandler,
 }: MultiPageProps) => {
-  const dispatch = useAppDispatch();
-  const { questions, editingFormPage } = useAppSelector(
-    (state) => state.question
-  );
-  const filteredQuestions = questions.filter(
-    (question) => question.page === page
-  );
-
+  const { questions, editingFormPage } = useAppSelector((state) => state.question);
+  const filteredQuestions = questions.filter((question) => question.page === page);
   return (
     <>
       {page === 1 && (

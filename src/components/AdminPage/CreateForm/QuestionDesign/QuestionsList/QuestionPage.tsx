@@ -8,6 +8,8 @@ import useAppDispatch from "../../../../../hooks/useAppDispatch";
 import useAppSelector from "../../../../../hooks/useAppSelector";
 import { questionActions } from "../../../../../store/slice/questionSlice";
 import scrollBar from "../../../../UI/scrollBar";
+import useCheckQuestionArraySameString from "../../../../../hooks/useCheckQuestionArraySameString";
+import sweetAlert from "../../../../../utils/sweetAlert";
 
 interface PageWrapperProps {
   isActive: boolean;
@@ -108,7 +110,10 @@ const QuestionPage: FC<QuestionPageProps> = ({
 }: QuestionPageProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
   const dispatch = useAppDispatch();
-  const { editingFormPage } = useAppSelector((state) => state.question);
+  const { editingFormPage, isEditingOption, isEditingMatrix } = useAppSelector(
+    (state) => state.question
+  );
+  const checkHasNoSameArrayStringNameHandler = useCheckQuestionArraySameString();
 
   const switchEditingFormPageHandler = (page: number) => {
     dispatch(questionActions.switchEditingField({ id: null, page }));
@@ -120,7 +125,12 @@ const QuestionPage: FC<QuestionPageProps> = ({
       onClick={(event: any) => {
         if (event.target.nodeName === "svg" || event.target.nodeName === "path") return;
         if (editingFormPage === page) return;
-
+        const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
+        if (!hasNoSameStringName) return;
+        if (isEditingOption || isEditingMatrix) {
+          sweetAlert.errorReminderAlert("請先儲存正在編輯的選項或內容！");
+          return;
+        }
         switchEditingFormPageHandler(page);
       }}
     >
