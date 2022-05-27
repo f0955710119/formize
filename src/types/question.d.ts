@@ -5,7 +5,6 @@ export interface Question {
   page: number;
   title: string;
   note: string;
-  placeholder?: string;
   type: string;
   options?: string[];
   matrixs?: string[];
@@ -16,3 +15,5 @@ export interface Question {
 export interface Questions {
   questions: Question[];
 }
+
+export type UpdateValue = string | number | string[] | Validation | undefined;

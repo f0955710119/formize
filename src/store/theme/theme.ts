@@ -12,7 +12,6 @@ const themes: Themes = {
   main: {
     title: "#381D2A",
     note: "#BA5624",
-    placeholder: "#c8c8c8",
     option: "#FFA552",
     matrix: "#C4D6B0",
     optionClicked: "#BA5624",
@@ -23,7 +22,6 @@ const themes: Themes = {
   yellow: {
     title: "#FF9900",
     note: "#EEA243",
-    placeholder: "#F3E37C",
     option: "#F1D9A7",
     matrix: "#F1D9A7",
     optionClicked: "#F3D34A",
@@ -34,7 +32,6 @@ const themes: Themes = {
   green: {
     title: "#524632",
     note: "#8F7E4F",
-    placeholder: "#DEDBD8",
     option: "#C3C49E",
     matrix: "#C3C49E",
     optionClicked: "#D8FFDD",

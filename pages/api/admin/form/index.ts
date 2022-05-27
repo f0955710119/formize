@@ -1,12 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Forms } from "../../../../src/types/form";
-import firebase from "../../../../src/utils/firebase";
+
 import firestoreCollectionCongfig from "../../../../src/configs/firestoreCollectionConfig";
-import helper from "../../../../src/utils/helper";
-import { Answer, Table } from "../../../../src/types/responses";
+import type { Forms } from "../../../../src/types/form";
+import type { Answer, Table } from "../../../../src/types/responses";
+import firebase from "../../../../src/utils/firebase";
+import { generateResponseTableInfoArr } from "../../../../src/utils/formApiUtils";
 
 const dotenv = require("dotenv");
+
 dotenv.config();
+
+const { GROUPS, FORMS, QUESTIONS, RESPONSES } = firestoreCollectionCongfig;
 interface Data {
   status: string;
   status_code: number;
@@ -17,54 +21,45 @@ interface Data {
   };
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   if (req.method === "POST") {
-    const { uid, settings, questions, styles, groupId } = req.body;
-
+    const { uid, settings, questions, style, groupId } = req.body;
     if (uid === "") {
       res.status(400).json({
         status: "fail",
         status_code: 400,
-        message: "only admin can add new form",
+        message: "只有會員能產生新問卷",
       });
       return;
     }
 
-    const neededDoc = [
-      firestoreCollectionCongfig.FORMS,
-      firestoreCollectionCongfig.QUESTIONS,
-      firestoreCollectionCongfig.RESPONSES,
-    ];
-
-    const [formDocRef, questionDocRef, responseDocRef] = neededDoc.map(
-      (collectionName) => firebase.generateDocRef(collectionName)
+    const neededDoc = [FORMS, QUESTIONS, RESPONSES];
+    const [formDocRef, questionDocRef, responseDocRef] = neededDoc.map((collectionName) =>
+      firebase.generateDocRef(collectionName)
     );
+    const { id } = formDocRef;
+    const { title } = settings;
 
-    const url = `'${process.env.NEXT_PUBLIC_ORIGIN}/s/${formDocRef.id}`;
-    const newHandledQuestions = helper.generateNewHandledQuestion(questions);
+    const url = `'${process.env.NEXT_PUBLIC_ORIGIN}/s/${id}`;
     const newFormDocData: Forms = {
-      id: formDocRef.id,
-      title: settings.title,
+      id,
+      title,
       url,
       createdTime: new Date(),
       responsedTimes: 0,
       openTimes: 0,
       settings,
-      styles,
+      style,
       questionDocId: questionDocRef.id,
       responseDocId: responseDocRef.id,
       groupId,
       latestResponsedTime: null,
     };
     const newQuestionDocData = {
-      questions: newHandledQuestions,
+      questions,
     };
 
-    const tableInfo = helper.generateResponseTableInfoArr(questions);
-
+    const tableInfo = generateResponseTableInfoArr(questions);
     const newDefaultResponssDocData: {
       [key: string]: string | Date[] | Answer[] | Table[] | never[];
     } = {
@@ -72,18 +67,18 @@ export default async function handler(
       createdTime: [],
       tableInfo,
     };
-
     tableInfo.forEach((table: Table) => {
       const id = table.id as string;
       newDefaultResponssDocData[id] = [];
     });
 
+    const updateGroupInfo = {
+      docPath: `${GROUPS}/${groupId}`,
+      fieldKey: "forms",
+      updateData: formDocRef.id,
+    };
     const fetchFirestore = [
-      firebase.updateFieldArrayValue({
-        docPath: `${firestoreCollectionCongfig.GROUPS}/${groupId}`,
-        fieldKey: "forms",
-        updateData: formDocRef.id,
-      }),
+      firebase.updateFieldArrayValue(updateGroupInfo),
       firebase.setNewDoc(formDocRef, newFormDocData),
       firebase.setNewDoc(questionDocRef, newQuestionDocData),
       firebase.setNewDoc(responseDocRef, newDefaultResponssDocData),
@@ -107,46 +102,34 @@ export default async function handler(
       if (!uidRaw) throw new Error("只有管理員才能刪除問卷");
       const { formId } = req.body;
       if (!formId) throw new Error("查無此問卷");
-
-      const formData = await firebase.getDocData(
-        firestoreCollectionCongfig.FORMS,
-        formId
-      );
+      const formData = await firebase.getDocData(FORMS, formId);
       if (!formData) throw new Error("查無此問卷的資料");
+      const { groupId, questionDocId, responseDocId, settings } = formData;
+      const { startPageImageFile, endPageImageFile } = settings;
+      if (!groupId || !questionDocId || !responseDocId)
+        throw new Error("查無該問卷的相關資料，資料庫可能以缺少部分key值");
+
+      const updateGroupInfo = {
+        docPath: `${GROUPS}/${groupId}`,
+        fieldKey: "forms",
+        updateData: formId,
+      };
+
       const promiseList = [
-        firebase
-          .updateFieldArrayValue(
-            {
-              docPath: `${firestoreCollectionCongfig.GROUPS}/${formData.groupId}`,
-              fieldKey: "forms",
-              updateData: formId,
-            },
-            false
-          )
-          .catch(() => {
-            throw new Error("刪除群組資料失敗");
-          }),
-        firebase
-          .deleteDocDate(firestoreCollectionCongfig.FORMS, formId)
-          .catch(() => {
-            throw new Error("刪除問卷資料失敗");
-          }),
-        firebase
-          .deleteDocDate(
-            firestoreCollectionCongfig.QUESTIONS,
-            formData.questionDocId
-          )
-          .catch(() => {
-            throw new Error("刪除題型資料失敗");
-          }),
-        firebase
-          .deleteDocDate(
-            firestoreCollectionCongfig.RESPONSES,
-            formData.responseDocId
-          )
-          .catch(() => {
-            throw new Error("刪除回應資料失敗");
-          }),
+        firebase.updateFieldArrayValue(updateGroupInfo, false).catch(() => {
+          throw new Error("刪除群組資料失敗");
+        }),
+        firebase.deleteDocDate(FORMS, formId).catch(() => {
+          throw new Error("刪除問卷資料失敗");
+        }),
+        firebase.deleteDocDate(QUESTIONS, questionDocId).catch(() => {
+          throw new Error("刪除題型資料失敗");
+        }),
+        firebase.deleteDocDate(RESPONSES, responseDocId).catch(() => {
+          throw new Error("刪除回應資料失敗");
+        }),
+        firebase.deleteImage(startPageImageFile),
+        firebase.deleteImage(endPageImageFile),
       ];
 
       await Promise.all(promiseList);

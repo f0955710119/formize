@@ -1,19 +1,13 @@
-export interface Settings {
-  title: string;
-  status: string;
-  mode: string;
-  limitedAnswerTime: number | null;
-  limitedResponseQuantity: number | null;
-  startPageImageFile: string | null;
-  startPageParagraph: string;
-  endPageImageFile: string | null;
-  endPageParagraph: string;
-  pageQuantity: number;
-}
-export interface Styles {
-  theme: string;
-  font: string;
-  backgroundImages: string[];
+import { Question } from "./question";
+import type { Settings } from "./setting";
+import type { Style } from "./style";
+
+export interface SendingFormData {
+  uid: string;
+  groupId: string;
+  questions: Question[];
+  style: Style;
+  settings: Settings;
 }
 export interface Forms {
   id: string;
@@ -24,7 +18,7 @@ export interface Forms {
   responsedTimes: number;
   openTimes: number;
   settings: Settings;
-  styles: Styles;
+  style: Style;
   questionDocId: string;
   responseDocId: string;
   groupId: string;

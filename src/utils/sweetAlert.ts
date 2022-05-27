@@ -21,8 +21,7 @@ export default {
     },
     confirmCallback: () => void
   ) {
-    const { title, text, confirmButtonText, cancelButtonText, imageUrl } =
-      alertObj;
+    const { title, text, confirmButtonText, cancelButtonText, imageUrl } = alertObj;
     Swal.fire({
       title,
       text,
@@ -110,8 +109,7 @@ export default {
     },
     confirmText: string
   ) {
-    const { title, text, inputLabel, cancelButtonText, confirmButtonText } =
-      alertObj;
+    const { title, text, inputLabel, cancelButtonText, confirmButtonText } = alertObj;
 
     const inputData = await Swal.fire({
       title,
@@ -127,7 +125,6 @@ export default {
       imageWidth: "20rem",
       imageHeight: "10rem",
       inputValidator: (value: string) => {
-        console.log(value);
         if (value === "") return "請輸入欲刪除的內容名稱！";
         if (value !== confirmText) return "輸入的文字跟名稱不一樣！";
         return null;

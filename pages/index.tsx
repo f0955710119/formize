@@ -1,8 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+
+import { FC } from "react";
+
 import styled from "styled-components";
 
 import LoginForm from "../src/components/LandingPage/LoginForm";
+import Loading from "../src/components/UI/Loading";
 import breakpointConfig from "../src/configs/breakpointConfig";
 import useLoginCheck from "../src/hooks/useLoginCheck";
 
@@ -10,19 +14,13 @@ const DefalutMain = styled.main`
   width: 100vw;
   height: 100vh;
   position: relative;
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.2)
-    ),
+  background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
     url("images/blob-scene-haikei (1).svg");
   background-repeat: no-repeat;
   background-size: cover;
 
   @media ${breakpointConfig.tablet} {
-    background-image: linear-gradient(
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.5)
-      ),
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
       url("images/blob-scene-haikei (1).svg");
     overflow: hidden;
   }
@@ -81,11 +79,26 @@ const SecondPicture = styled.div`
     display: none;
   }
 `;
-const Home: NextPage = () => {
-  useLoginCheck();
 
+const LandingPage: FC = () => {
   return (
     <div>
+      <DefalutMain>
+        <FirstPicture />
+        <SecondPicture />
+        <LoginForm />
+      </DefalutMain>
+    </div>
+  );
+};
+
+const Home: NextPage = () => {
+  const loading = useLoginCheck();
+
+  const LandingContent = loading ? Loading : LandingPage;
+
+  return (
+    <>
       <Head>
         <title>FORMiZE - 簡易上手的質感問卷工具</title>
         <meta name="description" content="FORMiZE - 簡易上手的質感問卷工具" />
@@ -95,12 +108,8 @@ const Home: NextPage = () => {
           rel="stylesheet"
         ></link>
       </Head>
-      <DefalutMain>
-        <FirstPicture />
-        <SecondPicture />
-        <LoginForm />
-      </DefalutMain>
-    </div>
+      <LandingContent />
+    </>
   );
 };
 

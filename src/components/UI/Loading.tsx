@@ -1,5 +1,8 @@
 import { FC } from "react";
+
 import styled from "styled-components";
+
+import breakpointConfig from "../../configs/breakpointConfig";
 
 const LoadingContainer = styled.div`
   width: 100vw;
@@ -13,6 +16,11 @@ const LoadingContainer = styled.div`
 const LoadingImageWrapper = styled.div`
   width: 50rem;
   height: 50rem;
+
+  @media ${breakpointConfig.tabletS} {
+    width: 35rem;
+    height: 35rem;
+  }
 `;
 
 const LoadingIamge = styled.img`
@@ -25,10 +33,6 @@ const LoadingIamge = styled.img`
     0% {
       filter: grayscale(50%);
     }
-
-    /* 20% {
-      filter: grayscale(50%);
-    } */
 
     100% {
       filter: grayscale(0%);

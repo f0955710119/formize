@@ -1,15 +1,17 @@
+import { useRouter } from "next/router";
+
 import { useContext } from "react";
-import { adminContext } from "../store/context/adminContext";
+
 import adminActionType from "../store/actionType/adminActionType";
-import useRoutePush from "./useRoutePush";
+import { adminContext } from "../store/context/adminContext";
 
 const usePushToAnalysisPage = () => {
+  const router = useRouter();
   const context = useContext(adminContext);
-  const pushRouterHandler = useRoutePush();
   const goToAnalysisPageHandler = (pageIndex: number, formId: string) => {
     context.setField(adminActionType.CURRENT_ANALYSIS_PAGE, pageIndex);
     context.setField(adminActionType.EDITING_FORM_ID, formId);
-    pushRouterHandler(`/admin/analysis/${formId}`);
+    router.push(`/admin/analysis/${formId}`);
   };
 
   return goToAnalysisPageHandler;

@@ -20,7 +20,6 @@ const questionConfig: QuestionConfig = {
   MAX: "max",
   UNIT: "unit",
   INTERVAL: "interval",
-  DECIMAL: "decimal",
   START_DATE: "startDate",
   END_DATE: "endDate",
   MAX_SELECTED_DATE_QUANTITY: "maxSelectedDateQuantity",
@@ -34,5 +33,10 @@ const questionConfig: QuestionConfig = {
   "7": "滑桿",
   "8": "排序",
   "9": "日期",
+  MIN_OPTIONS_LENGTH: "2",
+  MIN_MATRIXS_LENGTH: "2",
+  OPTION_NAME: "選項",
+  MATRIX_NAME: "欄位",
+  QUESTION_TYPE_QUANTITY: "10",
 };
 export default questionConfig;

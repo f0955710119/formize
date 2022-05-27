@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import reducers from "../reducer/questionReducer";
+
 import { Question } from "../../types/question";
+import reducers from "../reducer/questionReducer";
 export interface ErrorMessage {
   id: string;
   message: string;
@@ -8,31 +9,23 @@ export interface ErrorMessage {
 
 export interface QuestionState {
   questions: Question[];
-  editingQuestion: Question | null;
-  willSwitcEditinghQuestion: boolean;
-  accumulatedInValidInputError: ErrorMessage[];
+  editingQuestionId: string | null;
   currentStep: number;
   editingFormPage: number;
   isEditingOption: boolean;
-  isSwitchingEditingOption: boolean;
   editingOptionQuantity: number;
   isEditingMatrix: boolean;
-  isSwitchingEditingMatrix: boolean;
   editingMatrixQuantity: number;
 }
 
 const initialState: QuestionState = {
   questions: [],
-  editingQuestion: null,
-  willSwitcEditinghQuestion: false,
-  accumulatedInValidInputError: [{ id: "", message: "" }],
+  editingQuestionId: null,
   currentStep: 1,
   editingFormPage: 1,
   isEditingOption: false,
-  isSwitchingEditingOption: false,
   editingOptionQuantity: 0,
   isEditingMatrix: false,
-  isSwitchingEditingMatrix: false,
   editingMatrixQuantity: 0,
 };
 

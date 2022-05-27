@@ -1,117 +1,45 @@
-import { useAppDispatch } from "./useAppDispatch";
-import { styleActions } from "../store/slice/styleSlice";
-import styleActionType from "../store/actionType/styleActionType";
-import styleConfig from "../configs/styleConfig";
+import { useContext } from "react";
+
 import backgroundConfig from "../configs/backgroundConfig";
+import styleConfig from "../configs/styleConfig";
+import styleActionType from "../store/actionType/styleActionType";
+import { styleContext } from "../store/context/styleContext";
+import helper from "../utils/helper";
+
+const allStyles = [
+  ...helper.generateConfigKeys("_NUM", styleConfig),
+  ...helper.generateConfigKeys("_URL", backgroundConfig),
+];
+
+const createConfigWithCustomKey = (arr: string[]) =>
+  arr.reduce((config: { [key: string]: string }, item: string, i: number) => {
+    config[item] = allStyles[i];
+    return config;
+  }, {});
+
+const themeKeys = helper.generateConfigKeys("_NAME", styleConfig);
+const fontKeys = helper.generateConfigKeys("_FONT", styleConfig);
+const bakcgroundImageKey = helper.generateConfigKeys("_BG", backgroundConfig);
+const allStyleNameKeys = [...themeKeys, ...fontKeys, ...bakcgroundImageKey];
+
+const styleConfigForSwitchNewInput =
+  createConfigWithCustomKey(allStyleNameKeys);
 
 const useStyleHandler = () => {
-  const dispatch = useAppDispatch();
-  const switchThemeHandler = (title: string) => {
-    switch (title) {
-      case styleConfig.MAIN_NAME: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.THEME,
-            theme: styleConfig.MAIN_CODE,
-          })
-        );
-        break;
-      }
+  const { setField } = useContext(styleContext);
 
-      case styleConfig.YELLOW_NAME: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.THEME,
-            theme: styleConfig.YELLOW_CODE,
-          })
-        );
-        break;
-      }
+  const switchThemeHandler = (title: string, styleType: string) => {
+    const newStyleForUpdate = styleConfigForSwitchNewInput[title];
 
-      case styleConfig.GREEN_NAME: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.THEME,
-            theme: styleConfig.GREEN_CODE,
-          })
-        );
-        break;
-      }
-
-      case styleConfig.OPENHUNNINN_FONT: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.FONT,
-            font: styleConfig.OPENHUNNINN_CODE,
-          })
-        );
-        break;
-      }
-
-      case styleConfig.HANAMINA_FONT: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.FONT,
-            font: styleConfig.HANAMINA_CODE,
-          })
-        );
-        break;
-      }
-
-      case styleConfig.TAIPEISANSTCBOLD_FONT: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.FONT,
-            font: styleConfig.TAIPEISANSTCBOLD_CODE,
-          })
-        );
-        break;
-      }
-
-      case backgroundConfig.YELLOW1_BG: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.BACKGROUND_IMAGES,
-            backgroundImages: [backgroundConfig.YELLOW1],
-          })
-        );
-        break;
-      }
-
-      case backgroundConfig.YELLOW2_BG: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.BACKGROUND_IMAGES,
-            backgroundImages: [backgroundConfig.YELLOW2],
-          })
-        );
-        break;
-      }
-
-      case backgroundConfig.GREEN1_BG: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.BACKGROUND_IMAGES,
-            backgroundImages: [backgroundConfig.GREEN1],
-          })
-        );
-        break;
-      }
-
-      case backgroundConfig.GRAY1_BG: {
-        dispatch(
-          styleActions.changeStyle({
-            actionType: styleActionType.BACKGROUND_IMAGES,
-            backgroundImages: [backgroundConfig.GRAY1],
-          })
-        );
-        break;
-      }
-
-      default: {
-        throw "沒有這個類型的主題";
-      }
+    if (styleType === "theme") {
+      setField(styleActionType.THEME, newStyleForUpdate);
+      return;
     }
+    if (styleType === "font") {
+      setField(styleActionType.FONT, newStyleForUpdate);
+      return;
+    }
+    setField(styleActionType.BACKGROUND_IMAGE, newStyleForUpdate);
   };
   return switchThemeHandler;
 };

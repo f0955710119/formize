@@ -1,5 +1,12 @@
 import { initializeApp } from "firebase/app";
 import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import {
   FieldValue,
   getFirestore,
   doc,
@@ -14,25 +21,17 @@ import {
   getDocs,
   deleteDoc,
 } from "firebase/firestore";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
-
 import type { DocumentReference, DocumentData } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
 import type { StorageReference } from "firebase/storage";
-import type { UserInfoType } from "../types/login";
-import type { Users } from "../types/firebase/usersType";
-import type { Forms } from "../types/form";
-import type { Questions } from "../types/question";
 
+import firestoreCollectionConfig from "../configs/firestoreCollectionConfig";
+import type { Forms } from "../types/form";
+import type { Group } from "../types/group";
+import type { UserInfoType } from "../types/login";
+import type { Questions } from "../types/question";
+import type { Responses } from "../types/responses";
 import helper from "./helper";
-import { Responses } from "../types/responses";
-import { Group } from "../types/group";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -53,6 +52,10 @@ const signupErrors = [
     case: "auth/user-not-found",
     errorMessage: "此帳號不存在，請重新輸入再嘗試",
   },
+  {
+    case: "auth/configuration-not-found",
+    errorMessage: "無法建立帳號，請稍後再試",
+  },
 ];
 
 const checkSignupErrorCase = (message: string) => {
@@ -69,40 +72,52 @@ const storage = getStorage(app);
 
 export const user = auth.currentUser;
 
+const throwNewError = (message: string) => {
+  throw new Error(message);
+};
+
+const setUserData = async (uid: string) => {
+  const newUserRef = doc(db, "users", uid);
+  const { id } = newUserRef;
+  const defalutUsers = {
+    id,
+    groupId: [],
+  };
+  await setDoc(newUserRef, defalutUsers).catch(() =>
+    throwNewError("fail to set up user doc in firebase")
+  );
+  return id;
+};
+
 export default {
   async createNativeUser(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
-
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const id = this.createUser(userCredential.user.uid);
-      return id;
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const { uid } = userCredential.user;
+      await setUserData(uid);
+      return uid;
     } catch (error: any) {
       const { message } = error;
       const errorMessage = checkSignupErrorCase(message);
-      if (!errorMessage) throw new Error(message);
+      if (!errorMessage) {
+        console.error(message);
+        throw new Error("創建帳號失敗，請重新整理頁面");
+      }
       throw new Error(errorMessage);
     }
   },
   async nativeLogin(userInfo: UserInfoType) {
     try {
       const { email, password } = userInfo;
-
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const data = await this.getUser(userCredential.user.uid);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const { uid } = userCredential.user;
+      const data = await this.getDocData(firestoreCollectionConfig.USERS, uid);
       return data;
     } catch (error: any) {
       const { message } = error;
       console.error(message);
-      throw new Error(message);
+      throw new Error("登入失敗，請重整頁面或稍後再試");
     }
   },
   async nativeSignOut() {
@@ -113,7 +128,7 @@ export default {
     }
   },
   checkAuthState() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           resolve(user.uid);
@@ -123,28 +138,6 @@ export default {
       });
       unsubscribe();
     });
-  },
-  // FOR_USER
-  async createUser(uid: string) {
-    const newUserRef = doc(db, "users", uid);
-    const { id } = newUserRef;
-    const defalutUsers: Users = {
-      id,
-      groupId: [],
-    };
-
-    await setDoc(newUserRef, defalutUsers);
-    return id;
-  },
-  async getUser(uid: string) {
-    const userDocRef = doc(db, "users", uid);
-    const docSnap = await getDoc(userDocRef);
-
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      console.log("No such document!");
-    }
   },
   // FOR_DOC
   async updateExistedDoc(
@@ -165,33 +158,15 @@ export default {
     id: string
   ) {
     const docRef = doc(db, collectionName, docId);
-
     const updateObj: { [key: string]: FieldValue } = {};
     dataArr.forEach((d: { questionId: string; input: string }) => {
       const key = d.questionId as string;
       updateObj[key] = arrayUnion({ [id]: d.input });
     });
-
     await updateDoc(docRef, updateObj);
   },
-  async updateUserGroupsIdArray(
-    uid: string,
-    groupId: string,
-    isAddNewGroup: boolean
-  ) {
-    const userDocRef = doc(db, "users", uid);
-    await setDoc(
-      userDocRef,
-      { groupId: isAddNewGroup ? arrayUnion(groupId) : arrayRemove(groupId) },
-      { merge: true }
-    );
-  },
   // FOR_FILTER
-  async getAllEqualDoc(
-    collectionName: string,
-    fieldKey: string,
-    equalValue: string
-  ) {
+  async getAllEqualDoc(collectionName: string, fieldKey: string, equalValue: string) {
     const collectionRef = collection(db, collectionName);
     const fields = query(collectionRef, where(fieldKey, "==", equalValue));
 
@@ -206,26 +181,27 @@ export default {
     return docRef;
   },
   // prettier-ignore
-  async setNewDoc<T extends Forms| Questions | Group |Responses  >(docRef: DocumentReference<DocumentData>, data: T) {
+  async setNewDoc<T extends Forms | Questions | Group | Responses>(docRef: DocumentReference<DocumentData>, data: T) {
     try {
       await setDoc(docRef, data);
       return "成功發送資料";
     } catch (error: any) {
-      throw error.message;
+      const {message} = error
+      console.error(message)
+      throwNewError('新增資料失敗，請稍後再嘗試')
     }
   },
   async getDocData(collectionName: string, docId: string) {
     const docRef = doc(db, collectionName, docId);
     const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) throw "沒有找到文件，確認一下拼字跟帶入的值";
-    return docSnap.data();
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      throwNewError("fail to get user data since the doc does not exist");
+    }
   },
   async updateFieldArrayValue<T>(
-    {
-      docPath,
-      fieldKey,
-      updateData,
-    }: { docPath: string; fieldKey: string; updateData: T },
+    { docPath, fieldKey, updateData }: { docPath: string; fieldKey: string; updateData: T },
     isAddNewValue: boolean = true
   ) {
     const docRef = doc(db, docPath);
@@ -233,9 +209,7 @@ export default {
       await setDoc(
         docRef,
         {
-          [fieldKey]: isAddNewValue
-            ? arrayUnion(updateData)
-            : arrayRemove(updateData),
+          [fieldKey]: isAddNewValue ? arrayUnion(updateData) : arrayRemove(updateData),
         },
         { merge: true }
       );
@@ -252,12 +226,8 @@ export default {
     return ref(storage, refName);
   },
   getStorageRef(photoName: string) {
-    return ref(
-      storage,
-      `gs://${process.env.NEXT_PUBLIC_STORAGE_BUCKET}/${photoName}`
-    );
+    return ref(storage, `gs://${process.env.NEXT_PUBLIC_STORAGE_BUCKET}/${photoName}`);
   },
-
   async uploadImage(ref: StorageReference, file: Blob) {
     await uploadBytes(ref, file).catch((error) => console.error(error.message));
   },
@@ -269,7 +239,6 @@ export default {
       console.error(error.message);
     }
   },
-
   async generateImageUrl(file: File) {
     try {
       const ref = this.getStorageRef(file.name);
@@ -278,6 +247,17 @@ export default {
       return url;
     } catch (error: any) {
       console.error(error.message);
+      return null;
     }
+  },
+  async deleteImage(url: string | null | undefined) {
+    if (url === null || url === undefined) return;
+    const imageRef = ref(storage, `${url}`);
+    await deleteObject(imageRef);
+  },
+  async createUploadedImages(imageFile: File | null) {
+    if (imageFile === null) return null;
+    const newImageFileUrl = await this.generateImageUrl(imageFile);
+    return newImageFileUrl !== undefined ? newImageFileUrl : null;
   },
 };

@@ -1,18 +1,11 @@
 import { createContext, useReducer, ReactNode, FC } from "react";
+
 import type { Forms } from "../../types/form";
 import type { Group } from "../../types/group";
 
-interface DriveToken {
-  access_token: string;
-  refresh_token: string;
-  scope: string;
-  token_type: string;
-  expiry_date: number;
-}
-
 type SetFieldHandler = (
   fieldKey: string,
-  value: string | DriveToken | Group[] | Forms[] | number
+  value: string | Group[] | Forms[] | number
 ) => void;
 
 export interface Admin {
@@ -20,7 +13,6 @@ export interface Admin {
   editingGroupId: string;
   editingFormId: string;
   newFormId: string;
-  driveToken?: DriveToken;
   groups: Group[];
   forms: Forms[];
   currentAnalysisPage: number;
@@ -32,13 +24,6 @@ const initialState: Admin = {
   editingGroupId: "0",
   editingFormId: "",
   newFormId: "",
-  driveToken: {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    expiry_date: 0,
-  },
   currentAnalysisPage: 0,
   groups: [],
   forms: [],
@@ -49,7 +34,7 @@ export const adminContext = createContext(initialState);
 
 interface AdminAction {
   type: string;
-  payload: string | DriveToken | Group[] | Forms[] | number;
+  payload: string | Group[] | Forms[] | number;
 }
 
 interface AdminReducerState {
@@ -57,7 +42,6 @@ interface AdminReducerState {
   editingGroupId: string;
   editingFormId: string;
   newFormId: string;
-  driveToken?: DriveToken;
   currentAnalysisPage: number;
   groups: Group[];
   forms: Forms[];
@@ -75,13 +59,6 @@ const initAdminReducerState = {
   editingGroupId: "0",
   editingFormId: "",
   newFormId: "",
-  driveToken: {
-    access_token: "",
-    refresh_token: "",
-    scope: "",
-    token_type: "",
-    expiry_date: 0,
-  },
   currentAnalysisPage: 0,
   groups: [],
   forms: [],
@@ -101,7 +78,6 @@ export const AdminProvider: FC<AdminProviderProps> = ({ children }) => {
     editingGroupId: adminInfo.editingGroupId,
     editingFormId: adminInfo.editingFormId,
     newFormId: adminInfo.newFormId,
-    driveToken: adminInfo.driveToken,
     currentAnalysisPage: adminInfo.currentAnalysisPage,
     groups: adminInfo.groups,
     forms: adminInfo.forms,

@@ -1,17 +1,14 @@
 import { useContext } from "react";
-import { adminContext } from "../store/context/adminContext";
+
 import adminActionType from "../store/actionType/adminActionType";
+import { adminContext } from "../store/context/adminContext";
 import { Group } from "../types/group";
 import helper from "../utils/helper";
 
 const useInitAdminInfo = () => {
   const context = useContext(adminContext);
 
-  const initAdminHandler = async (
-    uid: string,
-    isReset: boolean = false,
-    isDeleteGroup: boolean = true
-  ) => {
+  const initAdminHandler = async (uid: string, isDeleteGroup: boolean = true) => {
     const response = await fetch("/api/admin/group", {
       method: "GET",
       headers: {
@@ -21,7 +18,6 @@ const useInitAdminInfo = () => {
 
     const adminInfo = await response.json();
     if (adminInfo.status === "fail") {
-      console.log(adminInfo.message);
       return;
     }
 

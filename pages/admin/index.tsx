@@ -1,32 +1,33 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
 
-import Main from "../../src/components/UI/Main";
-import GroupSideBar from "../../src/components/Admin/FormManagement/SideBar/GroupSideBar";
-import Dashboard from "../../src/components/Admin/FormManagement/Dashboard/Dashboard";
+import { useContext, useState } from "react";
+
+import { StringFormat } from "firebase/storage";
+
+import Dashboard from "../../src/components/AdminPage/FormManagement/Dashboard/Dashboard";
+import GroupSideBar from "../../src/components/AdminPage/FormManagement/SideBar/GroupSideBar";
 import Loading from "../../src/components/UI/Loading";
-
-import { adminContext } from "../../src/store/context/adminContext";
-import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
+import Main from "../../src/components/UI/Main";
 import useCheckUid from "../../src/hooks/useCheckUid";
+import useInitAdminInfo from "../../src/hooks/useInitAdminInfo";
 import useRouterLoaded from "../../src/hooks/useRouterLoaded";
+import { adminContext } from "../../src/store/context/adminContext";
 import sweetAlert from "../../src/utils/sweetAlert";
-import { useAppSelector } from "../../src/hooks/useAppSelector";
 
 const Admin: NextPage = () => {
-  const context = useContext(adminContext);
-  const { currentStep } = useAppSelector((state) => state.question);
+  const { uid } = useContext(adminContext);
   const router = useRouter();
   const checkUidInOtherPageHandler = useCheckUid();
   const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);
 
+  const initAdminHandler = useInitAdminInfo();
   const fetchAdminData = async (uid: string) => {
     if (uid === "") {
       const isInvalid = await checkUidInOtherPageHandler();
       if (isInvalid) {
-        alert("未登入狀態，將回首頁");
+        sweetAlert.errorReminderAlert("未登入狀態，將回首頁");
         router.push("/");
       }
       setIsFetchingAdminData(false);
@@ -36,8 +37,7 @@ const Admin: NextPage = () => {
     setIsFetchingAdminData(false);
   };
 
-  const initAdminHandler = useInitAdminInfo();
-  useRouterLoaded(() => fetchAdminData(context.uid));
+  useRouterLoaded(() => fetchAdminData(uid));
 
   return (
     <>

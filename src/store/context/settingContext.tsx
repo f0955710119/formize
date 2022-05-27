@@ -1,18 +1,15 @@
 import { createContext, FC, ReactNode, useReducer } from "react";
 
-type SetFieldHandler = (fieldKey: string, value: File | string | null) => void;
-
-export interface SettingContext {
-  startPageImageFile: File | null;
-  startPageImageObjectUrl: string | null;
-  endPageImageFile: File | null;
-  endPageImageObjectUrl: string | null;
-  setField: SetFieldHandler;
-}
+import type { SetFieldHandler, SettingContext } from "../../types/setting";
 
 const initialContextState: SettingContext = {
+  title: "",
+  mode: "0",
+  pageQuantity: 1,
+  startPageParagraph: "",
   startPageImageFile: null,
   startPageImageObjectUrl: "",
+  endPageParagraph: "",
   endPageImageFile: null,
   endPageImageObjectUrl: "",
   setField: () => {},
@@ -22,7 +19,7 @@ export const settingContext = createContext(initialContextState);
 
 interface settingAction {
   type: string;
-  payload: File | string | null;
+  payload: File | string | null | number;
 }
 
 const reducer = (state: SettingContext, action: settingAction) => {
@@ -36,25 +33,36 @@ interface SettingContextProviderProps {
   children: ReactNode;
 }
 
-export const SettingContextProvider: FC<SettingContextProviderProps> = ({
-  children,
-}) => {
+export const SettingContextProvider: FC<SettingContextProviderProps> = ({ children }) => {
   const [settingInfo, dispatch] = useReducer(reducer, initialContextState);
   const setFieldHandler: SetFieldHandler = (fieldKey, value) => {
     dispatch({ type: fieldKey, payload: value });
   };
 
+  const {
+    title,
+    mode,
+    pageQuantity,
+    startPageParagraph,
+    startPageImageFile,
+    startPageImageObjectUrl,
+    endPageParagraph,
+    endPageImageFile,
+    endPageImageObjectUrl,
+  } = settingInfo;
+
   const initialValue: SettingContext = {
-    startPageImageFile: settingInfo.startPageImageFile,
-    startPageImageObjectUrl: settingInfo.startPageImageObjectUrl,
-    endPageImageFile: settingInfo.endPageImageFile,
-    endPageImageObjectUrl: settingInfo.endPageImageObjectUrl,
+    title,
+    mode,
+    pageQuantity,
+    startPageParagraph,
+    startPageImageFile,
+    startPageImageObjectUrl,
+    endPageParagraph,
+    endPageImageFile,
+    endPageImageObjectUrl,
     setField: setFieldHandler,
   };
 
-  return (
-    <settingContext.Provider value={initialValue}>
-      {children}
-    </settingContext.Provider>
-  );
+  return <settingContext.Provider value={initialValue}>{children}</settingContext.Provider>;
 };

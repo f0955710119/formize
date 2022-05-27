@@ -4,11 +4,8 @@ interface SettingActionType {
 
 const settingActinoType: SettingActionType = {
   TITLE: "title",
-  STATUS: "status",
   MODE: "mode",
   PAGE_QUANTITY: "pageQuantity",
-  LIMITED_ANSWER_TIME: "limitedAnswerTime",
-  LIMITED_RESPONSE_QUANTITY: "limitedResponseQuantity",
   START_PAGE_IMAGE_FILE: "startPageImageFile",
   START_PAGE_IMAGE_OBJECT_URL: "startPageImageObjectUrl",
   START_PAGE_PARAGRAPH: "startPageParagraph",

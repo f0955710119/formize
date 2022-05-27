@@ -1,5 +1,5 @@
-import { Settings } from "./form";
-import { Question } from "./question";
+import type { Question } from "./question";
+import type { Settings } from "./setting";
 
 export interface UserAnswer {
   questionId: string;
@@ -13,5 +13,5 @@ export interface UserForm {
   responseDocId: string;
   questions: Question[];
   settings: Settings;
-  styles: Styles;
+  style: Style;
 }

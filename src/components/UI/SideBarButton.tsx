@@ -1,7 +1,8 @@
 import { FC } from "react";
-import styled from "styled-components";
 
 import { RightArrow } from "@styled-icons/boxicons-solid/RightArrow";
+import styled from "styled-components";
+
 
 interface ButtonWrapper {
   active: boolean;

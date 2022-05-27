@@ -1,15 +1,14 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
+
 import { Question } from "../../types/question";
-import helper from "../../utils/helper";
+import { generateQuestionsKeysForResponses } from "../../utils/formApiUtils";
 import { UserState } from "../slice/userSlice";
 
 const setUpQuestionInitList: CaseReducer<
   UserState,
   PayloadAction<Question[]>
 > = (state, action) => {
-  const questionObject = helper.generateQuestionsKeysForResponses(
-    action.payload
-  );
+  const questionObject = generateQuestionsKeysForResponses(action.payload);
   const questionKeysConfig = questionObject[0];
   const keysArr = Object.keys(questionKeysConfig);
   const initAnswers = keysArr.map((key) => {

@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
+import type { Question } from "../../../src/types/question";
+import type { Settings } from "../../../src/types/setting";
+import type { Style } from "../../../src/types/style";
 import firebase from "../../../src/utils/firebase";
-import { Question } from "../../../src/types/question";
-import { Settings, Styles } from "../../../src/types/form";
 
 interface Data {
   status: string;
@@ -12,7 +14,7 @@ interface Data {
     questions: Question[];
     responseDocId: string;
     settings: Settings;
-    styles: Styles;
+    style: Style;
   };
 }
 
@@ -31,6 +33,7 @@ export default async function handler(
       });
       return;
     }
+
     const data = await firebase.getDocData(
       firestoreCollectionConfig.FORMS,
       formId
@@ -45,25 +48,25 @@ export default async function handler(
       return;
     }
 
-    const { questionDocId, responseDocId, settings, styles, openTimes } = data;
+    const { questionDocId, responseDocId, settings, style, openTimes } = data;
 
     const questions = await firebase.getDocData(
       firestoreCollectionConfig.QUESTIONS,
       questionDocId
     );
 
-    if (!questions || !responseDocId || !settings || !styles) {
+    if (!questions || !responseDocId || !settings || !style) {
       res.status(400).json({
         status: "fail",
         status_code: 400,
-        message: "no such data exists",
+        message: "no such data exists with multiple params",
       });
       return;
     }
 
     const existedQuestion = [...questions.questions];
     const existedSettings = settings as Settings;
-    const existedStyles = styles as Styles;
+    const existedStyles = style as Style;
 
     await firebase.updateExistedDoc(
       firestoreCollectionConfig.FORMS,
@@ -80,7 +83,7 @@ export default async function handler(
         questions: existedQuestion,
         responseDocId,
         settings: existedSettings,
-        styles: existedStyles,
+        style: existedStyles,
       },
     });
   }

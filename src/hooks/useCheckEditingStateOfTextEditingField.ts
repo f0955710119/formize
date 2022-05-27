@@ -1,28 +1,27 @@
 import sweetAlert from "../utils/sweetAlert";
-import { useAppSelector } from "./useAppSelector";
+import useAppSelector from "./useAppSelector";
 import useCheckQuestionArraySameString from "./useCheckQuestionArraySameString";
 import useGetQuestionTitleIndex from "./useGetQuestionTitleIndex";
 
 const useCheckEditingStateOfTextEditingField = () => {
-  const { editingQuestion, questions, isEditingOption, isEditingMatrix } =
-    useAppSelector((state) => state.question);
-  const checkHasNoSameArrayStringNameHandler =
-    useCheckQuestionArraySameString();
+  const { editingQuestionId, questions, isEditingOption, isEditingMatrix } = useAppSelector(
+    (state) => state.question
+  );
+  const checkHasNoSameArrayStringNameHandler = useCheckQuestionArraySameString();
   const getTitleIndexHandler = useGetQuestionTitleIndex();
+  const isEditingState = isEditingOption || isEditingMatrix;
 
   const checkHandler = (openEditingInputHandler: () => void, id: string) => {
-    const isEditingState = isEditingOption || isEditingMatrix;
-    if (editingQuestion !== null && editingQuestion.id !== id) {
+    const willSwitchDifferentEditingQuestion =
+      editingQuestionId !== null && editingQuestionId !== id;
+
+    if (willSwitchDifferentEditingQuestion) {
       const hasNoSameStringName = checkHasNoSameArrayStringNameHandler();
       if (!hasNoSameStringName) return;
     }
 
-    if (
-      isEditingState &&
-      editingQuestion !== null &&
-      editingQuestion.id !== id
-    ) {
-      const questionTitleIndex = getTitleIndexHandler(editingQuestion.id);
+    if (isEditingState && editingQuestionId !== null && editingQuestionId !== id) {
+      const questionTitleIndex = getTitleIndexHandler(editingQuestionId);
       const question = questions.find((question) => question.id === id);
 
       sweetAlert.clickToConfirmAlert(

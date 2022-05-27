@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import firestoreCollectionConfig from "../../../src/configs/firestoreCollectionConfig";
 import firebase from "../../../src/utils/firebase";
 import helper from "../../../src/utils/helper";
@@ -41,15 +42,6 @@ export default async function handler(
           status: "fail",
           status_code: 400,
           message: `this response collection has no data`,
-        });
-        return;
-      }
-
-      if (data.settings.status !== "0") {
-        res.status(403).json({
-          status: "fail",
-          status_code: 403,
-          message: `you can not send responses to this form since the form has not been launched or has been closed`,
         });
         return;
       }

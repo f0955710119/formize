@@ -1,15 +1,20 @@
+import { useContext } from "react";
+
+import backgroundConfig from "../configs/backgroundConfig";
+import styleActionType from "../store/actionType/styleActionType";
+import { styleContext } from "../store/context/styleContext";
 import { questionActions } from "../store/slice/questionSlice";
-import { settingActions } from "../store/slice/settingSlice";
-import { styleActions } from "../store/slice/styleSlice";
-import { useAppDispatch } from "./useAppDispatch";
+import useAppDispatch from "./useAppDispatch";
 
 const useInitNewForm = () => {
   const dispatch = useAppDispatch();
+  const { setField } = useContext(styleContext);
 
   const initHandler = () => {
-    dispatch(settingActions.initSetting());
     dispatch(questionActions.initQuestion());
-    dispatch(styleActions.initStyle());
+    setField(styleActionType.THEME, "0");
+    setField(styleActionType.FONT, "0");
+    setField(styleActionType.BACKGROUND_IMAGE, backgroundConfig.YELLOW1_URL);
   };
 
   return initHandler;

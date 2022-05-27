@@ -1,10 +1,13 @@
-import { FC, ReactNode } from "react";
 import { useRouter } from "next/router";
+
+import { FC, ReactNode } from "react";
+
 import styled from "styled-components";
+
+import useAppSelector from "../../hooks/useAppSelector";
+import sweetAlert from "../../utils/sweetAlert";
 import Logo from "./Logo";
 import LogoutButton from "./LogoutButton";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import sweetAlert from "../../utils/sweetAlert";
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -51,10 +54,7 @@ const Header: FC<HeaderProps> = ({ children }) => {
 
   return (
     <HeaderWrapper>
-      <Logo
-        clickHandler={backToAdminHomePageHandler}
-        imageMediaSetting={logoImageStyle}
-      />
+      <Logo clickHandler={backToAdminHomePageHandler} imageMediaSetting={logoImageStyle} />
       {children}
       <LogoutButton />
     </HeaderWrapper>

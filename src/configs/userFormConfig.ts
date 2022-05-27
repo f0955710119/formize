@@ -1,20 +1,18 @@
-import { Question } from "../types/question";
-import type { Settings, Styles } from "../types/form";
+import type { Question } from "../types/question";
+import type { Settings } from "../types/setting";
+import type { Style } from "../types/style";
 
 interface UserFormConfig {
   initQuestions: Question[];
   initSettings: Settings;
-  initStyles: Styles;
+  initStyles: Style;
 }
 
 const userFormConfig: UserFormConfig = {
   initQuestions: [],
   initSettings: {
     title: "",
-    status: "",
     mode: "",
-    limitedAnswerTime: null,
-    limitedResponseQuantity: null,
     startPageImageFile: null,
     startPageParagraph: "",
     endPageImageFile: null,
@@ -24,7 +22,7 @@ const userFormConfig: UserFormConfig = {
   initStyles: {
     theme: "",
     font: "",
-    backgroundImages: [""],
+    backgroundImage: "",
   },
 };
 

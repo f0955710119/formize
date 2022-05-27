@@ -1,33 +1,28 @@
-import { ThemeProvider } from "styled-components";
-import useGetTheme from "../../../src/hooks/useGetTheme";
-import Head from "next/head";
 import type { NextPage } from "next";
-
-import styled from "styled-components";
-import {
-  createTheme,
-  ThemeProvider as MUIThemeProvider,
-} from "@mui/material/styles";
-
-import Header from "../../../src/components/UI/Header";
-import StepHeader from "../../../src/components/Admin/CreateForm/StepHeader";
-import SettingForm from "../../../src/components/Admin/CreateForm/Setting/SettingForm";
-import QuestionDesign from "../../../src/components/Admin/CreateForm/QuestionDesign/QuestionDesign";
-import StyleDesign from "../../../src/components/Admin/CreateForm/StyleDesign/StyleDesign";
-import DeployFormSection from "../../../src/components/Admin/CreateForm/DeployForm/DeployFormSection";
-
-import helper from "../../../src/utils/helper";
-import themes from "../../../src/store/theme/theme";
-import { useAppSelector } from "../../../src/hooks/useAppSelector";
-import breakpointConfig from "../../../src/configs/breakpointConfig";
-import scrollBar from "../../../src/components/UI/scrollBar";
-import { useContext, useEffect, useState } from "react";
-import useRouterLoaded from "../../../src/hooks/useRouterLoaded";
-import Loading from "../../../src/components/UI/Loading";
-import { adminContext } from "../../../src/store/context/adminContext";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
+import { useContext, useState } from "react";
+
+import { createTheme, ThemeProvider as MUIThemeProvider } from "@mui/material/styles";
+import styled, { ThemeProvider } from "styled-components";
+
+import DeployFormSection from "../../../src/components/AdminPage/CreateForm/DeployForm/DeployFormSection";
+import QuestionDesign from "../../../src/components/AdminPage/CreateForm/QuestionDesign/QuestionDesign";
+import SettingForm from "../../../src/components/AdminPage/CreateForm/Setting/SettingForm";
+import StepHeader from "../../../src/components/AdminPage/CreateForm/StepHeader";
+import StyleDesign from "../../../src/components/AdminPage/CreateForm/StyleDesign/StyleDesign";
+import Header from "../../../src/components/UI/Header";
+import Loading from "../../../src/components/UI/Loading";
+import scrollBar from "../../../src/components/UI/scrollBar";
+import breakpointConfig from "../../../src/configs/breakpointConfig";
+import useAppSelector from "../../../src/hooks/useAppSelector";
+import useRouterLoaded from "../../../src/hooks/useRouterLoaded";
+import { adminContext } from "../../../src/store/context/adminContext";
 import { SettingContextProvider } from "../../../src/store/context/settingContext";
+import { styleContext } from "../../../src/store/context/styleContext";
+import themes from "../../../src/store/theme/theme";
+import helper from "../../../src/utils/helper";
 import sweetAlert from "../../../src/utils/sweetAlert";
 
 const CreateNewPageContainer = styled.div`
@@ -50,11 +45,11 @@ const muiTheme = createTheme({
 
 const New: NextPage = () => {
   const router = useRouter();
-  const context = useContext(adminContext);
+  const { uid } = useContext(adminContext);
+  const { theme } = useContext(styleContext);
   const { currentStep } = useAppSelector((state) => state.question);
   const [isFetchingAdminData, setIsFetchingAdminData] = useState<boolean>(true);
-  const themeCode = useGetTheme();
-  const colorTheme = themes[helper.generateResponseThemePalette(themeCode)];
+  const colorTheme = themes[helper.generateResponseThemePalette(theme)];
 
   const fetchAdminData = async (uid: string) => {
     if (uid !== "") {
@@ -66,12 +61,12 @@ const New: NextPage = () => {
 
       return;
     }
-
-    // alert("此頁只能透過管理員頁面進入唷!");
     router.push("/admin");
   };
 
-  useRouterLoaded(() => fetchAdminData(context.uid));
+  useRouterLoaded(() => fetchAdminData(uid));
+
+  const loadingImageSrc = `${process.env.NEXT_PUBLIC_ORIGIN}/images/loading-image.svg`;
 
   return (
     <>
@@ -80,18 +75,14 @@ const New: NextPage = () => {
         <meta name="description" content="FORMiZE - 問卷進行式" />
       </Head>
       {isFetchingAdminData ? (
-        <Loading
-          imageSrc={
-            process.env.NEXT_PUBLIC_ORIGIN + "/" + "images/loading-image.svg"
-          }
-        />
+        <Loading imageSrc={loadingImageSrc} />
       ) : (
         <MUIThemeProvider theme={muiTheme}>
           <CreateNewPageContainer>
-            <Header>
-              <StepHeader currentStep={currentStep} />
-            </Header>
             <SettingContextProvider>
+              <Header>
+                <StepHeader />
+              </Header>
               {currentStep === 1 && <SettingForm />}
               <ThemeProvider theme={colorTheme}>
                 {currentStep === 2 && <QuestionDesign />}

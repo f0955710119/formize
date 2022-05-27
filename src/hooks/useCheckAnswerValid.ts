@@ -1,6 +1,6 @@
 import { userActions } from "../store/slice/userSlice";
-import { useAppDispatch } from "./useAppDispatch";
-import { useAppSelector } from "./useAppSelector";
+import useAppDispatch from "./useAppDispatch";
+import useAppSelector from "./useAppSelector";
 
 const useCheckAnswerValid = (questionId: string) => {
   const { errorMessages, errorMessagesIdKeys } = useAppSelector(

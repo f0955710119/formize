@@ -1,23 +1,24 @@
-import { useEffect, useRef, useState } from "react";
-import { ThemeProvider } from "styled-components";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { useRef, useState } from "react";
+
 import {
   createTheme,
   ThemeProvider as MUIThemeProvider,
 } from "@mui/material/styles";
+import { ThemeProvider } from "styled-components";
 
-import Head from "next/head";
-import { useRouter } from "next/router";
-import type { NextPage } from "next";
-import type { UserForm } from "../../src/types/userForm";
-
-import Form from "../../src/components/User/Form";
-import userFormConfig from "../../src/configs/userFormConfig";
-import helper from "../../src/utils/helper";
-import themes from "../../src/store/theme/theme";
-import { useAppDispatch } from "../../src/hooks/useAppDispatch";
-import { userActions } from "../../src/store/slice/userSlice";
-import useRouterLoaded from "../../src/hooks/useRouterLoaded";
 import Loading from "../../src/components/UI/Loading";
+import Form from "../../src/components/UserPage/Form";
+import userFormConfig from "../../src/configs/userFormConfig";
+import useAppDispatch from "../../src/hooks/useAppDispatch";
+import useRouterLoaded from "../../src/hooks/useRouterLoaded";
+import { userActions } from "../../src/store/slice/userSlice";
+import themes from "../../src/store/theme/theme";
+import type { UserForm } from "../../src/types/userForm";
+import helper from "../../src/utils/helper";
 
 const FormId: NextPage = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ const FormId: NextPage = () => {
     responseDocId: "",
     questions: userFormConfig.initQuestions,
     settings: userFormConfig.initSettings,
-    styles: userFormConfig.initStyles,
+    style: userFormConfig.initStyles,
   });
 
   const [hasFetchedData, setHasFetchedData] = useState<boolean>(false);
@@ -49,14 +50,15 @@ const FormId: NextPage = () => {
       body: JSON.stringify(router.query),
     });
     const data = await response.json();
-    const { responseDocId, questions, settings, styles } = data.data;
+
+    const { responseDocId, questions, settings, style } = data.data;
     initUserForm.current = {
       responseDocId,
       questions,
       settings,
-      styles,
+      style,
     };
-    const themeKey = initUserForm.current.styles.theme;
+    const themeKey = initUserForm.current.style.theme;
     const colorTheme = themes[helper.generateResponseThemePalette(themeKey)];
     setColorTheme(colorTheme);
     setHasFetchedData(true);
@@ -93,7 +95,7 @@ const FormId: NextPage = () => {
           responseDocId={initUserForm.current.responseDocId}
           questions={initUserForm.current.questions}
           settings={initUserForm.current.settings}
-          styles={initUserForm.current.styles}
+          style={initUserForm.current.style}
         />
       ) : (
         <MUIThemeProvider theme={muiTheme}>
@@ -102,7 +104,7 @@ const FormId: NextPage = () => {
               responseDocId={initUserForm.current.responseDocId}
               questions={initUserForm.current.questions}
               settings={initUserForm.current.settings}
-              styles={initUserForm.current.styles}
+              style={initUserForm.current.style}
             />
           </ThemeProvider>
         </MUIThemeProvider>

@@ -1,6 +1,9 @@
-import { FC } from "react";
-import styled from "styled-components";
 import { useRouter } from "next/router";
+
+import { FC } from "react";
+
+import styled from "styled-components";
+
 import breakpointConfig from "../../configs/breakpointConfig";
 interface LogoWrapperProps {
   mediaSetting?: string;

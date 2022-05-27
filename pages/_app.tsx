@@ -1,8 +1,13 @@
-import { createGlobalStyle } from "styled-components";
 import type { AppProps } from "next/app";
-import { store } from "../src/store";
+
 import { Provider } from "react-redux";
+
+import { createGlobalStyle } from "styled-components";
+
+import { store } from "../src/store";
 import { AdminProvider } from "../src/store/context/adminContext";
+import { StyleContextProvider } from "../src/store/context/styleContext";
+import firebase from "../src/utils/firebase";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -141,8 +146,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <AdminProvider>
-        <GlobalStyle />
-        <Component {...pageProps} />
+        <StyleContextProvider>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </StyleContextProvider>
       </AdminProvider>
     </Provider>
   );
