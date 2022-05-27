@@ -85,7 +85,7 @@ const SignButton: FC<SignButtonProps> = (props) => {
 
   const successSign = (uid: string) => {
     setField(adminActionType.UID, uid);
-    const loginSuccessMessage = "驗證完成，將前往問卷管理頁面!";
+    const loginSuccessMessage = "驗證完成！";
     sweetAlert.loadedReminderAlert(loginSuccessMessage);
     setTimeout(() => {
       sweetAlert.closeAlert();
@@ -102,6 +102,7 @@ const SignButton: FC<SignButtonProps> = (props) => {
       const { email, password, callback } = signInfo;
       const errorMessage = checkSignInput(email, password);
       if (errorMessage) throw new Error(errorMessage);
+      sweetAlert.loadingReminderAlert("驗證中...");
       const uid = await callback(email, password);
       if (uid === "") return;
       successSign(uid);

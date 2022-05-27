@@ -24,7 +24,7 @@ const ButtonWrapper = styled.button`
 
 const LogOutButton: FC = () => {
   const router = useRouter();
-  const logOutHandler = async (logoutString: string = "登出成功，將回首頁") => {
+  const logOutHandler = async (logoutString: string = "登出成功！") => {
     await firebase.nativeSignOut();
     sweetAlert.loadedReminderAlert(logoutString);
     setTimeout(() => {

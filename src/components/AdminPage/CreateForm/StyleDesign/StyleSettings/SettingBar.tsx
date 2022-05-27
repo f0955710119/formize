@@ -10,9 +10,7 @@ import useDeployForm from "../../../../../hooks/useDeployForm";
 import useStyleHandler from "../../../../../hooks/useStyleHandler";
 import useSwitchCurrentStep from "../../../../../hooks/useSwitchCurrentStep";
 import { styleContext } from "../../../../../store/context/styleContext";
-import type { Question } from "../../../../../types/question";
-import type { SettingContext } from "../../../../../types/setting";
-import type { Style } from "../../../../../types/style";
+
 import helper from "../../../../../utils/helper";
 import sweetAlert from "../../../../../utils/sweetAlert";
 import scrollBar from "../../../../UI/scrollBar";
