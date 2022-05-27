@@ -22,7 +22,7 @@ const ButtonWrapper = styled.button`
   }
 `;
 
-const LogOutButton: FC = () => {
+const LogoutButton: FC = () => {
   const router = useRouter();
   const logOutHandler = async (logoutString: string = "登出成功！") => {
     await firebase.nativeSignOut();
@@ -55,4 +55,4 @@ const LogOutButton: FC = () => {
   );
 };
 
-export default LogOutButton;
+export default LogoutButton;
