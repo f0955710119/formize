@@ -1,4 +1,8 @@
+<div >
+
 ![FORMiZE on Github](./README/formize-logo-github.svg)
+
+</div>
 
 > An online form-producing system for members to launch forms after designing the style and content. The platform is equipped backstage to sort forms in groups and also check statistics charts of responses.
 
@@ -150,21 +154,21 @@ Testing Password: test123
 
 <div>
   <h3>Start Creating a form</h3>
-  <span >Access a backstage with signing in or up as an admin. After login process, we need to create a form in a group, and thus we start with  creating a group.</span>
    <img src='./README/gif/create-group.gif'/>
    <h3 >Switch to different steps</h3>
-   <span>Fill up the setting part of the form. <strong>Only title is a must-have.</strong> After this process, you are allowed to create questions. You can switch to different steps by clicking navigator buttons or step header items.</span>
    <img src='./README/gif/settings.gif'/>
    <h3 >Create a question</h3>
-   <span>Choose a type of question in the right side of dashboard. Every question owns settings that can be modified. Both limitation and content of questions are designed at this step.</span>
    <img src='./README/gif/create-a-question.gif'/>
    <h3 >Delete a question and its content</h3>
-   <span >If you are not satisfied with the created question or its content, you can delete them.</span>
    <img src='./README/gif/delete-a-question.gif'/>
    <h3 >Switch editing page (only supported in multiple page mode)</h3>
-   <span >Clicking the page sections in the left side of dashboard will make the pagination switch, and the questions in that page will show in the center.</span>
    <img src='./README//gif/switch-a-page.gif'/>
    <h3>Switch editing question</h3>
-   <span>By the same way as switching the page, you can click on the whole question field to switch the editing one.</span>
-   <img src='./README/gif/switch-a-page.gif' />
+   <img src='./README/gif/switch-a-question.gif' />
+   <h3>Style the form</h3>
+   <img src='./README/gif/style.gif'/>
+   <h3>Launch the form</h3>
+   <img src='./README/gif/launch.gif'/>
+   <h3>Check statistics charts of responses</h3>
+   <img src='./README/gif/statis.gif'/>
 </div>
