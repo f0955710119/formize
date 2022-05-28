@@ -287,3 +287,11 @@ export const pageQuantity = 3;
 export const testQuantityInDifferentPage = [3, 3, 5];
 export const testIndexsForOnePageMode = ["1", "2", "", "3", "4", "", "5", "6", "7", "8", "9"];
 export const testIntervalPoints = [0, 3, 6, 11];
+export const testConfigObject = {
+  THEME1_COLOR: "main",
+  THEME2_COLOR: "yellow",
+  THEME3_COLOR: "green",
+  FONT1_CODE: "0",
+  FONT2_CODE: "1",
+  FONT3_CODE: "2",
+};
