@@ -6,9 +6,9 @@ import {
   testQuantityInDifferentPage,
   testIndexsForOnePageMode,
   testIntervalPoints,
-} from "../configs/testConfig";
-import { Question } from "../types/question";
-import helper from "./helper";
+} from "./configs/helperConfig";
+import { Question } from "../src/types/question";
+import helper from "../src/utils/helper";
 
 const {
   updateCountNumbersOfQuestionPage,
