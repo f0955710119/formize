@@ -12,7 +12,7 @@
 - 10 types of question are available.
 - 2 browsing modes are provided to set the pagination.
 - Enable a form to have varieties of theme, font, and background.
-- Both banners and description in welcome and end pages can be customized.
+- Both banners and description in start and end pages can be customized.
 - Display responses via 3 kinds of statistics charts.
 
 ## Link
@@ -59,19 +59,6 @@ Testing Password: test123
       <span
         >Extracted heavy counting process to backend, and made page router more intuitive with
         file-based routing.</span
-      >
-    </td>
-  </tr>
-  <tr>
-    <td>Framework</td>
-    <td>
-      <img
-        src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"
-      />
-    </td>
-    <td>
-      <span
-        >Wrote functional components with custom hooks to create reusable components.</span
       >
     </td>
   </tr>
@@ -146,6 +133,14 @@ Testing Password: test123
 
 #### Other Usage
 
+- @styled-icons
+- date-fns
+- mathjs
+- react-d3-cloud
+- react-date-range
+- recharts
+- sweetalert2
+
 ## Flow Chart
 
 ![FORMiZE on Github](./README/flowchart.svg)
@@ -172,3 +167,8 @@ Testing Password: test123
    <h3>Check statistics charts of responses</h3>
    <img src='./README/gif/statis.gif'/>
 </div>
+
+## Contact Me
+
+Feel free to contact me whenever having trouble using FORMiZE!  
+Email: liaoweil05621@gmail.com
