@@ -14,6 +14,7 @@
 - Enable a form to have varieties of theme, font, and background.
 - Both banners and description in start and end pages can be customized.
 - Display responses via 3 kinds of statistics charts.
+- Available to mobile (RWD supported, but recommend use on desktop)
 
 ## Link
 
@@ -166,6 +167,11 @@ Testing Password: test123
    <img src='./README/gif/launch.gif'/>
    <h3>Check statistics charts of responses</h3>
    <img src='./README/gif/statis.gif'/>
+   <h3>Support different devices (RWD)</h3>
+   <div align='center'>
+    <img src='./README/gif/rwd-group.gif' width='30%'/>
+    <img src='./README/gif/rwd.gif' width='30%'/>
+   </div>
 </div>
 
 ## Contact Me
