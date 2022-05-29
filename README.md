@@ -169,8 +169,8 @@ Testing Password: test123
    <img src='./README/gif/statis.gif'/>
    <h3>Support different devices (RWD)</h3>
    <div align='center'>
-    <img src='./README/gif/rwd-group.gif' width='30%'/>
-    <img src='./README/gif/rwd.gif' width='30%'/>
+    <img src='./README/gif/rwd-group.gif'/>
+    <img src='./README/gif/rwd.gif' />
    </div>
 </div>
 
