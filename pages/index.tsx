@@ -15,13 +15,13 @@ const DefalutMain = styled.main`
   height: 100vh;
   position: relative;
   background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
-    url("images/blob-scene-haikei (1).svg");
+    url("./images/blob-scene-haikei (1).svg");
   background-repeat: no-repeat;
   background-size: cover;
 
   @media ${breakpointConfig.tablet} {
     background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-      url("images/blob-scene-haikei (1).svg");
+      url("./images/blob-scene-haikei (1).svg");
     overflow: hidden;
   }
 `;
@@ -34,7 +34,7 @@ const FirstPicture = styled.div`
   height: 50rem;
   border-radius: 9px;
   overflow: hidden;
-  background-image: url("images/landing-page.png");
+  background-image: url("./images/landing-page.png");
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 1;
@@ -59,7 +59,7 @@ const SecondPicture = styled.div`
   border-radius: 9px;
   overflow: hidden;
 
-  background-image: url("images/landing-page-2.png");
+  background-image: url("./images/landing-page-2.png");
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 2;

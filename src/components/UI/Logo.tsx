@@ -77,28 +77,21 @@ const Logo: FC<LogoProps> = ({
     <span
       onClick={() => {
         if (!clickHandler) {
-          router.push("/admin");
+          router.push("/");
           return;
         }
 
         clickHandler();
       }}
     >
-      <LogoWrapper
-        style={{ ...style }}
-        mediaSetting={mediaSetting}
-        className={className}
-      >
+      <LogoWrapper style={{ ...style }} mediaSetting={mediaSetting} className={className}>
         <LogoImageWrapper imageMediaSetting={imageMediaSetting}>
           <LogoImage
             src="/images/formize-logo.svg"
             alt="Formize是中文質感問卷製作工具，此為logo"
           />
         </LogoImageWrapper>
-        <LogoText
-          fontSize={fontSize ? fontSize : "2.6rem"}
-          textMediaSetting={textMediaSetting}
-        >
+        <LogoText fontSize={fontSize ? fontSize : "2.6rem"} textMediaSetting={textMediaSetting}>
           FORMiZE
         </LogoText>
       </LogoWrapper>
