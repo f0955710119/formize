@@ -56,6 +56,7 @@ const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
       onChange={(event) => {
         const input = event.target.value;
         setInputDisplay(input);
+        showInvalidHandler("");
         validTimerHandler(() => {
           const hasMaxLengthInvalid = maxLength && event.target.value.length > maxLength;
 
@@ -70,7 +71,6 @@ const MultiLineText: FC<MultiLineTextProps> = ({ questionId, maxLength }) => {
             showInvalidHandler(`不能超過${maxLength}字`);
             return;
           }
-          showInvalidHandler("");
         }, 300);
       }}
     />

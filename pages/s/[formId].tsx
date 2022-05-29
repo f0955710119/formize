@@ -2,13 +2,10 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 
-import {
-  createTheme,
-  ThemeProvider as MUIThemeProvider,
-} from "@mui/material/styles";
-import { ThemeProvider } from "styled-components";
+import { createTheme, ThemeProvider as MUIThemeProvider } from "@mui/material/styles";
+import styled, { ThemeProvider } from "styled-components";
 
 import Loading from "../../src/components/UI/Loading";
 import Form from "../../src/components/UserPage/Form";
@@ -19,19 +16,69 @@ import { userActions } from "../../src/store/slice/userSlice";
 import themes from "../../src/store/theme/theme";
 import type { UserForm } from "../../src/types/userForm";
 import helper from "../../src/utils/helper";
+import Logo from "../../src/components/UI/Logo";
+
+const UnexistedForm = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/images/blob-scene-haikei (1).svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
+const UnexistedFormImage = styled.img`
+  display: inline-block;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  width: 50%;
+  height: 35%;
+`;
+
+const UnexistedFormText = styled.span`
+  display: block;
+  font-size: 2rem;
+  text-align: center;
+`;
+
+const UnexistedFormReminder: FC = () => {
+  return (
+    <>
+      <UnexistedForm>
+        <Logo />
+        <UnexistedFormImage
+          src={`${origin}/images/comfirm-img.svg`}
+          alt="display an unfound FORMiZE form"
+        />
+        <UnexistedFormText>
+          這份問卷已經不存在了唷！
+          <br />
+          按上方LOGO回到FORMiZE的首頁
+        </UnexistedFormText>
+      </UnexistedForm>
+    </>
+  );
+};
 
 const FormId: NextPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const { initQuestions, initSettings, initStyles } = userFormConfig;
   const initUserForm = useRef<UserForm>({
     responseDocId: "",
-    questions: userFormConfig.initQuestions,
-    settings: userFormConfig.initSettings,
-    style: userFormConfig.initStyles,
+    questions: initQuestions,
+    settings: initSettings,
+    style: initStyles,
   });
 
   const [hasFetchedData, setHasFetchedData] = useState<boolean>(false);
+  const [hasData, setHasData] = useState<boolean>(true);
+  const [isFetchingData, setIsFetchingData] = useState<boolean>(true);
   const [colorTheme, setColorTheme] = useState<{ [key: string]: string }>({});
 
   const muiTheme = createTheme({
@@ -41,7 +88,6 @@ const FormId: NextPage = () => {
       },
     },
   });
-  const [isFetchingData, setIsFetchingData] = useState<boolean>(true);
 
   const getQuestion = async () => {
     const response = await fetch("/api/user/form", {
@@ -49,6 +95,10 @@ const FormId: NextPage = () => {
       headers: { ContentType: "application/json" },
       body: JSON.stringify(router.query),
     });
+    if (response.status === 500) {
+      setHasData(false);
+      return;
+    }
     const data = await response.json();
 
     const { responseDocId, questions, settings, style } = data.data;
@@ -62,16 +112,24 @@ const FormId: NextPage = () => {
     const colorTheme = themes[helper.generateResponseThemePalette(themeKey)];
     setColorTheme(colorTheme);
     setHasFetchedData(true);
+    setIsFetchingData(false);
   };
 
   const initForm = async () => {
     await getQuestion();
     dispatch(userActions.setUpQuestionInitList(initUserForm.current.questions));
-    setIsFetchingData(false);
   };
-  const hasColorTheme = hasFetchedData && Object.keys(colorTheme).length === 0;
+  const hasNoColorTheme = hasFetchedData && Object.keys(colorTheme).length === 0;
 
   useRouterLoaded(() => initForm());
+  const origin = process.env.NEXT_PUBLIC_ORIGIN;
+  const { responseDocId, questions, settings, style } = initUserForm.current;
+  const formProps = {
+    responseDocId,
+    questions,
+    settings,
+    style,
+  };
 
   return (
     <>
@@ -85,29 +143,21 @@ const FormId: NextPage = () => {
         />
       </Head>
       {isFetchingData ? (
-        <Loading
-          imageSrc={
-            process.env.NEXT_PUBLIC_ORIGIN + "/" + "images/loading-image.svg"
-          }
-        />
-      ) : hasColorTheme ? (
-        <Form
-          responseDocId={initUserForm.current.responseDocId}
-          questions={initUserForm.current.questions}
-          settings={initUserForm.current.settings}
-          style={initUserForm.current.style}
-        />
+        <>
+          {hasData && <Loading imageSrc={`${origin}/images/loading-image.svg`} />}
+          {!hasData && <UnexistedFormReminder />}
+        </>
       ) : (
-        <MUIThemeProvider theme={muiTheme}>
-          <ThemeProvider theme={colorTheme}>
-            <Form
-              responseDocId={initUserForm.current.responseDocId}
-              questions={initUserForm.current.questions}
-              settings={initUserForm.current.settings}
-              style={initUserForm.current.style}
-            />
-          </ThemeProvider>
-        </MUIThemeProvider>
+        <>
+          {hasNoColorTheme && <Form {...formProps} />}
+          {!hasNoColorTheme && (
+            <MUIThemeProvider theme={muiTheme}>
+              <ThemeProvider theme={colorTheme}>
+                <Form {...formProps} />
+              </ThemeProvider>
+            </MUIThemeProvider>
+          )}
+        </>
       )}
     </>
   );
