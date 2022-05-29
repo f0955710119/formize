@@ -39,12 +39,10 @@ const createSimpleCombinationText = (
   return createCombinationText(rawDisplayTextList);
 };
 
-const createNumericRawTextList = (
-  validations: NumericCombinationTextValidation
-) => {
+const createNumericRawTextList = (validations: NumericCombinationTextValidation) => {
   const { max, min, unit } = validations;
-  const hasMax = max ? `最大值為${max}` : "";
-  const hasMin = min ? `最小值為${min}` : "";
+  const hasMax = max !== undefined ? `最大值為${max}` : "";
+  const hasMin = min !== undefined ? `最小值為${min}` : "";
   const hasUnit = unit ? `單位為${unit}` : "";
   return [hasMax, hasMin, hasUnit];
 };
@@ -66,17 +64,11 @@ const createMultipleCombinationText = (
   multipleType: string
 ) => {
   const multipleTypeConfig: { [key: string]: string[] } = {
-    numeric: createNumericRawTextList(
-      validations as NumericCombinationTextValidation
-    ),
+    numeric: createNumericRawTextList(validations as NumericCombinationTextValidation),
     date: createDateRawTextList(validations as DateCombinationTextValidation),
   };
-  const rawDisplayTextListWithoutRequiredText =
-    multipleTypeConfig[multipleType];
-  const rawDisplayTextList = [
-    requiredText,
-    ...rawDisplayTextListWithoutRequiredText,
-  ];
+  const rawDisplayTextListWithoutRequiredText = multipleTypeConfig[multipleType];
+  const rawDisplayTextList = [requiredText, ...rawDisplayTextListWithoutRequiredText];
   return createCombinationText(rawDisplayTextList);
 };
 

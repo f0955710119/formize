@@ -52,40 +52,41 @@ const OneLineText: FC<OneLineTextProps> = ({
     return input;
   });
 
-  const textChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setInputDisplay(event.target.value);
+  const textChangeHandler = (value: string) => {
+    showInvalidHandler("");
+    setInputDisplay(value);
     checkValidTimerHandler(() => {
-      const input = event.target.value;
-      const hasLengthInvalid = length && input.length > length;
+      const hasLengthInvalid = length && value.length > length;
 
-      if (input === "") {
+      if (value === "") {
         resetInputHandler(questionIdIndex);
         return;
       }
 
-      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+      dispatch(userActions.updateFormAnswer({ questionIdIndex, input: value }));
 
       if (hasLengthInvalid) {
         showInvalidHandler(`字數不能超過${length}字`);
         return;
       }
-      showInvalidHandler("");
     }, 300);
   };
 
-  const numberChangeHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setInputDisplay(event.target.value);
+  const numberChangeHandler = (value: string) => {
+    showInvalidHandler("");
+    setInputDisplay(value);
     checkValidTimerHandler(() => {
-      const input = event.target.value;
-      const hasMaxInvalid = max && +input > max;
-      const hasMinInvalid = min && +input < min;
+      const numberReg = /^[\d]*$/;
+      const hasMaxInvalid = max !== undefined && +value > max;
+      const hasMinInvalid = min !== undefined && +value < min;
+      const hasTextTypeInvalid = !numberReg.test(value);
 
-      if (input === "") {
+      if (value === "") {
         resetInputHandler(questionIdIndex);
         return;
       }
 
-      dispatch(userActions.updateFormAnswer({ questionIdIndex, input }));
+      dispatch(userActions.updateFormAnswer({ questionIdIndex, input: value }));
 
       if (hasMaxInvalid) {
         showInvalidHandler(`數值不能大於${max}`);
@@ -96,16 +97,22 @@ const OneLineText: FC<OneLineTextProps> = ({
         showInvalidHandler(`數值不能小於${min}`);
         return;
       }
-      showInvalidHandler("");
+
+      if (hasTextTypeInvalid) {
+        showInvalidHandler(`只能輸入整數！`);
+        return;
+      }
     }, 300);
   };
+
+  const changeHandler = textType === "text" ? textChangeHandler : numberChangeHandler;
   return (
     <CustomedTextField
       value={inputDispaly}
       variant="standard"
-      type={textType}
+      type="text"
       autoComplete="off"
-      onChange={textType === "text" ? textChangeHandler : numberChangeHandler}
+      onChange={(event) => changeHandler(event.target.value)}
     />
   );
 };
