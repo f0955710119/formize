@@ -91,7 +91,7 @@ Testing Password: test123
   </tr>
   </tr>
   <tr>
-    <td>CSS Framework</td>
+    <td>UI Framework</td>
     <td>
       <img
         src="https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=mui&logoColor=white"
