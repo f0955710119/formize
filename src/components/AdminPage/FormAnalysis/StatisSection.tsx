@@ -63,7 +63,6 @@ const StatisSectionHeadingPesudoElement = `
 const StatisSectionHeading = styled.div`
   position: relative;
   display: inline-block;
-  /* margin-bottom: 1.8rem; */
   font-size: 2.2rem;
   z-index: 1;
 
@@ -91,7 +90,6 @@ const StatisHeaderForNonDesktop = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 4rem;
     margin-bottom: 1.6rem;
   }
 `;
