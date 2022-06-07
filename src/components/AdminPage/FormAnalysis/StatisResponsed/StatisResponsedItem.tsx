@@ -63,11 +63,6 @@ const MultipleTextReminderText = styled.span`
   font-size: 2rem;
   color: #c3c9c5;
 `;
-interface Chart {
-  index: number;
-  title: string;
-  count: NonTextCount[];
-}
 
 interface EmptyChartProps {
   reminderText: string;
@@ -158,6 +153,7 @@ const StatisResponsedItem: FC<StatisResponsedItemProps> = (props) => {
   const isTextContent = type === "0" || type === "1" || type === "9";
   const chartTitle = title.split("- ")[1].split(" ")[0];
   const hasCount = Object.keys(count).length !== 0;
+
   return (
     <ItemContainer>
       <Table title={title} isTextContent={isTextContent}>

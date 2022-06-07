@@ -23,40 +23,28 @@ const updateCountObjOfMultipleLine = (
   index: number
 ) => (counts[`${index + 1}`] = data);
 
-const generateCountStatisOfMultipleLine = (
-  generalTableInfo: GeneralTableInfo
-) => {
-  const { data, tableIndex, responsedTimesOfDiffernetAnswers } =
-    generalTableInfo;
+const generateCountStatisOfMultipleLine = (generalTableInfo: GeneralTableInfo) => {
+  const { data, tableIndex, responsedTimesOfDiffernetAnswers } = generalTableInfo;
   const counts: { [key: string]: string } = {};
   data.forEach((d: string | null, i: number) => {
     if (d === "" || d === null) return;
-    updateResponsedTimesOfDiffernetAnswers(
-      tableIndex,
-      responsedTimesOfDiffernetAnswers
-    );
+    updateResponsedTimesOfDiffernetAnswers(tableIndex, responsedTimesOfDiffernetAnswers);
     updateCountObjOfMultipleLine(counts, d, i);
   });
 
   return counts;
 };
 
-const updateCountObjOfTextInput = (
-  counts: { [key: string]: number },
-  data: string
-) => (counts[data] = (counts[data] || 0) + 1);
+const updateCountObjOfTextInput = (counts: { [key: string]: number }, data: string) =>
+  (counts[data] = (counts[data] || 0) + 1);
 
 const generateCountStatisOfTextInput = (generalTableInfo: GeneralTableInfo) => {
-  const { data, tableIndex, responsedTimesOfDiffernetAnswers } =
-    generalTableInfo;
+  const { data, tableIndex, responsedTimesOfDiffernetAnswers } = generalTableInfo;
   const counts: { [key: string]: number } = {};
   data.forEach((d: string | null) => {
     if (d === "" || d === null) return;
 
-    updateResponsedTimesOfDiffernetAnswers(
-      tableIndex,
-      responsedTimesOfDiffernetAnswers
-    );
+    updateResponsedTimesOfDiffernetAnswers(tableIndex, responsedTimesOfDiffernetAnswers);
 
     updateCountObjOfTextInput(counts, d);
   });
@@ -75,14 +63,11 @@ const createInitCountArr = (questionContent: string[]) => {
 
 const generateOptionIndexInCounts = (data: string) => data.split(".")[0];
 
-const updateCountObjOfContent = (
-  counts: { [key: string]: number | string }[],
-  index: number
-) => (counts[index - 1].value = (+counts[index - 1].value || 0) + 1);
+const updateCountObjOfContent = (counts: { [key: string]: number | string }[], index: number) =>
+  (counts[index - 1].value = (+counts[index - 1].value || 0) + 1);
 
 const generateCountStatisOfOneChoice = (optionTableInfo: OptionTableInfo) => {
-  const { data, options, tableIndex, responsedTimesOfDiffernetAnswers } =
-    optionTableInfo;
+  const { data, options, tableIndex, responsedTimesOfDiffernetAnswers } = optionTableInfo;
   if (!options) {
     console.error("問卷題型有誤，選擇題不得沒有選項");
     throw new Error("連接問卷失敗，請聯絡IT部門");
@@ -92,10 +77,7 @@ const generateCountStatisOfOneChoice = (optionTableInfo: OptionTableInfo) => {
 
   data.forEach((d: string | null) => {
     if (d === "" || d === null) return;
-    updateResponsedTimesOfDiffernetAnswers(
-      tableIndex,
-      responsedTimesOfDiffernetAnswers
-    );
+    updateResponsedTimesOfDiffernetAnswers(tableIndex, responsedTimesOfDiffernetAnswers);
     const optionIndex = generateOptionIndexInCounts(d);
     updateCountObjOfContent(counts, +optionIndex);
   });
@@ -116,11 +98,8 @@ const updateCountObjOfMultipleChoice = (
   });
 };
 
-const generateCountStatisOfMultipleChoice = (
-  optionTableInfo: OptionTableInfo
-) => {
-  const { data, options, tableIndex, responsedTimesOfDiffernetAnswers } =
-    optionTableInfo;
+const generateCountStatisOfMultipleChoice = (optionTableInfo: OptionTableInfo) => {
+  const { data, options, tableIndex, responsedTimesOfDiffernetAnswers } = optionTableInfo;
   if (!options) {
     console.error("問卷題型有誤，選擇題不得沒有選項");
     throw new Error("連接問卷失敗，請聯絡IT部門");
@@ -130,10 +109,7 @@ const generateCountStatisOfMultipleChoice = (
   data.forEach((d: string | null) => {
     if (d === "" || d === null) return;
 
-    updateResponsedTimesOfDiffernetAnswers(
-      tableIndex,
-      responsedTimesOfDiffernetAnswers
-    );
+    updateResponsedTimesOfDiffernetAnswers(tableIndex, responsedTimesOfDiffernetAnswers);
 
     const splitedInputs = splitMultipleChoiceAnswerWithoutLastNewline(d);
     updateCountObjOfMultipleChoice(counts, splitedInputs);
@@ -142,10 +118,7 @@ const generateCountStatisOfMultipleChoice = (
   return counts;
 };
 
-const createMatrixCountMap = (
-  counts: { [key: string]: number },
-  matrixs: string[]
-) => {
+const createMatrixCountMap = (counts: { [key: string]: number }, matrixs: string[]) => {
   return matrixs.map((matrix) => {
     if (!counts[matrix])
       return {
@@ -161,8 +134,7 @@ const createMatrixCountMap = (
 };
 
 const generateCountStatisOfMatrix = (matrixTableInfo: MatrixTableInfo) => {
-  const { data, matrixs, tableIndex, responsedTimesOfDiffernetAnswers } =
-    matrixTableInfo;
+  const { data, matrixs, tableIndex, responsedTimesOfDiffernetAnswers } = matrixTableInfo;
   if (!matrixs) {
     console.error("問卷題型有誤，矩陣題不得沒有欄位指標");
     throw new Error("連接問卷失敗，請聯絡IT部門");
@@ -172,10 +144,7 @@ const generateCountStatisOfMatrix = (matrixTableInfo: MatrixTableInfo) => {
 
   data.forEach((d: string | null) => {
     if (d === "" || d === null) return;
-    updateResponsedTimesOfDiffernetAnswers(
-      tableIndex,
-      responsedTimesOfDiffernetAnswers
-    );
+    updateResponsedTimesOfDiffernetAnswers(tableIndex, responsedTimesOfDiffernetAnswers);
     updateCountObjOfTextInput(counts, d);
   });
 
@@ -184,17 +153,11 @@ const generateCountStatisOfMatrix = (matrixTableInfo: MatrixTableInfo) => {
   return matrixCounts;
 };
 
-const updateResponsedTimesForNumberInput = (
-  generalTableInfo: GeneralTableInfo
-) => {
-  const { data, tableIndex, responsedTimesOfDiffernetAnswers } =
-    generalTableInfo;
+const updateResponsedTimesForNumberInput = (generalTableInfo: GeneralTableInfo) => {
+  const { data, tableIndex, responsedTimesOfDiffernetAnswers } = generalTableInfo;
   data.forEach((d: string | null) => {
     if (d === "" || d === null) return;
-    updateResponsedTimesOfDiffernetAnswers(
-      tableIndex,
-      responsedTimesOfDiffernetAnswers
-    );
+    updateResponsedTimesOfDiffernetAnswers(tableIndex, responsedTimesOfDiffernetAnswers);
   });
 };
 
@@ -207,7 +170,11 @@ const createHandledNumberdata = (data: [string | null]) => {
   return rawArr.filter((d: string) => d !== "").map((d: string) => +d);
 };
 
-const generateNumericDataOfNumberInput = (data: number[]) => {
+type numberData = number | null;
+
+const generateNumericDataOfNumberInput = (rawData: numberData[]) => {
+  const filteredNumericData = rawData.filter((d) => d !== null);
+  const data = filteredNumericData.length > 0 ? (filteredNumericData as number[]) : [0];
   const numberObj: { [key: string]: any } = {
     最大值: max(data),
     最小值: min(data),
@@ -230,9 +197,7 @@ const createCountMapOfNumberInput = (numberObj: { [key: string]: any }) => {
   });
 };
 
-const generateCountStatisOfNumberInput = (
-  generalTableInfo: GeneralTableInfo
-) => {
+const generateCountStatisOfNumberInput = (generalTableInfo: GeneralTableInfo) => {
   const { data } = generalTableInfo;
   updateResponsedTimesForNumberInput(generalTableInfo);
   const dataNumber = createHandledNumberdata(data);
@@ -254,9 +219,7 @@ const createInitCountOfSlider = (optionsLength: number) => {
 
 const updateUnselectedOptionOfCountObjOfSlider = (
   counts: { [key: string]: string | number }[]
-) =>
-  (counts[counts.length - 1].value =
-    (+counts[counts.length - 1].value || 0) + 1);
+) => (counts[counts.length - 1].value = (+counts[counts.length - 1].value || 0) + 1);
 
 const updateSelectedOptionOfCountObjOfSlider = (
   counts: { [key: string]: string | number }[],
@@ -267,8 +230,7 @@ const updateSelectedOptionOfCountObjOfSlider = (
 };
 
 const generateCountStatisOfSlider = (optionTableInfo: OptionTableInfo) => {
-  const { data, options, tableIndex, responsedTimesOfDiffernetAnswers } =
-    optionTableInfo;
+  const { data, options, tableIndex, responsedTimesOfDiffernetAnswers } = optionTableInfo;
   if (!options) {
     console.error("問卷題型有誤，排序題不得沒有選項");
     throw new Error("連接問卷失敗，請聯絡IT部門");
@@ -285,10 +247,7 @@ const generateCountStatisOfSlider = (optionTableInfo: OptionTableInfo) => {
       return;
     }
 
-    updateResponsedTimesOfDiffernetAnswers(
-      tableIndex,
-      responsedTimesOfDiffernetAnswers
-    );
+    updateResponsedTimesOfDiffernetAnswers(tableIndex, responsedTimesOfDiffernetAnswers);
 
     updateSelectedOptionOfCountObjOfSlider(counts, d);
   });
@@ -374,17 +333,17 @@ export const generateTableCounts = (
       responsedTimesOfDiffernetAnswers,
     };
 
-    const generateResponsedCountCallback =
-      generateResponsedCountForDifferentQuestionType(questionInfo, tableInfo);
+    const generateResponsedCountCallback = generateResponsedCountForDifferentQuestionType(
+      questionInfo,
+      tableInfo
+    );
 
     return generateResponsedCountCallback();
   });
 };
 
 const getFilterNumberInput = (tableInfo: TableInfoItem[]) =>
-  tableInfo.filter(
-    (table: TableInfoItem) => table.type === "6" || table.type === "7"
-  );
+  tableInfo.filter((table: TableInfoItem) => table.type === "6" || table.type === "7");
 
 export const generateExtraDataOfNumberInputToDisplayStatis = (
   tableInfo: TableInfoItem[],
