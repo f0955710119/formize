@@ -11,7 +11,12 @@ const useCreateGroup = () => {
     sweetAlert.loadingReminderAlert("建立新的群組中...");
     if (!newGroupName || newGroupName.trim().length === 0) {
       sweetAlert.errorReminderAlert("不可以新增沒有名稱的群組！");
-      return;
+      return true;
+    }
+
+    if (newGroupName.length > 8) {
+      sweetAlert.errorReminderAlert("群組名稱不可以超過8個字！");
+      return true;
     }
 
     const hasExistingGroupName =
@@ -23,7 +28,7 @@ const useCreateGroup = () => {
 
     if (hasExistingGroupName) {
       sweetAlert.errorReminderAlert("不可以新增重複名稱的群組！");
-      return;
+      return true;
     }
 
     const response = await fetch("/api/admin/group", {
@@ -37,7 +42,7 @@ const useCreateGroup = () => {
 
     if (!response.ok) {
       sweetAlert.errorReminderAlert("新增群組失敗，請聯繫IT部門");
-      return;
+      return true;
     }
 
     const data = await response.json();
@@ -45,7 +50,7 @@ const useCreateGroup = () => {
 
     if (!groupId) {
       sweetAlert.errorReminderAlert("查無此群組而新增失敗，請聯繫IT部門");
-      return;
+      return true;
     }
 
     const newGroupObj: Group = {
@@ -63,6 +68,7 @@ const useCreateGroup = () => {
     setTimeout(() => {
       sweetAlert.closeAlert();
     }, 1500);
+    return false;
   };
   return createNewGroupHandler;
 };
