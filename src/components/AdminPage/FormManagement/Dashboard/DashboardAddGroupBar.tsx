@@ -66,9 +66,10 @@ const DashboardAddGroupBar: FC = () => {
       <AddGroupInput type="text" placeholder={addGroupPlaceholderText} ref={inputRef} />
       <AddGroupButton
         type="button"
-        onClick={() => {
+        onClick={async () => {
           if (inputRef.current === null) return;
-          createNewGroupHandler(inputRef.current.value);
+          const hasError = await createNewGroupHandler(inputRef.current.value);
+          if (hasError) return;
           inputRef.current.value = "";
         }}
       >
