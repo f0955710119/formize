@@ -22,9 +22,10 @@ const SectionNormal: FC = () => {
           <NormalTextInput
             value={title}
             placeholder="輸入問卷的標題"
-            changeHandler={(event: ChangeEvent<HTMLInputElement>) =>
-              setField(settingActionType.TITLE, event.currentTarget.value)
-            }
+            changeHandler={(event: ChangeEvent<HTMLInputElement>) => {
+              const { value } = event.target;
+              setField(settingActionType.TITLE, value);
+            }}
           />
         </Field>
         <Field>

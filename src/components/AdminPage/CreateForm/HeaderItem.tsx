@@ -1,12 +1,12 @@
-import { FC, useContext } from "react";
+import { FC } from "react";
 
 import styled from "styled-components";
 
 import breakpointConfig from "../../../configs/breakpointConfig";
 import useAppSelector from "../../../hooks/useAppSelector";
+import useCheckFormTitle from "../../../hooks/useCheckFormTitle";
 import useDeployForm from "../../../hooks/useDeployForm";
 import useSwitchCurrentStep from "../../../hooks/useSwitchCurrentStep";
-import { settingContext } from "../../../store/context/settingContext";
 import sweetAlert from "../../../utils/sweetAlert";
 
 interface ItemWrapperProps {
@@ -91,19 +91,18 @@ interface HeaderItemProps {
 
 const HeaderItem: FC<HeaderItemProps> = ({ number, title, isLastItem }: HeaderItemProps) => {
   const { currentStep } = useAppSelector((state) => state.question);
-  const { title: formTitle } = useContext(settingContext);
   const switchStepHandler = useSwitchCurrentStep();
   const sendFormDataCallback = useDeployForm();
+  const checkFormTitleHandler = useCheckFormTitle();
 
-  const clickToSwitchStepOfCreatingForm = async (title: string, step: number) => {
+  const clickToSwitchStepOfCreatingForm = async (step: number) => {
     if (currentStep === 4) {
       sweetAlert.errorReminderAlert("問卷已發佈，回不到修改階段了唷!");
       return;
     }
-    if (title === "") {
-      sweetAlert.errorReminderAlert("請一定要填寫問卷的標題！");
-      return;
-    }
+
+    const hasInvalidFormTitle = checkFormTitleHandler();
+    if (hasInvalidFormTitle) return;
 
     if (step === 4) {
       await sendFormDataCallback();
@@ -115,9 +114,7 @@ const HeaderItem: FC<HeaderItemProps> = ({ number, title, isLastItem }: HeaderIt
 
   return (
     <ItemWrapper number={number} currentStep={currentStep}>
-      <OptionWrapper
-        onClick={async () => await clickToSwitchStepOfCreatingForm(formTitle, number)}
-      >
+      <OptionWrapper onClick={async () => await clickToSwitchStepOfCreatingForm(number)}>
         <NumberIconWrapper>
           <NumberIcon>{number}</NumberIcon>
         </NumberIconWrapper>
